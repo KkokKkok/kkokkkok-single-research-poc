@@ -14,8 +14,25 @@ export async function prepareImage(bytes){
   if(data.length>10*1024*1024)throw new Error('IMAGE_TOO_LARGE');
   return {bytes:data,image:{width:info.width,height:info.height,sha256:sha(data),coordinateSpace:'analysis-normalized',bboxFormat:'xyxy',mime:'image/jpeg',metadataRemoved:true}};
 }
-export function runtimeStatus(){return {model:process.env.OPENAI_MODEL||null,apiConfigured:Boolean(process.env.OPENAI_API_KEY),ocrPythonAvailable:existsSync(pythonPath('ocr')),groundingPythonAvailable:existsSync(pythonPath('grounding')),segmentation:'not_implemented',promptVersion:'research-cues-v1'};}
+export function runtimeStatus(){return {model:process.env.OPENAI_MODEL||null,apiConfigured:Boolean(process.env.OPENAI_API_KEY),ocrPythonAvailable:Boolean(workerUrl('ocr'))||existsSync(pythonPath('ocr')),groundingPythonAvailable:Boolean(workerUrl('grounding'))||existsSync(pythonPath('grounding')),segmentation:'not_implemented',promptVersion:'research-cues-v1'};}
+// OCR_URL / GROUNDING_URL point at a resident worker (scripts/worker-server.py, one container each).
+// Unset, the script is started as a child process for each call, as before.
+export const workerUrl=kind=>(process.env[`${kind.toUpperCase()}_URL`]||'').replace(/\/+$/,'')||null;
+// Same input and answer as the child process. The OCR image travels as base64 JSON, and KKOK_OCR_*
+// values the caller passed as environment travel as per-request settings.
+async function runWorker(url,kind,input,extraEnv,timeout){
+  const failed=new Error(`${kind.toUpperCase()}_FAILED`);
+  try{
+    const settings=Object.fromEntries(Object.entries(extraEnv).filter(([name])=>name.startsWith('KKOK_OCR_')));
+    const body=kind==='ocr'?JSON.stringify({image:input.toString('base64'),settings}):input;
+    const response=await fetch(`${url}/run`,{method:'POST',headers:{'Content-Type':'application/json'},body,signal:AbortSignal.timeout(timeout)});
+    if(!response.ok)throw failed;
+    const bytes=Buffer.from(await response.arrayBuffer());if(bytes.length>16*1024*1024)throw failed;
+    return JSON.parse(bytes.toString('utf8'));
+  }catch{throw failed;}
+}
 export function runPython(kind,script,input,extraEnv={},timeout=900000){
+  const url=workerUrl(kind);if(url)return runWorker(url,kind,input,extraEnv,timeout);
   const cache=cachePath(kind);mkdirSync(cache,{recursive:true});
   const env={...process.env,PYTHONDONTWRITEBYTECODE:'1',HF_HUB_DISABLE_TELEMETRY:'1',HF_HUB_DISABLE_SYMLINKS_WARNING:'1',HF_HOME:cache,...extraEnv};
   if(kind==='ocr')Object.assign(env,{USERPROFILE:cache,PADDLE_PDX_CACHE_HOME:cache,HF_HOME:resolve(cache,'huggingface'),MODELSCOPE_CACHE:resolve(cache,'modelscope'),PADDLE_PDX_DISABLE_MODEL_SOURCE_CHECK:'True'});

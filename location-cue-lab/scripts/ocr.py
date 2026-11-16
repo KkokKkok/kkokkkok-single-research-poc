@@ -15,22 +15,31 @@ from importlib.metadata import version
 #   KKOK_OCR_DET_LIMIT_SIDE / KKOK_OCR_DET_LIMIT_TYPE
 #                                   with type "min", the image is enlarged until its shorter side is
 #                                   at least this many pixels before detection
-def settings():
+# A resident worker (worker-server.py) passes the same names per request in `overrides`; those win over
+# the environment, so one running worker can serve measurements with different settings.
+def settings(overrides=None):
+    def read(name, default=""):
+        value = (overrides or {}).get(name)
+        return str(value) if value is not None else os.environ.get(name, default)
     def number(name, cast):
-        value = os.environ.get(name, "").strip()
+        value = read(name).strip()
         return cast(value) if value else None
-    langs = [lang.strip() for lang in os.environ.get("KKOK_OCR_LANGS", "korean").split(",") if lang.strip()] or ["korean"]
-    options = {"use_textline_orientation": os.environ.get("KKOK_OCR_TEXTLINE_ORIENTATION", "") == "1"}
+    langs = [lang.strip() for lang in read("KKOK_OCR_LANGS", "korean").split(",") if lang.strip()] or ["korean"]
+    options = {"use_textline_orientation": read("KKOK_OCR_TEXTLINE_ORIENTATION") == "1"}
     for key, name, cast in [("text_det_thresh", "KKOK_OCR_DET_THRESH", float), ("text_det_box_thresh", "KKOK_OCR_DET_BOX_THRESH", float),
                             ("text_det_limit_side_len", "KKOK_OCR_DET_LIMIT_SIDE", int)]:
         value = number(name, cast)
         if value is not None: options[key] = value
-    limit_type = os.environ.get("KKOK_OCR_DET_LIMIT_TYPE", "").strip()
+    limit_type = read("KKOK_OCR_DET_LIMIT_TYPE").strip()
     if limit_type in ("min", "max"): options["text_det_limit_type"] = limit_type
     return langs, options
 
-def extract(content):
-    langs, options = settings()
+# Loaded models, kept for the life of the process. A one-shot run loads each once, as before; a resident
+# worker reuses them across requests.
+_MODELS = {}
+
+def extract(content, overrides=None):
+    langs, options = settings(overrides)
     # Paddle logs can contain recognition output: discard instead of forwarding.
     with contextlib.redirect_stdout(io.StringIO()), contextlib.redirect_stderr(io.StringIO()):
         import numpy as np
@@ -38,8 +47,13 @@ def extract(content):
         from paddleocr import PaddleOCR
         image = Image.open(io.BytesIO(content)).convert("RGB")
         width, height = image.size
-        models = [(lang, PaddleOCR(lang=lang, ocr_version="PP-OCRv5", device="cpu",
-            use_doc_orientation_classify=False, use_doc_unwarping=False, **options)) for lang in langs]
+        def load(lang):
+            key = (lang, json.dumps(options, sort_keys=True))
+            if key not in _MODELS:
+                _MODELS[key] = PaddleOCR(lang=lang, ocr_version="PP-OCRv5", device="cpu",
+                    use_doc_orientation_classify=False, use_doc_unwarping=False, **options)
+            return _MODELS[key]
+        models = [(lang, load(lang)) for lang in langs]
         areas = [("full", 0, 0, image)]
         size, stride = 1024, 819
         def starts(length):

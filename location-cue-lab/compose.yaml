@@ -1,0 +1,62 @@
+# Location Cue Lab in three containers. Run from this folder:
+#   docker compose up --build
+# then open http://127.0.0.1:3210
+#
+# api        Node server and pipeline. It alone decides the order of the stages and calls the workers.
+# ocr        PaddleOCR worker      (POST /run, see scripts/worker-server.py)
+# grounding  Grounding DINO worker (POST /run)
+#
+# The workers keep no state and do not call each other, so changing the order of OCR, DINO and the model
+# calls is still an edit to lib/pipeline.mjs followed by `docker compose up --build api`.
+services:
+  api:
+    build:
+      context: .
+      dockerfile: docker/api.Dockerfile
+    # Keys and model names come from .env at run time; .env is never copied into an image.
+    env_file:
+      - path: .env
+        required: false
+    environment:
+      OCR_URL: http://ocr:8000
+      GROUNDING_URL: http://grounding:8000
+      HOST: 0.0.0.0
+      PORT: "3210"
+      CUE_DATA_DIR: /data
+      # Paths from .env that only mean something on the Windows host.
+      KKOK_LEGACY_ROOT: ""
+    ports:
+      # This machine only. The server also refuses any Host header other than 127.0.0.1 or localhost.
+      - "127.0.0.1:${CUE_HOST_PORT:-3210}:3210"
+    volumes:
+      - cue-data:/data
+    depends_on:
+      - ocr
+      - grounding
+
+  ocr:
+    build:
+      context: .
+      dockerfile: docker/worker.Dockerfile
+      args:
+        KIND: ocr
+    volumes:
+      - ocr-models:/models
+      - ./scripts:/app/scripts:ro
+
+  grounding:
+    build:
+      context: .
+      dockerfile: docker/worker.Dockerfile
+      args:
+        KIND: grounding
+        PIP_EXTRA_INDEX_URL: https://download.pytorch.org/whl/cpu
+    volumes:
+      - grounding-models:/models
+      - ./scripts:/app/scripts:ro
+
+# Named volumes rather than folders of the Windows host: SQLite's WAL files are unreliable on a bind mount.
+volumes:
+  cue-data:
+  ocr-models:
+  grounding-models:

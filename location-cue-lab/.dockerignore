@@ -1,0 +1,8 @@
+# Secrets, private records and photos never enter an image.
+.env
+private-data
+node_modules
+tests
+**/__pycache__
+*.log
+*.md
