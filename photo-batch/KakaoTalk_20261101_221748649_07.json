@@ -1,0 +1,3572 @@
+{
+  "schemaVersion": "location-cues-v1",
+  "id": "2823352b-90cf-4c0c-8f2d-4154ddef03e6",
+  "createdAt": "2026-11-10T13:59:32.138Z",
+  "updatedAt": "2026-11-10T14:04:09.585Z",
+  "status": "completed",
+  "requestedModel": "gpt-5.4-mini",
+  "promptVersion": "research-cues-v1",
+  "image": {
+    "width": 1125,
+    "height": 2000,
+    "sha256": "35babcac0e3549ee67d7951d77674f5fcd8fefa229979222d81bc07e08c825bf",
+    "coordinateSpace": "analysis-normalized",
+    "bboxFormat": "xyxy",
+    "mime": "image/jpeg",
+    "metadataRemoved": true
+  },
+  "stages": {
+    "discovery": {
+      "status": "completed",
+      "startedAt": "2026-11-10T13:59:32.144Z",
+      "finishedAt": "2026-11-10T13:59:45.450Z"
+    },
+    "ocr": {
+      "status": "completed",
+      "startedAt": "2026-11-10T13:59:45.451Z",
+      "finishedAt": "2026-11-10T14:01:41.904Z"
+    },
+    "ocr_review": {
+      "status": "completed",
+      "startedAt": "2026-11-10T14:01:41.914Z",
+      "finishedAt": "2026-11-10T14:02:02.250Z"
+    },
+    "detection": {
+      "status": "completed",
+      "startedAt": "2026-11-10T14:02:02.253Z",
+      "finishedAt": "2026-11-10T14:03:43.663Z"
+    },
+    "verify_cue-0": {
+      "status": "completed",
+      "startedAt": "2026-11-10T14:03:43.666Z",
+      "finishedAt": "2026-11-10T14:03:47.135Z"
+    },
+    "verify_cue-1": {
+      "status": "completed",
+      "startedAt": "2026-11-10T14:03:47.138Z",
+      "finishedAt": "2026-11-10T14:03:49.630Z"
+    },
+    "verify_cue-2": {
+      "status": "completed",
+      "startedAt": "2026-11-10T14:03:49.632Z",
+      "finishedAt": "2026-11-10T14:03:52.213Z"
+    },
+    "verify_cue-3": {
+      "status": "completed",
+      "startedAt": "2026-11-10T14:03:52.214Z",
+      "finishedAt": "2026-11-10T14:03:56.514Z"
+    },
+    "verify_cue-4": {
+      "status": "completed",
+      "startedAt": "2026-11-10T14:03:56.515Z",
+      "finishedAt": "2026-11-10T14:04:00.659Z"
+    },
+    "verify_cue-5": {
+      "status": "completed",
+      "startedAt": "2026-11-10T14:04:00.660Z",
+      "finishedAt": "2026-11-10T14:04:03.631Z"
+    },
+    "verify_cue-6": {
+      "status": "completed",
+      "startedAt": "2026-11-10T14:04:03.632Z",
+      "finishedAt": "2026-11-10T14:04:06.801Z"
+    },
+    "verify_cue-7": {
+      "status": "completed",
+      "startedAt": "2026-11-10T14:04:06.802Z",
+      "finishedAt": "2026-11-10T14:04:09.584Z"
+    }
+  },
+  "artifacts": {
+    "discovery_raw": {
+      "requestedModel": "gpt-5.4-mini",
+      "responseModel": "gpt-5.4-mini-2026-03-17",
+      "responseId": "resp_0e69bf50cc992edf016af3234555e087d28fda279686d5efed",
+      "status": "completed",
+      "usage": {
+        "input_tokens": 3421,
+        "input_tokens_details": {
+          "cache_write_tokens": 0,
+          "cached_tokens": 0
+        },
+        "output_tokens": 1419,
+        "output_tokens_details": {
+          "reasoning_tokens": 0
+        },
+        "total_tokens": 4840
+      },
+      "promptSha256": "84585c64986be78650806029298f0b8fa0dd5d919f7e333e9223af3a370c03ab",
+      "rawOutputText": "{\"cues\":[{\"kind\":\"text\",\"category\":\"building sign\",\"nameKo\":\"건물 외부 문자 간판\",\"observationKo\":\"검은 외벽 상단에 흰색 대문자 일부가 보이며 'HUNG-ANG UN'까지 판독된다.\",\"geographicRelevanceKo\":\"대학·기관명처럼 보이는 명칭 조각으로, 공개 사진의 동일 건물 외관과 대조해 캠퍼스나 기관 위치 후보를 좁히는 데 도움될 수 있다.\",\"regionDescriptionKo\":\"건물 전면 캐노피 가장자리의 문자 배치\",\"scope\":\"object\",\"visibleText\":\"HUNG-ANG UN\",\"surface\":\"fixed\",\"visibility\":\"partial\",\"detectorQueryEn\":\"white uppercase letters on the black building facade\",\"limitationsKo\":\"문자 일부만 보이고 앞부분과 뒷부분이 잘려 있어 전체 명칭은 확정할 수 없다.\"},{\"kind\":\"text\",\"category\":\"overlay caption\",\"nameKo\":\"사진 편집 문구\",\"observationKo\":\"오른쪽 중간에 '오늘 5시간 공부한다... 😱'라는 한글 오버레이 문구가 보인다.\",\"geographicRelevanceKo\":\"촬영자 메모성 문구로 보이며 위치 정보는 아니지만, 한국어 사용 환경을 시사하는 보조 단서가 될 수 있다.\",\"regionDescriptionKo\":\"오른쪽 중앙의 검은 천장 아래 영역 위 오버레이\",\"scope\":\"scene\",\"visibleText\":\"오늘 5시간 공부한다... 😱\",\"surface\":\"depicted\",\"visibility\":\"clear\",\"detectorQueryEn\":null,\"limitationsKo\":\"장소명이나 고유 지명은 포함되지 않는다.\"},{\"kind\":\"non_text\",\"category\":\"broad stairway\",\"nameKo\":\"넓은 석재 계단\",\"observationKo\":\"전경을 대부분 차지하는 넓고 긴 석재 계단이 여러 단으로 이어지며 중앙 정렬된 진입 동선을 만든다.\",\"geographicRelevanceKo\":\"대학, 공공시설, 지형이 있는 캠퍼스 입구 등에서 흔한 접근 구조로, 주변 건물군의 성격과 입지 비교에 도움이 될 수 있다.\",\"regionDescriptionKo\":\"사진 하단 전체의 계단 구간\",\"scope\":\"scene\",\"visibleText\":null,\"surface\":\"fixed\",\"visibility\":\"clear\",\"detectorQueryEn\":\"wide stone steps in the foreground\",\"limitationsKo\":\"일반적 구조라 단독으로는 지역 식별력이 낮다.\"},{\"kind\":\"non_text\",\"category\":\"tree canopy\",\"nameKo\":\"울창한 수목 수관\",\"observationKo\":\"좌우와 상단에 큰 활엽수 가지와 잎이 프레임을 둘러싸며 건물을 부분적으로 가린다.\",\"geographicRelevanceKo\":\"온대 기후의 가로수/캠퍼스 조경 느낌을 주며, 계절감과 조경 양식을 비교하는 단서가 될 수 있다.\",\"regionDescriptionKo\":\"사진 좌상단, 우상단 및 좌측 가장자리의 수목 구간\",\"scope\":\"scene\",\"visibleText\":null,\"surface\":\"fixed\",\"visibility\":\"clear\",\"detectorQueryEn\":\"dense deciduous tree canopy framing the building\",\"limitationsKo\":\"종 식별은 불확실하며, 일반적인 도시 수목일 수 있다.\"},{\"kind\":\"non_text\",\"category\":\"modern facade\",\"nameKo\":\"현대식 외벽 파사드\",\"observationKo\":\"상부 건물은 세로 스트라이프 형태의 반투명/유리 외장과 수평 패널이 결합된 현대식 외관이다.\",\"geographicRelevanceKo\":\"신축 또는 최근 리모델링된 교육·업무 시설의 건축 양식 비교에 유용할 수 있다.\",\"regionDescriptionKo\":\"사진 중앙 상부의 건물 외벽\",\"scope\":\"object\",\"visibleText\":null,\"surface\":\"fixed\",\"visibility\":\"clear\",\"detectorQueryEn\":\"modern glass-and-panel facade\",\"limitationsKo\":\"반사와 채광 때문에 재료 구분이 일부 불확실하다.\"},{\"kind\":\"non_text\",\"category\":\"covered entrance\",\"nameKo\":\"지붕이 덮인 출입구\",\"observationKo\":\"계단 상단에 깊은 처마 같은 검은 차양이 있고 그 아래 출입구가 형성되어 있다.\",\"geographicRelevanceKo\":\"지형 단차가 있는 캠퍼스/기관 건물에서 흔한 진입부 구성으로, 건물 배치 비교에 도움이 된다.\",\"regionDescriptionKo\":\"계단 상단 중앙의 차양 및 출입구\",\"scope\":\"object\",\"visibleText\":null,\"surface\":\"fixed\",\"visibility\":\"clear\",\"detectorQueryEn\":\"covered building entrance above the stairs\",\"limitationsKo\":\"입구의 정확한 기능은 외관만으로는 확정할 수 없다.\"},{\"kind\":\"non_text\",\"category\":\"handrail\",\"nameKo\":\"계단 난간\",\"observationKo\":\"왼쪽 계단 가장자리에 금속 난간이 길게 이어지고, 일부는 파란색 테이프/보호재처럼 보이는 것이 감겨 있다.\",\"geographicRelevanceKo\":\"보행 동선의 유지보수 상태나 임시 보강 여부를 보여 주어 시설 관리 수준 비교에 참고될 수 있다.\",\"regionDescriptionKo\":\"사진 좌하단 계단 옆 난간\",\"scope\":\"object\",\"visibleText\":null,\"surface\":\"fixed\",\"visibility\":\"partial\",\"detectorQueryEn\":\"metal stair handrail with blue wrapping\",\"limitationsKo\":\"파란 부분의 정확한 용도는 불명확하다.\"},{\"kind\":\"non_text\",\"category\":\"interior lights\",\"nameKo\":\"실내 조명 반사\",\"observationKo\":\"입구 아래 유리면과 내부 공간에서 길게 이어진 형광등/선형 조명이 보인다.\",\"geographicRelevanceKo\":\"실내 공간의 사용 유형과 운영 중인 시설 여부를 간접적으로 보여 줄 수 있다.\",\"regionDescriptionKo\":\"입구 하부 내부의 유리 및 천장 영역\",\"scope\":\"scene\",\"visibleText\":null,\"surface\":\"reflection\",\"visibility\":\"partial\",\"detectorQueryEn\":\"linear fluorescent lights inside the entrance\",\"limitationsKo\":\"유리 반사와 실내 조명이 섞여 보여 정확한 실내 구조는 불확실하다.\"}],\"limitationsKo\":[\"사진의 핵심 문자 일부가 가려져 있어 건물명 전체를 확정할 수 없다.\",\"정면 표지판보다 주변 경관과 건축 요소가 더 두드러져 있어 위치 특정성은 제한적이다.\",\"계절감은 보이지만 수종 식별과 정확한 도시 맥락은 불확실하다.\"],\"coverageLimited\":false}"
+    },
+    "discovery": {
+      "cues": [
+        {
+          "kind": "text",
+          "category": "building sign",
+          "nameKo": "건물 외부 문자 간판",
+          "observationKo": "검은 외벽 상단에 흰색 대문자 일부가 보이며 'HUNG-ANG UN'까지 판독된다.",
+          "geographicRelevanceKo": "대학·기관명처럼 보이는 명칭 조각으로, 공개 사진의 동일 건물 외관과 대조해 캠퍼스나 기관 위치 후보를 좁히는 데 도움될 수 있다.",
+          "regionDescriptionKo": "건물 전면 캐노피 가장자리의 문자 배치",
+          "scope": "object",
+          "visibleText": "HUNG-ANG UN",
+          "surface": "fixed",
+          "visibility": "partial",
+          "detectorQueryEn": "white uppercase letters on the black building facade",
+          "limitationsKo": "문자 일부만 보이고 앞부분과 뒷부분이 잘려 있어 전체 명칭은 확정할 수 없다."
+        },
+        {
+          "kind": "text",
+          "category": "overlay caption",
+          "nameKo": "사진 편집 문구",
+          "observationKo": "오른쪽 중간에 '오늘 5시간 공부한다... 😱'라는 한글 오버레이 문구가 보인다.",
+          "geographicRelevanceKo": "촬영자 메모성 문구로 보이며 위치 정보는 아니지만, 한국어 사용 환경을 시사하는 보조 단서가 될 수 있다.",
+          "regionDescriptionKo": "오른쪽 중앙의 검은 천장 아래 영역 위 오버레이",
+          "scope": "scene",
+          "visibleText": "오늘 5시간 공부한다... 😱",
+          "surface": "depicted",
+          "visibility": "clear",
+          "detectorQueryEn": null,
+          "limitationsKo": "장소명이나 고유 지명은 포함되지 않는다."
+        },
+        {
+          "kind": "non_text",
+          "category": "broad stairway",
+          "nameKo": "넓은 석재 계단",
+          "observationKo": "전경을 대부분 차지하는 넓고 긴 석재 계단이 여러 단으로 이어지며 중앙 정렬된 진입 동선을 만든다.",
+          "geographicRelevanceKo": "대학, 공공시설, 지형이 있는 캠퍼스 입구 등에서 흔한 접근 구조로, 주변 건물군의 성격과 입지 비교에 도움이 될 수 있다.",
+          "regionDescriptionKo": "사진 하단 전체의 계단 구간",
+          "scope": "scene",
+          "visibleText": null,
+          "surface": "fixed",
+          "visibility": "clear",
+          "detectorQueryEn": "wide stone steps in the foreground",
+          "limitationsKo": "일반적 구조라 단독으로는 지역 식별력이 낮다."
+        },
+        {
+          "kind": "non_text",
+          "category": "tree canopy",
+          "nameKo": "울창한 수목 수관",
+          "observationKo": "좌우와 상단에 큰 활엽수 가지와 잎이 프레임을 둘러싸며 건물을 부분적으로 가린다.",
+          "geographicRelevanceKo": "온대 기후의 가로수/캠퍼스 조경 느낌을 주며, 계절감과 조경 양식을 비교하는 단서가 될 수 있다.",
+          "regionDescriptionKo": "사진 좌상단, 우상단 및 좌측 가장자리의 수목 구간",
+          "scope": "scene",
+          "visibleText": null,
+          "surface": "fixed",
+          "visibility": "clear",
+          "detectorQueryEn": "dense deciduous tree canopy framing the building",
+          "limitationsKo": "종 식별은 불확실하며, 일반적인 도시 수목일 수 있다."
+        },
+        {
+          "kind": "non_text",
+          "category": "modern facade",
+          "nameKo": "현대식 외벽 파사드",
+          "observationKo": "상부 건물은 세로 스트라이프 형태의 반투명/유리 외장과 수평 패널이 결합된 현대식 외관이다.",
+          "geographicRelevanceKo": "신축 또는 최근 리모델링된 교육·업무 시설의 건축 양식 비교에 유용할 수 있다.",
+          "regionDescriptionKo": "사진 중앙 상부의 건물 외벽",
+          "scope": "object",
+          "visibleText": null,
+          "surface": "fixed",
+          "visibility": "clear",
+          "detectorQueryEn": "modern glass-and-panel facade",
+          "limitationsKo": "반사와 채광 때문에 재료 구분이 일부 불확실하다."
+        },
+        {
+          "kind": "non_text",
+          "category": "covered entrance",
+          "nameKo": "지붕이 덮인 출입구",
+          "observationKo": "계단 상단에 깊은 처마 같은 검은 차양이 있고 그 아래 출입구가 형성되어 있다.",
+          "geographicRelevanceKo": "지형 단차가 있는 캠퍼스/기관 건물에서 흔한 진입부 구성으로, 건물 배치 비교에 도움이 된다.",
+          "regionDescriptionKo": "계단 상단 중앙의 차양 및 출입구",
+          "scope": "object",
+          "visibleText": null,
+          "surface": "fixed",
+          "visibility": "clear",
+          "detectorQueryEn": "covered building entrance above the stairs",
+          "limitationsKo": "입구의 정확한 기능은 외관만으로는 확정할 수 없다."
+        },
+        {
+          "kind": "non_text",
+          "category": "handrail",
+          "nameKo": "계단 난간",
+          "observationKo": "왼쪽 계단 가장자리에 금속 난간이 길게 이어지고, 일부는 파란색 테이프/보호재처럼 보이는 것이 감겨 있다.",
+          "geographicRelevanceKo": "보행 동선의 유지보수 상태나 임시 보강 여부를 보여 주어 시설 관리 수준 비교에 참고될 수 있다.",
+          "regionDescriptionKo": "사진 좌하단 계단 옆 난간",
+          "scope": "object",
+          "visibleText": null,
+          "surface": "fixed",
+          "visibility": "partial",
+          "detectorQueryEn": "metal stair handrail with blue wrapping",
+          "limitationsKo": "파란 부분의 정확한 용도는 불명확하다."
+        },
+        {
+          "kind": "non_text",
+          "category": "interior lights",
+          "nameKo": "실내 조명 반사",
+          "observationKo": "입구 아래 유리면과 내부 공간에서 길게 이어진 형광등/선형 조명이 보인다.",
+          "geographicRelevanceKo": "실내 공간의 사용 유형과 운영 중인 시설 여부를 간접적으로 보여 줄 수 있다.",
+          "regionDescriptionKo": "입구 하부 내부의 유리 및 천장 영역",
+          "scope": "scene",
+          "visibleText": null,
+          "surface": "reflection",
+          "visibility": "partial",
+          "detectorQueryEn": "linear fluorescent lights inside the entrance",
+          "limitationsKo": "유리 반사와 실내 조명이 섞여 보여 정확한 실내 구조는 불확실하다."
+        }
+      ],
+      "limitationsKo": [
+        "사진의 핵심 문자 일부가 가려져 있어 건물명 전체를 확정할 수 없다.",
+        "정면 표지판보다 주변 경관과 건축 요소가 더 두드러져 있어 위치 특정성은 제한적이다.",
+        "계절감은 보이지만 수종 식별과 정확한 도시 맥락은 불확실하다."
+      ],
+      "coverageLimited": false
+    },
+    "ocr": {
+      "engine": "PaddleOCR",
+      "version": "3.3.2",
+      "coordinateSpace": "analysis-normalized",
+      "lines": [
+        {
+          "id": "ocr-0",
+          "text": "EHUNG-ANG UNLT",
+          "score": 0.7870892286300659,
+          "polygon": [
+            [
+              0.184,
+              0.438
+            ],
+            [
+              0.7271111111111112,
+              0.361
+            ],
+            [
+              0.7368888888888889,
+              0.3835
+            ],
+            [
+              0.19466666666666665,
+              0.4605
+            ]
+          ],
+          "passId": "full"
+        },
+        {
+          "id": "ocr-1",
+          "text": "오늘5시간 공부한다.",
+          "score": 0.9859538674354553,
+          "polygon": [
+            [
+              0.6373333333333333,
+              0.4915
+            ],
+            [
+              0.8497777777777777,
+              0.4905
+            ],
+            [
+              0.8497777777777777,
+              0.5075
+            ],
+            [
+              0.6373333333333333,
+              0.5085
+            ]
+          ],
+          "passId": "tile-0-0"
+        },
+        {
+          "id": "ocr-2",
+          "text": "2R3",
+          "score": 0.5924313068389893,
+          "polygon": [
+            [
+              0.9617777777777777,
+              0.5835
+            ],
+            [
+              0.9902222222222222,
+              0.5835
+            ],
+            [
+              0.9902222222222222,
+              0.589
+            ],
+            [
+              0.9617777777777777,
+              0.589
+            ]
+          ],
+          "passId": "full"
+        },
+        {
+          "id": "ocr-3",
+          "text": "LHUNG-ANG UNEIT",
+          "score": 0.8245923519134521,
+          "polygon": [
+            [
+              0.18577777777777776,
+              0.438
+            ],
+            [
+              0.7191111111111111,
+              0.364
+            ],
+            [
+              0.728,
+              0.3845
+            ],
+            [
+              0.19466666666666665,
+              0.4585
+            ]
+          ],
+          "passId": "tile-0-0"
+        },
+        {
+          "id": "ocr-4",
+          "text": "5",
+          "score": 0.3065595030784607,
+          "polygon": [
+            [
+              0.11555555555555555,
+              0.2405
+            ],
+            [
+              0.1288888888888889,
+              0.2455
+            ],
+            [
+              0.12266666666666666,
+              0.25
+            ],
+            [
+              0.10933333333333334,
+              0.245
+            ]
+          ],
+          "passId": "tile-101-0"
+        },
+        {
+          "id": "ocr-5",
+          "text": "LHUNG-ANG UNENT",
+          "score": 0.7889425754547119,
+          "polygon": [
+            [
+              0.19111111111111112,
+              0.437
+            ],
+            [
+              0.7093333333333334,
+              0.366
+            ],
+            [
+              0.7182222222222222,
+              0.3865
+            ],
+            [
+              0.2,
+              0.4575
+            ]
+          ],
+          "passId": "tile-101-0"
+        },
+        {
+          "id": "ocr-6",
+          "text": "3",
+          "score": 0.8370096683502197,
+          "polygon": [
+            [
+              0.09333333333333334,
+              0.454
+            ],
+            [
+              0.10044444444444445,
+              0.454
+            ],
+            [
+              0.10044444444444445,
+              0.4585
+            ],
+            [
+              0.09333333333333334,
+              0.4585
+            ]
+          ],
+          "passId": "tile-101-0"
+        },
+        {
+          "id": "ocr-7",
+          "text": "LHUNG-AN",
+          "score": 0.8731260299682617,
+          "polygon": [
+            [
+              0.18577777777777776,
+              0.4355
+            ],
+            [
+              0.4471111111111111,
+              0.4095
+            ],
+            [
+              0.456,
+              0.4285
+            ],
+            [
+              0.19466666666666665,
+              0.4595
+            ]
+          ],
+          "passId": "tile-101-819"
+        },
+        {
+          "id": "ocr-8",
+          "text": "오늘5시간",
+          "score": 0.9999122619628906,
+          "polygon": [
+            [
+              0.6391111111111111,
+              0.4915
+            ],
+            [
+              0.7528888888888889,
+              0.4915
+            ],
+            [
+              0.7528888888888889,
+              0.5075
+            ],
+            [
+              0.6391111111111111,
+              0.5075
+            ]
+          ],
+          "passId": "tile-0-976"
+        },
+        {
+          "id": "ocr-9",
+          "text": "공부한다.",
+          "score": 0.9926671981811523,
+          "polygon": [
+            [
+              0.7511111111111111,
+              0.4915
+            ],
+            [
+              0.8506666666666667,
+              0.4915
+            ],
+            [
+              0.8506666666666667,
+              0.5075
+            ],
+            [
+              0.7511111111111111,
+              0.5075
+            ]
+          ],
+          "passId": "tile-101-819"
+        },
+        {
+          "id": "ocr-10",
+          "text": "233",
+          "score": 0.9712684750556946,
+          "polygon": [
+            [
+              0.96,
+              0.583
+            ],
+            [
+              0.992,
+              0.583
+            ],
+            [
+              0.992,
+              0.59
+            ],
+            [
+              0.96,
+              0.59
+            ]
+          ],
+          "passId": "tile-101-819"
+        }
+      ],
+      "diagnostics": {
+        "version": "tiled-v1",
+        "inputWidth": 1125,
+        "inputHeight": 2000,
+        "passes": [
+          {
+            "id": "full",
+            "x": 0,
+            "y": 0,
+            "width": 1125,
+            "height": 2000,
+            "count": 3
+          },
+          {
+            "id": "tile-0-0",
+            "x": 0,
+            "y": 0,
+            "width": 1024,
+            "height": 1024,
+            "count": 2
+          },
+          {
+            "id": "tile-101-0",
+            "x": 101,
+            "y": 0,
+            "width": 1024,
+            "height": 1024,
+            "count": 4
+          },
+          {
+            "id": "tile-0-819",
+            "x": 0,
+            "y": 819,
+            "width": 1024,
+            "height": 1024,
+            "count": 3
+          },
+          {
+            "id": "tile-101-819",
+            "x": 101,
+            "y": 819,
+            "width": 1024,
+            "height": 1024,
+            "count": 4
+          },
+          {
+            "id": "tile-0-976",
+            "x": 0,
+            "y": 976,
+            "width": 1024,
+            "height": 1024,
+            "count": 2
+          },
+          {
+            "id": "tile-101-976",
+            "x": 101,
+            "y": 976,
+            "width": 1024,
+            "height": 1024,
+            "count": 2
+          }
+        ],
+        "rawReadings": [
+          {
+            "text": "EHUNG-ANG UNLT",
+            "score": 0.7870892286300659,
+            "polygon": [
+              [
+                0.184,
+                0.438
+              ],
+              [
+                0.7271111111111112,
+                0.361
+              ],
+              [
+                0.7368888888888889,
+                0.3835
+              ],
+              [
+                0.19466666666666665,
+                0.4605
+              ]
+            ],
+            "passId": "full"
+          },
+          {
+            "text": "오늘5시간 공부한다.",
+            "score": 0.9859538674354553,
+            "polygon": [
+              [
+                0.6373333333333333,
+                0.4915
+              ],
+              [
+                0.8497777777777777,
+                0.4905
+              ],
+              [
+                0.8497777777777777,
+                0.5075
+              ],
+              [
+                0.6373333333333333,
+                0.5085
+              ]
+            ],
+            "passId": "tile-0-0"
+          },
+          {
+            "text": "2R3",
+            "score": 0.5924313068389893,
+            "polygon": [
+              [
+                0.9617777777777777,
+                0.5835
+              ],
+              [
+                0.9902222222222222,
+                0.5835
+              ],
+              [
+                0.9902222222222222,
+                0.589
+              ],
+              [
+                0.9617777777777777,
+                0.589
+              ]
+            ],
+            "passId": "full"
+          },
+          {
+            "text": "LHUNG-ANG UNEIT",
+            "score": 0.8245923519134521,
+            "polygon": [
+              [
+                0.18577777777777776,
+                0.438
+              ],
+              [
+                0.7191111111111111,
+                0.364
+              ],
+              [
+                0.728,
+                0.3845
+              ],
+              [
+                0.19466666666666665,
+                0.4585
+              ]
+            ],
+            "passId": "tile-0-0"
+          },
+          {
+            "text": "오늘5시간 공부한다.",
+            "score": 0.9859538674354553,
+            "polygon": [
+              [
+                0.6373333333333333,
+                0.4915
+              ],
+              [
+                0.8497777777777777,
+                0.4905
+              ],
+              [
+                0.8497777777777777,
+                0.5075
+              ],
+              [
+                0.6373333333333333,
+                0.5085
+              ]
+            ],
+            "passId": "tile-0-0"
+          },
+          {
+            "text": "5",
+            "score": 0.3065595030784607,
+            "polygon": [
+              [
+                0.11555555555555555,
+                0.2405
+              ],
+              [
+                0.1288888888888889,
+                0.2455
+              ],
+              [
+                0.12266666666666666,
+                0.25
+              ],
+              [
+                0.10933333333333334,
+                0.245
+              ]
+            ],
+            "passId": "tile-101-0"
+          },
+          {
+            "text": "LHUNG-ANG UNENT",
+            "score": 0.7889425754547119,
+            "polygon": [
+              [
+                0.19111111111111112,
+                0.437
+              ],
+              [
+                0.7093333333333334,
+                0.366
+              ],
+              [
+                0.7182222222222222,
+                0.3865
+              ],
+              [
+                0.2,
+                0.4575
+              ]
+            ],
+            "passId": "tile-101-0"
+          },
+          {
+            "text": "3",
+            "score": 0.8370096683502197,
+            "polygon": [
+              [
+                0.09333333333333334,
+                0.454
+              ],
+              [
+                0.10044444444444445,
+                0.454
+              ],
+              [
+                0.10044444444444445,
+                0.4585
+              ],
+              [
+                0.09333333333333334,
+                0.4585
+              ]
+            ],
+            "passId": "tile-101-0"
+          },
+          {
+            "text": "오늘5시간 공부한다.",
+            "score": 0.9626967906951904,
+            "polygon": [
+              [
+                0.6382222222222222,
+                0.4915
+              ],
+              [
+                0.8515555555555555,
+                0.4905
+              ],
+              [
+                0.8515555555555555,
+                0.5075
+              ],
+              [
+                0.6382222222222222,
+                0.5085
+              ]
+            ],
+            "passId": "tile-101-0"
+          },
+          {
+            "text": "LHUNG-AN",
+            "score": 0.8731260299682617,
+            "polygon": [
+              [
+                0.18577777777777776,
+                0.4355
+              ],
+              [
+                0.4471111111111111,
+                0.4095
+              ],
+              [
+                0.456,
+                0.4285
+              ],
+              [
+                0.19466666666666665,
+                0.4595
+              ]
+            ],
+            "passId": "tile-101-819"
+          },
+          {
+            "text": "오늘5시간",
+            "score": 0.9999122619628906,
+            "polygon": [
+              [
+                0.6391111111111111,
+                0.4915
+              ],
+              [
+                0.7528888888888889,
+                0.4915
+              ],
+              [
+                0.7528888888888889,
+                0.5075
+              ],
+              [
+                0.6391111111111111,
+                0.5075
+              ]
+            ],
+            "passId": "tile-0-976"
+          },
+          {
+            "text": "공부한다.",
+            "score": 0.9926671981811523,
+            "polygon": [
+              [
+                0.7511111111111111,
+                0.4915
+              ],
+              [
+                0.8506666666666667,
+                0.4915
+              ],
+              [
+                0.8506666666666667,
+                0.5075
+              ],
+              [
+                0.7511111111111111,
+                0.5075
+              ]
+            ],
+            "passId": "tile-101-819"
+          },
+          {
+            "text": "LHUNG-AN",
+            "score": 0.8731260299682617,
+            "polygon": [
+              [
+                0.18577777777777776,
+                0.4355
+              ],
+              [
+                0.4471111111111111,
+                0.4095
+              ],
+              [
+                0.456,
+                0.4285
+              ],
+              [
+                0.19466666666666665,
+                0.4595
+              ]
+            ],
+            "passId": "tile-101-819"
+          },
+          {
+            "text": "오늘5시간",
+            "score": 0.9997727274894714,
+            "polygon": [
+              [
+                0.6382222222222222,
+                0.491
+              ],
+              [
+                0.7537777777777778,
+                0.491
+              ],
+              [
+                0.7537777777777778,
+                0.5085
+              ],
+              [
+                0.6382222222222222,
+                0.5085
+              ]
+            ],
+            "passId": "tile-101-819"
+          },
+          {
+            "text": "공부한다.",
+            "score": 0.9926671981811523,
+            "polygon": [
+              [
+                0.7511111111111111,
+                0.4915
+              ],
+              [
+                0.8506666666666667,
+                0.4915
+              ],
+              [
+                0.8506666666666667,
+                0.5075
+              ],
+              [
+                0.7511111111111111,
+                0.5075
+              ]
+            ],
+            "passId": "tile-101-819"
+          },
+          {
+            "text": "233",
+            "score": 0.9712684750556946,
+            "polygon": [
+              [
+                0.96,
+                0.583
+              ],
+              [
+                0.992,
+                0.583
+              ],
+              [
+                0.992,
+                0.59
+              ],
+              [
+                0.96,
+                0.59
+              ]
+            ],
+            "passId": "tile-101-819"
+          },
+          {
+            "text": "오늘5시간",
+            "score": 0.9999122619628906,
+            "polygon": [
+              [
+                0.6391111111111111,
+                0.4915
+              ],
+              [
+                0.7528888888888889,
+                0.4915
+              ],
+              [
+                0.7528888888888889,
+                0.5075
+              ],
+              [
+                0.6391111111111111,
+                0.5075
+              ]
+            ],
+            "passId": "tile-0-976"
+          },
+          {
+            "text": "공부한다.",
+            "score": 0.9847022891044617,
+            "polygon": [
+              [
+                0.7511111111111111,
+                0.4915
+              ],
+              [
+                0.8488888888888889,
+                0.4915
+              ],
+              [
+                0.8488888888888889,
+                0.5075
+              ],
+              [
+                0.7511111111111111,
+                0.5075
+              ]
+            ],
+            "passId": "tile-0-976"
+          },
+          {
+            "text": "오늘 5시간 공부한다.",
+            "score": 0.9407966732978821,
+            "polygon": [
+              [
+                0.6391111111111111,
+                0.491
+              ],
+              [
+                0.8488888888888889,
+                0.491
+              ],
+              [
+                0.8488888888888889,
+                0.508
+              ],
+              [
+                0.6391111111111111,
+                0.508
+              ]
+            ],
+            "passId": "tile-101-976"
+          },
+          {
+            "text": "233",
+            "score": 0.8074193000793457,
+            "polygon": [
+              [
+                0.9617777777777777,
+                0.584
+              ],
+              [
+                0.9902222222222222,
+                0.584
+              ],
+              [
+                0.9902222222222222,
+                0.5895
+              ],
+              [
+                0.9617777777777777,
+                0.5895
+              ]
+            ],
+            "passId": "tile-101-976"
+          }
+        ],
+        "unreadRegions": [],
+        "conflicts": [
+          [
+            "ocr-0",
+            "ocr-3"
+          ],
+          [
+            "ocr-0",
+            "ocr-5"
+          ],
+          [
+            "ocr-3",
+            "ocr-5"
+          ],
+          [
+            "ocr-2",
+            "ocr-10"
+          ]
+        ]
+      }
+    },
+    "ocr_batch_0_raw": {
+      "requestedModel": "gpt-5.4-mini",
+      "responseModel": "gpt-5.4-mini-2026-03-17",
+      "responseId": "resp_0d826115ee480e38016af323cacd1c87d2aeb595dd528b5d0d",
+      "status": "completed",
+      "usage": {
+        "input_tokens": 5941,
+        "input_tokens_details": {
+          "cache_write_tokens": 0,
+          "cached_tokens": 0
+        },
+        "output_tokens": 1270,
+        "output_tokens_details": {
+          "reasoning_tokens": 0
+        },
+        "total_tokens": 7211
+      },
+      "promptSha256": "6a390a1592faabfed2308d3bf75271d6fdcb67131417face8de92e6bdcf1088f",
+      "rawOutputText": "{\"groups\":[{\"lineIds\":[\"ocr-0\"],\"disposition\":\"candidate\",\"category\":\"building sign\",\"nameKo\":\"건물 외부 문자 간판\",\"observationKo\":\"검은 외벽에 흰색 대문자 일부가 보이며 대학/기관명처럼 보이는 표기가 확인된다.\",\"geographicRelevanceKo\":\"기관명 표식일 가능성이 있어 동일 건물이나 캠퍼스 식별에 보조 단서가 될 수 있다.\",\"regionDescriptionKo\":\"건물 캐노피 전면의 흰색 문자\",\"correctedText\":\"HUNG-ANG UN\",\"surface\":\"fixed\",\"visibility\":\"partial\",\"limitationsKo\":\"좌우가 잘려 전체 명칭을 확정할 수 없고, OCR 읽기도 일부만 지지된다.\",\"relatedDiscoveryIndexes\":[0]},{\"lineIds\":[\"ocr-1\"],\"disposition\":\"irrelevant\",\"category\":\"overlay caption\",\"nameKo\":\"사진 오버레이 문구\",\"observationKo\":\"한글 문장이 사진 위에 덧씌워져 있다.\",\"geographicRelevanceKo\":\"촬영자 메모성 문구로 위치 식별에 직접적 도움이 되지 않는다.\",\"regionDescriptionKo\":\"오른쪽 중앙의 검은 천장 아래 오버레이 텍스트\",\"correctedText\":\"오늘 5시간 공부한다... 😱\",\"surface\":\"depicted\",\"visibility\":\"clear\",\"limitationsKo\":\"편집된 캡션으로 보이며 장소명, 주소, 지명 정보가 없다.\",\"relatedDiscoveryIndexes\":[1]},{\"lineIds\":[\"ocr-2\"],\"disposition\":\"irrelevant\",\"category\":\"unreadable reflection/artifact\",\"nameKo\":\"작은 비식별 문자 조각\",\"observationKo\":\"작은 붉은 박스 안에 짧은 숫자/문자처럼 보이는 요소가 있으나 의미를 판독하기 어렵다.\",\"geographicRelevanceKo\":\"지리적 단서로 해석할 만한 고유명사나 위치 표시는 보이지 않는다.\",\"regionDescriptionKo\":\"실내 배경의 작은 반사/표식처럼 보이는 영역\",\"correctedText\":null,\"surface\":\"unknown\",\"visibility\":\"uncertain\",\"limitationsKo\":\"너무 작고 흐려서 실제 문자 여부와 읽기를 확인할 수 없다.\",\"relatedDiscoveryIndexes\":[]},{\"lineIds\":[\"ocr-3\"],\"disposition\":\"candidate\",\"category\":\"building sign\",\"nameKo\":\"건물 외부 문자 간판\",\"observationKo\":\"OCR가 가리키는 검은 외벽의 흰색 문자 일부가 보이며 기관명 표식으로 보인다.\",\"geographicRelevanceKo\":\"대학 또는 기관명 일부로 보여 동일 장소 식별에 보조 단서가 될 수 있다.\",\"regionDescriptionKo\":\"건물 전면 캐노피의 문자 배열\",\"correctedText\":\"HUNG-ANG UN\",\"surface\":\"fixed\",\"visibility\":\"partial\",\"limitationsKo\":\"일부 글자만 보여 전체 이름을 확정할 수 없다.\",\"relatedDiscoveryIndexes\":[0]},{\"lineIds\":[\"ocr-4\"],\"disposition\":\"irrelevant\",\"category\":\"foliage artifact\",\"nameKo\":\"나뭇잎 사이의 작은 밝은 점\",\"observationKo\":\"수목 사이의 작은 밝은 부분으로 문자나 표식으로 보이지 않는다.\",\"geographicRelevanceKo\":\"지리적 단서가 되는 텍스트가 아니다.\",\"regionDescriptionKo\":\"나뭇잎 중앙의 작은 밝은 영역\",\"correctedText\":null,\"surface\":\"unknown\",\"visibility\":\"uncertain\",\"limitationsKo\":\"문자 형태가 아니며 OCR 결과와 실제 시각 요소가 맞지 않는다.\",\"relatedDiscoveryIndexes\":[]},{\"lineIds\":[\"ocr-5\"],\"disposition\":\"candidate\",\"category\":\"building sign\",\"nameKo\":\"건물 외부 문자 간판\",\"observationKo\":\"건물 캐노피의 흰색 대문자 일부가 보여 기관명 표식으로 판독 가능하다.\",\"geographicRelevanceKo\":\"건물명 일부로 보이며 캠퍼스/기관 위치 추정에 보조 단서가 될 수 있다.\",\"regionDescriptionKo\":\"검은 캐노피 전면의 문자\",\"correctedText\":\"HUNG-ANG UN\",\"surface\":\"fixed\",\"visibility\":\"partial\",\"limitationsKo\":\"전체 표기가 잘려 있고 OCR도 완전하지 않다.\",\"relatedDiscoveryIndexes\":[0]},{\"lineIds\":[\"ocr-6\"],\"disposition\":\"irrelevant\",\"category\":\"foliage artifact\",\"nameKo\":\"나뭇잎 사이의 작은 밝은 점\",\"observationKo\":\"아주 작은 밝은 요소만 보여 텍스트로 볼 수 없다.\",\"geographicRelevanceKo\":\"지리적 정보가 되는 문자나 표식이 아니다.\",\"regionDescriptionKo\":\"나뭇잎 내부의 작은 점状 요소\",\"correctedText\":null,\"surface\":\"unknown\",\"visibility\":\"uncertain\",\"limitationsKo\":\"실제 문자인지 확인 불가하며 OCR 결과를 지지하지 못한다.\",\"relatedDiscoveryIndexes\":[]},{\"lineIds\":[\"ocr-7\"],\"disposition\":\"candidate\",\"category\":\"building sign\",\"nameKo\":\"건물 외부 문자 간판\",\"observationKo\":\"검은 캐노피의 흰색 문자 일부가 뚜렷하게 보여 건물명 표식으로 보인다.\",\"geographicRelevanceKo\":\"기관명 일부로서 동일 건물/캠퍼스 식별에 유용할 수 있다.\",\"regionDescriptionKo\":\"건물 전면 캐노피의 왼쪽 문자 구간\",\"correctedText\":\"HUNG-ANG\",\"surface\":\"fixed\",\"visibility\":\"partial\",\"limitationsKo\":\"오른쪽 글자 일부가 잘려 전체 명칭을 확정할 수 없다.\",\"relatedDiscoveryIndexes\":[0]}],\"limitationsKo\":[\"일부 OCR 영역은 너무 작거나 흐려 실제 문자 여부를 확인할 수 없었다.\",\"건물 간판으로 보이는 항목도 모두 일부만 보여 전체 고유명은 확정하지 않았다.\",\"오버레이 캡션은 지리적 단서가 아니므로 관련성을 낮게 판단했다.\"]}"
+    },
+    "ocr_batch_0": {
+      "groups": [
+        {
+          "lineIds": [
+            "ocr-0"
+          ],
+          "disposition": "candidate",
+          "category": "building sign",
+          "nameKo": "건물 외부 문자 간판",
+          "observationKo": "검은 외벽에 흰색 대문자 일부가 보이며 대학/기관명처럼 보이는 표기가 확인된다.",
+          "geographicRelevanceKo": "기관명 표식일 가능성이 있어 동일 건물이나 캠퍼스 식별에 보조 단서가 될 수 있다.",
+          "regionDescriptionKo": "건물 캐노피 전면의 흰색 문자",
+          "correctedText": "HUNG-ANG UN",
+          "surface": "fixed",
+          "visibility": "partial",
+          "limitationsKo": "좌우가 잘려 전체 명칭을 확정할 수 없고, OCR 읽기도 일부만 지지된다.",
+          "relatedDiscoveryIndexes": [
+            0
+          ]
+        },
+        {
+          "lineIds": [
+            "ocr-1"
+          ],
+          "disposition": "irrelevant",
+          "category": "overlay caption",
+          "nameKo": "사진 오버레이 문구",
+          "observationKo": "한글 문장이 사진 위에 덧씌워져 있다.",
+          "geographicRelevanceKo": "촬영자 메모성 문구로 위치 식별에 직접적 도움이 되지 않는다.",
+          "regionDescriptionKo": "오른쪽 중앙의 검은 천장 아래 오버레이 텍스트",
+          "correctedText": "오늘 5시간 공부한다... 😱",
+          "surface": "depicted",
+          "visibility": "clear",
+          "limitationsKo": "편집된 캡션으로 보이며 장소명, 주소, 지명 정보가 없다.",
+          "relatedDiscoveryIndexes": [
+            1
+          ]
+        },
+        {
+          "lineIds": [
+            "ocr-2"
+          ],
+          "disposition": "irrelevant",
+          "category": "unreadable reflection/artifact",
+          "nameKo": "작은 비식별 문자 조각",
+          "observationKo": "작은 붉은 박스 안에 짧은 숫자/문자처럼 보이는 요소가 있으나 의미를 판독하기 어렵다.",
+          "geographicRelevanceKo": "지리적 단서로 해석할 만한 고유명사나 위치 표시는 보이지 않는다.",
+          "regionDescriptionKo": "실내 배경의 작은 반사/표식처럼 보이는 영역",
+          "correctedText": null,
+          "surface": "unknown",
+          "visibility": "uncertain",
+          "limitationsKo": "너무 작고 흐려서 실제 문자 여부와 읽기를 확인할 수 없다.",
+          "relatedDiscoveryIndexes": []
+        },
+        {
+          "lineIds": [
+            "ocr-3"
+          ],
+          "disposition": "candidate",
+          "category": "building sign",
+          "nameKo": "건물 외부 문자 간판",
+          "observationKo": "OCR가 가리키는 검은 외벽의 흰색 문자 일부가 보이며 기관명 표식으로 보인다.",
+          "geographicRelevanceKo": "대학 또는 기관명 일부로 보여 동일 장소 식별에 보조 단서가 될 수 있다.",
+          "regionDescriptionKo": "건물 전면 캐노피의 문자 배열",
+          "correctedText": "HUNG-ANG UN",
+          "surface": "fixed",
+          "visibility": "partial",
+          "limitationsKo": "일부 글자만 보여 전체 이름을 확정할 수 없다.",
+          "relatedDiscoveryIndexes": [
+            0
+          ]
+        },
+        {
+          "lineIds": [
+            "ocr-4"
+          ],
+          "disposition": "irrelevant",
+          "category": "foliage artifact",
+          "nameKo": "나뭇잎 사이의 작은 밝은 점",
+          "observationKo": "수목 사이의 작은 밝은 부분으로 문자나 표식으로 보이지 않는다.",
+          "geographicRelevanceKo": "지리적 단서가 되는 텍스트가 아니다.",
+          "regionDescriptionKo": "나뭇잎 중앙의 작은 밝은 영역",
+          "correctedText": null,
+          "surface": "unknown",
+          "visibility": "uncertain",
+          "limitationsKo": "문자 형태가 아니며 OCR 결과와 실제 시각 요소가 맞지 않는다.",
+          "relatedDiscoveryIndexes": []
+        },
+        {
+          "lineIds": [
+            "ocr-5"
+          ],
+          "disposition": "candidate",
+          "category": "building sign",
+          "nameKo": "건물 외부 문자 간판",
+          "observationKo": "건물 캐노피의 흰색 대문자 일부가 보여 기관명 표식으로 판독 가능하다.",
+          "geographicRelevanceKo": "건물명 일부로 보이며 캠퍼스/기관 위치 추정에 보조 단서가 될 수 있다.",
+          "regionDescriptionKo": "검은 캐노피 전면의 문자",
+          "correctedText": "HUNG-ANG UN",
+          "surface": "fixed",
+          "visibility": "partial",
+          "limitationsKo": "전체 표기가 잘려 있고 OCR도 완전하지 않다.",
+          "relatedDiscoveryIndexes": [
+            0
+          ]
+        },
+        {
+          "lineIds": [
+            "ocr-6"
+          ],
+          "disposition": "irrelevant",
+          "category": "foliage artifact",
+          "nameKo": "나뭇잎 사이의 작은 밝은 점",
+          "observationKo": "아주 작은 밝은 요소만 보여 텍스트로 볼 수 없다.",
+          "geographicRelevanceKo": "지리적 정보가 되는 문자나 표식이 아니다.",
+          "regionDescriptionKo": "나뭇잎 내부의 작은 점状 요소",
+          "correctedText": null,
+          "surface": "unknown",
+          "visibility": "uncertain",
+          "limitationsKo": "실제 문자인지 확인 불가하며 OCR 결과를 지지하지 못한다.",
+          "relatedDiscoveryIndexes": []
+        },
+        {
+          "lineIds": [
+            "ocr-7"
+          ],
+          "disposition": "candidate",
+          "category": "building sign",
+          "nameKo": "건물 외부 문자 간판",
+          "observationKo": "검은 캐노피의 흰색 문자 일부가 뚜렷하게 보여 건물명 표식으로 보인다.",
+          "geographicRelevanceKo": "기관명 일부로서 동일 건물/캠퍼스 식별에 유용할 수 있다.",
+          "regionDescriptionKo": "건물 전면 캐노피의 왼쪽 문자 구간",
+          "correctedText": "HUNG-ANG",
+          "surface": "fixed",
+          "visibility": "partial",
+          "limitationsKo": "오른쪽 글자 일부가 잘려 전체 명칭을 확정할 수 없다.",
+          "relatedDiscoveryIndexes": [
+            0
+          ]
+        }
+      ],
+      "limitationsKo": [
+        "일부 OCR 영역은 너무 작거나 흐려 실제 문자 여부를 확인할 수 없었다.",
+        "건물 간판으로 보이는 항목도 모두 일부만 보여 전체 고유명은 확정하지 않았다.",
+        "오버레이 캡션은 지리적 단서가 아니므로 관련성을 낮게 판단했다."
+      ]
+    },
+    "ocr_batch_8_raw": {
+      "requestedModel": "gpt-5.4-mini",
+      "responseModel": "gpt-5.4-mini-2026-03-17",
+      "responseId": "resp_0a0483818a95a7b2016af323d6914887d280d98585eb09f7b4",
+      "status": "completed",
+      "usage": {
+        "input_tokens": 4819,
+        "input_tokens_details": {
+          "cache_write_tokens": 0,
+          "cached_tokens": 0
+        },
+        "output_tokens": 511,
+        "output_tokens_details": {
+          "reasoning_tokens": 0
+        },
+        "total_tokens": 5330
+      },
+      "promptSha256": "6a390a1592faabfed2308d3bf75271d6fdcb67131417face8de92e6bdcf1088f",
+      "rawOutputText": "{\"groups\":[{\"lineIds\":[\"ocr-8\"],\"disposition\":\"irrelevant\",\"category\":\"overlay caption\",\"nameKo\":\"사진 편집 문구\",\"observationKo\":\"한글 오버레이 문구의 일부로 보이며, 위치 식별에 쓰이는 고유 지명은 아니다.\",\"geographicRelevanceKo\":\"촬영 위치와 직접 연결되는 지리 정보가 아니라 개인 메모성 문구로 보인다.\",\"regionDescriptionKo\":\"오른쪽 중앙 오버레이 문구의 왼쪽 부분\",\"correctedText\":\"오늘 5시간\",\"surface\":\"depicted\",\"visibility\":\"clear\",\"limitationsKo\":\"텍스트는 선명하지만 장소명, 주소, 기관명 같은 지리 단서는 없다.\",\"relatedDiscoveryIndexes\":[]},{\"lineIds\":[\"ocr-9\"],\"disposition\":\"irrelevant\",\"category\":\"overlay caption\",\"nameKo\":\"사진 편집 문구\",\"observationKo\":\"한글 오버레이 문구의 일부로 보이며, ‘공부한다’라는 개인 메모성 표현이다.\",\"geographicRelevanceKo\":\"촬영 위치를 식별하는 지리적 단서가 아니다.\",\"regionDescriptionKo\":\"오른쪽 중앙 오버레이 문구의 가운데 부분\",\"correctedText\":\"공부한다.\",\"surface\":\"depicted\",\"visibility\":\"clear\",\"limitationsKo\":\"명확히 읽히지만 일반적인 문구로 지리적 관련성이 없다.\",\"relatedDiscoveryIndexes\":[]},{\"lineIds\":[\"ocr-10\"],\"disposition\":\"uncertain\",\"category\":\"unreadable reflected signage fragment\",\"nameKo\":\"반사/실내 표지 조각\",\"observationKo\":\"작은 빨간 표지로 보이지만 문자 또는 기호를 안정적으로 판독하기 어렵다.\",\"geographicRelevanceKo\":\"지리 단서인지 확인할 수 없고, 읽을 수 있는 고유 표지 정보도 보이지 않는다.\",\"regionDescriptionKo\":\"실내 배경의 작은 빨간 표지 영역\",\"correctedText\":null,\"surface\":\"unknown\",\"visibility\":\"uncertain\",\"limitationsKo\":\"크기가 너무 작고 흐려서 OCR 문자열 '233'을 지지하기 어렵다.\",\"relatedDiscoveryIndexes\":[]}],\"limitationsKo\":[\"오버레이 문구는 사진 속 편집된 텍스트로 보이며 촬영 위치 단서가 아니다.\",\"작은 배경 표지는 판독 불확실성이 커서 지리적 cue로 확정할 수 없다.\"]}"
+    },
+    "ocr_batch_8": {
+      "groups": [
+        {
+          "lineIds": [
+            "ocr-8"
+          ],
+          "disposition": "irrelevant",
+          "category": "overlay caption",
+          "nameKo": "사진 편집 문구",
+          "observationKo": "한글 오버레이 문구의 일부로 보이며, 위치 식별에 쓰이는 고유 지명은 아니다.",
+          "geographicRelevanceKo": "촬영 위치와 직접 연결되는 지리 정보가 아니라 개인 메모성 문구로 보인다.",
+          "regionDescriptionKo": "오른쪽 중앙 오버레이 문구의 왼쪽 부분",
+          "correctedText": "오늘 5시간",
+          "surface": "depicted",
+          "visibility": "clear",
+          "limitationsKo": "텍스트는 선명하지만 장소명, 주소, 기관명 같은 지리 단서는 없다.",
+          "relatedDiscoveryIndexes": []
+        },
+        {
+          "lineIds": [
+            "ocr-9"
+          ],
+          "disposition": "irrelevant",
+          "category": "overlay caption",
+          "nameKo": "사진 편집 문구",
+          "observationKo": "한글 오버레이 문구의 일부로 보이며, ‘공부한다’라는 개인 메모성 표현이다.",
+          "geographicRelevanceKo": "촬영 위치를 식별하는 지리적 단서가 아니다.",
+          "regionDescriptionKo": "오른쪽 중앙 오버레이 문구의 가운데 부분",
+          "correctedText": "공부한다.",
+          "surface": "depicted",
+          "visibility": "clear",
+          "limitationsKo": "명확히 읽히지만 일반적인 문구로 지리적 관련성이 없다.",
+          "relatedDiscoveryIndexes": []
+        },
+        {
+          "lineIds": [
+            "ocr-10"
+          ],
+          "disposition": "uncertain",
+          "category": "unreadable reflected signage fragment",
+          "nameKo": "반사/실내 표지 조각",
+          "observationKo": "작은 빨간 표지로 보이지만 문자 또는 기호를 안정적으로 판독하기 어렵다.",
+          "geographicRelevanceKo": "지리 단서인지 확인할 수 없고, 읽을 수 있는 고유 표지 정보도 보이지 않는다.",
+          "regionDescriptionKo": "실내 배경의 작은 빨간 표지 영역",
+          "correctedText": null,
+          "surface": "unknown",
+          "visibility": "uncertain",
+          "limitationsKo": "크기가 너무 작고 흐려서 OCR 문자열 '233'을 지지하기 어렵다.",
+          "relatedDiscoveryIndexes": []
+        }
+      ],
+      "limitationsKo": [
+        "오버레이 문구는 사진 속 편집된 텍스트로 보이며 촬영 위치 단서가 아니다.",
+        "작은 배경 표지는 판독 불확실성이 커서 지리적 cue로 확정할 수 없다."
+      ]
+    },
+    "ocr_review": {
+      "groups": [
+        {
+          "lineIds": [
+            "ocr-0"
+          ],
+          "disposition": "candidate",
+          "category": "building sign",
+          "nameKo": "건물 외부 문자 간판",
+          "observationKo": "검은 외벽에 흰색 대문자 일부가 보이며 대학/기관명처럼 보이는 표기가 확인된다.",
+          "geographicRelevanceKo": "기관명 표식일 가능성이 있어 동일 건물이나 캠퍼스 식별에 보조 단서가 될 수 있다.",
+          "regionDescriptionKo": "건물 캐노피 전면의 흰색 문자",
+          "correctedText": "HUNG-ANG UN",
+          "surface": "fixed",
+          "visibility": "partial",
+          "limitationsKo": "좌우가 잘려 전체 명칭을 확정할 수 없고, OCR 읽기도 일부만 지지된다.",
+          "relatedDiscoveryIndexes": [
+            0
+          ]
+        },
+        {
+          "lineIds": [
+            "ocr-1"
+          ],
+          "disposition": "irrelevant",
+          "category": "overlay caption",
+          "nameKo": "사진 오버레이 문구",
+          "observationKo": "한글 문장이 사진 위에 덧씌워져 있다.",
+          "geographicRelevanceKo": "촬영자 메모성 문구로 위치 식별에 직접적 도움이 되지 않는다.",
+          "regionDescriptionKo": "오른쪽 중앙의 검은 천장 아래 오버레이 텍스트",
+          "correctedText": "오늘 5시간 공부한다... 😱",
+          "surface": "depicted",
+          "visibility": "clear",
+          "limitationsKo": "편집된 캡션으로 보이며 장소명, 주소, 지명 정보가 없다.",
+          "relatedDiscoveryIndexes": [
+            1
+          ]
+        },
+        {
+          "lineIds": [
+            "ocr-2"
+          ],
+          "disposition": "irrelevant",
+          "category": "unreadable reflection/artifact",
+          "nameKo": "작은 비식별 문자 조각",
+          "observationKo": "작은 붉은 박스 안에 짧은 숫자/문자처럼 보이는 요소가 있으나 의미를 판독하기 어렵다.",
+          "geographicRelevanceKo": "지리적 단서로 해석할 만한 고유명사나 위치 표시는 보이지 않는다.",
+          "regionDescriptionKo": "실내 배경의 작은 반사/표식처럼 보이는 영역",
+          "correctedText": null,
+          "surface": "unknown",
+          "visibility": "uncertain",
+          "limitationsKo": "너무 작고 흐려서 실제 문자 여부와 읽기를 확인할 수 없다.",
+          "relatedDiscoveryIndexes": []
+        },
+        {
+          "lineIds": [
+            "ocr-3"
+          ],
+          "disposition": "candidate",
+          "category": "building sign",
+          "nameKo": "건물 외부 문자 간판",
+          "observationKo": "OCR가 가리키는 검은 외벽의 흰색 문자 일부가 보이며 기관명 표식으로 보인다.",
+          "geographicRelevanceKo": "대학 또는 기관명 일부로 보여 동일 장소 식별에 보조 단서가 될 수 있다.",
+          "regionDescriptionKo": "건물 전면 캐노피의 문자 배열",
+          "correctedText": "HUNG-ANG UN",
+          "surface": "fixed",
+          "visibility": "partial",
+          "limitationsKo": "일부 글자만 보여 전체 이름을 확정할 수 없다.",
+          "relatedDiscoveryIndexes": [
+            0
+          ]
+        },
+        {
+          "lineIds": [
+            "ocr-4"
+          ],
+          "disposition": "irrelevant",
+          "category": "foliage artifact",
+          "nameKo": "나뭇잎 사이의 작은 밝은 점",
+          "observationKo": "수목 사이의 작은 밝은 부분으로 문자나 표식으로 보이지 않는다.",
+          "geographicRelevanceKo": "지리적 단서가 되는 텍스트가 아니다.",
+          "regionDescriptionKo": "나뭇잎 중앙의 작은 밝은 영역",
+          "correctedText": null,
+          "surface": "unknown",
+          "visibility": "uncertain",
+          "limitationsKo": "문자 형태가 아니며 OCR 결과와 실제 시각 요소가 맞지 않는다.",
+          "relatedDiscoveryIndexes": []
+        },
+        {
+          "lineIds": [
+            "ocr-5"
+          ],
+          "disposition": "candidate",
+          "category": "building sign",
+          "nameKo": "건물 외부 문자 간판",
+          "observationKo": "건물 캐노피의 흰색 대문자 일부가 보여 기관명 표식으로 판독 가능하다.",
+          "geographicRelevanceKo": "건물명 일부로 보이며 캠퍼스/기관 위치 추정에 보조 단서가 될 수 있다.",
+          "regionDescriptionKo": "검은 캐노피 전면의 문자",
+          "correctedText": "HUNG-ANG UN",
+          "surface": "fixed",
+          "visibility": "partial",
+          "limitationsKo": "전체 표기가 잘려 있고 OCR도 완전하지 않다.",
+          "relatedDiscoveryIndexes": [
+            0
+          ]
+        },
+        {
+          "lineIds": [
+            "ocr-6"
+          ],
+          "disposition": "irrelevant",
+          "category": "foliage artifact",
+          "nameKo": "나뭇잎 사이의 작은 밝은 점",
+          "observationKo": "아주 작은 밝은 요소만 보여 텍스트로 볼 수 없다.",
+          "geographicRelevanceKo": "지리적 정보가 되는 문자나 표식이 아니다.",
+          "regionDescriptionKo": "나뭇잎 내부의 작은 점状 요소",
+          "correctedText": null,
+          "surface": "unknown",
+          "visibility": "uncertain",
+          "limitationsKo": "실제 문자인지 확인 불가하며 OCR 결과를 지지하지 못한다.",
+          "relatedDiscoveryIndexes": []
+        },
+        {
+          "lineIds": [
+            "ocr-7"
+          ],
+          "disposition": "candidate",
+          "category": "building sign",
+          "nameKo": "건물 외부 문자 간판",
+          "observationKo": "검은 캐노피의 흰색 문자 일부가 뚜렷하게 보여 건물명 표식으로 보인다.",
+          "geographicRelevanceKo": "기관명 일부로서 동일 건물/캠퍼스 식별에 유용할 수 있다.",
+          "regionDescriptionKo": "건물 전면 캐노피의 왼쪽 문자 구간",
+          "correctedText": "HUNG-ANG",
+          "surface": "fixed",
+          "visibility": "partial",
+          "limitationsKo": "오른쪽 글자 일부가 잘려 전체 명칭을 확정할 수 없다.",
+          "relatedDiscoveryIndexes": [
+            0
+          ]
+        },
+        {
+          "lineIds": [
+            "ocr-8"
+          ],
+          "disposition": "irrelevant",
+          "category": "overlay caption",
+          "nameKo": "사진 편집 문구",
+          "observationKo": "한글 오버레이 문구의 일부로 보이며, 위치 식별에 쓰이는 고유 지명은 아니다.",
+          "geographicRelevanceKo": "촬영 위치와 직접 연결되는 지리 정보가 아니라 개인 메모성 문구로 보인다.",
+          "regionDescriptionKo": "오른쪽 중앙 오버레이 문구의 왼쪽 부분",
+          "correctedText": "오늘 5시간",
+          "surface": "depicted",
+          "visibility": "clear",
+          "limitationsKo": "텍스트는 선명하지만 장소명, 주소, 기관명 같은 지리 단서는 없다.",
+          "relatedDiscoveryIndexes": []
+        },
+        {
+          "lineIds": [
+            "ocr-9"
+          ],
+          "disposition": "irrelevant",
+          "category": "overlay caption",
+          "nameKo": "사진 편집 문구",
+          "observationKo": "한글 오버레이 문구의 일부로 보이며, ‘공부한다’라는 개인 메모성 표현이다.",
+          "geographicRelevanceKo": "촬영 위치를 식별하는 지리적 단서가 아니다.",
+          "regionDescriptionKo": "오른쪽 중앙 오버레이 문구의 가운데 부분",
+          "correctedText": "공부한다.",
+          "surface": "depicted",
+          "visibility": "clear",
+          "limitationsKo": "명확히 읽히지만 일반적인 문구로 지리적 관련성이 없다.",
+          "relatedDiscoveryIndexes": []
+        },
+        {
+          "lineIds": [
+            "ocr-10"
+          ],
+          "disposition": "uncertain",
+          "category": "unreadable reflected signage fragment",
+          "nameKo": "반사/실내 표지 조각",
+          "observationKo": "작은 빨간 표지로 보이지만 문자 또는 기호를 안정적으로 판독하기 어렵다.",
+          "geographicRelevanceKo": "지리 단서인지 확인할 수 없고, 읽을 수 있는 고유 표지 정보도 보이지 않는다.",
+          "regionDescriptionKo": "실내 배경의 작은 빨간 표지 영역",
+          "correctedText": null,
+          "surface": "unknown",
+          "visibility": "uncertain",
+          "limitationsKo": "크기가 너무 작고 흐려서 OCR 문자열 '233'을 지지하기 어렵다.",
+          "relatedDiscoveryIndexes": []
+        }
+      ],
+      "limitationsKo": [
+        "일부 OCR 영역은 너무 작거나 흐려 실제 문자 여부를 확인할 수 없었다.",
+        "건물 간판으로 보이는 항목도 모두 일부만 보여 전체 고유명은 확정하지 않았다.",
+        "오버레이 캡션은 지리적 단서가 아니므로 관련성을 낮게 판단했다.",
+        "오버레이 문구는 사진 속 편집된 텍스트로 보이며 촬영 위치 단서가 아니다.",
+        "작은 배경 표지는 판독 불확실성이 커서 지리적 cue로 확정할 수 없다."
+      ],
+      "reviewMode": "per_region_crops"
+    },
+    "detection": {
+      "engine": "Grounding DINO",
+      "model": "IDEA-Research/grounding-dino-tiny",
+      "revision": "a2bb814dd30d776dcf7e30523b00659f4f141c71",
+      "imageSha256": "35babcac0e3549ee67d7951d77674f5fcd8fefa229979222d81bc07e08c825bf",
+      "coordinateSpace": "analysis-normalized",
+      "requests": [
+        {
+          "cueId": "cue-0",
+          "query": "white uppercase letters on the black building facade",
+          "detections": [
+            {
+              "id": "dino-cue-0-0",
+              "bbox": [
+                0.189469482421875,
+                0.37561846923828124,
+                0.6447561848958333,
+                0.45599984741210936
+              ],
+              "score": 0.4165177047252655,
+              "label": "white uppercase letters"
+            }
+          ]
+        },
+        {
+          "cueId": "cue-2",
+          "query": "wide stone steps in the foreground",
+          "detections": [
+            {
+              "id": "dino-cue-2-0",
+              "bbox": [
+                0.0039905607435438365,
+                0.611704833984375,
+                0.9963970269097222,
+                0.9963275146484375
+              ],
+              "score": 0.8565294742584229,
+              "label": "wide stone steps"
+            }
+          ]
+        },
+        {
+          "cueId": "cue-3",
+          "query": "dense deciduous tree canopy framing the building",
+          "detections": [
+            {
+              "id": "dino-cue-3-0",
+              "bbox": [
+                0.003264948738945855,
+                0.004399448394775391,
+                0.4485754937065972,
+                0.6327156982421875
+              ],
+              "score": 0.36655017733573914,
+              "label": "dense deciduous tree canopy"
+            },
+            {
+              "id": "dino-cue-3-1",
+              "bbox": [
+                0.4423860405815972,
+                0.0016610771417617798,
+                0.9967765842013889,
+                0.4737922058105469
+              ],
+              "score": 0.365168035030365,
+              "label": "dense deciduous tree canopy"
+            },
+            {
+              "id": "dino-cue-3-2",
+              "bbox": [
+                0.1003971693250868,
+                0.12054389953613281,
+                0.9939249131944444,
+                0.6406070556640625
+              ],
+              "score": 0.4352229833602905,
+              "label": "building"
+            }
+          ]
+        },
+        {
+          "cueId": "cue-4",
+          "query": "modern glass-and-panel facade",
+          "detections": [
+            {
+              "id": "dino-cue-4-0",
+              "bbox": [
+                0.3271060112847222,
+                0.11981989288330078,
+                0.7696732313368055,
+                0.3917473449707031
+              ],
+              "score": 0.31621092557907104,
+              "label": "modern glass"
+            },
+            {
+              "id": "dino-cue-4-1",
+              "bbox": [
+                0.1212821044921875,
+                0.11647779083251954,
+                0.9953041449652777,
+                0.6471387939453125
+              ],
+              "score": 0.3979916572570801,
+              "label": "modern glass - and - panel facade"
+            },
+            {
+              "id": "dino-cue-4-2",
+              "bbox": [
+                0.32618910047743055,
+                0.11994160461425782,
+                0.7691760525173611,
+                0.39237744140625
+              ],
+              "score": 0.43163585662841797,
+              "label": "modern glass - and - panel facade"
+            }
+          ]
+        },
+        {
+          "cueId": "cue-5",
+          "query": "covered building entrance above the stairs",
+          "detections": [
+            {
+              "id": "dino-cue-5-0",
+              "bbox": [
+                0.0033543705410427516,
+                0.61124560546875,
+                0.9968701171875,
+                0.9973175659179687
+              ],
+              "score": 0.44393762946128845,
+              "label": "stairs"
+            },
+            {
+              "id": "dino-cue-5-1",
+              "bbox": [
+                0.4718474392361111,
+                0.44042144775390624,
+                0.9961411675347223,
+                0.6371448974609375
+              ],
+              "score": 0.31673797965049744,
+              "label": "covered building entrance"
+            }
+          ]
+        },
+        {
+          "cueId": "cue-6",
+          "query": "metal stair handrail with blue wrapping",
+          "detections": [
+            {
+              "id": "dino-cue-6-0",
+              "bbox": [
+                0.0036325306362575954,
+                0.5945880126953125,
+                0.35915511067708333,
+                0.7591233520507813
+              ],
+              "score": 0.4661778211593628,
+              "label": "metal stair handrail"
+            },
+            {
+              "id": "dino-cue-6-1",
+              "bbox": [
+                0.004453331417507596,
+                0.6056578369140625,
+                0.9963702256944444,
+                0.9967111206054687
+              ],
+              "score": 0.35971373319625854,
+              "label": "metal stair handrail"
+            }
+          ]
+        },
+        {
+          "cueId": "cue-7",
+          "query": "linear fluorescent lights inside the entrance",
+          "detections": [
+            {
+              "id": "dino-cue-7-0",
+              "bbox": [
+                0.4806259765625,
+                0.4454817810058594,
+                0.9962746310763889,
+                0.636113037109375
+              ],
+              "score": 0.42461705207824707,
+              "label": "entrance"
+            }
+          ]
+        }
+      ]
+    },
+    "verify_cue-0_0_raw": {
+      "requestedModel": "gpt-5.4-mini",
+      "responseModel": "gpt-5.4-mini-2026-03-17",
+      "responseId": "resp_054dbbde1e9d55cc016af324409c2c87d2862e8de5f6c7fa38",
+      "status": "completed",
+      "usage": {
+        "input_tokens": 4828,
+        "input_tokens_details": {
+          "cache_write_tokens": 0,
+          "cached_tokens": 0
+        },
+        "output_tokens": 263,
+        "output_tokens_details": {
+          "reasoning_tokens": 0
+        },
+        "total_tokens": 5091
+      },
+      "promptSha256": "97106482e700608c01db19a0e347e9f7b3412b32cd23eb8b0b63af11e381e055",
+      "rawOutputText": "{\"checks\":[{\"proposalId\":\"link-0-0\",\"verdict\":\"supported\",\"evidenceKo\":\"검은 캐노피에 흰색 대문자 간판이 보이고 'HUNG-ANG UN' 구간이 실제로 확인됩니다.\"},{\"proposalId\":\"link-0-3\",\"verdict\":\"supported\",\"evidenceKo\":\"해당 박스 안에 검은 외벽 위 흰색 대문자 간판이 있으며 'HUNG-ANG UN' 부분이 보입니다.\"},{\"proposalId\":\"link-0-5\",\"verdict\":\"supported\",\"evidenceKo\":\"검은 전면부에 흰색 대문자 문자들이 연속으로 보이고 'HUNG-ANG UN' 판독이 가능합니다.\"},{\"proposalId\":\"link-0-7\",\"verdict\":\"partial\",\"evidenceKo\":\"박스 안에는 흰색 문자 일부가 보이나 전체 구간이 잘려 있어 'HUNG-ANG UN' 전체 확인은 어렵습니다.\"},{\"proposalId\":\"dino-cue-0-0\",\"verdict\":\"supported\",\"evidenceKo\":\"해당 영역에 검은 외벽의 흰색 대문자 간판이 실제로 포함되어 있습니다.\"}]}"
+    },
+    "verify_cue-0": {
+      "checks": [
+        {
+          "proposalId": "link-0-0",
+          "verdict": "supported",
+          "evidenceKo": "검은 캐노피에 흰색 대문자 간판이 보이고 'HUNG-ANG UN' 구간이 실제로 확인됩니다."
+        },
+        {
+          "proposalId": "link-0-3",
+          "verdict": "supported",
+          "evidenceKo": "해당 박스 안에 검은 외벽 위 흰색 대문자 간판이 있으며 'HUNG-ANG UN' 부분이 보입니다."
+        },
+        {
+          "proposalId": "link-0-5",
+          "verdict": "supported",
+          "evidenceKo": "검은 전면부에 흰색 대문자 문자들이 연속으로 보이고 'HUNG-ANG UN' 판독이 가능합니다."
+        },
+        {
+          "proposalId": "link-0-7",
+          "verdict": "partial",
+          "evidenceKo": "박스 안에는 흰색 문자 일부가 보이나 전체 구간이 잘려 있어 'HUNG-ANG UN' 전체 확인은 어렵습니다."
+        },
+        {
+          "proposalId": "dino-cue-0-0",
+          "verdict": "supported",
+          "evidenceKo": "해당 영역에 검은 외벽의 흰색 대문자 간판이 실제로 포함되어 있습니다."
+        }
+      ]
+    },
+    "verify_cue-1_0_raw": {
+      "requestedModel": "gpt-5.4-mini",
+      "responseModel": "gpt-5.4-mini-2026-03-17",
+      "responseId": "resp_07f4cb9c34309bd2016af324442b8487d2a33255596ad37133",
+      "status": "completed",
+      "usage": {
+        "input_tokens": 3459,
+        "input_tokens_details": {
+          "cache_write_tokens": 0,
+          "cached_tokens": 0
+        },
+        "output_tokens": 71,
+        "output_tokens_details": {
+          "reasoning_tokens": 0
+        },
+        "total_tokens": 3530
+      },
+      "promptSha256": "97106482e700608c01db19a0e347e9f7b3412b32cd23eb8b0b63af11e381e055",
+      "rawOutputText": "{\"checks\":[{\"proposalId\":\"link-1-1\",\"verdict\":\"supported\",\"evidenceKo\":\"오른쪽 중간 검은 천장 아래에 오버레이 문구가 보이고, '오늘 5시간 공부한다... 😱'가 화면에 그대로 읽힌다.\"}]}"
+    },
+    "verify_cue-1": {
+      "checks": [
+        {
+          "proposalId": "link-1-1",
+          "verdict": "supported",
+          "evidenceKo": "오른쪽 중간 검은 천장 아래에 오버레이 문구가 보이고, '오늘 5시간 공부한다... 😱'가 화면에 그대로 읽힌다."
+        }
+      ]
+    },
+    "verify_cue-2_0_raw": {
+      "requestedModel": "gpt-5.4-mini",
+      "responseModel": "gpt-5.4-mini-2026-03-17",
+      "responseId": "resp_084b45a8dc2e0492016af32446c33c87d285a9f20513453f92",
+      "status": "completed",
+      "usage": {
+        "input_tokens": 4438,
+        "input_tokens_details": {
+          "cache_write_tokens": 0,
+          "cached_tokens": 0
+        },
+        "output_tokens": 71,
+        "output_tokens_details": {
+          "reasoning_tokens": 0
+        },
+        "total_tokens": 4509
+      },
+      "promptSha256": "97106482e700608c01db19a0e347e9f7b3412b32cd23eb8b0b63af11e381e055",
+      "rawOutputText": "{\"checks\":[{\"proposalId\":\"dino-cue-2-0\",\"verdict\":\"supported\",\"evidenceKo\":\"전경 하단을 넓게 차지하는 석재 계단이 여러 단으로 이어져 있고, 중앙 정렬된 진입 동선처럼 보입니다.\"}]}"
+    },
+    "verify_cue-2": {
+      "checks": [
+        {
+          "proposalId": "dino-cue-2-0",
+          "verdict": "supported",
+          "evidenceKo": "전경 하단을 넓게 차지하는 석재 계단이 여러 단으로 이어져 있고, 중앙 정렬된 진입 동선처럼 보입니다."
+        }
+      ]
+    },
+    "verify_cue-3_0_raw": {
+      "requestedModel": "gpt-5.4-mini",
+      "responseModel": "gpt-5.4-mini-2026-03-17",
+      "responseId": "resp_027759480dc4b4b5016af3244a18a887d2a3c2835d279aae04",
+      "status": "completed",
+      "usage": {
+        "input_tokens": 6436,
+        "input_tokens_details": {
+          "cache_write_tokens": 0,
+          "cached_tokens": 0
+        },
+        "output_tokens": 204,
+        "output_tokens_details": {
+          "reasoning_tokens": 0
+        },
+        "total_tokens": 6640
+      },
+      "promptSha256": "97106482e700608c01db19a0e347e9f7b3412b32cd23eb8b0b63af11e381e055",
+      "rawOutputText": "{\"checks\":[{\"proposalId\":\"dino-cue-3-0\",\"verdict\":\"supported\",\"evidenceKo\":\"좌측 가장자리에 잎이 무성한 활엽수 수관이 크게 차지해 건물 일부를 가립니다. 가지와 잎이 프레임을 둘러싸는 모습이 보입니다.\"},{\"proposalId\":\"dino-cue-3-1\",\"verdict\":\"supported\",\"evidenceKo\":\"우상단에 큰 활엽수 가지와 잎이 빽빽하게 겹쳐 있고, 뒤의 건물 상부를 부분적으로 가립니다.\"},{\"proposalId\":\"dino-cue-3-2\",\"verdict\":\"supported\",\"evidenceKo\":\"건물 자체를 포함한 영역이지만, 전면과 상단에 수목 가지와 잎이 함께 보여 건물을 둘러싸며 가리는 맥락을 확인할 수 있습니다.\"}]}"
+    },
+    "verify_cue-3": {
+      "checks": [
+        {
+          "proposalId": "dino-cue-3-0",
+          "verdict": "supported",
+          "evidenceKo": "좌측 가장자리에 잎이 무성한 활엽수 수관이 크게 차지해 건물 일부를 가립니다. 가지와 잎이 프레임을 둘러싸는 모습이 보입니다."
+        },
+        {
+          "proposalId": "dino-cue-3-1",
+          "verdict": "supported",
+          "evidenceKo": "우상단에 큰 활엽수 가지와 잎이 빽빽하게 겹쳐 있고, 뒤의 건물 상부를 부분적으로 가립니다."
+        },
+        {
+          "proposalId": "dino-cue-3-2",
+          "verdict": "supported",
+          "evidenceKo": "건물 자체를 포함한 영역이지만, 전면과 상단에 수목 가지와 잎이 함께 보여 건물을 둘러싸며 가리는 맥락을 확인할 수 있습니다."
+        }
+      ]
+    },
+    "verify_cue-4_0_raw": {
+      "requestedModel": "gpt-5.4-mini",
+      "responseModel": "gpt-5.4-mini-2026-03-17",
+      "responseId": "resp_08ef1438d6ae140e016af3244dee7c87d2accd98b6be23f2fd",
+      "status": "completed",
+      "usage": {
+        "input_tokens": 5618,
+        "input_tokens_details": {
+          "cache_write_tokens": 0,
+          "cached_tokens": 0
+        },
+        "output_tokens": 198,
+        "output_tokens_details": {
+          "reasoning_tokens": 0
+        },
+        "total_tokens": 5816
+      },
+      "promptSha256": "97106482e700608c01db19a0e347e9f7b3412b32cd23eb8b0b63af11e381e055",
+      "rawOutputText": "{\"checks\":[{\"proposalId\":\"dino-cue-4-0\",\"verdict\":\"supported\",\"evidenceKo\":\"상부 외벽에 세로 스트라이프의 유리/반투명 패널이 보이고, 수평 경계선과 패널 구성이 함께 확인됩니다.\"},{\"proposalId\":\"dino-cue-4-1\",\"verdict\":\"supported\",\"evidenceKo\":\"제안 박스 안에 건물 상부 외벽이 넓게 들어가 있으며, 세로 줄무늬의 반투명 유리 외장과 수평 패널 구성이 보입니다.\"},{\"proposalId\":\"dino-cue-4-2\",\"verdict\":\"supported\",\"evidenceKo\":\"상부 건물 외벽의 세로 스트라이프 유리 외장과 수평 분절이 뚜렷하게 보여 현대식 파사드로 판단됩니다.\"}]}"
+    },
+    "verify_cue-4": {
+      "checks": [
+        {
+          "proposalId": "dino-cue-4-0",
+          "verdict": "supported",
+          "evidenceKo": "상부 외벽에 세로 스트라이프의 유리/반투명 패널이 보이고, 수평 경계선과 패널 구성이 함께 확인됩니다."
+        },
+        {
+          "proposalId": "dino-cue-4-1",
+          "verdict": "supported",
+          "evidenceKo": "제안 박스 안에 건물 상부 외벽이 넓게 들어가 있으며, 세로 줄무늬의 반투명 유리 외장과 수평 패널 구성이 보입니다."
+        },
+        {
+          "proposalId": "dino-cue-4-2",
+          "verdict": "supported",
+          "evidenceKo": "상부 건물 외벽의 세로 스트라이프 유리 외장과 수평 분절이 뚜렷하게 보여 현대식 파사드로 판단됩니다."
+        }
+      ]
+    },
+    "verify_cue-5_0_raw": {
+      "requestedModel": "gpt-5.4-mini",
+      "responseModel": "gpt-5.4-mini-2026-03-17",
+      "responseId": "resp_08d67acc58884932016af32451c3d887d2809db1a2e3518233",
+      "status": "completed",
+      "usage": {
+        "input_tokens": 4861,
+        "input_tokens_details": {
+          "cache_write_tokens": 0,
+          "cached_tokens": 0
+        },
+        "output_tokens": 130,
+        "output_tokens_details": {
+          "reasoning_tokens": 0
+        },
+        "total_tokens": 4991
+      },
+      "promptSha256": "97106482e700608c01db19a0e347e9f7b3412b32cd23eb8b0b63af11e381e055",
+      "rawOutputText": "{\"checks\":[{\"proposalId\":\"dino-cue-5-0\",\"verdict\":\"partial\",\"evidenceKo\":\"계단은 잘 보이지만 차양/출입구가 박스 대부분에서 잘려 있어 전체 진입부 구성이 충분히 확인되지 않습니다.\"},{\"proposalId\":\"dino-cue-5-1\",\"verdict\":\"supported\",\"evidenceKo\":\"계단 상단 아래에 깊게 들어간 검은 차양이 보이고, 그 아래 유리 출입구/진입 공간이 형성되어 있어 설명과 일치합니다.\"}]}"
+    },
+    "verify_cue-5": {
+      "checks": [
+        {
+          "proposalId": "dino-cue-5-0",
+          "verdict": "partial",
+          "evidenceKo": "계단은 잘 보이지만 차양/출입구가 박스 대부분에서 잘려 있어 전체 진입부 구성이 충분히 확인되지 않습니다."
+        },
+        {
+          "proposalId": "dino-cue-5-1",
+          "verdict": "supported",
+          "evidenceKo": "계단 상단 아래에 깊게 들어간 검은 차양이 보이고, 그 아래 유리 출입구/진입 공간이 형성되어 있어 설명과 일치합니다."
+        }
+      ]
+    },
+    "verify_cue-6_0_raw": {
+      "requestedModel": "gpt-5.4-mini",
+      "responseModel": "gpt-5.4-mini-2026-03-17",
+      "responseId": "resp_05e020b3a963631a016af32454db9087d280911f4f1ba836a1",
+      "status": "completed",
+      "usage": {
+        "input_tokens": 4742,
+        "input_tokens_details": {
+          "cache_write_tokens": 0,
+          "cached_tokens": 0
+        },
+        "output_tokens": 124,
+        "output_tokens_details": {
+          "reasoning_tokens": 0
+        },
+        "total_tokens": 4866
+      },
+      "promptSha256": "97106482e700608c01db19a0e347e9f7b3412b32cd23eb8b0b63af11e381e055",
+      "rawOutputText": "{\"checks\":[{\"proposalId\":\"dino-cue-6-0\",\"verdict\":\"supported\",\"evidenceKo\":\"좌하단 계단 가장자리에 금속 난간이 길게 이어지고, 손잡이 일부에 파란색 감김이 보입니다.\"},{\"proposalId\":\"dino-cue-6-1\",\"verdict\":\"partial\",\"evidenceKo\":\"계단과 금속 난간은 보이지만, 박스가 넓어 난간 전체와 파란 감김 부분이 충분히 한정되지 않습니다.\"}]}"
+    },
+    "verify_cue-6": {
+      "checks": [
+        {
+          "proposalId": "dino-cue-6-0",
+          "verdict": "supported",
+          "evidenceKo": "좌하단 계단 가장자리에 금속 난간이 길게 이어지고, 손잡이 일부에 파란색 감김이 보입니다."
+        },
+        {
+          "proposalId": "dino-cue-6-1",
+          "verdict": "partial",
+          "evidenceKo": "계단과 금속 난간은 보이지만, 박스가 넓어 난간 전체와 파란 감김 부분이 충분히 한정되지 않습니다."
+        }
+      ]
+    },
+    "verify_cue-7_0_raw": {
+      "requestedModel": "gpt-5.4-mini",
+      "responseModel": "gpt-5.4-mini-2026-03-17",
+      "responseId": "resp_0ff9e7050a887ed2016af3245804c087d2b2db206c844e09bf",
+      "status": "completed",
+      "usage": {
+        "input_tokens": 3635,
+        "input_tokens_details": {
+          "cache_write_tokens": 0,
+          "cached_tokens": 0
+        },
+        "output_tokens": 75,
+        "output_tokens_details": {
+          "reasoning_tokens": 0
+        },
+        "total_tokens": 3710
+      },
+      "promptSha256": "97106482e700608c01db19a0e347e9f7b3412b32cd23eb8b0b63af11e381e055",
+      "rawOutputText": "{\"checks\":[{\"proposalId\":\"dino-cue-7-0\",\"verdict\":\"supported\",\"evidenceKo\":\"입구 유리 뒤 실내에 길게 이어진 형광등/선형 조명이 실제로 보입니다. 반사만이 아니라 내부 천장 조명도 함께 확인됩니다.\"}]}"
+    },
+    "verify_cue-7": {
+      "checks": [
+        {
+          "proposalId": "dino-cue-7-0",
+          "verdict": "supported",
+          "evidenceKo": "입구 유리 뒤 실내에 길게 이어진 형광등/선형 조명이 실제로 보입니다. 반사만이 아니라 내부 천장 조명도 함께 확인됩니다."
+        }
+      ]
+    }
+  },
+  "cues": [
+    {
+      "kind": "text",
+      "category": "building sign",
+      "nameKo": "건물 외부 문자 간판",
+      "observationKo": "검은 외벽 상단에 흰색 대문자 일부가 보이며 'HUNG-ANG UN'까지 판독된다.",
+      "geographicRelevanceKo": "대학·기관명처럼 보이는 명칭 조각으로, 공개 사진의 동일 건물 외관과 대조해 캠퍼스나 기관 위치 후보를 좁히는 데 도움될 수 있다.",
+      "regionDescriptionKo": "건물 전면 캐노피 가장자리의 문자 배치",
+      "scope": "object",
+      "visibleText": "HUNG-ANG UN",
+      "surface": "fixed",
+      "visibility": "partial",
+      "detectorQueryEn": "white uppercase letters on the black building facade",
+      "limitationsKo": "문자 일부만 보이고 앞부분과 뒷부분이 잘려 있어 전체 명칭은 확정할 수 없다.",
+      "id": "cue-0",
+      "source": "geominer_adaptation",
+      "sourceIndex": 0,
+      "disposition": "candidate",
+      "evidenceGroupIds": [
+        "ocr-cue-0",
+        "ocr-cue-3",
+        "ocr-cue-5",
+        "ocr-cue-7"
+      ],
+      "localization": {
+        "status": "supported",
+        "proposals": [
+          {
+            "id": "link-0-0",
+            "source": "paddleocr",
+            "bbox": [
+              0.184,
+              0.361,
+              0.7368888888888889,
+              0.4605
+            ],
+            "polygons": [
+              [
+                [
+                  0.184,
+                  0.438
+                ],
+                [
+                  0.7271111111111112,
+                  0.361
+                ],
+                [
+                  0.7368888888888889,
+                  0.3835
+                ],
+                [
+                  0.19466666666666665,
+                  0.4605
+                ]
+              ]
+            ],
+            "lineIds": [
+              "ocr-0"
+            ],
+            "verdict": "supported",
+            "evidenceKo": "검은 캐노피에 흰색 대문자 간판이 보이고 'HUNG-ANG UN' 구간이 실제로 확인됩니다.",
+            "verificationSource": null,
+            "score": null,
+            "associationStatus": "model_proposed"
+          },
+          {
+            "id": "link-0-3",
+            "source": "paddleocr",
+            "bbox": [
+              0.18577777777777776,
+              0.364,
+              0.728,
+              0.4585
+            ],
+            "polygons": [
+              [
+                [
+                  0.18577777777777776,
+                  0.438
+                ],
+                [
+                  0.7191111111111111,
+                  0.364
+                ],
+                [
+                  0.728,
+                  0.3845
+                ],
+                [
+                  0.19466666666666665,
+                  0.4585
+                ]
+              ]
+            ],
+            "lineIds": [
+              "ocr-3"
+            ],
+            "verdict": "supported",
+            "evidenceKo": "해당 박스 안에 검은 외벽 위 흰색 대문자 간판이 있으며 'HUNG-ANG UN' 부분이 보입니다.",
+            "verificationSource": null,
+            "score": null,
+            "associationStatus": "model_proposed"
+          },
+          {
+            "id": "link-0-5",
+            "source": "paddleocr",
+            "bbox": [
+              0.19111111111111112,
+              0.366,
+              0.7182222222222222,
+              0.4575
+            ],
+            "polygons": [
+              [
+                [
+                  0.19111111111111112,
+                  0.437
+                ],
+                [
+                  0.7093333333333334,
+                  0.366
+                ],
+                [
+                  0.7182222222222222,
+                  0.3865
+                ],
+                [
+                  0.2,
+                  0.4575
+                ]
+              ]
+            ],
+            "lineIds": [
+              "ocr-5"
+            ],
+            "verdict": "supported",
+            "evidenceKo": "검은 전면부에 흰색 대문자 문자들이 연속으로 보이고 'HUNG-ANG UN' 판독이 가능합니다.",
+            "verificationSource": null,
+            "score": null,
+            "associationStatus": "model_proposed"
+          },
+          {
+            "id": "link-0-7",
+            "source": "paddleocr",
+            "bbox": [
+              0.18577777777777776,
+              0.4095,
+              0.456,
+              0.4595
+            ],
+            "polygons": [
+              [
+                [
+                  0.18577777777777776,
+                  0.4355
+                ],
+                [
+                  0.4471111111111111,
+                  0.4095
+                ],
+                [
+                  0.456,
+                  0.4285
+                ],
+                [
+                  0.19466666666666665,
+                  0.4595
+                ]
+              ]
+            ],
+            "lineIds": [
+              "ocr-7"
+            ],
+            "verdict": "partial",
+            "evidenceKo": "박스 안에는 흰색 문자 일부가 보이나 전체 구간이 잘려 있어 'HUNG-ANG UN' 전체 확인은 어렵습니다.",
+            "verificationSource": null,
+            "score": null,
+            "associationStatus": "model_proposed"
+          },
+          {
+            "id": "dino-cue-0-0",
+            "bbox": [
+              0.189469482421875,
+              0.37561846923828124,
+              0.6447561848958333,
+              0.45599984741210936
+            ],
+            "score": 0.4165177047252655,
+            "label": "white uppercase letters",
+            "source": "grounding_dino",
+            "verdict": "supported",
+            "evidenceKo": "해당 영역에 검은 외벽의 흰색 대문자 간판이 실제로 포함되어 있습니다."
+          }
+        ],
+        "mask": null
+      },
+      "geoSpecificityVerified": false
+    },
+    {
+      "kind": "text",
+      "category": "overlay caption",
+      "nameKo": "사진 편집 문구",
+      "observationKo": "오른쪽 중간에 '오늘 5시간 공부한다... 😱'라는 한글 오버레이 문구가 보인다.",
+      "geographicRelevanceKo": "촬영자 메모성 문구로 보이며 위치 정보는 아니지만, 한국어 사용 환경을 시사하는 보조 단서가 될 수 있다.",
+      "regionDescriptionKo": "오른쪽 중앙의 검은 천장 아래 영역 위 오버레이",
+      "scope": "scene",
+      "visibleText": "오늘 5시간 공부한다... 😱",
+      "surface": "depicted",
+      "visibility": "clear",
+      "detectorQueryEn": null,
+      "limitationsKo": "장소명이나 고유 지명은 포함되지 않는다.",
+      "id": "cue-1",
+      "source": "geominer_adaptation",
+      "sourceIndex": 1,
+      "disposition": "candidate",
+      "evidenceGroupIds": [
+        "ocr-cue-1"
+      ],
+      "localization": {
+        "status": "supported",
+        "proposals": [
+          {
+            "id": "link-1-1",
+            "source": "paddleocr",
+            "bbox": [
+              0.6373333333333333,
+              0.4905,
+              0.8497777777777777,
+              0.5085
+            ],
+            "polygons": [
+              [
+                [
+                  0.6373333333333333,
+                  0.4915
+                ],
+                [
+                  0.8497777777777777,
+                  0.4905
+                ],
+                [
+                  0.8497777777777777,
+                  0.5075
+                ],
+                [
+                  0.6373333333333333,
+                  0.5085
+                ]
+              ]
+            ],
+            "lineIds": [
+              "ocr-1"
+            ],
+            "verdict": "supported",
+            "evidenceKo": "오른쪽 중간 검은 천장 아래에 오버레이 문구가 보이고, '오늘 5시간 공부한다... 😱'가 화면에 그대로 읽힌다.",
+            "verificationSource": null,
+            "score": null,
+            "associationStatus": "model_proposed"
+          }
+        ],
+        "mask": null
+      },
+      "geoSpecificityVerified": false
+    },
+    {
+      "kind": "non_text",
+      "category": "broad stairway",
+      "nameKo": "넓은 석재 계단",
+      "observationKo": "전경을 대부분 차지하는 넓고 긴 석재 계단이 여러 단으로 이어지며 중앙 정렬된 진입 동선을 만든다.",
+      "geographicRelevanceKo": "대학, 공공시설, 지형이 있는 캠퍼스 입구 등에서 흔한 접근 구조로, 주변 건물군의 성격과 입지 비교에 도움이 될 수 있다.",
+      "regionDescriptionKo": "사진 하단 전체의 계단 구간",
+      "scope": "scene",
+      "visibleText": null,
+      "surface": "fixed",
+      "visibility": "clear",
+      "detectorQueryEn": "wide stone steps in the foreground",
+      "limitationsKo": "일반적 구조라 단독으로는 지역 식별력이 낮다.",
+      "id": "cue-2",
+      "source": "geominer_adaptation",
+      "sourceIndex": 2,
+      "disposition": "candidate",
+      "evidenceGroupIds": [],
+      "localization": {
+        "status": "supported",
+        "proposals": [
+          {
+            "id": "dino-cue-2-0",
+            "bbox": [
+              0.0039905607435438365,
+              0.611704833984375,
+              0.9963970269097222,
+              0.9963275146484375
+            ],
+            "score": 0.8565294742584229,
+            "label": "wide stone steps",
+            "source": "grounding_dino",
+            "verdict": "supported",
+            "evidenceKo": "전경 하단을 넓게 차지하는 석재 계단이 여러 단으로 이어져 있고, 중앙 정렬된 진입 동선처럼 보입니다."
+          }
+        ],
+        "mask": null
+      },
+      "geoSpecificityVerified": false
+    },
+    {
+      "kind": "non_text",
+      "category": "tree canopy",
+      "nameKo": "울창한 수목 수관",
+      "observationKo": "좌우와 상단에 큰 활엽수 가지와 잎이 프레임을 둘러싸며 건물을 부분적으로 가린다.",
+      "geographicRelevanceKo": "온대 기후의 가로수/캠퍼스 조경 느낌을 주며, 계절감과 조경 양식을 비교하는 단서가 될 수 있다.",
+      "regionDescriptionKo": "사진 좌상단, 우상단 및 좌측 가장자리의 수목 구간",
+      "scope": "scene",
+      "visibleText": null,
+      "surface": "fixed",
+      "visibility": "clear",
+      "detectorQueryEn": "dense deciduous tree canopy framing the building",
+      "limitationsKo": "종 식별은 불확실하며, 일반적인 도시 수목일 수 있다.",
+      "id": "cue-3",
+      "source": "geominer_adaptation",
+      "sourceIndex": 3,
+      "disposition": "candidate",
+      "evidenceGroupIds": [],
+      "localization": {
+        "status": "supported",
+        "proposals": [
+          {
+            "id": "dino-cue-3-0",
+            "bbox": [
+              0.003264948738945855,
+              0.004399448394775391,
+              0.4485754937065972,
+              0.6327156982421875
+            ],
+            "score": 0.36655017733573914,
+            "label": "dense deciduous tree canopy",
+            "source": "grounding_dino",
+            "verdict": "supported",
+            "evidenceKo": "좌측 가장자리에 잎이 무성한 활엽수 수관이 크게 차지해 건물 일부를 가립니다. 가지와 잎이 프레임을 둘러싸는 모습이 보입니다."
+          },
+          {
+            "id": "dino-cue-3-1",
+            "bbox": [
+              0.4423860405815972,
+              0.0016610771417617798,
+              0.9967765842013889,
+              0.4737922058105469
+            ],
+            "score": 0.365168035030365,
+            "label": "dense deciduous tree canopy",
+            "source": "grounding_dino",
+            "verdict": "supported",
+            "evidenceKo": "우상단에 큰 활엽수 가지와 잎이 빽빽하게 겹쳐 있고, 뒤의 건물 상부를 부분적으로 가립니다."
+          },
+          {
+            "id": "dino-cue-3-2",
+            "bbox": [
+              0.1003971693250868,
+              0.12054389953613281,
+              0.9939249131944444,
+              0.6406070556640625
+            ],
+            "score": 0.4352229833602905,
+            "label": "building",
+            "source": "grounding_dino",
+            "verdict": "supported",
+            "evidenceKo": "건물 자체를 포함한 영역이지만, 전면과 상단에 수목 가지와 잎이 함께 보여 건물을 둘러싸며 가리는 맥락을 확인할 수 있습니다."
+          }
+        ],
+        "mask": null
+      },
+      "geoSpecificityVerified": false
+    },
+    {
+      "kind": "non_text",
+      "category": "modern facade",
+      "nameKo": "현대식 외벽 파사드",
+      "observationKo": "상부 건물은 세로 스트라이프 형태의 반투명/유리 외장과 수평 패널이 결합된 현대식 외관이다.",
+      "geographicRelevanceKo": "신축 또는 최근 리모델링된 교육·업무 시설의 건축 양식 비교에 유용할 수 있다.",
+      "regionDescriptionKo": "사진 중앙 상부의 건물 외벽",
+      "scope": "object",
+      "visibleText": null,
+      "surface": "fixed",
+      "visibility": "clear",
+      "detectorQueryEn": "modern glass-and-panel facade",
+      "limitationsKo": "반사와 채광 때문에 재료 구분이 일부 불확실하다.",
+      "id": "cue-4",
+      "source": "geominer_adaptation",
+      "sourceIndex": 4,
+      "disposition": "candidate",
+      "evidenceGroupIds": [],
+      "localization": {
+        "status": "supported",
+        "proposals": [
+          {
+            "id": "dino-cue-4-0",
+            "bbox": [
+              0.3271060112847222,
+              0.11981989288330078,
+              0.7696732313368055,
+              0.3917473449707031
+            ],
+            "score": 0.31621092557907104,
+            "label": "modern glass",
+            "source": "grounding_dino",
+            "verdict": "supported",
+            "evidenceKo": "상부 외벽에 세로 스트라이프의 유리/반투명 패널이 보이고, 수평 경계선과 패널 구성이 함께 확인됩니다."
+          },
+          {
+            "id": "dino-cue-4-1",
+            "bbox": [
+              0.1212821044921875,
+              0.11647779083251954,
+              0.9953041449652777,
+              0.6471387939453125
+            ],
+            "score": 0.3979916572570801,
+            "label": "modern glass - and - panel facade",
+            "source": "grounding_dino",
+            "verdict": "supported",
+            "evidenceKo": "제안 박스 안에 건물 상부 외벽이 넓게 들어가 있으며, 세로 줄무늬의 반투명 유리 외장과 수평 패널 구성이 보입니다."
+          },
+          {
+            "id": "dino-cue-4-2",
+            "bbox": [
+              0.32618910047743055,
+              0.11994160461425782,
+              0.7691760525173611,
+              0.39237744140625
+            ],
+            "score": 0.43163585662841797,
+            "label": "modern glass - and - panel facade",
+            "source": "grounding_dino",
+            "verdict": "supported",
+            "evidenceKo": "상부 건물 외벽의 세로 스트라이프 유리 외장과 수평 분절이 뚜렷하게 보여 현대식 파사드로 판단됩니다."
+          }
+        ],
+        "mask": null
+      },
+      "geoSpecificityVerified": false
+    },
+    {
+      "kind": "non_text",
+      "category": "covered entrance",
+      "nameKo": "지붕이 덮인 출입구",
+      "observationKo": "계단 상단에 깊은 처마 같은 검은 차양이 있고 그 아래 출입구가 형성되어 있다.",
+      "geographicRelevanceKo": "지형 단차가 있는 캠퍼스/기관 건물에서 흔한 진입부 구성으로, 건물 배치 비교에 도움이 된다.",
+      "regionDescriptionKo": "계단 상단 중앙의 차양 및 출입구",
+      "scope": "object",
+      "visibleText": null,
+      "surface": "fixed",
+      "visibility": "clear",
+      "detectorQueryEn": "covered building entrance above the stairs",
+      "limitationsKo": "입구의 정확한 기능은 외관만으로는 확정할 수 없다.",
+      "id": "cue-5",
+      "source": "geominer_adaptation",
+      "sourceIndex": 5,
+      "disposition": "candidate",
+      "evidenceGroupIds": [],
+      "localization": {
+        "status": "supported",
+        "proposals": [
+          {
+            "id": "dino-cue-5-0",
+            "bbox": [
+              0.0033543705410427516,
+              0.61124560546875,
+              0.9968701171875,
+              0.9973175659179687
+            ],
+            "score": 0.44393762946128845,
+            "label": "stairs",
+            "source": "grounding_dino",
+            "verdict": "partial",
+            "evidenceKo": "계단은 잘 보이지만 차양/출입구가 박스 대부분에서 잘려 있어 전체 진입부 구성이 충분히 확인되지 않습니다."
+          },
+          {
+            "id": "dino-cue-5-1",
+            "bbox": [
+              0.4718474392361111,
+              0.44042144775390624,
+              0.9961411675347223,
+              0.6371448974609375
+            ],
+            "score": 0.31673797965049744,
+            "label": "covered building entrance",
+            "source": "grounding_dino",
+            "verdict": "supported",
+            "evidenceKo": "계단 상단 아래에 깊게 들어간 검은 차양이 보이고, 그 아래 유리 출입구/진입 공간이 형성되어 있어 설명과 일치합니다."
+          }
+        ],
+        "mask": null
+      },
+      "geoSpecificityVerified": false
+    },
+    {
+      "kind": "non_text",
+      "category": "handrail",
+      "nameKo": "계단 난간",
+      "observationKo": "왼쪽 계단 가장자리에 금속 난간이 길게 이어지고, 일부는 파란색 테이프/보호재처럼 보이는 것이 감겨 있다.",
+      "geographicRelevanceKo": "보행 동선의 유지보수 상태나 임시 보강 여부를 보여 주어 시설 관리 수준 비교에 참고될 수 있다.",
+      "regionDescriptionKo": "사진 좌하단 계단 옆 난간",
+      "scope": "object",
+      "visibleText": null,
+      "surface": "fixed",
+      "visibility": "partial",
+      "detectorQueryEn": "metal stair handrail with blue wrapping",
+      "limitationsKo": "파란 부분의 정확한 용도는 불명확하다.",
+      "id": "cue-6",
+      "source": "geominer_adaptation",
+      "sourceIndex": 6,
+      "disposition": "candidate",
+      "evidenceGroupIds": [],
+      "localization": {
+        "status": "supported",
+        "proposals": [
+          {
+            "id": "dino-cue-6-0",
+            "bbox": [
+              0.0036325306362575954,
+              0.5945880126953125,
+              0.35915511067708333,
+              0.7591233520507813
+            ],
+            "score": 0.4661778211593628,
+            "label": "metal stair handrail",
+            "source": "grounding_dino",
+            "verdict": "supported",
+            "evidenceKo": "좌하단 계단 가장자리에 금속 난간이 길게 이어지고, 손잡이 일부에 파란색 감김이 보입니다."
+          },
+          {
+            "id": "dino-cue-6-1",
+            "bbox": [
+              0.004453331417507596,
+              0.6056578369140625,
+              0.9963702256944444,
+              0.9967111206054687
+            ],
+            "score": 0.35971373319625854,
+            "label": "metal stair handrail",
+            "source": "grounding_dino",
+            "verdict": "partial",
+            "evidenceKo": "계단과 금속 난간은 보이지만, 박스가 넓어 난간 전체와 파란 감김 부분이 충분히 한정되지 않습니다."
+          }
+        ],
+        "mask": null
+      },
+      "geoSpecificityVerified": false
+    },
+    {
+      "kind": "non_text",
+      "category": "interior lights",
+      "nameKo": "실내 조명 반사",
+      "observationKo": "입구 아래 유리면과 내부 공간에서 길게 이어진 형광등/선형 조명이 보인다.",
+      "geographicRelevanceKo": "실내 공간의 사용 유형과 운영 중인 시설 여부를 간접적으로 보여 줄 수 있다.",
+      "regionDescriptionKo": "입구 하부 내부의 유리 및 천장 영역",
+      "scope": "scene",
+      "visibleText": null,
+      "surface": "reflection",
+      "visibility": "partial",
+      "detectorQueryEn": "linear fluorescent lights inside the entrance",
+      "limitationsKo": "유리 반사와 실내 조명이 섞여 보여 정확한 실내 구조는 불확실하다.",
+      "id": "cue-7",
+      "source": "geominer_adaptation",
+      "sourceIndex": 7,
+      "disposition": "candidate",
+      "evidenceGroupIds": [],
+      "localization": {
+        "status": "supported",
+        "proposals": [
+          {
+            "id": "dino-cue-7-0",
+            "bbox": [
+              0.4806259765625,
+              0.4454817810058594,
+              0.9962746310763889,
+              0.636113037109375
+            ],
+            "score": 0.42461705207824707,
+            "label": "entrance",
+            "source": "grounding_dino",
+            "verdict": "supported",
+            "evidenceKo": "입구 유리 뒤 실내에 길게 이어진 형광등/선형 조명이 실제로 보입니다. 반사만이 아니라 내부 천장 조명도 함께 확인됩니다."
+          }
+        ],
+        "mask": null
+      },
+      "geoSpecificityVerified": false
+    },
+    {
+      "id": "ocr-cue-0",
+      "kind": "text",
+      "category": "building sign",
+      "nameKo": "건물 외부 문자 간판",
+      "observationKo": "검은 외벽에 흰색 대문자 일부가 보이며 대학/기관명처럼 보이는 표기가 확인된다.",
+      "geographicRelevanceKo": "기관명 표식일 가능성이 있어 동일 건물이나 캠퍼스 식별에 보조 단서가 될 수 있다.",
+      "regionDescriptionKo": "건물 캐노피 전면의 흰색 문자",
+      "scope": "object",
+      "surface": "fixed",
+      "visibility": "partial",
+      "visibleText": "HUNG-ANG UN",
+      "rawReadings": [
+        {
+          "id": "ocr-0",
+          "text": "EHUNG-ANG UNLT"
+        }
+      ],
+      "correctedText": "HUNG-ANG UN",
+      "detectorQueryEn": null,
+      "limitationsKo": "좌우가 잘려 전체 명칭을 확정할 수 없고, OCR 읽기도 일부만 지지된다.",
+      "source": "ocr_review",
+      "disposition": "candidate",
+      "evidenceGroupIds": [
+        "ocr-cue-0"
+      ],
+      "geoSpecificityVerified": false,
+      "localization": {
+        "status": "partial",
+        "proposals": [
+          {
+            "id": "ocr-region-0",
+            "source": "paddleocr",
+            "bbox": [
+              0.184,
+              0.361,
+              0.7368888888888889,
+              0.4605
+            ],
+            "polygons": [
+              [
+                [
+                  0.184,
+                  0.438
+                ],
+                [
+                  0.7271111111111112,
+                  0.361
+                ],
+                [
+                  0.7368888888888889,
+                  0.3835
+                ],
+                [
+                  0.19466666666666665,
+                  0.4605
+                ]
+              ]
+            ],
+            "lineIds": [
+              "ocr-0"
+            ],
+            "verdict": "partial",
+            "evidenceKo": "검은 외벽에 흰색 대문자 일부가 보이며 대학/기관명처럼 보이는 표기가 확인된다.",
+            "verificationSource": "ocr_crop_review",
+            "score": null
+          }
+        ],
+        "mask": null
+      }
+    },
+    {
+      "id": "ocr-cue-1",
+      "kind": "text",
+      "category": "overlay caption",
+      "nameKo": "사진 오버레이 문구",
+      "observationKo": "한글 문장이 사진 위에 덧씌워져 있다.",
+      "geographicRelevanceKo": "촬영자 메모성 문구로 위치 식별에 직접적 도움이 되지 않는다.",
+      "regionDescriptionKo": "오른쪽 중앙의 검은 천장 아래 오버레이 텍스트",
+      "scope": "object",
+      "surface": "depicted",
+      "visibility": "clear",
+      "visibleText": "오늘 5시간 공부한다... 😱",
+      "rawReadings": [
+        {
+          "id": "ocr-1",
+          "text": "오늘5시간 공부한다."
+        }
+      ],
+      "correctedText": "오늘 5시간 공부한다... 😱",
+      "detectorQueryEn": null,
+      "limitationsKo": "편집된 캡션으로 보이며 장소명, 주소, 지명 정보가 없다.",
+      "source": "ocr_review",
+      "disposition": "irrelevant",
+      "evidenceGroupIds": [
+        "ocr-cue-1"
+      ],
+      "geoSpecificityVerified": false,
+      "localization": {
+        "status": "not_assessed",
+        "proposals": [
+          {
+            "id": "ocr-region-1",
+            "source": "paddleocr",
+            "bbox": [
+              0.6373333333333333,
+              0.4905,
+              0.8497777777777777,
+              0.5085
+            ],
+            "polygons": [
+              [
+                [
+                  0.6373333333333333,
+                  0.4915
+                ],
+                [
+                  0.8497777777777777,
+                  0.4905
+                ],
+                [
+                  0.8497777777777777,
+                  0.5075
+                ],
+                [
+                  0.6373333333333333,
+                  0.5085
+                ]
+              ]
+            ],
+            "lineIds": [
+              "ocr-1"
+            ],
+            "verdict": "not_assessed",
+            "evidenceKo": "한글 문장이 사진 위에 덧씌워져 있다.",
+            "verificationSource": "ocr_crop_review",
+            "score": null
+          }
+        ],
+        "mask": null
+      }
+    },
+    {
+      "id": "ocr-cue-2",
+      "kind": "text",
+      "category": "unreadable reflection/artifact",
+      "nameKo": "작은 비식별 문자 조각",
+      "observationKo": "작은 붉은 박스 안에 짧은 숫자/문자처럼 보이는 요소가 있으나 의미를 판독하기 어렵다.",
+      "geographicRelevanceKo": "지리적 단서로 해석할 만한 고유명사나 위치 표시는 보이지 않는다.",
+      "regionDescriptionKo": "실내 배경의 작은 반사/표식처럼 보이는 영역",
+      "scope": "object",
+      "surface": "unknown",
+      "visibility": "uncertain",
+      "visibleText": "2R3",
+      "rawReadings": [
+        {
+          "id": "ocr-2",
+          "text": "2R3"
+        }
+      ],
+      "correctedText": null,
+      "detectorQueryEn": null,
+      "limitationsKo": "너무 작고 흐려서 실제 문자 여부와 읽기를 확인할 수 없다.",
+      "source": "ocr_review",
+      "disposition": "irrelevant",
+      "evidenceGroupIds": [
+        "ocr-cue-2"
+      ],
+      "geoSpecificityVerified": false,
+      "localization": {
+        "status": "not_assessed",
+        "proposals": [
+          {
+            "id": "ocr-region-2",
+            "source": "paddleocr",
+            "bbox": [
+              0.9617777777777777,
+              0.5835,
+              0.9902222222222222,
+              0.589
+            ],
+            "polygons": [
+              [
+                [
+                  0.9617777777777777,
+                  0.5835
+                ],
+                [
+                  0.9902222222222222,
+                  0.5835
+                ],
+                [
+                  0.9902222222222222,
+                  0.589
+                ],
+                [
+                  0.9617777777777777,
+                  0.589
+                ]
+              ]
+            ],
+            "lineIds": [
+              "ocr-2"
+            ],
+            "verdict": "not_assessed",
+            "evidenceKo": "작은 붉은 박스 안에 짧은 숫자/문자처럼 보이는 요소가 있으나 의미를 판독하기 어렵다.",
+            "verificationSource": "ocr_crop_review",
+            "score": null
+          }
+        ],
+        "mask": null
+      }
+    },
+    {
+      "id": "ocr-cue-3",
+      "kind": "text",
+      "category": "building sign",
+      "nameKo": "건물 외부 문자 간판",
+      "observationKo": "OCR가 가리키는 검은 외벽의 흰색 문자 일부가 보이며 기관명 표식으로 보인다.",
+      "geographicRelevanceKo": "대학 또는 기관명 일부로 보여 동일 장소 식별에 보조 단서가 될 수 있다.",
+      "regionDescriptionKo": "건물 전면 캐노피의 문자 배열",
+      "scope": "object",
+      "surface": "fixed",
+      "visibility": "partial",
+      "visibleText": "HUNG-ANG UN",
+      "rawReadings": [
+        {
+          "id": "ocr-3",
+          "text": "LHUNG-ANG UNEIT"
+        }
+      ],
+      "correctedText": "HUNG-ANG UN",
+      "detectorQueryEn": null,
+      "limitationsKo": "일부 글자만 보여 전체 이름을 확정할 수 없다.",
+      "source": "ocr_review",
+      "disposition": "candidate",
+      "evidenceGroupIds": [
+        "ocr-cue-3"
+      ],
+      "geoSpecificityVerified": false,
+      "localization": {
+        "status": "partial",
+        "proposals": [
+          {
+            "id": "ocr-region-3",
+            "source": "paddleocr",
+            "bbox": [
+              0.18577777777777776,
+              0.364,
+              0.728,
+              0.4585
+            ],
+            "polygons": [
+              [
+                [
+                  0.18577777777777776,
+                  0.438
+                ],
+                [
+                  0.7191111111111111,
+                  0.364
+                ],
+                [
+                  0.728,
+                  0.3845
+                ],
+                [
+                  0.19466666666666665,
+                  0.4585
+                ]
+              ]
+            ],
+            "lineIds": [
+              "ocr-3"
+            ],
+            "verdict": "partial",
+            "evidenceKo": "OCR가 가리키는 검은 외벽의 흰색 문자 일부가 보이며 기관명 표식으로 보인다.",
+            "verificationSource": "ocr_crop_review",
+            "score": null
+          }
+        ],
+        "mask": null
+      }
+    },
+    {
+      "id": "ocr-cue-4",
+      "kind": "text",
+      "category": "foliage artifact",
+      "nameKo": "나뭇잎 사이의 작은 밝은 점",
+      "observationKo": "수목 사이의 작은 밝은 부분으로 문자나 표식으로 보이지 않는다.",
+      "geographicRelevanceKo": "지리적 단서가 되는 텍스트가 아니다.",
+      "regionDescriptionKo": "나뭇잎 중앙의 작은 밝은 영역",
+      "scope": "object",
+      "surface": "unknown",
+      "visibility": "uncertain",
+      "visibleText": "5",
+      "rawReadings": [
+        {
+          "id": "ocr-4",
+          "text": "5"
+        }
+      ],
+      "correctedText": null,
+      "detectorQueryEn": null,
+      "limitationsKo": "문자 형태가 아니며 OCR 결과와 실제 시각 요소가 맞지 않는다.",
+      "source": "ocr_review",
+      "disposition": "irrelevant",
+      "evidenceGroupIds": [
+        "ocr-cue-4"
+      ],
+      "geoSpecificityVerified": false,
+      "localization": {
+        "status": "not_assessed",
+        "proposals": [
+          {
+            "id": "ocr-region-4",
+            "source": "paddleocr",
+            "bbox": [
+              0.10933333333333334,
+              0.2405,
+              0.1288888888888889,
+              0.25
+            ],
+            "polygons": [
+              [
+                [
+                  0.11555555555555555,
+                  0.2405
+                ],
+                [
+                  0.1288888888888889,
+                  0.2455
+                ],
+                [
+                  0.12266666666666666,
+                  0.25
+                ],
+                [
+                  0.10933333333333334,
+                  0.245
+                ]
+              ]
+            ],
+            "lineIds": [
+              "ocr-4"
+            ],
+            "verdict": "not_assessed",
+            "evidenceKo": "수목 사이의 작은 밝은 부분으로 문자나 표식으로 보이지 않는다.",
+            "verificationSource": "ocr_crop_review",
+            "score": null
+          }
+        ],
+        "mask": null
+      }
+    },
+    {
+      "id": "ocr-cue-5",
+      "kind": "text",
+      "category": "building sign",
+      "nameKo": "건물 외부 문자 간판",
+      "observationKo": "건물 캐노피의 흰색 대문자 일부가 보여 기관명 표식으로 판독 가능하다.",
+      "geographicRelevanceKo": "건물명 일부로 보이며 캠퍼스/기관 위치 추정에 보조 단서가 될 수 있다.",
+      "regionDescriptionKo": "검은 캐노피 전면의 문자",
+      "scope": "object",
+      "surface": "fixed",
+      "visibility": "partial",
+      "visibleText": "HUNG-ANG UN",
+      "rawReadings": [
+        {
+          "id": "ocr-5",
+          "text": "LHUNG-ANG UNENT"
+        }
+      ],
+      "correctedText": "HUNG-ANG UN",
+      "detectorQueryEn": null,
+      "limitationsKo": "전체 표기가 잘려 있고 OCR도 완전하지 않다.",
+      "source": "ocr_review",
+      "disposition": "candidate",
+      "evidenceGroupIds": [
+        "ocr-cue-5"
+      ],
+      "geoSpecificityVerified": false,
+      "localization": {
+        "status": "partial",
+        "proposals": [
+          {
+            "id": "ocr-region-5",
+            "source": "paddleocr",
+            "bbox": [
+              0.19111111111111112,
+              0.366,
+              0.7182222222222222,
+              0.4575
+            ],
+            "polygons": [
+              [
+                [
+                  0.19111111111111112,
+                  0.437
+                ],
+                [
+                  0.7093333333333334,
+                  0.366
+                ],
+                [
+                  0.7182222222222222,
+                  0.3865
+                ],
+                [
+                  0.2,
+                  0.4575
+                ]
+              ]
+            ],
+            "lineIds": [
+              "ocr-5"
+            ],
+            "verdict": "partial",
+            "evidenceKo": "건물 캐노피의 흰색 대문자 일부가 보여 기관명 표식으로 판독 가능하다.",
+            "verificationSource": "ocr_crop_review",
+            "score": null
+          }
+        ],
+        "mask": null
+      }
+    },
+    {
+      "id": "ocr-cue-6",
+      "kind": "text",
+      "category": "foliage artifact",
+      "nameKo": "나뭇잎 사이의 작은 밝은 점",
+      "observationKo": "아주 작은 밝은 요소만 보여 텍스트로 볼 수 없다.",
+      "geographicRelevanceKo": "지리적 정보가 되는 문자나 표식이 아니다.",
+      "regionDescriptionKo": "나뭇잎 내부의 작은 점状 요소",
+      "scope": "object",
+      "surface": "unknown",
+      "visibility": "uncertain",
+      "visibleText": "3",
+      "rawReadings": [
+        {
+          "id": "ocr-6",
+          "text": "3"
+        }
+      ],
+      "correctedText": null,
+      "detectorQueryEn": null,
+      "limitationsKo": "실제 문자인지 확인 불가하며 OCR 결과를 지지하지 못한다.",
+      "source": "ocr_review",
+      "disposition": "irrelevant",
+      "evidenceGroupIds": [
+        "ocr-cue-6"
+      ],
+      "geoSpecificityVerified": false,
+      "localization": {
+        "status": "not_assessed",
+        "proposals": [
+          {
+            "id": "ocr-region-6",
+            "source": "paddleocr",
+            "bbox": [
+              0.09333333333333334,
+              0.454,
+              0.10044444444444445,
+              0.4585
+            ],
+            "polygons": [
+              [
+                [
+                  0.09333333333333334,
+                  0.454
+                ],
+                [
+                  0.10044444444444445,
+                  0.454
+                ],
+                [
+                  0.10044444444444445,
+                  0.4585
+                ],
+                [
+                  0.09333333333333334,
+                  0.4585
+                ]
+              ]
+            ],
+            "lineIds": [
+              "ocr-6"
+            ],
+            "verdict": "not_assessed",
+            "evidenceKo": "아주 작은 밝은 요소만 보여 텍스트로 볼 수 없다.",
+            "verificationSource": "ocr_crop_review",
+            "score": null
+          }
+        ],
+        "mask": null
+      }
+    },
+    {
+      "id": "ocr-cue-7",
+      "kind": "text",
+      "category": "building sign",
+      "nameKo": "건물 외부 문자 간판",
+      "observationKo": "검은 캐노피의 흰색 문자 일부가 뚜렷하게 보여 건물명 표식으로 보인다.",
+      "geographicRelevanceKo": "기관명 일부로서 동일 건물/캠퍼스 식별에 유용할 수 있다.",
+      "regionDescriptionKo": "건물 전면 캐노피의 왼쪽 문자 구간",
+      "scope": "object",
+      "surface": "fixed",
+      "visibility": "partial",
+      "visibleText": "HUNG-ANG",
+      "rawReadings": [
+        {
+          "id": "ocr-7",
+          "text": "LHUNG-AN"
+        }
+      ],
+      "correctedText": "HUNG-ANG",
+      "detectorQueryEn": null,
+      "limitationsKo": "오른쪽 글자 일부가 잘려 전체 명칭을 확정할 수 없다.",
+      "source": "ocr_review",
+      "disposition": "candidate",
+      "evidenceGroupIds": [
+        "ocr-cue-7"
+      ],
+      "geoSpecificityVerified": false,
+      "localization": {
+        "status": "partial",
+        "proposals": [
+          {
+            "id": "ocr-region-7",
+            "source": "paddleocr",
+            "bbox": [
+              0.18577777777777776,
+              0.4095,
+              0.456,
+              0.4595
+            ],
+            "polygons": [
+              [
+                [
+                  0.18577777777777776,
+                  0.4355
+                ],
+                [
+                  0.4471111111111111,
+                  0.4095
+                ],
+                [
+                  0.456,
+                  0.4285
+                ],
+                [
+                  0.19466666666666665,
+                  0.4595
+                ]
+              ]
+            ],
+            "lineIds": [
+              "ocr-7"
+            ],
+            "verdict": "partial",
+            "evidenceKo": "검은 캐노피의 흰색 문자 일부가 뚜렷하게 보여 건물명 표식으로 보인다.",
+            "verificationSource": "ocr_crop_review",
+            "score": null
+          }
+        ],
+        "mask": null
+      }
+    },
+    {
+      "id": "ocr-cue-8",
+      "kind": "text",
+      "category": "overlay caption",
+      "nameKo": "사진 편집 문구",
+      "observationKo": "한글 오버레이 문구의 일부로 보이며, 위치 식별에 쓰이는 고유 지명은 아니다.",
+      "geographicRelevanceKo": "촬영 위치와 직접 연결되는 지리 정보가 아니라 개인 메모성 문구로 보인다.",
+      "regionDescriptionKo": "오른쪽 중앙 오버레이 문구의 왼쪽 부분",
+      "scope": "object",
+      "surface": "depicted",
+      "visibility": "clear",
+      "visibleText": "오늘 5시간",
+      "rawReadings": [
+        {
+          "id": "ocr-8",
+          "text": "오늘5시간"
+        }
+      ],
+      "correctedText": "오늘 5시간",
+      "detectorQueryEn": null,
+      "limitationsKo": "텍스트는 선명하지만 장소명, 주소, 기관명 같은 지리 단서는 없다.",
+      "source": "ocr_review",
+      "disposition": "irrelevant",
+      "evidenceGroupIds": [
+        "ocr-cue-8"
+      ],
+      "geoSpecificityVerified": false,
+      "localization": {
+        "status": "not_assessed",
+        "proposals": [
+          {
+            "id": "ocr-region-8",
+            "source": "paddleocr",
+            "bbox": [
+              0.6391111111111111,
+              0.4915,
+              0.7528888888888889,
+              0.5075
+            ],
+            "polygons": [
+              [
+                [
+                  0.6391111111111111,
+                  0.4915
+                ],
+                [
+                  0.7528888888888889,
+                  0.4915
+                ],
+                [
+                  0.7528888888888889,
+                  0.5075
+                ],
+                [
+                  0.6391111111111111,
+                  0.5075
+                ]
+              ]
+            ],
+            "lineIds": [
+              "ocr-8"
+            ],
+            "verdict": "not_assessed",
+            "evidenceKo": "한글 오버레이 문구의 일부로 보이며, 위치 식별에 쓰이는 고유 지명은 아니다.",
+            "verificationSource": "ocr_crop_review",
+            "score": null
+          }
+        ],
+        "mask": null
+      }
+    },
+    {
+      "id": "ocr-cue-9",
+      "kind": "text",
+      "category": "overlay caption",
+      "nameKo": "사진 편집 문구",
+      "observationKo": "한글 오버레이 문구의 일부로 보이며, ‘공부한다’라는 개인 메모성 표현이다.",
+      "geographicRelevanceKo": "촬영 위치를 식별하는 지리적 단서가 아니다.",
+      "regionDescriptionKo": "오른쪽 중앙 오버레이 문구의 가운데 부분",
+      "scope": "object",
+      "surface": "depicted",
+      "visibility": "clear",
+      "visibleText": "공부한다.",
+      "rawReadings": [
+        {
+          "id": "ocr-9",
+          "text": "공부한다."
+        }
+      ],
+      "correctedText": "공부한다.",
+      "detectorQueryEn": null,
+      "limitationsKo": "명확히 읽히지만 일반적인 문구로 지리적 관련성이 없다.",
+      "source": "ocr_review",
+      "disposition": "irrelevant",
+      "evidenceGroupIds": [
+        "ocr-cue-9"
+      ],
+      "geoSpecificityVerified": false,
+      "localization": {
+        "status": "not_assessed",
+        "proposals": [
+          {
+            "id": "ocr-region-9",
+            "source": "paddleocr",
+            "bbox": [
+              0.7511111111111111,
+              0.4915,
+              0.8506666666666667,
+              0.5075
+            ],
+            "polygons": [
+              [
+                [
+                  0.7511111111111111,
+                  0.4915
+                ],
+                [
+                  0.8506666666666667,
+                  0.4915
+                ],
+                [
+                  0.8506666666666667,
+                  0.5075
+                ],
+                [
+                  0.7511111111111111,
+                  0.5075
+                ]
+              ]
+            ],
+            "lineIds": [
+              "ocr-9"
+            ],
+            "verdict": "not_assessed",
+            "evidenceKo": "한글 오버레이 문구의 일부로 보이며, ‘공부한다’라는 개인 메모성 표현이다.",
+            "verificationSource": "ocr_crop_review",
+            "score": null
+          }
+        ],
+        "mask": null
+      }
+    },
+    {
+      "id": "ocr-cue-10",
+      "kind": "text",
+      "category": "unreadable reflected signage fragment",
+      "nameKo": "반사/실내 표지 조각",
+      "observationKo": "작은 빨간 표지로 보이지만 문자 또는 기호를 안정적으로 판독하기 어렵다.",
+      "geographicRelevanceKo": "지리 단서인지 확인할 수 없고, 읽을 수 있는 고유 표지 정보도 보이지 않는다.",
+      "regionDescriptionKo": "실내 배경의 작은 빨간 표지 영역",
+      "scope": "object",
+      "surface": "unknown",
+      "visibility": "uncertain",
+      "visibleText": "233",
+      "rawReadings": [
+        {
+          "id": "ocr-10",
+          "text": "233"
+        }
+      ],
+      "correctedText": null,
+      "detectorQueryEn": null,
+      "limitationsKo": "크기가 너무 작고 흐려서 OCR 문자열 '233'을 지지하기 어렵다.",
+      "source": "ocr_review",
+      "disposition": "uncertain",
+      "evidenceGroupIds": [
+        "ocr-cue-10"
+      ],
+      "geoSpecificityVerified": false,
+      "localization": {
+        "status": "partial",
+        "proposals": [
+          {
+            "id": "ocr-region-10",
+            "source": "paddleocr",
+            "bbox": [
+              0.96,
+              0.583,
+              0.992,
+              0.59
+            ],
+            "polygons": [
+              [
+                [
+                  0.96,
+                  0.583
+                ],
+                [
+                  0.992,
+                  0.583
+                ],
+                [
+                  0.992,
+                  0.59
+                ],
+                [
+                  0.96,
+                  0.59
+                ]
+              ]
+            ],
+            "lineIds": [
+              "ocr-10"
+            ],
+            "verdict": "partial",
+            "evidenceKo": "작은 빨간 표지로 보이지만 문자 또는 기호를 안정적으로 판독하기 어렵다.",
+            "verificationSource": "ocr_crop_review",
+            "score": null
+          }
+        ],
+        "mask": null
+      }
+    }
+  ],
+  "errors": [],
+  "humanReviews": {},
+  "modelCalls": [
+    {
+      "stage": "discovery",
+      "at": "2026-11-10T13:59:45.445Z",
+      "requestedModel": "gpt-5.4-mini",
+      "responseModel": "gpt-5.4-mini-2026-03-17",
+      "responseId": "resp_0e69bf50cc992edf016af3234555e087d28fda279686d5efed",
+      "status": "completed",
+      "usage": {
+        "input_tokens": 3421,
+        "input_tokens_details": {
+          "cache_write_tokens": 0,
+          "cached_tokens": 0
+        },
+        "output_tokens": 1419,
+        "output_tokens_details": {
+          "reasoning_tokens": 0
+        },
+        "total_tokens": 4840
+      },
+      "promptSha256": "84585c64986be78650806029298f0b8fa0dd5d919f7e333e9223af3a370c03ab",
+      "rawOutputText": "{\"cues\":[{\"kind\":\"text\",\"category\":\"building sign\",\"nameKo\":\"건물 외부 문자 간판\",\"observationKo\":\"검은 외벽 상단에 흰색 대문자 일부가 보이며 'HUNG-ANG UN'까지 판독된다.\",\"geographicRelevanceKo\":\"대학·기관명처럼 보이는 명칭 조각으로, 공개 사진의 동일 건물 외관과 대조해 캠퍼스나 기관 위치 후보를 좁히는 데 도움될 수 있다.\",\"regionDescriptionKo\":\"건물 전면 캐노피 가장자리의 문자 배치\",\"scope\":\"object\",\"visibleText\":\"HUNG-ANG UN\",\"surface\":\"fixed\",\"visibility\":\"partial\",\"detectorQueryEn\":\"white uppercase letters on the black building facade\",\"limitationsKo\":\"문자 일부만 보이고 앞부분과 뒷부분이 잘려 있어 전체 명칭은 확정할 수 없다.\"},{\"kind\":\"text\",\"category\":\"overlay caption\",\"nameKo\":\"사진 편집 문구\",\"observationKo\":\"오른쪽 중간에 '오늘 5시간 공부한다... 😱'라는 한글 오버레이 문구가 보인다.\",\"geographicRelevanceKo\":\"촬영자 메모성 문구로 보이며 위치 정보는 아니지만, 한국어 사용 환경을 시사하는 보조 단서가 될 수 있다.\",\"regionDescriptionKo\":\"오른쪽 중앙의 검은 천장 아래 영역 위 오버레이\",\"scope\":\"scene\",\"visibleText\":\"오늘 5시간 공부한다... 😱\",\"surface\":\"depicted\",\"visibility\":\"clear\",\"detectorQueryEn\":null,\"limitationsKo\":\"장소명이나 고유 지명은 포함되지 않는다.\"},{\"kind\":\"non_text\",\"category\":\"broad stairway\",\"nameKo\":\"넓은 석재 계단\",\"observationKo\":\"전경을 대부분 차지하는 넓고 긴 석재 계단이 여러 단으로 이어지며 중앙 정렬된 진입 동선을 만든다.\",\"geographicRelevanceKo\":\"대학, 공공시설, 지형이 있는 캠퍼스 입구 등에서 흔한 접근 구조로, 주변 건물군의 성격과 입지 비교에 도움이 될 수 있다.\",\"regionDescriptionKo\":\"사진 하단 전체의 계단 구간\",\"scope\":\"scene\",\"visibleText\":null,\"surface\":\"fixed\",\"visibility\":\"clear\",\"detectorQueryEn\":\"wide stone steps in the foreground\",\"limitationsKo\":\"일반적 구조라 단독으로는 지역 식별력이 낮다.\"},{\"kind\":\"non_text\",\"category\":\"tree canopy\",\"nameKo\":\"울창한 수목 수관\",\"observationKo\":\"좌우와 상단에 큰 활엽수 가지와 잎이 프레임을 둘러싸며 건물을 부분적으로 가린다.\",\"geographicRelevanceKo\":\"온대 기후의 가로수/캠퍼스 조경 느낌을 주며, 계절감과 조경 양식을 비교하는 단서가 될 수 있다.\",\"regionDescriptionKo\":\"사진 좌상단, 우상단 및 좌측 가장자리의 수목 구간\",\"scope\":\"scene\",\"visibleText\":null,\"surface\":\"fixed\",\"visibility\":\"clear\",\"detectorQueryEn\":\"dense deciduous tree canopy framing the building\",\"limitationsKo\":\"종 식별은 불확실하며, 일반적인 도시 수목일 수 있다.\"},{\"kind\":\"non_text\",\"category\":\"modern facade\",\"nameKo\":\"현대식 외벽 파사드\",\"observationKo\":\"상부 건물은 세로 스트라이프 형태의 반투명/유리 외장과 수평 패널이 결합된 현대식 외관이다.\",\"geographicRelevanceKo\":\"신축 또는 최근 리모델링된 교육·업무 시설의 건축 양식 비교에 유용할 수 있다.\",\"regionDescriptionKo\":\"사진 중앙 상부의 건물 외벽\",\"scope\":\"object\",\"visibleText\":null,\"surface\":\"fixed\",\"visibility\":\"clear\",\"detectorQueryEn\":\"modern glass-and-panel facade\",\"limitationsKo\":\"반사와 채광 때문에 재료 구분이 일부 불확실하다.\"},{\"kind\":\"non_text\",\"category\":\"covered entrance\",\"nameKo\":\"지붕이 덮인 출입구\",\"observationKo\":\"계단 상단에 깊은 처마 같은 검은 차양이 있고 그 아래 출입구가 형성되어 있다.\",\"geographicRelevanceKo\":\"지형 단차가 있는 캠퍼스/기관 건물에서 흔한 진입부 구성으로, 건물 배치 비교에 도움이 된다.\",\"regionDescriptionKo\":\"계단 상단 중앙의 차양 및 출입구\",\"scope\":\"object\",\"visibleText\":null,\"surface\":\"fixed\",\"visibility\":\"clear\",\"detectorQueryEn\":\"covered building entrance above the stairs\",\"limitationsKo\":\"입구의 정확한 기능은 외관만으로는 확정할 수 없다.\"},{\"kind\":\"non_text\",\"category\":\"handrail\",\"nameKo\":\"계단 난간\",\"observationKo\":\"왼쪽 계단 가장자리에 금속 난간이 길게 이어지고, 일부는 파란색 테이프/보호재처럼 보이는 것이 감겨 있다.\",\"geographicRelevanceKo\":\"보행 동선의 유지보수 상태나 임시 보강 여부를 보여 주어 시설 관리 수준 비교에 참고될 수 있다.\",\"regionDescriptionKo\":\"사진 좌하단 계단 옆 난간\",\"scope\":\"object\",\"visibleText\":null,\"surface\":\"fixed\",\"visibility\":\"partial\",\"detectorQueryEn\":\"metal stair handrail with blue wrapping\",\"limitationsKo\":\"파란 부분의 정확한 용도는 불명확하다.\"},{\"kind\":\"non_text\",\"category\":\"interior lights\",\"nameKo\":\"실내 조명 반사\",\"observationKo\":\"입구 아래 유리면과 내부 공간에서 길게 이어진 형광등/선형 조명이 보인다.\",\"geographicRelevanceKo\":\"실내 공간의 사용 유형과 운영 중인 시설 여부를 간접적으로 보여 줄 수 있다.\",\"regionDescriptionKo\":\"입구 하부 내부의 유리 및 천장 영역\",\"scope\":\"scene\",\"visibleText\":null,\"surface\":\"reflection\",\"visibility\":\"partial\",\"detectorQueryEn\":\"linear fluorescent lights inside the entrance\",\"limitationsKo\":\"유리 반사와 실내 조명이 섞여 보여 정확한 실내 구조는 불확실하다.\"}],\"limitationsKo\":[\"사진의 핵심 문자 일부가 가려져 있어 건물명 전체를 확정할 수 없다.\",\"정면 표지판보다 주변 경관과 건축 요소가 더 두드러져 있어 위치 특정성은 제한적이다.\",\"계절감은 보이지만 수종 식별과 정확한 도시 맥락은 불확실하다.\"],\"coverageLimited\":false}"
+    },
+    {
+      "stage": "ocr_batch_0",
+      "at": "2026-11-10T14:01:57.604Z",
+      "requestedModel": "gpt-5.4-mini",
+      "responseModel": "gpt-5.4-mini-2026-03-17",
+      "responseId": "resp_0d826115ee480e38016af323cacd1c87d2aeb595dd528b5d0d",
+      "status": "completed",
+      "usage": {
+        "input_tokens": 5941,
+        "input_tokens_details": {
+          "cache_write_tokens": 0,
+          "cached_tokens": 0
+        },
+        "output_tokens": 1270,
+        "output_tokens_details": {
+          "reasoning_tokens": 0
+        },
+        "total_tokens": 7211
+      },
+      "promptSha256": "6a390a1592faabfed2308d3bf75271d6fdcb67131417face8de92e6bdcf1088f",
+      "rawOutputText": "{\"groups\":[{\"lineIds\":[\"ocr-0\"],\"disposition\":\"candidate\",\"category\":\"building sign\",\"nameKo\":\"건물 외부 문자 간판\",\"observationKo\":\"검은 외벽에 흰색 대문자 일부가 보이며 대학/기관명처럼 보이는 표기가 확인된다.\",\"geographicRelevanceKo\":\"기관명 표식일 가능성이 있어 동일 건물이나 캠퍼스 식별에 보조 단서가 될 수 있다.\",\"regionDescriptionKo\":\"건물 캐노피 전면의 흰색 문자\",\"correctedText\":\"HUNG-ANG UN\",\"surface\":\"fixed\",\"visibility\":\"partial\",\"limitationsKo\":\"좌우가 잘려 전체 명칭을 확정할 수 없고, OCR 읽기도 일부만 지지된다.\",\"relatedDiscoveryIndexes\":[0]},{\"lineIds\":[\"ocr-1\"],\"disposition\":\"irrelevant\",\"category\":\"overlay caption\",\"nameKo\":\"사진 오버레이 문구\",\"observationKo\":\"한글 문장이 사진 위에 덧씌워져 있다.\",\"geographicRelevanceKo\":\"촬영자 메모성 문구로 위치 식별에 직접적 도움이 되지 않는다.\",\"regionDescriptionKo\":\"오른쪽 중앙의 검은 천장 아래 오버레이 텍스트\",\"correctedText\":\"오늘 5시간 공부한다... 😱\",\"surface\":\"depicted\",\"visibility\":\"clear\",\"limitationsKo\":\"편집된 캡션으로 보이며 장소명, 주소, 지명 정보가 없다.\",\"relatedDiscoveryIndexes\":[1]},{\"lineIds\":[\"ocr-2\"],\"disposition\":\"irrelevant\",\"category\":\"unreadable reflection/artifact\",\"nameKo\":\"작은 비식별 문자 조각\",\"observationKo\":\"작은 붉은 박스 안에 짧은 숫자/문자처럼 보이는 요소가 있으나 의미를 판독하기 어렵다.\",\"geographicRelevanceKo\":\"지리적 단서로 해석할 만한 고유명사나 위치 표시는 보이지 않는다.\",\"regionDescriptionKo\":\"실내 배경의 작은 반사/표식처럼 보이는 영역\",\"correctedText\":null,\"surface\":\"unknown\",\"visibility\":\"uncertain\",\"limitationsKo\":\"너무 작고 흐려서 실제 문자 여부와 읽기를 확인할 수 없다.\",\"relatedDiscoveryIndexes\":[]},{\"lineIds\":[\"ocr-3\"],\"disposition\":\"candidate\",\"category\":\"building sign\",\"nameKo\":\"건물 외부 문자 간판\",\"observationKo\":\"OCR가 가리키는 검은 외벽의 흰색 문자 일부가 보이며 기관명 표식으로 보인다.\",\"geographicRelevanceKo\":\"대학 또는 기관명 일부로 보여 동일 장소 식별에 보조 단서가 될 수 있다.\",\"regionDescriptionKo\":\"건물 전면 캐노피의 문자 배열\",\"correctedText\":\"HUNG-ANG UN\",\"surface\":\"fixed\",\"visibility\":\"partial\",\"limitationsKo\":\"일부 글자만 보여 전체 이름을 확정할 수 없다.\",\"relatedDiscoveryIndexes\":[0]},{\"lineIds\":[\"ocr-4\"],\"disposition\":\"irrelevant\",\"category\":\"foliage artifact\",\"nameKo\":\"나뭇잎 사이의 작은 밝은 점\",\"observationKo\":\"수목 사이의 작은 밝은 부분으로 문자나 표식으로 보이지 않는다.\",\"geographicRelevanceKo\":\"지리적 단서가 되는 텍스트가 아니다.\",\"regionDescriptionKo\":\"나뭇잎 중앙의 작은 밝은 영역\",\"correctedText\":null,\"surface\":\"unknown\",\"visibility\":\"uncertain\",\"limitationsKo\":\"문자 형태가 아니며 OCR 결과와 실제 시각 요소가 맞지 않는다.\",\"relatedDiscoveryIndexes\":[]},{\"lineIds\":[\"ocr-5\"],\"disposition\":\"candidate\",\"category\":\"building sign\",\"nameKo\":\"건물 외부 문자 간판\",\"observationKo\":\"건물 캐노피의 흰색 대문자 일부가 보여 기관명 표식으로 판독 가능하다.\",\"geographicRelevanceKo\":\"건물명 일부로 보이며 캠퍼스/기관 위치 추정에 보조 단서가 될 수 있다.\",\"regionDescriptionKo\":\"검은 캐노피 전면의 문자\",\"correctedText\":\"HUNG-ANG UN\",\"surface\":\"fixed\",\"visibility\":\"partial\",\"limitationsKo\":\"전체 표기가 잘려 있고 OCR도 완전하지 않다.\",\"relatedDiscoveryIndexes\":[0]},{\"lineIds\":[\"ocr-6\"],\"disposition\":\"irrelevant\",\"category\":\"foliage artifact\",\"nameKo\":\"나뭇잎 사이의 작은 밝은 점\",\"observationKo\":\"아주 작은 밝은 요소만 보여 텍스트로 볼 수 없다.\",\"geographicRelevanceKo\":\"지리적 정보가 되는 문자나 표식이 아니다.\",\"regionDescriptionKo\":\"나뭇잎 내부의 작은 점状 요소\",\"correctedText\":null,\"surface\":\"unknown\",\"visibility\":\"uncertain\",\"limitationsKo\":\"실제 문자인지 확인 불가하며 OCR 결과를 지지하지 못한다.\",\"relatedDiscoveryIndexes\":[]},{\"lineIds\":[\"ocr-7\"],\"disposition\":\"candidate\",\"category\":\"building sign\",\"nameKo\":\"건물 외부 문자 간판\",\"observationKo\":\"검은 캐노피의 흰색 문자 일부가 뚜렷하게 보여 건물명 표식으로 보인다.\",\"geographicRelevanceKo\":\"기관명 일부로서 동일 건물/캠퍼스 식별에 유용할 수 있다.\",\"regionDescriptionKo\":\"건물 전면 캐노피의 왼쪽 문자 구간\",\"correctedText\":\"HUNG-ANG\",\"surface\":\"fixed\",\"visibility\":\"partial\",\"limitationsKo\":\"오른쪽 글자 일부가 잘려 전체 명칭을 확정할 수 없다.\",\"relatedDiscoveryIndexes\":[0]}],\"limitationsKo\":[\"일부 OCR 영역은 너무 작거나 흐려 실제 문자 여부를 확인할 수 없었다.\",\"건물 간판으로 보이는 항목도 모두 일부만 보여 전체 고유명은 확정하지 않았다.\",\"오버레이 캡션은 지리적 단서가 아니므로 관련성을 낮게 판단했다.\"]}"
+    },
+    {
+      "stage": "ocr_batch_8",
+      "at": "2026-11-10T14:02:02.235Z",
+      "requestedModel": "gpt-5.4-mini",
+      "responseModel": "gpt-5.4-mini-2026-03-17",
+      "responseId": "resp_0a0483818a95a7b2016af323d6914887d280d98585eb09f7b4",
+      "status": "completed",
+      "usage": {
+        "input_tokens": 4819,
+        "input_tokens_details": {
+          "cache_write_tokens": 0,
+          "cached_tokens": 0
+        },
+        "output_tokens": 511,
+        "output_tokens_details": {
+          "reasoning_tokens": 0
+        },
+        "total_tokens": 5330
+      },
+      "promptSha256": "6a390a1592faabfed2308d3bf75271d6fdcb67131417face8de92e6bdcf1088f",
+      "rawOutputText": "{\"groups\":[{\"lineIds\":[\"ocr-8\"],\"disposition\":\"irrelevant\",\"category\":\"overlay caption\",\"nameKo\":\"사진 편집 문구\",\"observationKo\":\"한글 오버레이 문구의 일부로 보이며, 위치 식별에 쓰이는 고유 지명은 아니다.\",\"geographicRelevanceKo\":\"촬영 위치와 직접 연결되는 지리 정보가 아니라 개인 메모성 문구로 보인다.\",\"regionDescriptionKo\":\"오른쪽 중앙 오버레이 문구의 왼쪽 부분\",\"correctedText\":\"오늘 5시간\",\"surface\":\"depicted\",\"visibility\":\"clear\",\"limitationsKo\":\"텍스트는 선명하지만 장소명, 주소, 기관명 같은 지리 단서는 없다.\",\"relatedDiscoveryIndexes\":[]},{\"lineIds\":[\"ocr-9\"],\"disposition\":\"irrelevant\",\"category\":\"overlay caption\",\"nameKo\":\"사진 편집 문구\",\"observationKo\":\"한글 오버레이 문구의 일부로 보이며, ‘공부한다’라는 개인 메모성 표현이다.\",\"geographicRelevanceKo\":\"촬영 위치를 식별하는 지리적 단서가 아니다.\",\"regionDescriptionKo\":\"오른쪽 중앙 오버레이 문구의 가운데 부분\",\"correctedText\":\"공부한다.\",\"surface\":\"depicted\",\"visibility\":\"clear\",\"limitationsKo\":\"명확히 읽히지만 일반적인 문구로 지리적 관련성이 없다.\",\"relatedDiscoveryIndexes\":[]},{\"lineIds\":[\"ocr-10\"],\"disposition\":\"uncertain\",\"category\":\"unreadable reflected signage fragment\",\"nameKo\":\"반사/실내 표지 조각\",\"observationKo\":\"작은 빨간 표지로 보이지만 문자 또는 기호를 안정적으로 판독하기 어렵다.\",\"geographicRelevanceKo\":\"지리 단서인지 확인할 수 없고, 읽을 수 있는 고유 표지 정보도 보이지 않는다.\",\"regionDescriptionKo\":\"실내 배경의 작은 빨간 표지 영역\",\"correctedText\":null,\"surface\":\"unknown\",\"visibility\":\"uncertain\",\"limitationsKo\":\"크기가 너무 작고 흐려서 OCR 문자열 '233'을 지지하기 어렵다.\",\"relatedDiscoveryIndexes\":[]}],\"limitationsKo\":[\"오버레이 문구는 사진 속 편집된 텍스트로 보이며 촬영 위치 단서가 아니다.\",\"작은 배경 표지는 판독 불확실성이 커서 지리적 cue로 확정할 수 없다.\"]}"
+    },
+    {
+      "stage": "verify_cue-0_0",
+      "at": "2026-11-10T14:03:47.130Z",
+      "requestedModel": "gpt-5.4-mini",
+      "responseModel": "gpt-5.4-mini-2026-03-17",
+      "responseId": "resp_054dbbde1e9d55cc016af324409c2c87d2862e8de5f6c7fa38",
+      "status": "completed",
+      "usage": {
+        "input_tokens": 4828,
+        "input_tokens_details": {
+          "cache_write_tokens": 0,
+          "cached_tokens": 0
+        },
+        "output_tokens": 263,
+        "output_tokens_details": {
+          "reasoning_tokens": 0
+        },
+        "total_tokens": 5091
+      },
+      "promptSha256": "97106482e700608c01db19a0e347e9f7b3412b32cd23eb8b0b63af11e381e055",
+      "rawOutputText": "{\"checks\":[{\"proposalId\":\"link-0-0\",\"verdict\":\"supported\",\"evidenceKo\":\"검은 캐노피에 흰색 대문자 간판이 보이고 'HUNG-ANG UN' 구간이 실제로 확인됩니다.\"},{\"proposalId\":\"link-0-3\",\"verdict\":\"supported\",\"evidenceKo\":\"해당 박스 안에 검은 외벽 위 흰색 대문자 간판이 있으며 'HUNG-ANG UN' 부분이 보입니다.\"},{\"proposalId\":\"link-0-5\",\"verdict\":\"supported\",\"evidenceKo\":\"검은 전면부에 흰색 대문자 문자들이 연속으로 보이고 'HUNG-ANG UN' 판독이 가능합니다.\"},{\"proposalId\":\"link-0-7\",\"verdict\":\"partial\",\"evidenceKo\":\"박스 안에는 흰색 문자 일부가 보이나 전체 구간이 잘려 있어 'HUNG-ANG UN' 전체 확인은 어렵습니다.\"},{\"proposalId\":\"dino-cue-0-0\",\"verdict\":\"supported\",\"evidenceKo\":\"해당 영역에 검은 외벽의 흰색 대문자 간판이 실제로 포함되어 있습니다.\"}]}"
+    },
+    {
+      "stage": "verify_cue-1_0",
+      "at": "2026-11-10T14:03:49.618Z",
+      "requestedModel": "gpt-5.4-mini",
+      "responseModel": "gpt-5.4-mini-2026-03-17",
+      "responseId": "resp_07f4cb9c34309bd2016af324442b8487d2a33255596ad37133",
+      "status": "completed",
+      "usage": {
+        "input_tokens": 3459,
+        "input_tokens_details": {
+          "cache_write_tokens": 0,
+          "cached_tokens": 0
+        },
+        "output_tokens": 71,
+        "output_tokens_details": {
+          "reasoning_tokens": 0
+        },
+        "total_tokens": 3530
+      },
+      "promptSha256": "97106482e700608c01db19a0e347e9f7b3412b32cd23eb8b0b63af11e381e055",
+      "rawOutputText": "{\"checks\":[{\"proposalId\":\"link-1-1\",\"verdict\":\"supported\",\"evidenceKo\":\"오른쪽 중간 검은 천장 아래에 오버레이 문구가 보이고, '오늘 5시간 공부한다... 😱'가 화면에 그대로 읽힌다.\"}]}"
+    },
+    {
+      "stage": "verify_cue-2_0",
+      "at": "2026-11-10T14:03:52.201Z",
+      "requestedModel": "gpt-5.4-mini",
+      "responseModel": "gpt-5.4-mini-2026-03-17",
+      "responseId": "resp_084b45a8dc2e0492016af32446c33c87d285a9f20513453f92",
+      "status": "completed",
+      "usage": {
+        "input_tokens": 4438,
+        "input_tokens_details": {
+          "cache_write_tokens": 0,
+          "cached_tokens": 0
+        },
+        "output_tokens": 71,
+        "output_tokens_details": {
+          "reasoning_tokens": 0
+        },
+        "total_tokens": 4509
+      },
+      "promptSha256": "97106482e700608c01db19a0e347e9f7b3412b32cd23eb8b0b63af11e381e055",
+      "rawOutputText": "{\"checks\":[{\"proposalId\":\"dino-cue-2-0\",\"verdict\":\"supported\",\"evidenceKo\":\"전경 하단을 넓게 차지하는 석재 계단이 여러 단으로 이어져 있고, 중앙 정렬된 진입 동선처럼 보입니다.\"}]}"
+    },
+    {
+      "stage": "verify_cue-3_0",
+      "at": "2026-11-10T14:03:56.503Z",
+      "requestedModel": "gpt-5.4-mini",
+      "responseModel": "gpt-5.4-mini-2026-03-17",
+      "responseId": "resp_027759480dc4b4b5016af3244a18a887d2a3c2835d279aae04",
+      "status": "completed",
+      "usage": {
+        "input_tokens": 6436,
+        "input_tokens_details": {
+          "cache_write_tokens": 0,
+          "cached_tokens": 0
+        },
+        "output_tokens": 204,
+        "output_tokens_details": {
+          "reasoning_tokens": 0
+        },
+        "total_tokens": 6640
+      },
+      "promptSha256": "97106482e700608c01db19a0e347e9f7b3412b32cd23eb8b0b63af11e381e055",
+      "rawOutputText": "{\"checks\":[{\"proposalId\":\"dino-cue-3-0\",\"verdict\":\"supported\",\"evidenceKo\":\"좌측 가장자리에 잎이 무성한 활엽수 수관이 크게 차지해 건물 일부를 가립니다. 가지와 잎이 프레임을 둘러싸는 모습이 보입니다.\"},{\"proposalId\":\"dino-cue-3-1\",\"verdict\":\"supported\",\"evidenceKo\":\"우상단에 큰 활엽수 가지와 잎이 빽빽하게 겹쳐 있고, 뒤의 건물 상부를 부분적으로 가립니다.\"},{\"proposalId\":\"dino-cue-3-2\",\"verdict\":\"supported\",\"evidenceKo\":\"건물 자체를 포함한 영역이지만, 전면과 상단에 수목 가지와 잎이 함께 보여 건물을 둘러싸며 가리는 맥락을 확인할 수 있습니다.\"}]}"
+    },
+    {
+      "stage": "verify_cue-4_0",
+      "at": "2026-11-10T14:04:00.658Z",
+      "requestedModel": "gpt-5.4-mini",
+      "responseModel": "gpt-5.4-mini-2026-03-17",
+      "responseId": "resp_08ef1438d6ae140e016af3244dee7c87d2accd98b6be23f2fd",
+      "status": "completed",
+      "usage": {
+        "input_tokens": 5618,
+        "input_tokens_details": {
+          "cache_write_tokens": 0,
+          "cached_tokens": 0
+        },
+        "output_tokens": 198,
+        "output_tokens_details": {
+          "reasoning_tokens": 0
+        },
+        "total_tokens": 5816
+      },
+      "promptSha256": "97106482e700608c01db19a0e347e9f7b3412b32cd23eb8b0b63af11e381e055",
+      "rawOutputText": "{\"checks\":[{\"proposalId\":\"dino-cue-4-0\",\"verdict\":\"supported\",\"evidenceKo\":\"상부 외벽에 세로 스트라이프의 유리/반투명 패널이 보이고, 수평 경계선과 패널 구성이 함께 확인됩니다.\"},{\"proposalId\":\"dino-cue-4-1\",\"verdict\":\"supported\",\"evidenceKo\":\"제안 박스 안에 건물 상부 외벽이 넓게 들어가 있으며, 세로 줄무늬의 반투명 유리 외장과 수평 패널 구성이 보입니다.\"},{\"proposalId\":\"dino-cue-4-2\",\"verdict\":\"supported\",\"evidenceKo\":\"상부 건물 외벽의 세로 스트라이프 유리 외장과 수평 분절이 뚜렷하게 보여 현대식 파사드로 판단됩니다.\"}]}"
+    },
+    {
+      "stage": "verify_cue-5_0",
+      "at": "2026-11-10T14:04:03.630Z",
+      "requestedModel": "gpt-5.4-mini",
+      "responseModel": "gpt-5.4-mini-2026-03-17",
+      "responseId": "resp_08d67acc58884932016af32451c3d887d2809db1a2e3518233",
+      "status": "completed",
+      "usage": {
+        "input_tokens": 4861,
+        "input_tokens_details": {
+          "cache_write_tokens": 0,
+          "cached_tokens": 0
+        },
+        "output_tokens": 130,
+        "output_tokens_details": {
+          "reasoning_tokens": 0
+        },
+        "total_tokens": 4991
+      },
+      "promptSha256": "97106482e700608c01db19a0e347e9f7b3412b32cd23eb8b0b63af11e381e055",
+      "rawOutputText": "{\"checks\":[{\"proposalId\":\"dino-cue-5-0\",\"verdict\":\"partial\",\"evidenceKo\":\"계단은 잘 보이지만 차양/출입구가 박스 대부분에서 잘려 있어 전체 진입부 구성이 충분히 확인되지 않습니다.\"},{\"proposalId\":\"dino-cue-5-1\",\"verdict\":\"supported\",\"evidenceKo\":\"계단 상단 아래에 깊게 들어간 검은 차양이 보이고, 그 아래 유리 출입구/진입 공간이 형성되어 있어 설명과 일치합니다.\"}]}"
+    },
+    {
+      "stage": "verify_cue-6_0",
+      "at": "2026-11-10T14:04:06.797Z",
+      "requestedModel": "gpt-5.4-mini",
+      "responseModel": "gpt-5.4-mini-2026-03-17",
+      "responseId": "resp_05e020b3a963631a016af32454db9087d280911f4f1ba836a1",
+      "status": "completed",
+      "usage": {
+        "input_tokens": 4742,
+        "input_tokens_details": {
+          "cache_write_tokens": 0,
+          "cached_tokens": 0
+        },
+        "output_tokens": 124,
+        "output_tokens_details": {
+          "reasoning_tokens": 0
+        },
+        "total_tokens": 4866
+      },
+      "promptSha256": "97106482e700608c01db19a0e347e9f7b3412b32cd23eb8b0b63af11e381e055",
+      "rawOutputText": "{\"checks\":[{\"proposalId\":\"dino-cue-6-0\",\"verdict\":\"supported\",\"evidenceKo\":\"좌하단 계단 가장자리에 금속 난간이 길게 이어지고, 손잡이 일부에 파란색 감김이 보입니다.\"},{\"proposalId\":\"dino-cue-6-1\",\"verdict\":\"partial\",\"evidenceKo\":\"계단과 금속 난간은 보이지만, 박스가 넓어 난간 전체와 파란 감김 부분이 충분히 한정되지 않습니다.\"}]}"
+    },
+    {
+      "stage": "verify_cue-7_0",
+      "at": "2026-11-10T14:04:09.582Z",
+      "requestedModel": "gpt-5.4-mini",
+      "responseModel": "gpt-5.4-mini-2026-03-17",
+      "responseId": "resp_0ff9e7050a887ed2016af3245804c087d2b2db206c844e09bf",
+      "status": "completed",
+      "usage": {
+        "input_tokens": 3635,
+        "input_tokens_details": {
+          "cache_write_tokens": 0,
+          "cached_tokens": 0
+        },
+        "output_tokens": 75,
+        "output_tokens_details": {
+          "reasoning_tokens": 0
+        },
+        "total_tokens": 3710
+      },
+      "promptSha256": "97106482e700608c01db19a0e347e9f7b3412b32cd23eb8b0b63af11e381e055",
+      "rawOutputText": "{\"checks\":[{\"proposalId\":\"dino-cue-7-0\",\"verdict\":\"supported\",\"evidenceKo\":\"입구 유리 뒤 실내에 길게 이어진 형광등/선형 조명이 실제로 보입니다. 반사만이 아니라 내부 천장 조명도 함께 확인됩니다.\"}]}"
+    }
+  ]
+}

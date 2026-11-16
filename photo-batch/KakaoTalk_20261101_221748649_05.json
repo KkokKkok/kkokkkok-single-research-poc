@@ -1,0 +1,3724 @@
+{
+  "schemaVersion": "location-cues-v1",
+  "id": "f211ae88-8804-426a-9329-5e940b81c133",
+  "createdAt": "2026-11-10T13:47:41.139Z",
+  "updatedAt": "2026-11-10T13:54:55.916Z",
+  "status": "completed",
+  "requestedModel": "gpt-5.4-mini",
+  "promptVersion": "research-cues-v1",
+  "image": {
+    "width": 2304,
+    "height": 3072,
+    "sha256": "113f4bddb1e9286b438304eb2c0a62eee494984cc8bbbb4de4d43e14d112b310",
+    "coordinateSpace": "analysis-normalized",
+    "bboxFormat": "xyxy",
+    "mime": "image/jpeg",
+    "metadataRemoved": true
+  },
+  "stages": {
+    "discovery": {
+      "status": "completed",
+      "startedAt": "2026-11-10T13:47:41.156Z",
+      "finishedAt": "2026-11-10T13:47:56.382Z"
+    },
+    "ocr": {
+      "status": "completed",
+      "startedAt": "2026-11-10T13:47:56.383Z",
+      "finishedAt": "2026-11-10T13:51:38.850Z"
+    },
+    "ocr_review": {
+      "status": "completed",
+      "startedAt": "2026-11-10T13:51:38.852Z",
+      "finishedAt": "2026-11-10T13:51:52.953Z"
+    },
+    "detection": {
+      "status": "completed",
+      "startedAt": "2026-11-10T13:51:52.954Z",
+      "finishedAt": "2026-11-10T13:53:47.036Z"
+    },
+    "verify_cue-0": {
+      "status": "completed",
+      "startedAt": "2026-11-10T13:53:47.038Z",
+      "finishedAt": "2026-11-10T13:53:54.275Z"
+    },
+    "verify_cue-1": {
+      "status": "completed",
+      "startedAt": "2026-11-10T13:53:54.278Z",
+      "finishedAt": "2026-11-10T13:54:00.878Z"
+    },
+    "verify_cue-2": {
+      "status": "completed",
+      "startedAt": "2026-11-10T13:54:00.880Z",
+      "finishedAt": "2026-11-10T13:54:09.761Z"
+    },
+    "verify_cue-3": {
+      "status": "completed",
+      "startedAt": "2026-11-10T13:54:09.763Z",
+      "finishedAt": "2026-11-10T13:54:15.423Z"
+    },
+    "verify_cue-4": {
+      "status": "completed",
+      "startedAt": "2026-11-10T13:54:15.424Z",
+      "finishedAt": "2026-11-10T13:54:20.646Z"
+    },
+    "verify_cue-5": {
+      "status": "completed",
+      "startedAt": "2026-11-10T13:54:20.648Z",
+      "finishedAt": "2026-11-10T13:54:26.980Z"
+    },
+    "verify_cue-6": {
+      "status": "completed",
+      "startedAt": "2026-11-10T13:54:26.982Z",
+      "finishedAt": "2026-11-10T13:54:35.300Z"
+    },
+    "verify_cue-7": {
+      "status": "completed",
+      "startedAt": "2026-11-10T13:54:35.302Z",
+      "finishedAt": "2026-11-10T13:54:45.964Z"
+    },
+    "verify_cue-8": {
+      "status": "completed",
+      "startedAt": "2026-11-10T13:54:45.965Z",
+      "finishedAt": "2026-11-10T13:54:55.913Z"
+    }
+  },
+  "artifacts": {
+    "discovery_raw": {
+      "requestedModel": "gpt-5.4-mini",
+      "responseModel": "gpt-5.4-mini-2026-03-17",
+      "responseId": "resp_091d462643a0dd1c016af3207fef9887d2bfe80aa1a099dedb",
+      "status": "completed",
+      "usage": {
+        "input_tokens": 3641,
+        "input_tokens_details": {
+          "cache_write_tokens": 0,
+          "cached_tokens": 0
+        },
+        "output_tokens": 1494,
+        "output_tokens_details": {
+          "reasoning_tokens": 0
+        },
+        "total_tokens": 5135
+      },
+      "promptSha256": "84585c64986be78650806029298f0b8fa0dd5d919f7e333e9223af3a370c03ab",
+      "rawOutputText": "{\"cues\":[{\"kind\":\"text\",\"category\":\"건물 번호 표기\",\"nameKo\":\"상부 건물 번호 310\",\"observationKo\":\"건물 외벽 상단 왼쪽에 금색 숫자 '310'이 보인다.\",\"geographicRelevanceKo\":\"건물 식별자일 수 있어 공개 사진의 건물 외관과 대조하면 후보 지역을 좁히는 단서가 될 수 있다.\",\"regionDescriptionKo\":\"사진 왼쪽 상단의 고층 외벽 영역\",\"scope\":\"object\",\"visibleText\":\"310\",\"surface\":\"fixed\",\"visibility\":\"clear\",\"detectorQueryEn\":\"gold building number 310 on exterior wall\",\"limitationsKo\":\"건물명이나 도시명은 보이지 않으며, 동일 번호는 여러 곳에 있을 수 있다.\"},{\"kind\":\"text\",\"category\":\"전자 표시판\",\"nameKo\":\"중앙 층 표시 숫자 1444\",\"observationKo\":\"중앙부 외벽 난간 아래의 작은 전광 표시판에 '1444'가 보인다.\",\"geographicRelevanceKo\":\"층수·시간·내부 표시로 보일 수 있어 건물 내부/외관 사진과의 비교 단서가 될 수 있다.\",\"regionDescriptionKo\":\"사진 중앙 하단의 회색 외벽 띠 부분\",\"scope\":\"object\",\"visibleText\":\"1444\",\"surface\":\"fixed\",\"visibility\":\"clear\",\"detectorQueryEn\":\"digital display showing 1444 on building facade\",\"limitationsKo\":\"표시 의미가 불명확하고, 시각 정보만으로 장소를 특정할 수 없다.\"},{\"kind\":\"non_text\",\"category\":\"건축 외관\",\"nameKo\":\"석재 마감 고층 외벽\",\"observationKo\":\"밝은 석재 타일처럼 보이는 외피와 규칙적인 세로 창 배열의 대형 건물이 보인다.\",\"geographicRelevanceKo\":\"현대식 오피스/공공건물 외관 유형과 비교할 때 지역별 건축 양식 단서가 될 수 있다.\",\"regionDescriptionKo\":\"사진 대부분을 차지하는 배경 건물 전체\",\"scope\":\"scene\",\"visibleText\":null,\"surface\":\"fixed\",\"visibility\":\"clear\",\"detectorQueryEn\":\"large modern building with pale stone facade and vertical windows\",\"limitationsKo\":\"일반적인 도시 건축 형태로, 지역 고유성을 직접 보여주지는 않는다.\"},{\"kind\":\"non_text\",\"category\":\"저층 유리벽\",\"nameKo\":\"지상부 유리 파사드\",\"observationKo\":\"아래층에는 넓은 유리창과 수직 기둥이 반복되는 투명한 저층부가 있다.\",\"geographicRelevanceKo\":\"교육·업무·공공시설의 저층부 구성 방식이 지역 건축 비교에 참고될 수 있다.\",\"regionDescriptionKo\":\"사진 중앙의 건물 하부 전면\",\"scope\":\"object\",\"visibleText\":null,\"surface\":\"fixed\",\"visibility\":\"clear\",\"detectorQueryEn\":\"glass-fronted lower floor with columns\",\"limitationsKo\":\"특정 지역을 지목하는 독특한 요소는 아니다.\"},{\"kind\":\"non_text\",\"category\":\"옥외 운동장\",\"nameKo\":\"인조잔디 운동장\",\"observationKo\":\"전경에 흰색 라인이 그려진 초록색 인조잔디 운동장이 펼쳐져 있다.\",\"geographicRelevanceKo\":\"학교나 캠퍼스, 사옥 내 운동 공간 등 용도 추정에 도움을 주어 환경 유형을 비교할 수 있다.\",\"regionDescriptionKo\":\"사진 하단 전경 전체\",\"scope\":\"scene\",\"visibleText\":null,\"surface\":\"fixed\",\"visibility\":\"clear\",\"detectorQueryEn\":\"artificial turf sports field with white boundary lines\",\"limitationsKo\":\"유사한 운동장은 여러 국가와 지역에서 볼 수 있다.\"},{\"kind\":\"non_text\",\"category\":\"표면 마크\",\"nameKo\":\"원형 라인 마킹\",\"observationKo\":\"운동장 중앙 쪽에 큰 흰색 원형 라인이 그려져 있다.\",\"geographicRelevanceKo\":\"운동장 규격이나 용도(특정 구기/훈련 공간) 판단에 참고될 수 있다.\",\"regionDescriptionKo\":\"사진 하단 중앙의 잔디 표면\",\"scope\":\"object\",\"visibleText\":null,\"surface\":\"fixed\",\"visibility\":\"clear\",\"detectorQueryEn\":\"white circular marking on artificial turf\",\"limitationsKo\":\"용도는 확실하지 않으며, 표준 스포츠 규격과 일치하는지 판단하기 어렵다.\"},{\"kind\":\"non_text\",\"category\":\"가로수\",\"nameKo\":\"가을색 가로수\",\"observationKo\":\"전경과 건물 앞에 노란색·주황색으로 변한 낙엽수들이 심어져 있다.\",\"geographicRelevanceKo\":\"계절성과 수종 구성은 기후대와 조경 스타일을 비교하는 단서가 될 수 있다.\",\"regionDescriptionKo\":\"사진 하단과 중간의 조경 구역\",\"scope\":\"group\",\"visibleText\":null,\"surface\":\"fixed\",\"visibility\":\"clear\",\"detectorQueryEn\":\"autumn-colored street trees in landscaped courtyard\",\"limitationsKo\":\"가을 경관은 광범위한 지역에서 공통적으로 나타난다.\"},{\"kind\":\"non_text\",\"category\":\"외부 조경\",\"nameKo\":\"건물 앞 정원형 조경\",\"observationKo\":\"건물 전면에 낮은 화단과 정돈된 나무 배치가 있는 조경 공간이 있다.\",\"geographicRelevanceKo\":\"캠퍼스형 또는 사옥형 부지의 외부 공간 계획을 추정하는 데 도움이 될 수 있다.\",\"regionDescriptionKo\":\"사진 중앙 하단에서 건물과 운동장 사이의 띠 공간\",\"scope\":\"relation\",\"visibleText\":null,\"surface\":\"fixed\",\"visibility\":\"clear\",\"detectorQueryEn\":\"landscaped courtyard with trees in front of building\",\"limitationsKo\":\"일반적인 조경 구성이라 지역 식별력은 낮다.\"},{\"kind\":\"non_text\",\"category\":\"창문 반사\",\"nameKo\":\"유리창 하늘 반사\",\"observationKo\":\"건물 저층 유리면에 하늘과 주변 밝은 환경이 반사되어 보인다.\",\"geographicRelevanceKo\":\"주변 개방도와 일조 조건을 간접적으로 보여 주어 공간 맥락 비교에 도움 될 수 있다.\",\"regionDescriptionKo\":\"사진 중앙의 저층 유리창들\",\"scope\":\"relation\",\"visibleText\":null,\"surface\":\"reflection\",\"visibility\":\"clear\",\"detectorQueryEn\":\"building windows reflecting the sky\",\"limitationsKo\":\"반사 내용이 제한적이며 직접적인 위치 정보는 아니다.\"}],\"limitationsKo\":[\"나무와 건물에 가려 전체 파사드와 진입 동선, 거리 표지, 주변 지형이 충분히 보이지 않는다.\",\"식별 가능한 고유 명칭, 주소, 교통 표지, 차량 번호판은 보이지 않는다.\",\"보이는 숫자 표기는 건물 번호 또는 표시판일 수 있으나 맥락이 불명확해 단정할 수 없다.\"],\"coverageLimited\":true}"
+    },
+    "discovery": {
+      "cues": [
+        {
+          "kind": "text",
+          "category": "건물 번호 표기",
+          "nameKo": "상부 건물 번호 310",
+          "observationKo": "건물 외벽 상단 왼쪽에 금색 숫자 '310'이 보인다.",
+          "geographicRelevanceKo": "건물 식별자일 수 있어 공개 사진의 건물 외관과 대조하면 후보 지역을 좁히는 단서가 될 수 있다.",
+          "regionDescriptionKo": "사진 왼쪽 상단의 고층 외벽 영역",
+          "scope": "object",
+          "visibleText": "310",
+          "surface": "fixed",
+          "visibility": "clear",
+          "detectorQueryEn": "gold building number 310 on exterior wall",
+          "limitationsKo": "건물명이나 도시명은 보이지 않으며, 동일 번호는 여러 곳에 있을 수 있다."
+        },
+        {
+          "kind": "text",
+          "category": "전자 표시판",
+          "nameKo": "중앙 층 표시 숫자 1444",
+          "observationKo": "중앙부 외벽 난간 아래의 작은 전광 표시판에 '1444'가 보인다.",
+          "geographicRelevanceKo": "층수·시간·내부 표시로 보일 수 있어 건물 내부/외관 사진과의 비교 단서가 될 수 있다.",
+          "regionDescriptionKo": "사진 중앙 하단의 회색 외벽 띠 부분",
+          "scope": "object",
+          "visibleText": "1444",
+          "surface": "fixed",
+          "visibility": "clear",
+          "detectorQueryEn": "digital display showing 1444 on building facade",
+          "limitationsKo": "표시 의미가 불명확하고, 시각 정보만으로 장소를 특정할 수 없다."
+        },
+        {
+          "kind": "non_text",
+          "category": "건축 외관",
+          "nameKo": "석재 마감 고층 외벽",
+          "observationKo": "밝은 석재 타일처럼 보이는 외피와 규칙적인 세로 창 배열의 대형 건물이 보인다.",
+          "geographicRelevanceKo": "현대식 오피스/공공건물 외관 유형과 비교할 때 지역별 건축 양식 단서가 될 수 있다.",
+          "regionDescriptionKo": "사진 대부분을 차지하는 배경 건물 전체",
+          "scope": "scene",
+          "visibleText": null,
+          "surface": "fixed",
+          "visibility": "clear",
+          "detectorQueryEn": "large modern building with pale stone facade and vertical windows",
+          "limitationsKo": "일반적인 도시 건축 형태로, 지역 고유성을 직접 보여주지는 않는다."
+        },
+        {
+          "kind": "non_text",
+          "category": "저층 유리벽",
+          "nameKo": "지상부 유리 파사드",
+          "observationKo": "아래층에는 넓은 유리창과 수직 기둥이 반복되는 투명한 저층부가 있다.",
+          "geographicRelevanceKo": "교육·업무·공공시설의 저층부 구성 방식이 지역 건축 비교에 참고될 수 있다.",
+          "regionDescriptionKo": "사진 중앙의 건물 하부 전면",
+          "scope": "object",
+          "visibleText": null,
+          "surface": "fixed",
+          "visibility": "clear",
+          "detectorQueryEn": "glass-fronted lower floor with columns",
+          "limitationsKo": "특정 지역을 지목하는 독특한 요소는 아니다."
+        },
+        {
+          "kind": "non_text",
+          "category": "옥외 운동장",
+          "nameKo": "인조잔디 운동장",
+          "observationKo": "전경에 흰색 라인이 그려진 초록색 인조잔디 운동장이 펼쳐져 있다.",
+          "geographicRelevanceKo": "학교나 캠퍼스, 사옥 내 운동 공간 등 용도 추정에 도움을 주어 환경 유형을 비교할 수 있다.",
+          "regionDescriptionKo": "사진 하단 전경 전체",
+          "scope": "scene",
+          "visibleText": null,
+          "surface": "fixed",
+          "visibility": "clear",
+          "detectorQueryEn": "artificial turf sports field with white boundary lines",
+          "limitationsKo": "유사한 운동장은 여러 국가와 지역에서 볼 수 있다."
+        },
+        {
+          "kind": "non_text",
+          "category": "표면 마크",
+          "nameKo": "원형 라인 마킹",
+          "observationKo": "운동장 중앙 쪽에 큰 흰색 원형 라인이 그려져 있다.",
+          "geographicRelevanceKo": "운동장 규격이나 용도(특정 구기/훈련 공간) 판단에 참고될 수 있다.",
+          "regionDescriptionKo": "사진 하단 중앙의 잔디 표면",
+          "scope": "object",
+          "visibleText": null,
+          "surface": "fixed",
+          "visibility": "clear",
+          "detectorQueryEn": "white circular marking on artificial turf",
+          "limitationsKo": "용도는 확실하지 않으며, 표준 스포츠 규격과 일치하는지 판단하기 어렵다."
+        },
+        {
+          "kind": "non_text",
+          "category": "가로수",
+          "nameKo": "가을색 가로수",
+          "observationKo": "전경과 건물 앞에 노란색·주황색으로 변한 낙엽수들이 심어져 있다.",
+          "geographicRelevanceKo": "계절성과 수종 구성은 기후대와 조경 스타일을 비교하는 단서가 될 수 있다.",
+          "regionDescriptionKo": "사진 하단과 중간의 조경 구역",
+          "scope": "group",
+          "visibleText": null,
+          "surface": "fixed",
+          "visibility": "clear",
+          "detectorQueryEn": "autumn-colored street trees in landscaped courtyard",
+          "limitationsKo": "가을 경관은 광범위한 지역에서 공통적으로 나타난다."
+        },
+        {
+          "kind": "non_text",
+          "category": "외부 조경",
+          "nameKo": "건물 앞 정원형 조경",
+          "observationKo": "건물 전면에 낮은 화단과 정돈된 나무 배치가 있는 조경 공간이 있다.",
+          "geographicRelevanceKo": "캠퍼스형 또는 사옥형 부지의 외부 공간 계획을 추정하는 데 도움이 될 수 있다.",
+          "regionDescriptionKo": "사진 중앙 하단에서 건물과 운동장 사이의 띠 공간",
+          "scope": "relation",
+          "visibleText": null,
+          "surface": "fixed",
+          "visibility": "clear",
+          "detectorQueryEn": "landscaped courtyard with trees in front of building",
+          "limitationsKo": "일반적인 조경 구성이라 지역 식별력은 낮다."
+        },
+        {
+          "kind": "non_text",
+          "category": "창문 반사",
+          "nameKo": "유리창 하늘 반사",
+          "observationKo": "건물 저층 유리면에 하늘과 주변 밝은 환경이 반사되어 보인다.",
+          "geographicRelevanceKo": "주변 개방도와 일조 조건을 간접적으로 보여 주어 공간 맥락 비교에 도움 될 수 있다.",
+          "regionDescriptionKo": "사진 중앙의 저층 유리창들",
+          "scope": "relation",
+          "visibleText": null,
+          "surface": "reflection",
+          "visibility": "clear",
+          "detectorQueryEn": "building windows reflecting the sky",
+          "limitationsKo": "반사 내용이 제한적이며 직접적인 위치 정보는 아니다."
+        }
+      ],
+      "limitationsKo": [
+        "나무와 건물에 가려 전체 파사드와 진입 동선, 거리 표지, 주변 지형이 충분히 보이지 않는다.",
+        "식별 가능한 고유 명칭, 주소, 교통 표지, 차량 번호판은 보이지 않는다.",
+        "보이는 숫자 표기는 건물 번호 또는 표시판일 수 있으나 맥락이 불명확해 단정할 수 없다."
+      ],
+      "coverageLimited": true
+    },
+    "ocr": {
+      "engine": "PaddleOCR",
+      "version": "3.3.2",
+      "coordinateSpace": "analysis-normalized",
+      "lines": [
+        {
+          "id": "ocr-0",
+          "text": "310",
+          "score": 0.9986761212348938,
+          "polygon": [
+            [
+              0.013888888888888888,
+              0.11783854166666667
+            ],
+            [
+              0.051215277777777776,
+              0.11100260416666667
+            ],
+            [
+              0.05642361111111111,
+              0.12727864583333334
+            ],
+            [
+              0.019097222222222224,
+              0.13411458333333334
+            ]
+          ],
+          "passId": "full"
+        },
+        {
+          "id": "ocr-1",
+          "text": "EEFR",
+          "score": 0.37004679441452026,
+          "polygon": [
+            [
+              0.3502604166666667,
+              0.3707682291666667
+            ],
+            [
+              0.4717881944444444,
+              0.3528645833333333
+            ],
+            [
+              0.4809027777777778,
+              0.388671875
+            ],
+            [
+              0.3598090277777778,
+              0.4065755208333333
+            ]
+          ],
+          "passId": "full"
+        },
+        {
+          "id": "ocr-2",
+          "text": "7",
+          "score": 0.3400903344154358,
+          "polygon": [
+            [
+              0.3615451388888889,
+              0.9524739583333334
+            ],
+            [
+              0.3641493055555556,
+              0.9524739583333334
+            ],
+            [
+              0.3641493055555556,
+              0.9541015625
+            ],
+            [
+              0.3615451388888889,
+              0.9541015625
+            ]
+          ],
+          "passId": "full"
+        },
+        {
+          "id": "ocr-3",
+          "text": "H",
+          "score": 0.2831750512123108,
+          "polygon": [
+            [
+              0.5394965277777778,
+              0.3388671875
+            ],
+            [
+              0.6558159722222222,
+              0.3177083333333333
+            ],
+            [
+              0.6705729166666666,
+              0.3636067708333333
+            ],
+            [
+              0.5542534722222222,
+              0.384765625
+            ]
+          ],
+          "passId": "tile-819-819"
+        },
+        {
+          "id": "ocr-4",
+          "text": "EENIE",
+          "score": 0.41833457350730896,
+          "polygon": [
+            [
+              0.35546875,
+              0.3645833333333333
+            ],
+            [
+              0.5338541666666666,
+              0.3372395833333333
+            ],
+            [
+              0.5464409722222222,
+              0.384765625
+            ],
+            [
+              0.3606770833333333,
+              0.412109375
+            ]
+          ],
+          "passId": "tile-819-819"
+        },
+        {
+          "id": "ocr-5",
+          "text": "8",
+          "score": 0.1527569442987442,
+          "polygon": [
+            [
+              0.7877604166666666,
+              0.8154296875
+            ],
+            [
+              0.7912326388888888,
+              0.8154296875
+            ],
+            [
+              0.7912326388888888,
+              0.8186848958333334
+            ],
+            [
+              0.7877604166666666,
+              0.8186848958333334
+            ]
+          ],
+          "passId": "tile-1280-1638"
+        },
+        {
+          "id": "ocr-6",
+          "text": "4",
+          "score": 0.5259779691696167,
+          "polygon": [
+            [
+              0.7300347222222222,
+              0.9775390625
+            ],
+            [
+              0.7339409722222222,
+              0.98046875
+            ],
+            [
+              0.7317708333333334,
+              0.9817708333333334
+            ],
+            [
+              0.7278645833333334,
+              0.9788411458333334
+            ]
+          ],
+          "passId": "tile-1280-2048"
+        }
+      ],
+      "diagnostics": {
+        "version": "tiled-v1",
+        "inputWidth": 2304,
+        "inputHeight": 3072,
+        "passes": [
+          {
+            "id": "full",
+            "x": 0,
+            "y": 0,
+            "width": 2304,
+            "height": 3072,
+            "count": 6
+          },
+          {
+            "id": "tile-0-0",
+            "x": 0,
+            "y": 0,
+            "width": 1024,
+            "height": 1024,
+            "count": 1
+          },
+          {
+            "id": "tile-819-0",
+            "x": 819,
+            "y": 0,
+            "width": 1024,
+            "height": 1024,
+            "count": 0
+          },
+          {
+            "id": "tile-1280-0",
+            "x": 1280,
+            "y": 0,
+            "width": 1024,
+            "height": 1024,
+            "count": 0
+          },
+          {
+            "id": "tile-0-819",
+            "x": 0,
+            "y": 819,
+            "width": 1024,
+            "height": 1024,
+            "count": 0
+          },
+          {
+            "id": "tile-819-819",
+            "x": 819,
+            "y": 819,
+            "width": 1024,
+            "height": 1024,
+            "count": 2
+          },
+          {
+            "id": "tile-1280-819",
+            "x": 1280,
+            "y": 819,
+            "width": 1024,
+            "height": 1024,
+            "count": 0
+          },
+          {
+            "id": "tile-0-1638",
+            "x": 0,
+            "y": 1638,
+            "width": 1024,
+            "height": 1024,
+            "count": 0
+          },
+          {
+            "id": "tile-819-1638",
+            "x": 819,
+            "y": 1638,
+            "width": 1024,
+            "height": 1024,
+            "count": 1
+          },
+          {
+            "id": "tile-1280-1638",
+            "x": 1280,
+            "y": 1638,
+            "width": 1024,
+            "height": 1024,
+            "count": 1
+          },
+          {
+            "id": "tile-0-2048",
+            "x": 0,
+            "y": 2048,
+            "width": 1024,
+            "height": 1024,
+            "count": 3
+          },
+          {
+            "id": "tile-819-2048",
+            "x": 819,
+            "y": 2048,
+            "width": 1024,
+            "height": 1024,
+            "count": 1
+          },
+          {
+            "id": "tile-1280-2048",
+            "x": 1280,
+            "y": 2048,
+            "width": 1024,
+            "height": 1024,
+            "count": 1
+          }
+        ],
+        "rawReadings": [
+          {
+            "text": "310",
+            "score": 0.9986761212348938,
+            "polygon": [
+              [
+                0.013888888888888888,
+                0.11783854166666667
+              ],
+              [
+                0.051215277777777776,
+                0.11100260416666667
+              ],
+              [
+                0.05642361111111111,
+                0.12727864583333334
+              ],
+              [
+                0.019097222222222224,
+                0.13411458333333334
+              ]
+            ],
+            "passId": "full"
+          },
+          {
+            "text": "EEFR",
+            "score": 0.37004679441452026,
+            "polygon": [
+              [
+                0.3502604166666667,
+                0.3707682291666667
+              ],
+              [
+                0.4717881944444444,
+                0.3528645833333333
+              ],
+              [
+                0.4809027777777778,
+                0.388671875
+              ],
+              [
+                0.3598090277777778,
+                0.4065755208333333
+              ]
+            ],
+            "passId": "full"
+          },
+          {
+            "text": "",
+            "score": 0,
+            "polygon": [
+              [
+                0.047309027777777776,
+                0.9169921875
+              ],
+              [
+                0.049479166666666664,
+                0.9169921875
+              ],
+              [
+                0.049479166666666664,
+                0.9189453125
+              ],
+              [
+                0.047309027777777776,
+                0.9189453125
+              ]
+            ],
+            "passId": "full"
+          },
+          {
+            "text": "7",
+            "score": 0.3400903344154358,
+            "polygon": [
+              [
+                0.3615451388888889,
+                0.9524739583333334
+              ],
+              [
+                0.3641493055555556,
+                0.9524739583333334
+              ],
+              [
+                0.3641493055555556,
+                0.9541015625
+              ],
+              [
+                0.3615451388888889,
+                0.9541015625
+              ]
+            ],
+            "passId": "full"
+          },
+          {
+            "text": "",
+            "score": 0,
+            "polygon": [
+              [
+                0.3220486111111111,
+                0.9703776041666666
+              ],
+              [
+                0.3263888888888889,
+                0.9641927083333334
+              ],
+              [
+                0.3307291666666667,
+                0.9661458333333334
+              ],
+              [
+                0.3263888888888889,
+                0.9723307291666666
+              ]
+            ],
+            "passId": "full"
+          },
+          {
+            "text": "",
+            "score": 0,
+            "polygon": [
+              [
+                0.7300347222222222,
+                0.9775390625
+              ],
+              [
+                0.7335069444444444,
+                0.98046875
+              ],
+              [
+                0.7317708333333334,
+                0.9817708333333334
+              ],
+              [
+                0.7278645833333334,
+                0.9791666666666666
+              ]
+            ],
+            "passId": "full"
+          },
+          {
+            "text": "310",
+            "score": 0.9986761212348938,
+            "polygon": [
+              [
+                0.013888888888888888,
+                0.11783854166666667
+              ],
+              [
+                0.051215277777777776,
+                0.11100260416666667
+              ],
+              [
+                0.05642361111111111,
+                0.12727864583333334
+              ],
+              [
+                0.019097222222222224,
+                0.13411458333333334
+              ]
+            ],
+            "passId": "tile-0-0"
+          },
+          {
+            "text": "H",
+            "score": 0.2831750512123108,
+            "polygon": [
+              [
+                0.5394965277777778,
+                0.3388671875
+              ],
+              [
+                0.6558159722222222,
+                0.3177083333333333
+              ],
+              [
+                0.6705729166666666,
+                0.3636067708333333
+              ],
+              [
+                0.5542534722222222,
+                0.384765625
+              ]
+            ],
+            "passId": "tile-819-819"
+          },
+          {
+            "text": "EENIE",
+            "score": 0.41833457350730896,
+            "polygon": [
+              [
+                0.35546875,
+                0.3645833333333333
+              ],
+              [
+                0.5338541666666666,
+                0.3372395833333333
+              ],
+              [
+                0.5464409722222222,
+                0.384765625
+              ],
+              [
+                0.3606770833333333,
+                0.412109375
+              ]
+            ],
+            "passId": "tile-819-819"
+          },
+          {
+            "text": "",
+            "score": 0,
+            "polygon": [
+              [
+                0.6953125,
+                0.8128255208333334
+              ],
+              [
+                0.69921875,
+                0.8128255208333334
+              ],
+              [
+                0.69921875,
+                0.8147786458333334
+              ],
+              [
+                0.6953125,
+                0.8147786458333334
+              ]
+            ],
+            "passId": "tile-819-1638"
+          },
+          {
+            "text": "8",
+            "score": 0.1527569442987442,
+            "polygon": [
+              [
+                0.7877604166666666,
+                0.8154296875
+              ],
+              [
+                0.7912326388888888,
+                0.8154296875
+              ],
+              [
+                0.7912326388888888,
+                0.8186848958333334
+              ],
+              [
+                0.7877604166666666,
+                0.8186848958333334
+              ]
+            ],
+            "passId": "tile-1280-1638"
+          },
+          {
+            "text": "",
+            "score": 0,
+            "polygon": [
+              [
+                0.047309027777777776,
+                0.9169921875
+              ],
+              [
+                0.049479166666666664,
+                0.9169921875
+              ],
+              [
+                0.049479166666666664,
+                0.9189453125
+              ],
+              [
+                0.047309027777777776,
+                0.9189453125
+              ]
+            ],
+            "passId": "tile-0-2048"
+          },
+          {
+            "text": "7",
+            "score": 0.3400895893573761,
+            "polygon": [
+              [
+                0.3615451388888889,
+                0.9524739583333334
+              ],
+              [
+                0.3641493055555556,
+                0.9524739583333334
+              ],
+              [
+                0.3641493055555556,
+                0.9541015625
+              ],
+              [
+                0.3615451388888889,
+                0.9541015625
+              ]
+            ],
+            "passId": "tile-0-2048"
+          },
+          {
+            "text": "",
+            "score": 0,
+            "polygon": [
+              [
+                0.3220486111111111,
+                0.9703776041666666
+              ],
+              [
+                0.3263888888888889,
+                0.9641927083333334
+              ],
+              [
+                0.3307291666666667,
+                0.9661458333333334
+              ],
+              [
+                0.3263888888888889,
+                0.9723307291666666
+              ]
+            ],
+            "passId": "tile-0-2048"
+          },
+          {
+            "text": "",
+            "score": 0,
+            "polygon": [
+              [
+                0.7278645833333334,
+                0.978515625
+              ],
+              [
+                0.7313368055555556,
+                0.9772135416666666
+              ],
+              [
+                0.7335069444444444,
+                0.9807942708333334
+              ],
+              [
+                0.7300347222222222,
+                0.9820963541666666
+              ]
+            ],
+            "passId": "tile-819-2048"
+          },
+          {
+            "text": "4",
+            "score": 0.5259779691696167,
+            "polygon": [
+              [
+                0.7300347222222222,
+                0.9775390625
+              ],
+              [
+                0.7339409722222222,
+                0.98046875
+              ],
+              [
+                0.7317708333333334,
+                0.9817708333333334
+              ],
+              [
+                0.7278645833333334,
+                0.9788411458333334
+              ]
+            ],
+            "passId": "tile-1280-2048"
+          }
+        ],
+        "unreadRegions": [
+          {
+            "polygon": [
+              [
+                0.047309027777777776,
+                0.9169921875
+              ],
+              [
+                0.049479166666666664,
+                0.9169921875
+              ],
+              [
+                0.049479166666666664,
+                0.9189453125
+              ],
+              [
+                0.047309027777777776,
+                0.9189453125
+              ]
+            ],
+            "passId": "full"
+          },
+          {
+            "polygon": [
+              [
+                0.3220486111111111,
+                0.9703776041666666
+              ],
+              [
+                0.3263888888888889,
+                0.9641927083333334
+              ],
+              [
+                0.3307291666666667,
+                0.9661458333333334
+              ],
+              [
+                0.3263888888888889,
+                0.9723307291666666
+              ]
+            ],
+            "passId": "full"
+          },
+          {
+            "polygon": [
+              [
+                0.7300347222222222,
+                0.9775390625
+              ],
+              [
+                0.7335069444444444,
+                0.98046875
+              ],
+              [
+                0.7317708333333334,
+                0.9817708333333334
+              ],
+              [
+                0.7278645833333334,
+                0.9791666666666666
+              ]
+            ],
+            "passId": "full"
+          },
+          {
+            "polygon": [
+              [
+                0.047309027777777776,
+                0.9169921875
+              ],
+              [
+                0.049479166666666664,
+                0.9169921875
+              ],
+              [
+                0.049479166666666664,
+                0.9189453125
+              ],
+              [
+                0.047309027777777776,
+                0.9189453125
+              ]
+            ],
+            "passId": "full"
+          },
+          {
+            "polygon": [
+              [
+                0.3220486111111111,
+                0.9703776041666666
+              ],
+              [
+                0.3263888888888889,
+                0.9641927083333334
+              ],
+              [
+                0.3307291666666667,
+                0.9661458333333334
+              ],
+              [
+                0.3263888888888889,
+                0.9723307291666666
+              ]
+            ],
+            "passId": "full"
+          },
+          {
+            "polygon": [
+              [
+                0.7300347222222222,
+                0.9775390625
+              ],
+              [
+                0.7335069444444444,
+                0.98046875
+              ],
+              [
+                0.7317708333333334,
+                0.9817708333333334
+              ],
+              [
+                0.7278645833333334,
+                0.9791666666666666
+              ]
+            ],
+            "passId": "full"
+          },
+          {
+            "polygon": [
+              [
+                0.6953125,
+                0.8128255208333334
+              ],
+              [
+                0.69921875,
+                0.8128255208333334
+              ],
+              [
+                0.69921875,
+                0.8147786458333334
+              ],
+              [
+                0.6953125,
+                0.8147786458333334
+              ]
+            ],
+            "passId": "tile-819-1638"
+          },
+          {
+            "polygon": [
+              [
+                0.6953125,
+                0.8128255208333334
+              ],
+              [
+                0.69921875,
+                0.8128255208333334
+              ],
+              [
+                0.69921875,
+                0.8147786458333334
+              ],
+              [
+                0.6953125,
+                0.8147786458333334
+              ]
+            ],
+            "passId": "tile-819-1638"
+          },
+          {
+            "polygon": [
+              [
+                0.047309027777777776,
+                0.9169921875
+              ],
+              [
+                0.049479166666666664,
+                0.9169921875
+              ],
+              [
+                0.049479166666666664,
+                0.9189453125
+              ],
+              [
+                0.047309027777777776,
+                0.9189453125
+              ]
+            ],
+            "passId": "tile-0-2048"
+          },
+          {
+            "polygon": [
+              [
+                0.3220486111111111,
+                0.9703776041666666
+              ],
+              [
+                0.3263888888888889,
+                0.9641927083333334
+              ],
+              [
+                0.3307291666666667,
+                0.9661458333333334
+              ],
+              [
+                0.3263888888888889,
+                0.9723307291666666
+              ]
+            ],
+            "passId": "tile-0-2048"
+          },
+          {
+            "polygon": [
+              [
+                0.047309027777777776,
+                0.9169921875
+              ],
+              [
+                0.049479166666666664,
+                0.9169921875
+              ],
+              [
+                0.049479166666666664,
+                0.9189453125
+              ],
+              [
+                0.047309027777777776,
+                0.9189453125
+              ]
+            ],
+            "passId": "tile-0-2048"
+          },
+          {
+            "polygon": [
+              [
+                0.3220486111111111,
+                0.9703776041666666
+              ],
+              [
+                0.3263888888888889,
+                0.9641927083333334
+              ],
+              [
+                0.3307291666666667,
+                0.9661458333333334
+              ],
+              [
+                0.3263888888888889,
+                0.9723307291666666
+              ]
+            ],
+            "passId": "tile-0-2048"
+          },
+          {
+            "polygon": [
+              [
+                0.7278645833333334,
+                0.978515625
+              ],
+              [
+                0.7313368055555556,
+                0.9772135416666666
+              ],
+              [
+                0.7335069444444444,
+                0.9807942708333334
+              ],
+              [
+                0.7300347222222222,
+                0.9820963541666666
+              ]
+            ],
+            "passId": "tile-819-2048"
+          },
+          {
+            "polygon": [
+              [
+                0.7278645833333334,
+                0.978515625
+              ],
+              [
+                0.7313368055555556,
+                0.9772135416666666
+              ],
+              [
+                0.7335069444444444,
+                0.9807942708333334
+              ],
+              [
+                0.7300347222222222,
+                0.9820963541666666
+              ]
+            ],
+            "passId": "tile-819-2048"
+          }
+        ],
+        "conflicts": []
+      }
+    },
+    "ocr_batch_0_raw": {
+      "requestedModel": "gpt-5.4-mini",
+      "responseModel": "gpt-5.4-mini-2026-03-17",
+      "responseId": "resp_021ec2c804b8d53b016af32171b56c87d2825e8fcb9827fbf7",
+      "status": "completed",
+      "usage": {
+        "input_tokens": 6135,
+        "input_tokens_details": {
+          "cache_write_tokens": 0,
+          "cached_tokens": 0
+        },
+        "output_tokens": 1185,
+        "output_tokens_details": {
+          "reasoning_tokens": 0
+        },
+        "total_tokens": 7320
+      },
+      "promptSha256": "6a390a1592faabfed2308d3bf75271d6fdcb67131417face8de92e6bdcf1088f",
+      "rawOutputText": "{\"groups\":[{\"lineIds\":[\"ocr-0\"],\"disposition\":\"candidate\",\"category\":\"building number\",\"nameKo\":\"건물 번호 310\",\"observationKo\":\"외벽 상단 왼쪽에 금색 숫자 '310'이 선명하게 보인다.\",\"geographicRelevanceKo\":\"건물 식별 번호로 보이며, 공개 사진의 건물 외관과 대조할 때 지역 단서가 될 수 있다.\",\"regionDescriptionKo\":\"사진 왼쪽 상단의 건물 외벽 영역\",\"correctedText\":\"310\",\"surface\":\"fixed\",\"visibility\":\"clear\",\"limitationsKo\":\"건물명이나 도시명은 없어서 이 숫자만으로는 장소를 특정하기 어렵다.\",\"relatedDiscoveryIndexes\":[0]},{\"lineIds\":[\"ocr-1\"],\"disposition\":\"uncertain\",\"category\":\"building facade text\",\"nameKo\":\"외벽의 불분명한 문자/숫자\",\"observationKo\":\"창문 위 외벽 구역에 OCR은 'EEFR'로 잡았지만, 잎과 건물 구조 때문에 실제 문자인지 확실하지 않다.\",\"geographicRelevanceKo\":\"건물 외관의 표식일 가능성은 있으나, 읽기 어렵고 지리적 식별력도 확인되지 않는다.\",\"regionDescriptionKo\":\"사진 상단 중앙 오른쪽의 건물 외벽과 창문 일부\",\"correctedText\":null,\"surface\":\"fixed\",\"visibility\":\"partial\",\"limitationsKo\":\"잎이 가리고 있어 원문 판독이 불명확하며, 추정 읽기는 지리적 단서로 쓰기 어렵다.\",\"relatedDiscoveryIndexes\":[]},{\"lineIds\":[\"ocr-2\"],\"disposition\":\"irrelevant\",\"category\":\"sports field marking\",\"nameKo\":\"잔디 위의 작은 표시\",\"observationKo\":\"잔디 표면의 매우 작은 빨간 점처럼 보이며 의미 있는 문자나 표식으로 판독되지 않는다.\",\"geographicRelevanceKo\":\"지리적 식별과 관련된 문구가 아니다.\",\"regionDescriptionKo\":\"사진 하단 왼쪽의 인조잔디 표면\",\"correctedText\":null,\"surface\":\"movable\",\"visibility\":\"uncertain\",\"limitationsKo\":\"크기가 너무 작아 텍스트인지도 불명확하고, 위치 단서로도 해석하기 어렵다.\",\"relatedDiscoveryIndexes\":[]},{\"lineIds\":[\"ocr-3\"],\"disposition\":\"uncertain\",\"category\":\"building facade text\",\"nameKo\":\"외벽의 불분명한 문자\",\"observationKo\":\"건물 외벽 창문 구역에 OCR은 'H'를 제시하지만, 잎과 반사 때문에 실제 문자로 확정하기 어렵다.\",\"geographicRelevanceKo\":\"건물 외관의 일부 표식일 수 있으나, 판독이 불안정해 지리적 단서로 쓰기 어렵다.\",\"regionDescriptionKo\":\"사진 상단 중앙의 건물 외벽 창문 영역\",\"correctedText\":null,\"surface\":\"fixed\",\"visibility\":\"partial\",\"limitationsKo\":\"문자 모양이 अस्प명확하고 주변 가림이 심해 신뢰할 수 있는 판독이 아니다.\",\"relatedDiscoveryIndexes\":[]},{\"lineIds\":[\"ocr-4\"],\"disposition\":\"uncertain\",\"category\":\"building facade text\",\"nameKo\":\"외벽의 불분명한 문자\",\"observationKo\":\"창문과 외벽 사이 구역에 OCR은 'EENIE'로 읽었지만, 보이는 요소가 잎과 건물 창문뿐이라 실제 텍스트인지 확실하지 않다.\",\"geographicRelevanceKo\":\"건물 표식일 가능성은 있으나, 읽기 불명확하고 지역성 판단에 부족하다.\",\"regionDescriptionKo\":\"사진 중앙 상단의 건물 외벽과 잎이 겹친 영역\",\"correctedText\":null,\"surface\":\"fixed\",\"visibility\":\"partial\",\"limitationsKo\":\"가림과 원근 때문에 문자 형태가 불명확하며, OCR 결과를 그대로 신뢰할 수 없다.\",\"relatedDiscoveryIndexes\":[]},{\"lineIds\":[\"ocr-5\"],\"disposition\":\"irrelevant\",\"category\":\"sports field marking\",\"nameKo\":\"잔디 위의 작은 표시\",\"observationKo\":\"잔디 표면의 아주 작은 빨간 표시만 보이며 문자나 식별 가능한 기호가 아니다.\",\"geographicRelevanceKo\":\"지리적 단서가 되는 텍스트로 볼 수 없다.\",\"regionDescriptionKo\":\"사진 하단 오른쪽의 인조잔디 표면\",\"correctedText\":null,\"surface\":\"movable\",\"visibility\":\"uncertain\",\"limitationsKo\":\"너무 작고 अस्प명확해 텍스트 여부를 판단하기 어렵다.\",\"relatedDiscoveryIndexes\":[]},{\"lineIds\":[\"ocr-6\"],\"disposition\":\"irrelevant\",\"category\":\"sports field marking\",\"nameKo\":\"잔디 위의 작은 표시\",\"observationKo\":\"잔디 표면의 작은 빨간 사각형 표시만 보이고 텍스트는 식별되지 않는다.\",\"geographicRelevanceKo\":\"지리적 식별과 관련된 문구가 아니다.\",\"regionDescriptionKo\":\"사진 하단 중앙의 인조잔디 표면\",\"correctedText\":null,\"surface\":\"movable\",\"visibility\":\"uncertain\",\"limitationsKo\":\"표시가 너무 작고 주변 잔디 질감과 섞여 읽을 수 없다.\",\"relatedDiscoveryIndexes\":[]}],\"limitationsKo\":[\"사진의 상당 부분이 나뭇잎으로 가려져 있어 건물 외벽의 텍스트 판독이 제한된다.\",\"잔디 표면의 작은 빨간 표시들은 OCR 후보이지만 지리적 단서로 볼 만한 텍스트는 확인되지 않는다.\"]}"
+    },
+    "ocr_batch_0": {
+      "groups": [
+        {
+          "lineIds": [
+            "ocr-0"
+          ],
+          "disposition": "candidate",
+          "category": "building number",
+          "nameKo": "건물 번호 310",
+          "observationKo": "외벽 상단 왼쪽에 금색 숫자 '310'이 선명하게 보인다.",
+          "geographicRelevanceKo": "건물 식별 번호로 보이며, 공개 사진의 건물 외관과 대조할 때 지역 단서가 될 수 있다.",
+          "regionDescriptionKo": "사진 왼쪽 상단의 건물 외벽 영역",
+          "correctedText": "310",
+          "surface": "fixed",
+          "visibility": "clear",
+          "limitationsKo": "건물명이나 도시명은 없어서 이 숫자만으로는 장소를 특정하기 어렵다.",
+          "relatedDiscoveryIndexes": [
+            0
+          ]
+        },
+        {
+          "lineIds": [
+            "ocr-1"
+          ],
+          "disposition": "uncertain",
+          "category": "building facade text",
+          "nameKo": "외벽의 불분명한 문자/숫자",
+          "observationKo": "창문 위 외벽 구역에 OCR은 'EEFR'로 잡았지만, 잎과 건물 구조 때문에 실제 문자인지 확실하지 않다.",
+          "geographicRelevanceKo": "건물 외관의 표식일 가능성은 있으나, 읽기 어렵고 지리적 식별력도 확인되지 않는다.",
+          "regionDescriptionKo": "사진 상단 중앙 오른쪽의 건물 외벽과 창문 일부",
+          "correctedText": null,
+          "surface": "fixed",
+          "visibility": "partial",
+          "limitationsKo": "잎이 가리고 있어 원문 판독이 불명확하며, 추정 읽기는 지리적 단서로 쓰기 어렵다.",
+          "relatedDiscoveryIndexes": []
+        },
+        {
+          "lineIds": [
+            "ocr-2"
+          ],
+          "disposition": "irrelevant",
+          "category": "sports field marking",
+          "nameKo": "잔디 위의 작은 표시",
+          "observationKo": "잔디 표면의 매우 작은 빨간 점처럼 보이며 의미 있는 문자나 표식으로 판독되지 않는다.",
+          "geographicRelevanceKo": "지리적 식별과 관련된 문구가 아니다.",
+          "regionDescriptionKo": "사진 하단 왼쪽의 인조잔디 표면",
+          "correctedText": null,
+          "surface": "movable",
+          "visibility": "uncertain",
+          "limitationsKo": "크기가 너무 작아 텍스트인지도 불명확하고, 위치 단서로도 해석하기 어렵다.",
+          "relatedDiscoveryIndexes": []
+        },
+        {
+          "lineIds": [
+            "ocr-3"
+          ],
+          "disposition": "uncertain",
+          "category": "building facade text",
+          "nameKo": "외벽의 불분명한 문자",
+          "observationKo": "건물 외벽 창문 구역에 OCR은 'H'를 제시하지만, 잎과 반사 때문에 실제 문자로 확정하기 어렵다.",
+          "geographicRelevanceKo": "건물 외관의 일부 표식일 수 있으나, 판독이 불안정해 지리적 단서로 쓰기 어렵다.",
+          "regionDescriptionKo": "사진 상단 중앙의 건물 외벽 창문 영역",
+          "correctedText": null,
+          "surface": "fixed",
+          "visibility": "partial",
+          "limitationsKo": "문자 모양이 अस्प명확하고 주변 가림이 심해 신뢰할 수 있는 판독이 아니다.",
+          "relatedDiscoveryIndexes": []
+        },
+        {
+          "lineIds": [
+            "ocr-4"
+          ],
+          "disposition": "uncertain",
+          "category": "building facade text",
+          "nameKo": "외벽의 불분명한 문자",
+          "observationKo": "창문과 외벽 사이 구역에 OCR은 'EENIE'로 읽었지만, 보이는 요소가 잎과 건물 창문뿐이라 실제 텍스트인지 확실하지 않다.",
+          "geographicRelevanceKo": "건물 표식일 가능성은 있으나, 읽기 불명확하고 지역성 판단에 부족하다.",
+          "regionDescriptionKo": "사진 중앙 상단의 건물 외벽과 잎이 겹친 영역",
+          "correctedText": null,
+          "surface": "fixed",
+          "visibility": "partial",
+          "limitationsKo": "가림과 원근 때문에 문자 형태가 불명확하며, OCR 결과를 그대로 신뢰할 수 없다.",
+          "relatedDiscoveryIndexes": []
+        },
+        {
+          "lineIds": [
+            "ocr-5"
+          ],
+          "disposition": "irrelevant",
+          "category": "sports field marking",
+          "nameKo": "잔디 위의 작은 표시",
+          "observationKo": "잔디 표면의 아주 작은 빨간 표시만 보이며 문자나 식별 가능한 기호가 아니다.",
+          "geographicRelevanceKo": "지리적 단서가 되는 텍스트로 볼 수 없다.",
+          "regionDescriptionKo": "사진 하단 오른쪽의 인조잔디 표면",
+          "correctedText": null,
+          "surface": "movable",
+          "visibility": "uncertain",
+          "limitationsKo": "너무 작고 अस्प명확해 텍스트 여부를 판단하기 어렵다.",
+          "relatedDiscoveryIndexes": []
+        },
+        {
+          "lineIds": [
+            "ocr-6"
+          ],
+          "disposition": "irrelevant",
+          "category": "sports field marking",
+          "nameKo": "잔디 위의 작은 표시",
+          "observationKo": "잔디 표면의 작은 빨간 사각형 표시만 보이고 텍스트는 식별되지 않는다.",
+          "geographicRelevanceKo": "지리적 식별과 관련된 문구가 아니다.",
+          "regionDescriptionKo": "사진 하단 중앙의 인조잔디 표면",
+          "correctedText": null,
+          "surface": "movable",
+          "visibility": "uncertain",
+          "limitationsKo": "표시가 너무 작고 주변 잔디 질감과 섞여 읽을 수 없다.",
+          "relatedDiscoveryIndexes": []
+        }
+      ],
+      "limitationsKo": [
+        "사진의 상당 부분이 나뭇잎으로 가려져 있어 건물 외벽의 텍스트 판독이 제한된다.",
+        "잔디 표면의 작은 빨간 표시들은 OCR 후보이지만 지리적 단서로 볼 만한 텍스트는 확인되지 않는다."
+      ]
+    },
+    "ocr_review": {
+      "groups": [
+        {
+          "lineIds": [
+            "ocr-0"
+          ],
+          "disposition": "candidate",
+          "category": "building number",
+          "nameKo": "건물 번호 310",
+          "observationKo": "외벽 상단 왼쪽에 금색 숫자 '310'이 선명하게 보인다.",
+          "geographicRelevanceKo": "건물 식별 번호로 보이며, 공개 사진의 건물 외관과 대조할 때 지역 단서가 될 수 있다.",
+          "regionDescriptionKo": "사진 왼쪽 상단의 건물 외벽 영역",
+          "correctedText": "310",
+          "surface": "fixed",
+          "visibility": "clear",
+          "limitationsKo": "건물명이나 도시명은 없어서 이 숫자만으로는 장소를 특정하기 어렵다.",
+          "relatedDiscoveryIndexes": [
+            0
+          ]
+        },
+        {
+          "lineIds": [
+            "ocr-1"
+          ],
+          "disposition": "uncertain",
+          "category": "building facade text",
+          "nameKo": "외벽의 불분명한 문자/숫자",
+          "observationKo": "창문 위 외벽 구역에 OCR은 'EEFR'로 잡았지만, 잎과 건물 구조 때문에 실제 문자인지 확실하지 않다.",
+          "geographicRelevanceKo": "건물 외관의 표식일 가능성은 있으나, 읽기 어렵고 지리적 식별력도 확인되지 않는다.",
+          "regionDescriptionKo": "사진 상단 중앙 오른쪽의 건물 외벽과 창문 일부",
+          "correctedText": null,
+          "surface": "fixed",
+          "visibility": "partial",
+          "limitationsKo": "잎이 가리고 있어 원문 판독이 불명확하며, 추정 읽기는 지리적 단서로 쓰기 어렵다.",
+          "relatedDiscoveryIndexes": []
+        },
+        {
+          "lineIds": [
+            "ocr-2"
+          ],
+          "disposition": "irrelevant",
+          "category": "sports field marking",
+          "nameKo": "잔디 위의 작은 표시",
+          "observationKo": "잔디 표면의 매우 작은 빨간 점처럼 보이며 의미 있는 문자나 표식으로 판독되지 않는다.",
+          "geographicRelevanceKo": "지리적 식별과 관련된 문구가 아니다.",
+          "regionDescriptionKo": "사진 하단 왼쪽의 인조잔디 표면",
+          "correctedText": null,
+          "surface": "movable",
+          "visibility": "uncertain",
+          "limitationsKo": "크기가 너무 작아 텍스트인지도 불명확하고, 위치 단서로도 해석하기 어렵다.",
+          "relatedDiscoveryIndexes": []
+        },
+        {
+          "lineIds": [
+            "ocr-3"
+          ],
+          "disposition": "uncertain",
+          "category": "building facade text",
+          "nameKo": "외벽의 불분명한 문자",
+          "observationKo": "건물 외벽 창문 구역에 OCR은 'H'를 제시하지만, 잎과 반사 때문에 실제 문자로 확정하기 어렵다.",
+          "geographicRelevanceKo": "건물 외관의 일부 표식일 수 있으나, 판독이 불안정해 지리적 단서로 쓰기 어렵다.",
+          "regionDescriptionKo": "사진 상단 중앙의 건물 외벽 창문 영역",
+          "correctedText": null,
+          "surface": "fixed",
+          "visibility": "partial",
+          "limitationsKo": "문자 모양이 अस्प명확하고 주변 가림이 심해 신뢰할 수 있는 판독이 아니다.",
+          "relatedDiscoveryIndexes": []
+        },
+        {
+          "lineIds": [
+            "ocr-4"
+          ],
+          "disposition": "uncertain",
+          "category": "building facade text",
+          "nameKo": "외벽의 불분명한 문자",
+          "observationKo": "창문과 외벽 사이 구역에 OCR은 'EENIE'로 읽었지만, 보이는 요소가 잎과 건물 창문뿐이라 실제 텍스트인지 확실하지 않다.",
+          "geographicRelevanceKo": "건물 표식일 가능성은 있으나, 읽기 불명확하고 지역성 판단에 부족하다.",
+          "regionDescriptionKo": "사진 중앙 상단의 건물 외벽과 잎이 겹친 영역",
+          "correctedText": null,
+          "surface": "fixed",
+          "visibility": "partial",
+          "limitationsKo": "가림과 원근 때문에 문자 형태가 불명확하며, OCR 결과를 그대로 신뢰할 수 없다.",
+          "relatedDiscoveryIndexes": []
+        },
+        {
+          "lineIds": [
+            "ocr-5"
+          ],
+          "disposition": "irrelevant",
+          "category": "sports field marking",
+          "nameKo": "잔디 위의 작은 표시",
+          "observationKo": "잔디 표면의 아주 작은 빨간 표시만 보이며 문자나 식별 가능한 기호가 아니다.",
+          "geographicRelevanceKo": "지리적 단서가 되는 텍스트로 볼 수 없다.",
+          "regionDescriptionKo": "사진 하단 오른쪽의 인조잔디 표면",
+          "correctedText": null,
+          "surface": "movable",
+          "visibility": "uncertain",
+          "limitationsKo": "너무 작고 अस्प명확해 텍스트 여부를 판단하기 어렵다.",
+          "relatedDiscoveryIndexes": []
+        },
+        {
+          "lineIds": [
+            "ocr-6"
+          ],
+          "disposition": "irrelevant",
+          "category": "sports field marking",
+          "nameKo": "잔디 위의 작은 표시",
+          "observationKo": "잔디 표면의 작은 빨간 사각형 표시만 보이고 텍스트는 식별되지 않는다.",
+          "geographicRelevanceKo": "지리적 식별과 관련된 문구가 아니다.",
+          "regionDescriptionKo": "사진 하단 중앙의 인조잔디 표면",
+          "correctedText": null,
+          "surface": "movable",
+          "visibility": "uncertain",
+          "limitationsKo": "표시가 너무 작고 주변 잔디 질감과 섞여 읽을 수 없다.",
+          "relatedDiscoveryIndexes": []
+        }
+      ],
+      "limitationsKo": [
+        "사진의 상당 부분이 나뭇잎으로 가려져 있어 건물 외벽의 텍스트 판독이 제한된다.",
+        "잔디 표면의 작은 빨간 표시들은 OCR 후보이지만 지리적 단서로 볼 만한 텍스트는 확인되지 않는다."
+      ],
+      "reviewMode": "per_region_crops"
+    },
+    "detection": {
+      "engine": "Grounding DINO",
+      "model": "IDEA-Research/grounding-dino-tiny",
+      "revision": "a2bb814dd30d776dcf7e30523b00659f4f141c71",
+      "imageSha256": "113f4bddb1e9286b438304eb2c0a62eee494984cc8bbbb4de4d43e14d112b310",
+      "coordinateSpace": "analysis-normalized",
+      "requests": [
+        {
+          "cueId": "cue-0",
+          "query": "gold building number 310 on exterior wall",
+          "detections": [
+            {
+              "id": "dino-cue-0-0",
+              "bbox": [
+                0.5291866726345487,
+                0.5273541609446207,
+                0.5824831326802572,
+                0.550666888554891
+              ],
+              "score": 0.46251803636550903,
+              "label": "gold building number"
+            },
+            {
+              "id": "dino-cue-0-1",
+              "bbox": [
+                0.003386944532394409,
+                0.07406190037727356,
+                0.9969082938300239,
+                0.7195665041605631
+              ],
+              "score": 0.40902841091156006,
+              "label": "exterior wall"
+            }
+          ]
+        },
+        {
+          "cueId": "cue-1",
+          "query": "digital display showing 1444 on building facade",
+          "detections": [
+            {
+              "id": "dino-cue-1-0",
+              "bbox": [
+                0.5301925341288248,
+                0.5279147624969482,
+                0.5811483065287272,
+                0.5497084856033325
+              ],
+              "score": 0.43724945187568665,
+              "label": "digital display"
+            },
+            {
+              "id": "dino-cue-1-1",
+              "bbox": [
+                0.002899855375289917,
+                0.05243873596191406,
+                0.9971324072943794,
+                0.7206485271453857
+              ],
+              "score": 0.5196399092674255,
+              "label": "building facade"
+            },
+            {
+              "id": "dino-cue-1-2",
+              "bbox": [
+                0.5623227755228678,
+                0.4166589180628459,
+                0.705572764078776,
+                0.5330972671508789
+              ],
+              "score": 0.3133641183376312,
+              "label": "digital display"
+            }
+          ]
+        },
+        {
+          "cueId": "cue-2",
+          "query": "large modern building with pale stone facade and vertical windows",
+          "detections": [
+            {
+              "id": "dino-cue-2-0",
+              "bbox": [
+                0.0017712116241455078,
+                0.02138194441795349,
+                0.998286141289605,
+                0.7227567036946615
+              ],
+              "score": 0.8064061999320984,
+              "label": "large modern building"
+            },
+            {
+              "id": "dino-cue-2-1",
+              "bbox": [
+                0.559816943274604,
+                0.41527541478474933,
+                0.7070246802435981,
+                0.5348321596781412
+              ],
+              "score": 0.48963162302970886,
+              "label": "vertical windows"
+            },
+            {
+              "id": "dino-cue-2-2",
+              "bbox": [
+                0.7157583236694336,
+                0.4034537474314372,
+                0.8817878829108344,
+                0.5279964605967203
+              ],
+              "score": 0.4751918315887451,
+              "label": "vertical windows"
+            },
+            {
+              "id": "dino-cue-2-3",
+              "bbox": [
+                0.002312213182449341,
+                0.020794659852981567,
+                0.9974658754136827,
+                0.7222803433736166
+              ],
+              "score": 0.38165828585624695,
+              "label": "pale stone facade"
+            },
+            {
+              "id": "dino-cue-2-4",
+              "bbox": [
+                0.4112014240688748,
+                0.42729032039642334,
+                0.5453910297817655,
+                0.5394376516342163
+              ],
+              "score": 0.38381463289260864,
+              "label": "vertical windows"
+            }
+          ]
+        },
+        {
+          "cueId": "cue-3",
+          "query": "glass-fronted lower floor with columns",
+          "detections": [
+            {
+              "id": "dino-cue-3-0",
+              "bbox": [
+                0.0029559731483459473,
+                0.7150391737620035,
+                0.9969824684990777,
+                0.9977930386861166
+              ],
+              "score": 0.5964434146881104,
+              "label": "glass - fronted lower floor"
+            },
+            {
+              "id": "dino-cue-3-1",
+              "bbox": [
+                0.528619024488661,
+                0.40995319684346515,
+                0.5699440108405219,
+                0.7211482524871826
+              ],
+              "score": 0.40895843505859375,
+              "label": "columns"
+            },
+            {
+              "id": "dino-cue-3-2",
+              "bbox": [
+                0.8618795077006022,
+                0.3839849630991618,
+                0.9131028917100694,
+                0.5204116503397623
+              ],
+              "score": 0.3158413767814636,
+              "label": "columns"
+            },
+            {
+              "id": "dino-cue-3-3",
+              "bbox": [
+                0.269411563873291,
+                0.5653234322865804,
+                0.31247244940863717,
+                0.7195071379343668
+              ],
+              "score": 0.30765047669410706,
+              "label": "columns"
+            }
+          ]
+        },
+        {
+          "cueId": "cue-4",
+          "query": "artificial turf sports field with white boundary lines",
+          "detections": [
+            {
+              "id": "dino-cue-4-0",
+              "bbox": [
+                0.0027982592582702637,
+                0.7159175872802734,
+                0.9970671335856119,
+                0.9973328908284506
+              ],
+              "score": 0.8104881048202515,
+              "label": "artificial turf sports field"
+            },
+            {
+              "id": "dino-cue-4-1",
+              "bbox": [
+                0.0032164156436920166,
+                0.7172996203104655,
+                0.5605867173936632,
+                0.8208144505818685
+              ],
+              "score": 0.4565187096595764,
+              "label": "white boundary lines"
+            }
+          ]
+        },
+        {
+          "cueId": "cue-5",
+          "query": "white circular marking on artificial turf",
+          "detections": [
+            {
+              "id": "dino-cue-5-0",
+              "bbox": [
+                0.04611322283744812,
+                0.733511765797933,
+                0.5582672225104438,
+                0.7892481486002604
+              ],
+              "score": 0.49268102645874023,
+              "label": "white circular marking"
+            },
+            {
+              "id": "dino-cue-5-1",
+              "bbox": [
+                0.002562999725341797,
+                0.7167841593424479,
+                0.9974768956502279,
+                0.9979479312896729
+              ],
+              "score": 0.5569614768028259,
+              "label": "artificial turf"
+            }
+          ]
+        },
+        {
+          "cueId": "cue-6",
+          "query": "autumn-colored street trees in landscaped courtyard",
+          "detections": [
+            {
+              "id": "dino-cue-6-0",
+              "bbox": [
+                0.002840697765350342,
+                0.0029759109020233154,
+                0.996610959370931,
+                0.7193639278411865
+              ],
+              "score": 0.45546072721481323,
+              "label": "autumn - colored street trees"
+            },
+            {
+              "id": "dino-cue-6-1",
+              "bbox": [
+                0.7542853355407715,
+                0.5754295587539673,
+                0.9451847076416016,
+                0.7279580434163412
+              ],
+              "score": 0.34108439087867737,
+              "label": "colored street trees"
+            },
+            {
+              "id": "dino-cue-6-2",
+              "bbox": [
+                0.006192237138748169,
+                0.5692632993062338,
+                0.9945441351996528,
+                0.7254572709401449
+              ],
+              "score": 0.3003445267677307,
+              "label": "colored street trees"
+            },
+            {
+              "id": "dino-cue-6-3",
+              "bbox": [
+                0.002506643533706665,
+                0.7122451464335123,
+                0.9970925649007162,
+                0.9978702068328857
+              ],
+              "score": 0.3062049448490143,
+              "label": "##d courtyard"
+            }
+          ]
+        },
+        {
+          "cueId": "cue-7",
+          "query": "landscaped courtyard with trees in front of building",
+          "detections": [
+            {
+              "id": "dino-cue-7-0",
+              "bbox": [
+                0.0028147995471954346,
+                0.7141717274983724,
+                0.9968279732598199,
+                0.9976065158843994
+              ],
+              "score": 0.5099027752876282,
+              "label": "landscaped courtyard"
+            },
+            {
+              "id": "dino-cue-7-1",
+              "bbox": [
+                0.0032882988452911377,
+                0.02216094732284546,
+                0.9964112175835503,
+                0.7217081387837728
+              ],
+              "score": 0.5518917441368103,
+              "label": "building"
+            },
+            {
+              "id": "dino-cue-7-2",
+              "bbox": [
+                0.7536618974473741,
+                0.5752162138621012,
+                0.9465772840711806,
+                0.7282113234202067
+              ],
+              "score": 0.3825036585330963,
+              "label": "trees"
+            },
+            {
+              "id": "dino-cue-7-3",
+              "bbox": [
+                0.5940017700195312,
+                0.5739558537801107,
+                0.7443222999572754,
+                0.7257048288981119
+              ],
+              "score": 0.364459753036499,
+              "label": "trees"
+            },
+            {
+              "id": "dino-cue-7-4",
+              "bbox": [
+                0.11561116907331678,
+                0.5875271161397299,
+                0.28767376475863987,
+                0.7206481297810873
+              ],
+              "score": 0.32539939880371094,
+              "label": "trees"
+            },
+            {
+              "id": "dino-cue-7-5",
+              "bbox": [
+                0.38634824752807617,
+                0.5783572991689047,
+                0.5831102795071073,
+                0.7219545046488444
+              ],
+              "score": 0.33801162242889404,
+              "label": "trees"
+            },
+            {
+              "id": "dino-cue-7-6",
+              "bbox": [
+                0.003336668014526367,
+                0.007453560829162598,
+                0.9969927469889323,
+                0.7223993937174479
+              ],
+              "score": 0.3261720538139343,
+              "label": "trees"
+            }
+          ]
+        },
+        {
+          "cueId": "cue-8",
+          "query": "building windows reflecting the sky",
+          "detections": [
+            {
+              "id": "dino-cue-8-0",
+              "bbox": [
+                0.0033701658248901367,
+                0.004925966262817383,
+                0.9968867831759982,
+                0.7157932917277018
+              ],
+              "score": 0.4304845929145813,
+              "label": "building windows"
+            },
+            {
+              "id": "dino-cue-8-1",
+              "bbox": [
+                0.002851635217666626,
+                0.003223806619644165,
+                0.9969576729668511,
+                0.7146592140197754
+              ],
+              "score": 0.32387104630470276,
+              "label": "the sky"
+            },
+            {
+              "id": "dino-cue-8-2",
+              "bbox": [
+                0.0023781955242156982,
+                0.0008578449487686157,
+                0.9969757927788628,
+                0.4102632204691569
+              ],
+              "score": 0.3239158093929291,
+              "label": "the sky"
+            }
+          ]
+        }
+      ]
+    },
+    "verify_cue-0_0_raw": {
+      "requestedModel": "gpt-5.4-mini",
+      "responseModel": "gpt-5.4-mini-2026-03-17",
+      "responseId": "resp_03c4a7bb69f662f5016af321ef46dc87d28ac401a2705fc1d1",
+      "status": "completed",
+      "usage": {
+        "input_tokens": 6936,
+        "input_tokens_details": {
+          "cache_write_tokens": 0,
+          "cached_tokens": 0
+        },
+        "output_tokens": 159,
+        "output_tokens_details": {
+          "reasoning_tokens": 0
+        },
+        "total_tokens": 7095
+      },
+      "promptSha256": "97106482e700608c01db19a0e347e9f7b3412b32cd23eb8b0b63af11e381e055",
+      "rawOutputText": "{\"checks\":[{\"proposalId\":\"link-0-0\",\"verdict\":\"supported\",\"evidenceKo\":\"크롭 안에 외벽 상단 왼쪽의 금색 숫자 '310'이 선명하게 보입니다.\"},{\"proposalId\":\"dino-cue-0-0\",\"verdict\":\"rejected\",\"evidenceKo\":\"해당 크롭은 건물 번호 310이 아니라 아래쪽의 전광판 숫자 '1444'를 포함합니다.\"},{\"proposalId\":\"dino-cue-0-1\",\"verdict\":\"supported\",\"evidenceKo\":\"제안 영역이 건물 외벽 대부분을 포함하며, 왼쪽 상단에 금색 '310'이 보입니다.\"}]}"
+    },
+    "verify_cue-0": {
+      "checks": [
+        {
+          "proposalId": "link-0-0",
+          "verdict": "supported",
+          "evidenceKo": "크롭 안에 외벽 상단 왼쪽의 금색 숫자 '310'이 선명하게 보입니다."
+        },
+        {
+          "proposalId": "dino-cue-0-0",
+          "verdict": "rejected",
+          "evidenceKo": "해당 크롭은 건물 번호 310이 아니라 아래쪽의 전광판 숫자 '1444'를 포함합니다."
+        },
+        {
+          "proposalId": "dino-cue-0-1",
+          "verdict": "supported",
+          "evidenceKo": "제안 영역이 건물 외벽 대부분을 포함하며, 왼쪽 상단에 금색 '310'이 보입니다."
+        }
+      ]
+    },
+    "verify_cue-1_0_raw": {
+      "requestedModel": "gpt-5.4-mini",
+      "responseModel": "gpt-5.4-mini-2026-03-17",
+      "responseId": "resp_0d6558fa1ded0373016af321f66ad887d2a8aafb70d76be6fc",
+      "status": "completed",
+      "usage": {
+        "input_tokens": 6983,
+        "input_tokens_details": {
+          "cache_write_tokens": 0,
+          "cached_tokens": 0
+        },
+        "output_tokens": 159,
+        "output_tokens_details": {
+          "reasoning_tokens": 0
+        },
+        "total_tokens": 7142
+      },
+      "promptSha256": "97106482e700608c01db19a0e347e9f7b3412b32cd23eb8b0b63af11e381e055",
+      "rawOutputText": "{\"checks\":[{\"proposalId\":\"dino-cue-1-0\",\"verdict\":\"supported\",\"evidenceKo\":\"작은 전광 표시판에 숫자 '1444'가 선명하게 보입니다.\"},{\"proposalId\":\"dino-cue-1-1\",\"verdict\":\"partial\",\"evidenceKo\":\"건물 외관 일부는 맞지만, 전체 파사드만 잡혀 있어 제시된 작은 표시판의 존재를 직접 확인하기 어렵습니다.\"},{\"proposalId\":\"dino-cue-1-2\",\"verdict\":\"rejected\",\"evidenceKo\":\"해당 크롭에는 숫자 표시판이 아니라 창문과 기둥만 보이며 '1444'는 없습니다.\"}]}"
+    },
+    "verify_cue-1": {
+      "checks": [
+        {
+          "proposalId": "dino-cue-1-0",
+          "verdict": "supported",
+          "evidenceKo": "작은 전광 표시판에 숫자 '1444'가 선명하게 보입니다."
+        },
+        {
+          "proposalId": "dino-cue-1-1",
+          "verdict": "partial",
+          "evidenceKo": "건물 외관 일부는 맞지만, 전체 파사드만 잡혀 있어 제시된 작은 표시판의 존재를 직접 확인하기 어렵습니다."
+        },
+        {
+          "proposalId": "dino-cue-1-2",
+          "verdict": "rejected",
+          "evidenceKo": "해당 크롭에는 숫자 표시판이 아니라 창문과 기둥만 보이며 '1444'는 없습니다."
+        }
+      ]
+    },
+    "verify_cue-2_0_raw": {
+      "requestedModel": "gpt-5.4-mini",
+      "responseModel": "gpt-5.4-mini-2026-03-17",
+      "responseId": "resp_0455d9aeaadd5329016af321fe21bc87d289d4377b0da7b885",
+      "status": "completed",
+      "usage": {
+        "input_tokens": 10506,
+        "input_tokens_details": {
+          "cache_write_tokens": 0,
+          "cached_tokens": 0
+        },
+        "output_tokens": 267,
+        "output_tokens_details": {
+          "reasoning_tokens": 0
+        },
+        "total_tokens": 10773
+      },
+      "promptSha256": "97106482e700608c01db19a0e347e9f7b3412b32cd23eb8b0b63af11e381e055",
+      "rawOutputText": "{\"checks\":[{\"proposalId\":\"dino-cue-2-0\",\"verdict\":\"supported\",\"evidenceKo\":\"배경의 대형 건물 전체가 보이고, 밝은 석재 타일처럼 보이는 외벽과 세로로 반복되는 창 배열이 확인됩니다.\"},{\"proposalId\":\"dino-cue-2-1\",\"verdict\":\"supported\",\"evidenceKo\":\"창 구간이 크게 잡혀 있으며, 세로로 길게 반복되는 창 형태가 स्पष्ट하게 보입니다.\"},{\"proposalId\":\"dino-cue-2-2\",\"verdict\":\"supported\",\"evidenceKo\":\"세로로 긴 창들이 연속으로 배치된 구간이 보이며, 창 배열 특징을 뒷받침합니다.\"},{\"proposalId\":\"dino-cue-2-3\",\"verdict\":\"supported\",\"evidenceKo\":\"석재처럼 보이는 밝은 외피와 규칙적인 세로 창들이 건물 전면에 넓게 나타납니다.\"},{\"proposalId\":\"dino-cue-2-4\",\"verdict\":\"supported\",\"evidenceKo\":\"세로형 창 한 구간이 명확히 보이고, 규칙적인 창 배열 일부를 확인할 수 있습니다.\"}]}"
+    },
+    "verify_cue-2": {
+      "checks": [
+        {
+          "proposalId": "dino-cue-2-0",
+          "verdict": "supported",
+          "evidenceKo": "배경의 대형 건물 전체가 보이고, 밝은 석재 타일처럼 보이는 외벽과 세로로 반복되는 창 배열이 확인됩니다."
+        },
+        {
+          "proposalId": "dino-cue-2-1",
+          "verdict": "supported",
+          "evidenceKo": "창 구간이 크게 잡혀 있으며, 세로로 길게 반복되는 창 형태가 स्पष्ट하게 보입니다."
+        },
+        {
+          "proposalId": "dino-cue-2-2",
+          "verdict": "supported",
+          "evidenceKo": "세로로 긴 창들이 연속으로 배치된 구간이 보이며, 창 배열 특징을 뒷받침합니다."
+        },
+        {
+          "proposalId": "dino-cue-2-3",
+          "verdict": "supported",
+          "evidenceKo": "석재처럼 보이는 밝은 외피와 규칙적인 세로 창들이 건물 전면에 넓게 나타납니다."
+        },
+        {
+          "proposalId": "dino-cue-2-4",
+          "verdict": "supported",
+          "evidenceKo": "세로형 창 한 구간이 명확히 보이고, 규칙적인 창 배열 일부를 확인할 수 있습니다."
+        }
+      ]
+    },
+    "verify_cue-3_0_raw": {
+      "requestedModel": "gpt-5.4-mini",
+      "responseModel": "gpt-5.4-mini-2026-03-17",
+      "responseId": "resp_0ee00b2eaed0d3f9016af32204a6bc87d280693531b5d1daba",
+      "status": "completed",
+      "usage": {
+        "input_tokens": 6213,
+        "input_tokens_details": {
+          "cache_write_tokens": 0,
+          "cached_tokens": 0
+        },
+        "output_tokens": 219,
+        "output_tokens_details": {
+          "reasoning_tokens": 0
+        },
+        "total_tokens": 6432
+      },
+      "promptSha256": "97106482e700608c01db19a0e347e9f7b3412b32cd23eb8b0b63af11e381e055",
+      "rawOutputText": "{\"checks\":[{\"proposalId\":\"dino-cue-3-0\",\"verdict\":\"supported\",\"evidenceKo\":\"하부 전면에 큰 유리창이 길게 이어지고, 그 사이로 수직 기둥이 반복되어 저층 유리 파사드로 보입니다.\"},{\"proposalId\":\"dino-cue-3-1\",\"verdict\":\"supported\",\"evidenceKo\":\"기둥 하나가 크게 보이며, 상하로 이어진 수직 구조가 명확합니다.\"},{\"proposalId\":\"dino-cue-3-2\",\"verdict\":\"supported\",\"evidenceKo\":\"원통형 기둥이 स्पष्ट히 드러나 수직 기둥 요소를 확인할 수 있습니다.\"},{\"proposalId\":\"dino-cue-3-3\",\"verdict\":\"supported\",\"evidenceKo\":\"좁은 구간이지만 수직 기둥과 옆의 유리면이 함께 보여 저층부 구성 일부를 뒷받침합니다.\"}]}"
+    },
+    "verify_cue-3": {
+      "checks": [
+        {
+          "proposalId": "dino-cue-3-0",
+          "verdict": "supported",
+          "evidenceKo": "하부 전면에 큰 유리창이 길게 이어지고, 그 사이로 수직 기둥이 반복되어 저층 유리 파사드로 보입니다."
+        },
+        {
+          "proposalId": "dino-cue-3-1",
+          "verdict": "supported",
+          "evidenceKo": "기둥 하나가 크게 보이며, 상하로 이어진 수직 구조가 명확합니다."
+        },
+        {
+          "proposalId": "dino-cue-3-2",
+          "verdict": "supported",
+          "evidenceKo": "원통형 기둥이 स्पष्ट히 드러나 수직 기둥 요소를 확인할 수 있습니다."
+        },
+        {
+          "proposalId": "dino-cue-3-3",
+          "verdict": "supported",
+          "evidenceKo": "좁은 구간이지만 수직 기둥과 옆의 유리면이 함께 보여 저층부 구성 일부를 뒷받침합니다."
+        }
+      ]
+    },
+    "verify_cue-4_0_raw": {
+      "requestedModel": "gpt-5.4-mini",
+      "responseModel": "gpt-5.4-mini-2026-03-17",
+      "responseId": "resp_061ac33afa597490016af3220aa14487d29b7440d77be86082",
+      "status": "completed",
+      "usage": {
+        "input_tokens": 6144,
+        "input_tokens_details": {
+          "cache_write_tokens": 0,
+          "cached_tokens": 0
+        },
+        "output_tokens": 130,
+        "output_tokens_details": {
+          "reasoning_tokens": 0
+        },
+        "total_tokens": 6274
+      },
+      "promptSha256": "97106482e700608c01db19a0e347e9f7b3412b32cd23eb8b0b63af11e381e055",
+      "rawOutputText": "{\"checks\":[{\"proposalId\":\"dino-cue-4-0\",\"verdict\":\"supported\",\"evidenceKo\":\"하단 전경에 초록색 인조잔디가 넓게 보이고, 흰색 경계선과 원형 라인이 확인됩니다.\"},{\"proposalId\":\"dino-cue-4-1\",\"verdict\":\"supported\",\"evidenceKo\":\"초록색 잔디 위에 흰색 선과 원형 라인이 뚜렷하게 보여, 흰색 경계선이 있는 운동장 일부로 확인됩니다.\"}]}"
+    },
+    "verify_cue-4": {
+      "checks": [
+        {
+          "proposalId": "dino-cue-4-0",
+          "verdict": "supported",
+          "evidenceKo": "하단 전경에 초록색 인조잔디가 넓게 보이고, 흰색 경계선과 원형 라인이 확인됩니다."
+        },
+        {
+          "proposalId": "dino-cue-4-1",
+          "verdict": "supported",
+          "evidenceKo": "초록색 잔디 위에 흰색 선과 원형 라인이 뚜렷하게 보여, 흰색 경계선이 있는 운동장 일부로 확인됩니다."
+        }
+      ]
+    },
+    "verify_cue-5_0_raw": {
+      "requestedModel": "gpt-5.4-mini",
+      "responseModel": "gpt-5.4-mini-2026-03-17",
+      "responseId": "resp_0d59bb0ebba4e526016af3221121fc87d2b267180bad25d0e5",
+      "status": "completed",
+      "usage": {
+        "input_tokens": 5912,
+        "input_tokens_details": {
+          "cache_write_tokens": 0,
+          "cached_tokens": 0
+        },
+        "output_tokens": 127,
+        "output_tokens_details": {
+          "reasoning_tokens": 0
+        },
+        "total_tokens": 6039
+      },
+      "promptSha256": "97106482e700608c01db19a0e347e9f7b3412b32cd23eb8b0b63af11e381e055",
+      "rawOutputText": "{\"checks\":[{\"proposalId\":\"dino-cue-5-0\",\"verdict\":\"supported\",\"evidenceKo\":\"잔디 표면에 큰 흰색 원형 라인이 뚜렷하게 보이고, 원 안쪽의 마킹 일부도 함께 확인됩니다.\"},{\"proposalId\":\"dino-cue-5-1\",\"verdict\":\"partial\",\"evidenceKo\":\"인공잔디 표면은 보이지만, 전체 영역이 잔디만으로 이루어진 것은 아니고 중앙의 원형 라인은 부분적으로만 포함됩니다.\"}]}"
+    },
+    "verify_cue-5": {
+      "checks": [
+        {
+          "proposalId": "dino-cue-5-0",
+          "verdict": "supported",
+          "evidenceKo": "잔디 표면에 큰 흰색 원형 라인이 뚜렷하게 보이고, 원 안쪽의 마킹 일부도 함께 확인됩니다."
+        },
+        {
+          "proposalId": "dino-cue-5-1",
+          "verdict": "partial",
+          "evidenceKo": "인공잔디 표면은 보이지만, 전체 영역이 잔디만으로 이루어진 것은 아니고 중앙의 원형 라인은 부분적으로만 포함됩니다."
+        }
+      ]
+    },
+    "verify_cue-6_0_raw": {
+      "requestedModel": "gpt-5.4-mini",
+      "responseModel": "gpt-5.4-mini-2026-03-17",
+      "responseId": "resp_030cbfc1dd70418d016af3221805e087d2b8ffde7b7353b014",
+      "status": "completed",
+      "usage": {
+        "input_tokens": 10265,
+        "input_tokens_details": {
+          "cache_write_tokens": 0,
+          "cached_tokens": 0
+        },
+        "output_tokens": 245,
+        "output_tokens_details": {
+          "reasoning_tokens": 0
+        },
+        "total_tokens": 10510
+      },
+      "promptSha256": "97106482e700608c01db19a0e347e9f7b3412b32cd23eb8b0b63af11e381e055",
+      "rawOutputText": "{\"checks\":[{\"proposalId\":\"dino-cue-6-0\",\"verdict\":\"supported\",\"evidenceKo\":\"상단과 중간에 노란색·주황색으로 물든 가로수 잎이 여러 그루 뚜렷하게 보입니다.\"},{\"proposalId\":\"dino-cue-6-1\",\"verdict\":\"supported\",\"evidenceKo\":\"오른쪽의 나무가 붉은색·주황색 단풍으로 변해 있고, 수형과 줄기까지 함께 보여 가로수로 판단됩니다.\"},{\"proposalId\":\"dino-cue-6-2\",\"verdict\":\"supported\",\"evidenceKo\":\"여러 그루의 조경수 중 노란색·주황색 단풍이 선명하게 보여 가을색 가로수 묶음이 확인됩니다.\"},{\"proposalId\":\"dino-cue-6-3\",\"verdict\":\"partial\",\"evidenceKo\":\"하단 잔디와 경계부만 주로 보여 조경 구역은 보이지만, 가을색 가로수 자체는 대부분 밖으로 잘려 있습니다.\"}]}"
+    },
+    "verify_cue-6": {
+      "checks": [
+        {
+          "proposalId": "dino-cue-6-0",
+          "verdict": "supported",
+          "evidenceKo": "상단과 중간에 노란색·주황색으로 물든 가로수 잎이 여러 그루 뚜렷하게 보입니다."
+        },
+        {
+          "proposalId": "dino-cue-6-1",
+          "verdict": "supported",
+          "evidenceKo": "오른쪽의 나무가 붉은색·주황색 단풍으로 변해 있고, 수형과 줄기까지 함께 보여 가로수로 판단됩니다."
+        },
+        {
+          "proposalId": "dino-cue-6-2",
+          "verdict": "supported",
+          "evidenceKo": "여러 그루의 조경수 중 노란색·주황색 단풍이 선명하게 보여 가을색 가로수 묶음이 확인됩니다."
+        },
+        {
+          "proposalId": "dino-cue-6-3",
+          "verdict": "partial",
+          "evidenceKo": "하단 잔디와 경계부만 주로 보여 조경 구역은 보이지만, 가을색 가로수 자체는 대부분 밖으로 잘려 있습니다."
+        }
+      ]
+    },
+    "verify_cue-7_0_raw": {
+      "requestedModel": "gpt-5.4-mini",
+      "responseModel": "gpt-5.4-mini-2026-03-17",
+      "responseId": "resp_0dd8c751954fafca016af32222227c87d284d8ba21f5adaf60",
+      "status": "completed",
+      "usage": {
+        "input_tokens": 13084,
+        "input_tokens_details": {
+          "cache_write_tokens": 0,
+          "cached_tokens": 0
+        },
+        "output_tokens": 362,
+        "output_tokens_details": {
+          "reasoning_tokens": 0
+        },
+        "total_tokens": 13446
+      },
+      "promptSha256": "97106482e700608c01db19a0e347e9f7b3412b32cd23eb8b0b63af11e381e055",
+      "rawOutputText": "{\"checks\":[{\"proposalId\":\"dino-cue-7-0\",\"verdict\":\"supported\",\"evidenceKo\":\"건물 앞 띠 공간에 인조잔디 운동장과 가장자리의 화단·나무 배치가 함께 보여 조경 공간으로 보입니다.\"},{\"proposalId\":\"dino-cue-7-1\",\"verdict\":\"supported\",\"evidenceKo\":\"건물 전면 일부와 함께 아래쪽에 화단과 정돈된 수목이 연속적으로 배치된 외부 조경이 보입니다.\"},{\"proposalId\":\"dino-cue-7-2\",\"verdict\":\"supported\",\"evidenceKo\":\"붉은 잎의 수목이 화단 위에 식재되어 있고 건물 전면 조경 요소로 확인됩니다.\"},{\"proposalId\":\"dino-cue-7-3\",\"verdict\":\"supported\",\"evidenceKo\":\"노란 잎의 수목이 화단에 심겨 있어 건물 앞 조경의 일부로 보입니다.\"},{\"proposalId\":\"dino-cue-7-4\",\"verdict\":\"supported\",\"evidenceKo\":\"건물 앞 화단에 작은 수목이 정돈된 형태로 식재되어 있습니다.\"},{\"proposalId\":\"dino-cue-7-5\",\"verdict\":\"supported\",\"evidenceKo\":\"노란 잎 수목과 하부 화단이 함께 보여 건물 전면 조경 요소가 맞습니다.\"},{\"proposalId\":\"dino-cue-7-6\",\"verdict\":\"supported\",\"evidenceKo\":\"건물 전면 전체에 여러 화단과 나무가 줄지어 배치된 조경 공간이 뚜렷합니다.\"}]}"
+    },
+    "verify_cue-7": {
+      "checks": [
+        {
+          "proposalId": "dino-cue-7-0",
+          "verdict": "supported",
+          "evidenceKo": "건물 앞 띠 공간에 인조잔디 운동장과 가장자리의 화단·나무 배치가 함께 보여 조경 공간으로 보입니다."
+        },
+        {
+          "proposalId": "dino-cue-7-1",
+          "verdict": "supported",
+          "evidenceKo": "건물 전면 일부와 함께 아래쪽에 화단과 정돈된 수목이 연속적으로 배치된 외부 조경이 보입니다."
+        },
+        {
+          "proposalId": "dino-cue-7-2",
+          "verdict": "supported",
+          "evidenceKo": "붉은 잎의 수목이 화단 위에 식재되어 있고 건물 전면 조경 요소로 확인됩니다."
+        },
+        {
+          "proposalId": "dino-cue-7-3",
+          "verdict": "supported",
+          "evidenceKo": "노란 잎의 수목이 화단에 심겨 있어 건물 앞 조경의 일부로 보입니다."
+        },
+        {
+          "proposalId": "dino-cue-7-4",
+          "verdict": "supported",
+          "evidenceKo": "건물 앞 화단에 작은 수목이 정돈된 형태로 식재되어 있습니다."
+        },
+        {
+          "proposalId": "dino-cue-7-5",
+          "verdict": "supported",
+          "evidenceKo": "노란 잎 수목과 하부 화단이 함께 보여 건물 전면 조경 요소가 맞습니다."
+        },
+        {
+          "proposalId": "dino-cue-7-6",
+          "verdict": "supported",
+          "evidenceKo": "건물 전면 전체에 여러 화단과 나무가 줄지어 배치된 조경 공간이 뚜렷합니다."
+        }
+      ]
+    },
+    "verify_cue-8_0_raw": {
+      "requestedModel": "gpt-5.4-mini",
+      "responseModel": "gpt-5.4-mini-2026-03-17",
+      "responseId": "resp_0ee92c425128bc62016af3222d5a3887d2b0939e5aeff070c4",
+      "status": "completed",
+      "usage": {
+        "input_tokens": 12505,
+        "input_tokens_details": {
+          "cache_write_tokens": 0,
+          "cached_tokens": 0
+        },
+        "output_tokens": 177,
+        "output_tokens_details": {
+          "reasoning_tokens": 0
+        },
+        "total_tokens": 12682
+      },
+      "promptSha256": "97106482e700608c01db19a0e347e9f7b3412b32cd23eb8b0b63af11e381e055",
+      "rawOutputText": "{\"checks\":[{\"proposalId\":\"dino-cue-8-0\",\"verdict\":\"supported\",\"evidenceKo\":\"저층 유리면에 하늘빛이 넓게 비치고, 밝은 하늘/주변 환경 반사가 여러 창에서 뚜렷합니다.\"},{\"proposalId\":\"dino-cue-8-1\",\"verdict\":\"supported\",\"evidenceKo\":\"저층부 창문들에 하늘색 반사가 واضح하게 보이며, 유리면 반사 대상이 충분히 확인됩니다.\"},{\"proposalId\":\"dino-cue-8-2\",\"verdict\":\"partial\",\"evidenceKo\":\"상단부는 창과 외벽 위주로 보이고, 저층 유리창의 반사 특징이 충분히 담기지 않았습니다.\"}]}"
+    },
+    "verify_cue-8": {
+      "checks": [
+        {
+          "proposalId": "dino-cue-8-0",
+          "verdict": "supported",
+          "evidenceKo": "저층 유리면에 하늘빛이 넓게 비치고, 밝은 하늘/주변 환경 반사가 여러 창에서 뚜렷합니다."
+        },
+        {
+          "proposalId": "dino-cue-8-1",
+          "verdict": "supported",
+          "evidenceKo": "저층부 창문들에 하늘색 반사가 واضح하게 보이며, 유리면 반사 대상이 충분히 확인됩니다."
+        },
+        {
+          "proposalId": "dino-cue-8-2",
+          "verdict": "partial",
+          "evidenceKo": "상단부는 창과 외벽 위주로 보이고, 저층 유리창의 반사 특징이 충분히 담기지 않았습니다."
+        }
+      ]
+    }
+  },
+  "cues": [
+    {
+      "kind": "text",
+      "category": "건물 번호 표기",
+      "nameKo": "상부 건물 번호 310",
+      "observationKo": "건물 외벽 상단 왼쪽에 금색 숫자 '310'이 보인다.",
+      "geographicRelevanceKo": "건물 식별자일 수 있어 공개 사진의 건물 외관과 대조하면 후보 지역을 좁히는 단서가 될 수 있다.",
+      "regionDescriptionKo": "사진 왼쪽 상단의 고층 외벽 영역",
+      "scope": "object",
+      "visibleText": "310",
+      "surface": "fixed",
+      "visibility": "clear",
+      "detectorQueryEn": "gold building number 310 on exterior wall",
+      "limitationsKo": "건물명이나 도시명은 보이지 않으며, 동일 번호는 여러 곳에 있을 수 있다.",
+      "id": "cue-0",
+      "source": "geominer_adaptation",
+      "sourceIndex": 0,
+      "disposition": "candidate",
+      "evidenceGroupIds": [
+        "ocr-cue-0"
+      ],
+      "localization": {
+        "status": "supported",
+        "proposals": [
+          {
+            "id": "link-0-0",
+            "source": "paddleocr",
+            "bbox": [
+              0.013888888888888888,
+              0.11100260416666667,
+              0.05642361111111111,
+              0.13411458333333334
+            ],
+            "polygons": [
+              [
+                [
+                  0.013888888888888888,
+                  0.11783854166666667
+                ],
+                [
+                  0.051215277777777776,
+                  0.11100260416666667
+                ],
+                [
+                  0.05642361111111111,
+                  0.12727864583333334
+                ],
+                [
+                  0.019097222222222224,
+                  0.13411458333333334
+                ]
+              ]
+            ],
+            "lineIds": [
+              "ocr-0"
+            ],
+            "verdict": "supported",
+            "evidenceKo": "크롭 안에 외벽 상단 왼쪽의 금색 숫자 '310'이 선명하게 보입니다.",
+            "verificationSource": null,
+            "score": null,
+            "associationStatus": "model_proposed"
+          },
+          {
+            "id": "dino-cue-0-0",
+            "bbox": [
+              0.5291866726345487,
+              0.5273541609446207,
+              0.5824831326802572,
+              0.550666888554891
+            ],
+            "score": 0.46251803636550903,
+            "label": "gold building number",
+            "source": "grounding_dino",
+            "verdict": "rejected",
+            "evidenceKo": "해당 크롭은 건물 번호 310이 아니라 아래쪽의 전광판 숫자 '1444'를 포함합니다."
+          },
+          {
+            "id": "dino-cue-0-1",
+            "bbox": [
+              0.003386944532394409,
+              0.07406190037727356,
+              0.9969082938300239,
+              0.7195665041605631
+            ],
+            "score": 0.40902841091156006,
+            "label": "exterior wall",
+            "source": "grounding_dino",
+            "verdict": "supported",
+            "evidenceKo": "제안 영역이 건물 외벽 대부분을 포함하며, 왼쪽 상단에 금색 '310'이 보입니다."
+          }
+        ],
+        "mask": null
+      },
+      "geoSpecificityVerified": false
+    },
+    {
+      "kind": "text",
+      "category": "전자 표시판",
+      "nameKo": "중앙 층 표시 숫자 1444",
+      "observationKo": "중앙부 외벽 난간 아래의 작은 전광 표시판에 '1444'가 보인다.",
+      "geographicRelevanceKo": "층수·시간·내부 표시로 보일 수 있어 건물 내부/외관 사진과의 비교 단서가 될 수 있다.",
+      "regionDescriptionKo": "사진 중앙 하단의 회색 외벽 띠 부분",
+      "scope": "object",
+      "visibleText": "1444",
+      "surface": "fixed",
+      "visibility": "clear",
+      "detectorQueryEn": "digital display showing 1444 on building facade",
+      "limitationsKo": "표시 의미가 불명확하고, 시각 정보만으로 장소를 특정할 수 없다.",
+      "id": "cue-1",
+      "source": "geominer_adaptation",
+      "sourceIndex": 1,
+      "disposition": "candidate",
+      "evidenceGroupIds": [],
+      "localization": {
+        "status": "supported",
+        "proposals": [
+          {
+            "id": "dino-cue-1-0",
+            "bbox": [
+              0.5301925341288248,
+              0.5279147624969482,
+              0.5811483065287272,
+              0.5497084856033325
+            ],
+            "score": 0.43724945187568665,
+            "label": "digital display",
+            "source": "grounding_dino",
+            "verdict": "supported",
+            "evidenceKo": "작은 전광 표시판에 숫자 '1444'가 선명하게 보입니다."
+          },
+          {
+            "id": "dino-cue-1-1",
+            "bbox": [
+              0.002899855375289917,
+              0.05243873596191406,
+              0.9971324072943794,
+              0.7206485271453857
+            ],
+            "score": 0.5196399092674255,
+            "label": "building facade",
+            "source": "grounding_dino",
+            "verdict": "partial",
+            "evidenceKo": "건물 외관 일부는 맞지만, 전체 파사드만 잡혀 있어 제시된 작은 표시판의 존재를 직접 확인하기 어렵습니다."
+          },
+          {
+            "id": "dino-cue-1-2",
+            "bbox": [
+              0.5623227755228678,
+              0.4166589180628459,
+              0.705572764078776,
+              0.5330972671508789
+            ],
+            "score": 0.3133641183376312,
+            "label": "digital display",
+            "source": "grounding_dino",
+            "verdict": "rejected",
+            "evidenceKo": "해당 크롭에는 숫자 표시판이 아니라 창문과 기둥만 보이며 '1444'는 없습니다."
+          }
+        ],
+        "mask": null
+      },
+      "geoSpecificityVerified": false
+    },
+    {
+      "kind": "non_text",
+      "category": "건축 외관",
+      "nameKo": "석재 마감 고층 외벽",
+      "observationKo": "밝은 석재 타일처럼 보이는 외피와 규칙적인 세로 창 배열의 대형 건물이 보인다.",
+      "geographicRelevanceKo": "현대식 오피스/공공건물 외관 유형과 비교할 때 지역별 건축 양식 단서가 될 수 있다.",
+      "regionDescriptionKo": "사진 대부분을 차지하는 배경 건물 전체",
+      "scope": "scene",
+      "visibleText": null,
+      "surface": "fixed",
+      "visibility": "clear",
+      "detectorQueryEn": "large modern building with pale stone facade and vertical windows",
+      "limitationsKo": "일반적인 도시 건축 형태로, 지역 고유성을 직접 보여주지는 않는다.",
+      "id": "cue-2",
+      "source": "geominer_adaptation",
+      "sourceIndex": 2,
+      "disposition": "candidate",
+      "evidenceGroupIds": [],
+      "localization": {
+        "status": "supported",
+        "proposals": [
+          {
+            "id": "dino-cue-2-0",
+            "bbox": [
+              0.0017712116241455078,
+              0.02138194441795349,
+              0.998286141289605,
+              0.7227567036946615
+            ],
+            "score": 0.8064061999320984,
+            "label": "large modern building",
+            "source": "grounding_dino",
+            "verdict": "supported",
+            "evidenceKo": "배경의 대형 건물 전체가 보이고, 밝은 석재 타일처럼 보이는 외벽과 세로로 반복되는 창 배열이 확인됩니다."
+          },
+          {
+            "id": "dino-cue-2-1",
+            "bbox": [
+              0.559816943274604,
+              0.41527541478474933,
+              0.7070246802435981,
+              0.5348321596781412
+            ],
+            "score": 0.48963162302970886,
+            "label": "vertical windows",
+            "source": "grounding_dino",
+            "verdict": "supported",
+            "evidenceKo": "창 구간이 크게 잡혀 있으며, 세로로 길게 반복되는 창 형태가 स्पष्ट하게 보입니다."
+          },
+          {
+            "id": "dino-cue-2-2",
+            "bbox": [
+              0.7157583236694336,
+              0.4034537474314372,
+              0.8817878829108344,
+              0.5279964605967203
+            ],
+            "score": 0.4751918315887451,
+            "label": "vertical windows",
+            "source": "grounding_dino",
+            "verdict": "supported",
+            "evidenceKo": "세로로 긴 창들이 연속으로 배치된 구간이 보이며, 창 배열 특징을 뒷받침합니다."
+          },
+          {
+            "id": "dino-cue-2-3",
+            "bbox": [
+              0.002312213182449341,
+              0.020794659852981567,
+              0.9974658754136827,
+              0.7222803433736166
+            ],
+            "score": 0.38165828585624695,
+            "label": "pale stone facade",
+            "source": "grounding_dino",
+            "verdict": "supported",
+            "evidenceKo": "석재처럼 보이는 밝은 외피와 규칙적인 세로 창들이 건물 전면에 넓게 나타납니다."
+          },
+          {
+            "id": "dino-cue-2-4",
+            "bbox": [
+              0.4112014240688748,
+              0.42729032039642334,
+              0.5453910297817655,
+              0.5394376516342163
+            ],
+            "score": 0.38381463289260864,
+            "label": "vertical windows",
+            "source": "grounding_dino",
+            "verdict": "supported",
+            "evidenceKo": "세로형 창 한 구간이 명확히 보이고, 규칙적인 창 배열 일부를 확인할 수 있습니다."
+          }
+        ],
+        "mask": null
+      },
+      "geoSpecificityVerified": false
+    },
+    {
+      "kind": "non_text",
+      "category": "저층 유리벽",
+      "nameKo": "지상부 유리 파사드",
+      "observationKo": "아래층에는 넓은 유리창과 수직 기둥이 반복되는 투명한 저층부가 있다.",
+      "geographicRelevanceKo": "교육·업무·공공시설의 저층부 구성 방식이 지역 건축 비교에 참고될 수 있다.",
+      "regionDescriptionKo": "사진 중앙의 건물 하부 전면",
+      "scope": "object",
+      "visibleText": null,
+      "surface": "fixed",
+      "visibility": "clear",
+      "detectorQueryEn": "glass-fronted lower floor with columns",
+      "limitationsKo": "특정 지역을 지목하는 독특한 요소는 아니다.",
+      "id": "cue-3",
+      "source": "geominer_adaptation",
+      "sourceIndex": 3,
+      "disposition": "candidate",
+      "evidenceGroupIds": [],
+      "localization": {
+        "status": "supported",
+        "proposals": [
+          {
+            "id": "dino-cue-3-0",
+            "bbox": [
+              0.0029559731483459473,
+              0.7150391737620035,
+              0.9969824684990777,
+              0.9977930386861166
+            ],
+            "score": 0.5964434146881104,
+            "label": "glass - fronted lower floor",
+            "source": "grounding_dino",
+            "verdict": "supported",
+            "evidenceKo": "하부 전면에 큰 유리창이 길게 이어지고, 그 사이로 수직 기둥이 반복되어 저층 유리 파사드로 보입니다."
+          },
+          {
+            "id": "dino-cue-3-1",
+            "bbox": [
+              0.528619024488661,
+              0.40995319684346515,
+              0.5699440108405219,
+              0.7211482524871826
+            ],
+            "score": 0.40895843505859375,
+            "label": "columns",
+            "source": "grounding_dino",
+            "verdict": "supported",
+            "evidenceKo": "기둥 하나가 크게 보이며, 상하로 이어진 수직 구조가 명확합니다."
+          },
+          {
+            "id": "dino-cue-3-2",
+            "bbox": [
+              0.8618795077006022,
+              0.3839849630991618,
+              0.9131028917100694,
+              0.5204116503397623
+            ],
+            "score": 0.3158413767814636,
+            "label": "columns",
+            "source": "grounding_dino",
+            "verdict": "supported",
+            "evidenceKo": "원통형 기둥이 स्पष्ट히 드러나 수직 기둥 요소를 확인할 수 있습니다."
+          },
+          {
+            "id": "dino-cue-3-3",
+            "bbox": [
+              0.269411563873291,
+              0.5653234322865804,
+              0.31247244940863717,
+              0.7195071379343668
+            ],
+            "score": 0.30765047669410706,
+            "label": "columns",
+            "source": "grounding_dino",
+            "verdict": "supported",
+            "evidenceKo": "좁은 구간이지만 수직 기둥과 옆의 유리면이 함께 보여 저층부 구성 일부를 뒷받침합니다."
+          }
+        ],
+        "mask": null
+      },
+      "geoSpecificityVerified": false
+    },
+    {
+      "kind": "non_text",
+      "category": "옥외 운동장",
+      "nameKo": "인조잔디 운동장",
+      "observationKo": "전경에 흰색 라인이 그려진 초록색 인조잔디 운동장이 펼쳐져 있다.",
+      "geographicRelevanceKo": "학교나 캠퍼스, 사옥 내 운동 공간 등 용도 추정에 도움을 주어 환경 유형을 비교할 수 있다.",
+      "regionDescriptionKo": "사진 하단 전경 전체",
+      "scope": "scene",
+      "visibleText": null,
+      "surface": "fixed",
+      "visibility": "clear",
+      "detectorQueryEn": "artificial turf sports field with white boundary lines",
+      "limitationsKo": "유사한 운동장은 여러 국가와 지역에서 볼 수 있다.",
+      "id": "cue-4",
+      "source": "geominer_adaptation",
+      "sourceIndex": 4,
+      "disposition": "candidate",
+      "evidenceGroupIds": [],
+      "localization": {
+        "status": "supported",
+        "proposals": [
+          {
+            "id": "dino-cue-4-0",
+            "bbox": [
+              0.0027982592582702637,
+              0.7159175872802734,
+              0.9970671335856119,
+              0.9973328908284506
+            ],
+            "score": 0.8104881048202515,
+            "label": "artificial turf sports field",
+            "source": "grounding_dino",
+            "verdict": "supported",
+            "evidenceKo": "하단 전경에 초록색 인조잔디가 넓게 보이고, 흰색 경계선과 원형 라인이 확인됩니다."
+          },
+          {
+            "id": "dino-cue-4-1",
+            "bbox": [
+              0.0032164156436920166,
+              0.7172996203104655,
+              0.5605867173936632,
+              0.8208144505818685
+            ],
+            "score": 0.4565187096595764,
+            "label": "white boundary lines",
+            "source": "grounding_dino",
+            "verdict": "supported",
+            "evidenceKo": "초록색 잔디 위에 흰색 선과 원형 라인이 뚜렷하게 보여, 흰색 경계선이 있는 운동장 일부로 확인됩니다."
+          }
+        ],
+        "mask": null
+      },
+      "geoSpecificityVerified": false
+    },
+    {
+      "kind": "non_text",
+      "category": "표면 마크",
+      "nameKo": "원형 라인 마킹",
+      "observationKo": "운동장 중앙 쪽에 큰 흰색 원형 라인이 그려져 있다.",
+      "geographicRelevanceKo": "운동장 규격이나 용도(특정 구기/훈련 공간) 판단에 참고될 수 있다.",
+      "regionDescriptionKo": "사진 하단 중앙의 잔디 표면",
+      "scope": "object",
+      "visibleText": null,
+      "surface": "fixed",
+      "visibility": "clear",
+      "detectorQueryEn": "white circular marking on artificial turf",
+      "limitationsKo": "용도는 확실하지 않으며, 표준 스포츠 규격과 일치하는지 판단하기 어렵다.",
+      "id": "cue-5",
+      "source": "geominer_adaptation",
+      "sourceIndex": 5,
+      "disposition": "candidate",
+      "evidenceGroupIds": [],
+      "localization": {
+        "status": "supported",
+        "proposals": [
+          {
+            "id": "dino-cue-5-0",
+            "bbox": [
+              0.04611322283744812,
+              0.733511765797933,
+              0.5582672225104438,
+              0.7892481486002604
+            ],
+            "score": 0.49268102645874023,
+            "label": "white circular marking",
+            "source": "grounding_dino",
+            "verdict": "supported",
+            "evidenceKo": "잔디 표면에 큰 흰색 원형 라인이 뚜렷하게 보이고, 원 안쪽의 마킹 일부도 함께 확인됩니다."
+          },
+          {
+            "id": "dino-cue-5-1",
+            "bbox": [
+              0.002562999725341797,
+              0.7167841593424479,
+              0.9974768956502279,
+              0.9979479312896729
+            ],
+            "score": 0.5569614768028259,
+            "label": "artificial turf",
+            "source": "grounding_dino",
+            "verdict": "partial",
+            "evidenceKo": "인공잔디 표면은 보이지만, 전체 영역이 잔디만으로 이루어진 것은 아니고 중앙의 원형 라인은 부분적으로만 포함됩니다."
+          }
+        ],
+        "mask": null
+      },
+      "geoSpecificityVerified": false
+    },
+    {
+      "kind": "non_text",
+      "category": "가로수",
+      "nameKo": "가을색 가로수",
+      "observationKo": "전경과 건물 앞에 노란색·주황색으로 변한 낙엽수들이 심어져 있다.",
+      "geographicRelevanceKo": "계절성과 수종 구성은 기후대와 조경 스타일을 비교하는 단서가 될 수 있다.",
+      "regionDescriptionKo": "사진 하단과 중간의 조경 구역",
+      "scope": "group",
+      "visibleText": null,
+      "surface": "fixed",
+      "visibility": "clear",
+      "detectorQueryEn": "autumn-colored street trees in landscaped courtyard",
+      "limitationsKo": "가을 경관은 광범위한 지역에서 공통적으로 나타난다.",
+      "id": "cue-6",
+      "source": "geominer_adaptation",
+      "sourceIndex": 6,
+      "disposition": "candidate",
+      "evidenceGroupIds": [],
+      "localization": {
+        "status": "supported",
+        "proposals": [
+          {
+            "id": "dino-cue-6-0",
+            "bbox": [
+              0.002840697765350342,
+              0.0029759109020233154,
+              0.996610959370931,
+              0.7193639278411865
+            ],
+            "score": 0.45546072721481323,
+            "label": "autumn - colored street trees",
+            "source": "grounding_dino",
+            "verdict": "supported",
+            "evidenceKo": "상단과 중간에 노란색·주황색으로 물든 가로수 잎이 여러 그루 뚜렷하게 보입니다."
+          },
+          {
+            "id": "dino-cue-6-1",
+            "bbox": [
+              0.7542853355407715,
+              0.5754295587539673,
+              0.9451847076416016,
+              0.7279580434163412
+            ],
+            "score": 0.34108439087867737,
+            "label": "colored street trees",
+            "source": "grounding_dino",
+            "verdict": "supported",
+            "evidenceKo": "오른쪽의 나무가 붉은색·주황색 단풍으로 변해 있고, 수형과 줄기까지 함께 보여 가로수로 판단됩니다."
+          },
+          {
+            "id": "dino-cue-6-2",
+            "bbox": [
+              0.006192237138748169,
+              0.5692632993062338,
+              0.9945441351996528,
+              0.7254572709401449
+            ],
+            "score": 0.3003445267677307,
+            "label": "colored street trees",
+            "source": "grounding_dino",
+            "verdict": "supported",
+            "evidenceKo": "여러 그루의 조경수 중 노란색·주황색 단풍이 선명하게 보여 가을색 가로수 묶음이 확인됩니다."
+          },
+          {
+            "id": "dino-cue-6-3",
+            "bbox": [
+              0.002506643533706665,
+              0.7122451464335123,
+              0.9970925649007162,
+              0.9978702068328857
+            ],
+            "score": 0.3062049448490143,
+            "label": "##d courtyard",
+            "source": "grounding_dino",
+            "verdict": "partial",
+            "evidenceKo": "하단 잔디와 경계부만 주로 보여 조경 구역은 보이지만, 가을색 가로수 자체는 대부분 밖으로 잘려 있습니다."
+          }
+        ],
+        "mask": null
+      },
+      "geoSpecificityVerified": false
+    },
+    {
+      "kind": "non_text",
+      "category": "외부 조경",
+      "nameKo": "건물 앞 정원형 조경",
+      "observationKo": "건물 전면에 낮은 화단과 정돈된 나무 배치가 있는 조경 공간이 있다.",
+      "geographicRelevanceKo": "캠퍼스형 또는 사옥형 부지의 외부 공간 계획을 추정하는 데 도움이 될 수 있다.",
+      "regionDescriptionKo": "사진 중앙 하단에서 건물과 운동장 사이의 띠 공간",
+      "scope": "relation",
+      "visibleText": null,
+      "surface": "fixed",
+      "visibility": "clear",
+      "detectorQueryEn": "landscaped courtyard with trees in front of building",
+      "limitationsKo": "일반적인 조경 구성이라 지역 식별력은 낮다.",
+      "id": "cue-7",
+      "source": "geominer_adaptation",
+      "sourceIndex": 7,
+      "disposition": "candidate",
+      "evidenceGroupIds": [],
+      "localization": {
+        "status": "supported",
+        "proposals": [
+          {
+            "id": "dino-cue-7-0",
+            "bbox": [
+              0.0028147995471954346,
+              0.7141717274983724,
+              0.9968279732598199,
+              0.9976065158843994
+            ],
+            "score": 0.5099027752876282,
+            "label": "landscaped courtyard",
+            "source": "grounding_dino",
+            "verdict": "supported",
+            "evidenceKo": "건물 앞 띠 공간에 인조잔디 운동장과 가장자리의 화단·나무 배치가 함께 보여 조경 공간으로 보입니다."
+          },
+          {
+            "id": "dino-cue-7-1",
+            "bbox": [
+              0.0032882988452911377,
+              0.02216094732284546,
+              0.9964112175835503,
+              0.7217081387837728
+            ],
+            "score": 0.5518917441368103,
+            "label": "building",
+            "source": "grounding_dino",
+            "verdict": "supported",
+            "evidenceKo": "건물 전면 일부와 함께 아래쪽에 화단과 정돈된 수목이 연속적으로 배치된 외부 조경이 보입니다."
+          },
+          {
+            "id": "dino-cue-7-2",
+            "bbox": [
+              0.7536618974473741,
+              0.5752162138621012,
+              0.9465772840711806,
+              0.7282113234202067
+            ],
+            "score": 0.3825036585330963,
+            "label": "trees",
+            "source": "grounding_dino",
+            "verdict": "supported",
+            "evidenceKo": "붉은 잎의 수목이 화단 위에 식재되어 있고 건물 전면 조경 요소로 확인됩니다."
+          },
+          {
+            "id": "dino-cue-7-3",
+            "bbox": [
+              0.5940017700195312,
+              0.5739558537801107,
+              0.7443222999572754,
+              0.7257048288981119
+            ],
+            "score": 0.364459753036499,
+            "label": "trees",
+            "source": "grounding_dino",
+            "verdict": "supported",
+            "evidenceKo": "노란 잎의 수목이 화단에 심겨 있어 건물 앞 조경의 일부로 보입니다."
+          },
+          {
+            "id": "dino-cue-7-4",
+            "bbox": [
+              0.11561116907331678,
+              0.5875271161397299,
+              0.28767376475863987,
+              0.7206481297810873
+            ],
+            "score": 0.32539939880371094,
+            "label": "trees",
+            "source": "grounding_dino",
+            "verdict": "supported",
+            "evidenceKo": "건물 앞 화단에 작은 수목이 정돈된 형태로 식재되어 있습니다."
+          },
+          {
+            "id": "dino-cue-7-5",
+            "bbox": [
+              0.38634824752807617,
+              0.5783572991689047,
+              0.5831102795071073,
+              0.7219545046488444
+            ],
+            "score": 0.33801162242889404,
+            "label": "trees",
+            "source": "grounding_dino",
+            "verdict": "supported",
+            "evidenceKo": "노란 잎 수목과 하부 화단이 함께 보여 건물 전면 조경 요소가 맞습니다."
+          },
+          {
+            "id": "dino-cue-7-6",
+            "bbox": [
+              0.003336668014526367,
+              0.007453560829162598,
+              0.9969927469889323,
+              0.7223993937174479
+            ],
+            "score": 0.3261720538139343,
+            "label": "trees",
+            "source": "grounding_dino",
+            "verdict": "supported",
+            "evidenceKo": "건물 전면 전체에 여러 화단과 나무가 줄지어 배치된 조경 공간이 뚜렷합니다."
+          }
+        ],
+        "mask": null
+      },
+      "geoSpecificityVerified": false
+    },
+    {
+      "kind": "non_text",
+      "category": "창문 반사",
+      "nameKo": "유리창 하늘 반사",
+      "observationKo": "건물 저층 유리면에 하늘과 주변 밝은 환경이 반사되어 보인다.",
+      "geographicRelevanceKo": "주변 개방도와 일조 조건을 간접적으로 보여 주어 공간 맥락 비교에 도움 될 수 있다.",
+      "regionDescriptionKo": "사진 중앙의 저층 유리창들",
+      "scope": "relation",
+      "visibleText": null,
+      "surface": "reflection",
+      "visibility": "clear",
+      "detectorQueryEn": "building windows reflecting the sky",
+      "limitationsKo": "반사 내용이 제한적이며 직접적인 위치 정보는 아니다.",
+      "id": "cue-8",
+      "source": "geominer_adaptation",
+      "sourceIndex": 8,
+      "disposition": "candidate",
+      "evidenceGroupIds": [],
+      "localization": {
+        "status": "supported",
+        "proposals": [
+          {
+            "id": "dino-cue-8-0",
+            "bbox": [
+              0.0033701658248901367,
+              0.004925966262817383,
+              0.9968867831759982,
+              0.7157932917277018
+            ],
+            "score": 0.4304845929145813,
+            "label": "building windows",
+            "source": "grounding_dino",
+            "verdict": "supported",
+            "evidenceKo": "저층 유리면에 하늘빛이 넓게 비치고, 밝은 하늘/주변 환경 반사가 여러 창에서 뚜렷합니다."
+          },
+          {
+            "id": "dino-cue-8-1",
+            "bbox": [
+              0.002851635217666626,
+              0.003223806619644165,
+              0.9969576729668511,
+              0.7146592140197754
+            ],
+            "score": 0.32387104630470276,
+            "label": "the sky",
+            "source": "grounding_dino",
+            "verdict": "supported",
+            "evidenceKo": "저층부 창문들에 하늘색 반사가 واضح하게 보이며, 유리면 반사 대상이 충분히 확인됩니다."
+          },
+          {
+            "id": "dino-cue-8-2",
+            "bbox": [
+              0.0023781955242156982,
+              0.0008578449487686157,
+              0.9969757927788628,
+              0.4102632204691569
+            ],
+            "score": 0.3239158093929291,
+            "label": "the sky",
+            "source": "grounding_dino",
+            "verdict": "partial",
+            "evidenceKo": "상단부는 창과 외벽 위주로 보이고, 저층 유리창의 반사 특징이 충분히 담기지 않았습니다."
+          }
+        ],
+        "mask": null
+      },
+      "geoSpecificityVerified": false
+    },
+    {
+      "id": "ocr-cue-0",
+      "kind": "text",
+      "category": "building number",
+      "nameKo": "건물 번호 310",
+      "observationKo": "외벽 상단 왼쪽에 금색 숫자 '310'이 선명하게 보인다.",
+      "geographicRelevanceKo": "건물 식별 번호로 보이며, 공개 사진의 건물 외관과 대조할 때 지역 단서가 될 수 있다.",
+      "regionDescriptionKo": "사진 왼쪽 상단의 건물 외벽 영역",
+      "scope": "object",
+      "surface": "fixed",
+      "visibility": "clear",
+      "visibleText": "310",
+      "rawReadings": [
+        {
+          "id": "ocr-0",
+          "text": "310"
+        }
+      ],
+      "correctedText": "310",
+      "detectorQueryEn": null,
+      "limitationsKo": "건물명이나 도시명은 없어서 이 숫자만으로는 장소를 특정하기 어렵다.",
+      "source": "ocr_review",
+      "disposition": "candidate",
+      "evidenceGroupIds": [
+        "ocr-cue-0"
+      ],
+      "geoSpecificityVerified": false,
+      "localization": {
+        "status": "supported",
+        "proposals": [
+          {
+            "id": "ocr-region-0",
+            "source": "paddleocr",
+            "bbox": [
+              0.013888888888888888,
+              0.11100260416666667,
+              0.05642361111111111,
+              0.13411458333333334
+            ],
+            "polygons": [
+              [
+                [
+                  0.013888888888888888,
+                  0.11783854166666667
+                ],
+                [
+                  0.051215277777777776,
+                  0.11100260416666667
+                ],
+                [
+                  0.05642361111111111,
+                  0.12727864583333334
+                ],
+                [
+                  0.019097222222222224,
+                  0.13411458333333334
+                ]
+              ]
+            ],
+            "lineIds": [
+              "ocr-0"
+            ],
+            "verdict": "supported",
+            "evidenceKo": "외벽 상단 왼쪽에 금색 숫자 '310'이 선명하게 보인다.",
+            "verificationSource": "ocr_crop_review",
+            "score": null
+          }
+        ],
+        "mask": null
+      }
+    },
+    {
+      "id": "ocr-cue-1",
+      "kind": "text",
+      "category": "building facade text",
+      "nameKo": "외벽의 불분명한 문자/숫자",
+      "observationKo": "창문 위 외벽 구역에 OCR은 'EEFR'로 잡았지만, 잎과 건물 구조 때문에 실제 문자인지 확실하지 않다.",
+      "geographicRelevanceKo": "건물 외관의 표식일 가능성은 있으나, 읽기 어렵고 지리적 식별력도 확인되지 않는다.",
+      "regionDescriptionKo": "사진 상단 중앙 오른쪽의 건물 외벽과 창문 일부",
+      "scope": "object",
+      "surface": "fixed",
+      "visibility": "partial",
+      "visibleText": "EEFR",
+      "rawReadings": [
+        {
+          "id": "ocr-1",
+          "text": "EEFR"
+        }
+      ],
+      "correctedText": null,
+      "detectorQueryEn": null,
+      "limitationsKo": "잎이 가리고 있어 원문 판독이 불명확하며, 추정 읽기는 지리적 단서로 쓰기 어렵다.",
+      "source": "ocr_review",
+      "disposition": "uncertain",
+      "evidenceGroupIds": [
+        "ocr-cue-1"
+      ],
+      "geoSpecificityVerified": false,
+      "localization": {
+        "status": "partial",
+        "proposals": [
+          {
+            "id": "ocr-region-1",
+            "source": "paddleocr",
+            "bbox": [
+              0.3502604166666667,
+              0.3528645833333333,
+              0.4809027777777778,
+              0.4065755208333333
+            ],
+            "polygons": [
+              [
+                [
+                  0.3502604166666667,
+                  0.3707682291666667
+                ],
+                [
+                  0.4717881944444444,
+                  0.3528645833333333
+                ],
+                [
+                  0.4809027777777778,
+                  0.388671875
+                ],
+                [
+                  0.3598090277777778,
+                  0.4065755208333333
+                ]
+              ]
+            ],
+            "lineIds": [
+              "ocr-1"
+            ],
+            "verdict": "partial",
+            "evidenceKo": "창문 위 외벽 구역에 OCR은 'EEFR'로 잡았지만, 잎과 건물 구조 때문에 실제 문자인지 확실하지 않다.",
+            "verificationSource": "ocr_crop_review",
+            "score": null
+          }
+        ],
+        "mask": null
+      }
+    },
+    {
+      "id": "ocr-cue-2",
+      "kind": "text",
+      "category": "sports field marking",
+      "nameKo": "잔디 위의 작은 표시",
+      "observationKo": "잔디 표면의 매우 작은 빨간 점처럼 보이며 의미 있는 문자나 표식으로 판독되지 않는다.",
+      "geographicRelevanceKo": "지리적 식별과 관련된 문구가 아니다.",
+      "regionDescriptionKo": "사진 하단 왼쪽의 인조잔디 표면",
+      "scope": "object",
+      "surface": "movable",
+      "visibility": "uncertain",
+      "visibleText": "7",
+      "rawReadings": [
+        {
+          "id": "ocr-2",
+          "text": "7"
+        }
+      ],
+      "correctedText": null,
+      "detectorQueryEn": null,
+      "limitationsKo": "크기가 너무 작아 텍스트인지도 불명확하고, 위치 단서로도 해석하기 어렵다.",
+      "source": "ocr_review",
+      "disposition": "irrelevant",
+      "evidenceGroupIds": [
+        "ocr-cue-2"
+      ],
+      "geoSpecificityVerified": false,
+      "localization": {
+        "status": "not_assessed",
+        "proposals": [
+          {
+            "id": "ocr-region-2",
+            "source": "paddleocr",
+            "bbox": [
+              0.3615451388888889,
+              0.9524739583333334,
+              0.3641493055555556,
+              0.9541015625
+            ],
+            "polygons": [
+              [
+                [
+                  0.3615451388888889,
+                  0.9524739583333334
+                ],
+                [
+                  0.3641493055555556,
+                  0.9524739583333334
+                ],
+                [
+                  0.3641493055555556,
+                  0.9541015625
+                ],
+                [
+                  0.3615451388888889,
+                  0.9541015625
+                ]
+              ]
+            ],
+            "lineIds": [
+              "ocr-2"
+            ],
+            "verdict": "not_assessed",
+            "evidenceKo": "잔디 표면의 매우 작은 빨간 점처럼 보이며 의미 있는 문자나 표식으로 판독되지 않는다.",
+            "verificationSource": "ocr_crop_review",
+            "score": null
+          }
+        ],
+        "mask": null
+      }
+    },
+    {
+      "id": "ocr-cue-3",
+      "kind": "text",
+      "category": "building facade text",
+      "nameKo": "외벽의 불분명한 문자",
+      "observationKo": "건물 외벽 창문 구역에 OCR은 'H'를 제시하지만, 잎과 반사 때문에 실제 문자로 확정하기 어렵다.",
+      "geographicRelevanceKo": "건물 외관의 일부 표식일 수 있으나, 판독이 불안정해 지리적 단서로 쓰기 어렵다.",
+      "regionDescriptionKo": "사진 상단 중앙의 건물 외벽 창문 영역",
+      "scope": "object",
+      "surface": "fixed",
+      "visibility": "partial",
+      "visibleText": "H",
+      "rawReadings": [
+        {
+          "id": "ocr-3",
+          "text": "H"
+        }
+      ],
+      "correctedText": null,
+      "detectorQueryEn": null,
+      "limitationsKo": "문자 모양이 अस्प명확하고 주변 가림이 심해 신뢰할 수 있는 판독이 아니다.",
+      "source": "ocr_review",
+      "disposition": "uncertain",
+      "evidenceGroupIds": [
+        "ocr-cue-3"
+      ],
+      "geoSpecificityVerified": false,
+      "localization": {
+        "status": "partial",
+        "proposals": [
+          {
+            "id": "ocr-region-3",
+            "source": "paddleocr",
+            "bbox": [
+              0.5394965277777778,
+              0.3177083333333333,
+              0.6705729166666666,
+              0.384765625
+            ],
+            "polygons": [
+              [
+                [
+                  0.5394965277777778,
+                  0.3388671875
+                ],
+                [
+                  0.6558159722222222,
+                  0.3177083333333333
+                ],
+                [
+                  0.6705729166666666,
+                  0.3636067708333333
+                ],
+                [
+                  0.5542534722222222,
+                  0.384765625
+                ]
+              ]
+            ],
+            "lineIds": [
+              "ocr-3"
+            ],
+            "verdict": "partial",
+            "evidenceKo": "건물 외벽 창문 구역에 OCR은 'H'를 제시하지만, 잎과 반사 때문에 실제 문자로 확정하기 어렵다.",
+            "verificationSource": "ocr_crop_review",
+            "score": null
+          }
+        ],
+        "mask": null
+      }
+    },
+    {
+      "id": "ocr-cue-4",
+      "kind": "text",
+      "category": "building facade text",
+      "nameKo": "외벽의 불분명한 문자",
+      "observationKo": "창문과 외벽 사이 구역에 OCR은 'EENIE'로 읽었지만, 보이는 요소가 잎과 건물 창문뿐이라 실제 텍스트인지 확실하지 않다.",
+      "geographicRelevanceKo": "건물 표식일 가능성은 있으나, 읽기 불명확하고 지역성 판단에 부족하다.",
+      "regionDescriptionKo": "사진 중앙 상단의 건물 외벽과 잎이 겹친 영역",
+      "scope": "object",
+      "surface": "fixed",
+      "visibility": "partial",
+      "visibleText": "EENIE",
+      "rawReadings": [
+        {
+          "id": "ocr-4",
+          "text": "EENIE"
+        }
+      ],
+      "correctedText": null,
+      "detectorQueryEn": null,
+      "limitationsKo": "가림과 원근 때문에 문자 형태가 불명확하며, OCR 결과를 그대로 신뢰할 수 없다.",
+      "source": "ocr_review",
+      "disposition": "uncertain",
+      "evidenceGroupIds": [
+        "ocr-cue-4"
+      ],
+      "geoSpecificityVerified": false,
+      "localization": {
+        "status": "partial",
+        "proposals": [
+          {
+            "id": "ocr-region-4",
+            "source": "paddleocr",
+            "bbox": [
+              0.35546875,
+              0.3372395833333333,
+              0.5464409722222222,
+              0.412109375
+            ],
+            "polygons": [
+              [
+                [
+                  0.35546875,
+                  0.3645833333333333
+                ],
+                [
+                  0.5338541666666666,
+                  0.3372395833333333
+                ],
+                [
+                  0.5464409722222222,
+                  0.384765625
+                ],
+                [
+                  0.3606770833333333,
+                  0.412109375
+                ]
+              ]
+            ],
+            "lineIds": [
+              "ocr-4"
+            ],
+            "verdict": "partial",
+            "evidenceKo": "창문과 외벽 사이 구역에 OCR은 'EENIE'로 읽었지만, 보이는 요소가 잎과 건물 창문뿐이라 실제 텍스트인지 확실하지 않다.",
+            "verificationSource": "ocr_crop_review",
+            "score": null
+          }
+        ],
+        "mask": null
+      }
+    },
+    {
+      "id": "ocr-cue-5",
+      "kind": "text",
+      "category": "sports field marking",
+      "nameKo": "잔디 위의 작은 표시",
+      "observationKo": "잔디 표면의 아주 작은 빨간 표시만 보이며 문자나 식별 가능한 기호가 아니다.",
+      "geographicRelevanceKo": "지리적 단서가 되는 텍스트로 볼 수 없다.",
+      "regionDescriptionKo": "사진 하단 오른쪽의 인조잔디 표면",
+      "scope": "object",
+      "surface": "movable",
+      "visibility": "uncertain",
+      "visibleText": "8",
+      "rawReadings": [
+        {
+          "id": "ocr-5",
+          "text": "8"
+        }
+      ],
+      "correctedText": null,
+      "detectorQueryEn": null,
+      "limitationsKo": "너무 작고 अस्प명확해 텍스트 여부를 판단하기 어렵다.",
+      "source": "ocr_review",
+      "disposition": "irrelevant",
+      "evidenceGroupIds": [
+        "ocr-cue-5"
+      ],
+      "geoSpecificityVerified": false,
+      "localization": {
+        "status": "not_assessed",
+        "proposals": [
+          {
+            "id": "ocr-region-5",
+            "source": "paddleocr",
+            "bbox": [
+              0.7877604166666666,
+              0.8154296875,
+              0.7912326388888888,
+              0.8186848958333334
+            ],
+            "polygons": [
+              [
+                [
+                  0.7877604166666666,
+                  0.8154296875
+                ],
+                [
+                  0.7912326388888888,
+                  0.8154296875
+                ],
+                [
+                  0.7912326388888888,
+                  0.8186848958333334
+                ],
+                [
+                  0.7877604166666666,
+                  0.8186848958333334
+                ]
+              ]
+            ],
+            "lineIds": [
+              "ocr-5"
+            ],
+            "verdict": "not_assessed",
+            "evidenceKo": "잔디 표면의 아주 작은 빨간 표시만 보이며 문자나 식별 가능한 기호가 아니다.",
+            "verificationSource": "ocr_crop_review",
+            "score": null
+          }
+        ],
+        "mask": null
+      }
+    },
+    {
+      "id": "ocr-cue-6",
+      "kind": "text",
+      "category": "sports field marking",
+      "nameKo": "잔디 위의 작은 표시",
+      "observationKo": "잔디 표면의 작은 빨간 사각형 표시만 보이고 텍스트는 식별되지 않는다.",
+      "geographicRelevanceKo": "지리적 식별과 관련된 문구가 아니다.",
+      "regionDescriptionKo": "사진 하단 중앙의 인조잔디 표면",
+      "scope": "object",
+      "surface": "movable",
+      "visibility": "uncertain",
+      "visibleText": "4",
+      "rawReadings": [
+        {
+          "id": "ocr-6",
+          "text": "4"
+        }
+      ],
+      "correctedText": null,
+      "detectorQueryEn": null,
+      "limitationsKo": "표시가 너무 작고 주변 잔디 질감과 섞여 읽을 수 없다.",
+      "source": "ocr_review",
+      "disposition": "irrelevant",
+      "evidenceGroupIds": [
+        "ocr-cue-6"
+      ],
+      "geoSpecificityVerified": false,
+      "localization": {
+        "status": "not_assessed",
+        "proposals": [
+          {
+            "id": "ocr-region-6",
+            "source": "paddleocr",
+            "bbox": [
+              0.7278645833333334,
+              0.9775390625,
+              0.7339409722222222,
+              0.9817708333333334
+            ],
+            "polygons": [
+              [
+                [
+                  0.7300347222222222,
+                  0.9775390625
+                ],
+                [
+                  0.7339409722222222,
+                  0.98046875
+                ],
+                [
+                  0.7317708333333334,
+                  0.9817708333333334
+                ],
+                [
+                  0.7278645833333334,
+                  0.9788411458333334
+                ]
+              ]
+            ],
+            "lineIds": [
+              "ocr-6"
+            ],
+            "verdict": "not_assessed",
+            "evidenceKo": "잔디 표면의 작은 빨간 사각형 표시만 보이고 텍스트는 식별되지 않는다.",
+            "verificationSource": "ocr_crop_review",
+            "score": null
+          }
+        ],
+        "mask": null
+      }
+    }
+  ],
+  "errors": [],
+  "humanReviews": {},
+  "modelCalls": [
+    {
+      "stage": "discovery",
+      "at": "2026-11-10T13:47:56.375Z",
+      "requestedModel": "gpt-5.4-mini",
+      "responseModel": "gpt-5.4-mini-2026-03-17",
+      "responseId": "resp_091d462643a0dd1c016af3207fef9887d2bfe80aa1a099dedb",
+      "status": "completed",
+      "usage": {
+        "input_tokens": 3641,
+        "input_tokens_details": {
+          "cache_write_tokens": 0,
+          "cached_tokens": 0
+        },
+        "output_tokens": 1494,
+        "output_tokens_details": {
+          "reasoning_tokens": 0
+        },
+        "total_tokens": 5135
+      },
+      "promptSha256": "84585c64986be78650806029298f0b8fa0dd5d919f7e333e9223af3a370c03ab",
+      "rawOutputText": "{\"cues\":[{\"kind\":\"text\",\"category\":\"건물 번호 표기\",\"nameKo\":\"상부 건물 번호 310\",\"observationKo\":\"건물 외벽 상단 왼쪽에 금색 숫자 '310'이 보인다.\",\"geographicRelevanceKo\":\"건물 식별자일 수 있어 공개 사진의 건물 외관과 대조하면 후보 지역을 좁히는 단서가 될 수 있다.\",\"regionDescriptionKo\":\"사진 왼쪽 상단의 고층 외벽 영역\",\"scope\":\"object\",\"visibleText\":\"310\",\"surface\":\"fixed\",\"visibility\":\"clear\",\"detectorQueryEn\":\"gold building number 310 on exterior wall\",\"limitationsKo\":\"건물명이나 도시명은 보이지 않으며, 동일 번호는 여러 곳에 있을 수 있다.\"},{\"kind\":\"text\",\"category\":\"전자 표시판\",\"nameKo\":\"중앙 층 표시 숫자 1444\",\"observationKo\":\"중앙부 외벽 난간 아래의 작은 전광 표시판에 '1444'가 보인다.\",\"geographicRelevanceKo\":\"층수·시간·내부 표시로 보일 수 있어 건물 내부/외관 사진과의 비교 단서가 될 수 있다.\",\"regionDescriptionKo\":\"사진 중앙 하단의 회색 외벽 띠 부분\",\"scope\":\"object\",\"visibleText\":\"1444\",\"surface\":\"fixed\",\"visibility\":\"clear\",\"detectorQueryEn\":\"digital display showing 1444 on building facade\",\"limitationsKo\":\"표시 의미가 불명확하고, 시각 정보만으로 장소를 특정할 수 없다.\"},{\"kind\":\"non_text\",\"category\":\"건축 외관\",\"nameKo\":\"석재 마감 고층 외벽\",\"observationKo\":\"밝은 석재 타일처럼 보이는 외피와 규칙적인 세로 창 배열의 대형 건물이 보인다.\",\"geographicRelevanceKo\":\"현대식 오피스/공공건물 외관 유형과 비교할 때 지역별 건축 양식 단서가 될 수 있다.\",\"regionDescriptionKo\":\"사진 대부분을 차지하는 배경 건물 전체\",\"scope\":\"scene\",\"visibleText\":null,\"surface\":\"fixed\",\"visibility\":\"clear\",\"detectorQueryEn\":\"large modern building with pale stone facade and vertical windows\",\"limitationsKo\":\"일반적인 도시 건축 형태로, 지역 고유성을 직접 보여주지는 않는다.\"},{\"kind\":\"non_text\",\"category\":\"저층 유리벽\",\"nameKo\":\"지상부 유리 파사드\",\"observationKo\":\"아래층에는 넓은 유리창과 수직 기둥이 반복되는 투명한 저층부가 있다.\",\"geographicRelevanceKo\":\"교육·업무·공공시설의 저층부 구성 방식이 지역 건축 비교에 참고될 수 있다.\",\"regionDescriptionKo\":\"사진 중앙의 건물 하부 전면\",\"scope\":\"object\",\"visibleText\":null,\"surface\":\"fixed\",\"visibility\":\"clear\",\"detectorQueryEn\":\"glass-fronted lower floor with columns\",\"limitationsKo\":\"특정 지역을 지목하는 독특한 요소는 아니다.\"},{\"kind\":\"non_text\",\"category\":\"옥외 운동장\",\"nameKo\":\"인조잔디 운동장\",\"observationKo\":\"전경에 흰색 라인이 그려진 초록색 인조잔디 운동장이 펼쳐져 있다.\",\"geographicRelevanceKo\":\"학교나 캠퍼스, 사옥 내 운동 공간 등 용도 추정에 도움을 주어 환경 유형을 비교할 수 있다.\",\"regionDescriptionKo\":\"사진 하단 전경 전체\",\"scope\":\"scene\",\"visibleText\":null,\"surface\":\"fixed\",\"visibility\":\"clear\",\"detectorQueryEn\":\"artificial turf sports field with white boundary lines\",\"limitationsKo\":\"유사한 운동장은 여러 국가와 지역에서 볼 수 있다.\"},{\"kind\":\"non_text\",\"category\":\"표면 마크\",\"nameKo\":\"원형 라인 마킹\",\"observationKo\":\"운동장 중앙 쪽에 큰 흰색 원형 라인이 그려져 있다.\",\"geographicRelevanceKo\":\"운동장 규격이나 용도(특정 구기/훈련 공간) 판단에 참고될 수 있다.\",\"regionDescriptionKo\":\"사진 하단 중앙의 잔디 표면\",\"scope\":\"object\",\"visibleText\":null,\"surface\":\"fixed\",\"visibility\":\"clear\",\"detectorQueryEn\":\"white circular marking on artificial turf\",\"limitationsKo\":\"용도는 확실하지 않으며, 표준 스포츠 규격과 일치하는지 판단하기 어렵다.\"},{\"kind\":\"non_text\",\"category\":\"가로수\",\"nameKo\":\"가을색 가로수\",\"observationKo\":\"전경과 건물 앞에 노란색·주황색으로 변한 낙엽수들이 심어져 있다.\",\"geographicRelevanceKo\":\"계절성과 수종 구성은 기후대와 조경 스타일을 비교하는 단서가 될 수 있다.\",\"regionDescriptionKo\":\"사진 하단과 중간의 조경 구역\",\"scope\":\"group\",\"visibleText\":null,\"surface\":\"fixed\",\"visibility\":\"clear\",\"detectorQueryEn\":\"autumn-colored street trees in landscaped courtyard\",\"limitationsKo\":\"가을 경관은 광범위한 지역에서 공통적으로 나타난다.\"},{\"kind\":\"non_text\",\"category\":\"외부 조경\",\"nameKo\":\"건물 앞 정원형 조경\",\"observationKo\":\"건물 전면에 낮은 화단과 정돈된 나무 배치가 있는 조경 공간이 있다.\",\"geographicRelevanceKo\":\"캠퍼스형 또는 사옥형 부지의 외부 공간 계획을 추정하는 데 도움이 될 수 있다.\",\"regionDescriptionKo\":\"사진 중앙 하단에서 건물과 운동장 사이의 띠 공간\",\"scope\":\"relation\",\"visibleText\":null,\"surface\":\"fixed\",\"visibility\":\"clear\",\"detectorQueryEn\":\"landscaped courtyard with trees in front of building\",\"limitationsKo\":\"일반적인 조경 구성이라 지역 식별력은 낮다.\"},{\"kind\":\"non_text\",\"category\":\"창문 반사\",\"nameKo\":\"유리창 하늘 반사\",\"observationKo\":\"건물 저층 유리면에 하늘과 주변 밝은 환경이 반사되어 보인다.\",\"geographicRelevanceKo\":\"주변 개방도와 일조 조건을 간접적으로 보여 주어 공간 맥락 비교에 도움 될 수 있다.\",\"regionDescriptionKo\":\"사진 중앙의 저층 유리창들\",\"scope\":\"relation\",\"visibleText\":null,\"surface\":\"reflection\",\"visibility\":\"clear\",\"detectorQueryEn\":\"building windows reflecting the sky\",\"limitationsKo\":\"반사 내용이 제한적이며 직접적인 위치 정보는 아니다.\"}],\"limitationsKo\":[\"나무와 건물에 가려 전체 파사드와 진입 동선, 거리 표지, 주변 지형이 충분히 보이지 않는다.\",\"식별 가능한 고유 명칭, 주소, 교통 표지, 차량 번호판은 보이지 않는다.\",\"보이는 숫자 표기는 건물 번호 또는 표시판일 수 있으나 맥락이 불명확해 단정할 수 없다.\"],\"coverageLimited\":true}"
+    },
+    {
+      "stage": "ocr_batch_0",
+      "at": "2026-11-10T13:51:52.936Z",
+      "requestedModel": "gpt-5.4-mini",
+      "responseModel": "gpt-5.4-mini-2026-03-17",
+      "responseId": "resp_021ec2c804b8d53b016af32171b56c87d2825e8fcb9827fbf7",
+      "status": "completed",
+      "usage": {
+        "input_tokens": 6135,
+        "input_tokens_details": {
+          "cache_write_tokens": 0,
+          "cached_tokens": 0
+        },
+        "output_tokens": 1185,
+        "output_tokens_details": {
+          "reasoning_tokens": 0
+        },
+        "total_tokens": 7320
+      },
+      "promptSha256": "6a390a1592faabfed2308d3bf75271d6fdcb67131417face8de92e6bdcf1088f",
+      "rawOutputText": "{\"groups\":[{\"lineIds\":[\"ocr-0\"],\"disposition\":\"candidate\",\"category\":\"building number\",\"nameKo\":\"건물 번호 310\",\"observationKo\":\"외벽 상단 왼쪽에 금색 숫자 '310'이 선명하게 보인다.\",\"geographicRelevanceKo\":\"건물 식별 번호로 보이며, 공개 사진의 건물 외관과 대조할 때 지역 단서가 될 수 있다.\",\"regionDescriptionKo\":\"사진 왼쪽 상단의 건물 외벽 영역\",\"correctedText\":\"310\",\"surface\":\"fixed\",\"visibility\":\"clear\",\"limitationsKo\":\"건물명이나 도시명은 없어서 이 숫자만으로는 장소를 특정하기 어렵다.\",\"relatedDiscoveryIndexes\":[0]},{\"lineIds\":[\"ocr-1\"],\"disposition\":\"uncertain\",\"category\":\"building facade text\",\"nameKo\":\"외벽의 불분명한 문자/숫자\",\"observationKo\":\"창문 위 외벽 구역에 OCR은 'EEFR'로 잡았지만, 잎과 건물 구조 때문에 실제 문자인지 확실하지 않다.\",\"geographicRelevanceKo\":\"건물 외관의 표식일 가능성은 있으나, 읽기 어렵고 지리적 식별력도 확인되지 않는다.\",\"regionDescriptionKo\":\"사진 상단 중앙 오른쪽의 건물 외벽과 창문 일부\",\"correctedText\":null,\"surface\":\"fixed\",\"visibility\":\"partial\",\"limitationsKo\":\"잎이 가리고 있어 원문 판독이 불명확하며, 추정 읽기는 지리적 단서로 쓰기 어렵다.\",\"relatedDiscoveryIndexes\":[]},{\"lineIds\":[\"ocr-2\"],\"disposition\":\"irrelevant\",\"category\":\"sports field marking\",\"nameKo\":\"잔디 위의 작은 표시\",\"observationKo\":\"잔디 표면의 매우 작은 빨간 점처럼 보이며 의미 있는 문자나 표식으로 판독되지 않는다.\",\"geographicRelevanceKo\":\"지리적 식별과 관련된 문구가 아니다.\",\"regionDescriptionKo\":\"사진 하단 왼쪽의 인조잔디 표면\",\"correctedText\":null,\"surface\":\"movable\",\"visibility\":\"uncertain\",\"limitationsKo\":\"크기가 너무 작아 텍스트인지도 불명확하고, 위치 단서로도 해석하기 어렵다.\",\"relatedDiscoveryIndexes\":[]},{\"lineIds\":[\"ocr-3\"],\"disposition\":\"uncertain\",\"category\":\"building facade text\",\"nameKo\":\"외벽의 불분명한 문자\",\"observationKo\":\"건물 외벽 창문 구역에 OCR은 'H'를 제시하지만, 잎과 반사 때문에 실제 문자로 확정하기 어렵다.\",\"geographicRelevanceKo\":\"건물 외관의 일부 표식일 수 있으나, 판독이 불안정해 지리적 단서로 쓰기 어렵다.\",\"regionDescriptionKo\":\"사진 상단 중앙의 건물 외벽 창문 영역\",\"correctedText\":null,\"surface\":\"fixed\",\"visibility\":\"partial\",\"limitationsKo\":\"문자 모양이 अस्प명확하고 주변 가림이 심해 신뢰할 수 있는 판독이 아니다.\",\"relatedDiscoveryIndexes\":[]},{\"lineIds\":[\"ocr-4\"],\"disposition\":\"uncertain\",\"category\":\"building facade text\",\"nameKo\":\"외벽의 불분명한 문자\",\"observationKo\":\"창문과 외벽 사이 구역에 OCR은 'EENIE'로 읽었지만, 보이는 요소가 잎과 건물 창문뿐이라 실제 텍스트인지 확실하지 않다.\",\"geographicRelevanceKo\":\"건물 표식일 가능성은 있으나, 읽기 불명확하고 지역성 판단에 부족하다.\",\"regionDescriptionKo\":\"사진 중앙 상단의 건물 외벽과 잎이 겹친 영역\",\"correctedText\":null,\"surface\":\"fixed\",\"visibility\":\"partial\",\"limitationsKo\":\"가림과 원근 때문에 문자 형태가 불명확하며, OCR 결과를 그대로 신뢰할 수 없다.\",\"relatedDiscoveryIndexes\":[]},{\"lineIds\":[\"ocr-5\"],\"disposition\":\"irrelevant\",\"category\":\"sports field marking\",\"nameKo\":\"잔디 위의 작은 표시\",\"observationKo\":\"잔디 표면의 아주 작은 빨간 표시만 보이며 문자나 식별 가능한 기호가 아니다.\",\"geographicRelevanceKo\":\"지리적 단서가 되는 텍스트로 볼 수 없다.\",\"regionDescriptionKo\":\"사진 하단 오른쪽의 인조잔디 표면\",\"correctedText\":null,\"surface\":\"movable\",\"visibility\":\"uncertain\",\"limitationsKo\":\"너무 작고 अस्प명확해 텍스트 여부를 판단하기 어렵다.\",\"relatedDiscoveryIndexes\":[]},{\"lineIds\":[\"ocr-6\"],\"disposition\":\"irrelevant\",\"category\":\"sports field marking\",\"nameKo\":\"잔디 위의 작은 표시\",\"observationKo\":\"잔디 표면의 작은 빨간 사각형 표시만 보이고 텍스트는 식별되지 않는다.\",\"geographicRelevanceKo\":\"지리적 식별과 관련된 문구가 아니다.\",\"regionDescriptionKo\":\"사진 하단 중앙의 인조잔디 표면\",\"correctedText\":null,\"surface\":\"movable\",\"visibility\":\"uncertain\",\"limitationsKo\":\"표시가 너무 작고 주변 잔디 질감과 섞여 읽을 수 없다.\",\"relatedDiscoveryIndexes\":[]}],\"limitationsKo\":[\"사진의 상당 부분이 나뭇잎으로 가려져 있어 건물 외벽의 텍스트 판독이 제한된다.\",\"잔디 표면의 작은 빨간 표시들은 OCR 후보이지만 지리적 단서로 볼 만한 텍스트는 확인되지 않는다.\"]}"
+    },
+    {
+      "stage": "verify_cue-0_0",
+      "at": "2026-11-10T13:53:54.265Z",
+      "requestedModel": "gpt-5.4-mini",
+      "responseModel": "gpt-5.4-mini-2026-03-17",
+      "responseId": "resp_03c4a7bb69f662f5016af321ef46dc87d28ac401a2705fc1d1",
+      "status": "completed",
+      "usage": {
+        "input_tokens": 6936,
+        "input_tokens_details": {
+          "cache_write_tokens": 0,
+          "cached_tokens": 0
+        },
+        "output_tokens": 159,
+        "output_tokens_details": {
+          "reasoning_tokens": 0
+        },
+        "total_tokens": 7095
+      },
+      "promptSha256": "97106482e700608c01db19a0e347e9f7b3412b32cd23eb8b0b63af11e381e055",
+      "rawOutputText": "{\"checks\":[{\"proposalId\":\"link-0-0\",\"verdict\":\"supported\",\"evidenceKo\":\"크롭 안에 외벽 상단 왼쪽의 금색 숫자 '310'이 선명하게 보입니다.\"},{\"proposalId\":\"dino-cue-0-0\",\"verdict\":\"rejected\",\"evidenceKo\":\"해당 크롭은 건물 번호 310이 아니라 아래쪽의 전광판 숫자 '1444'를 포함합니다.\"},{\"proposalId\":\"dino-cue-0-1\",\"verdict\":\"supported\",\"evidenceKo\":\"제안 영역이 건물 외벽 대부분을 포함하며, 왼쪽 상단에 금색 '310'이 보입니다.\"}]}"
+    },
+    {
+      "stage": "verify_cue-1_0",
+      "at": "2026-11-10T13:54:00.862Z",
+      "requestedModel": "gpt-5.4-mini",
+      "responseModel": "gpt-5.4-mini-2026-03-17",
+      "responseId": "resp_0d6558fa1ded0373016af321f66ad887d2a8aafb70d76be6fc",
+      "status": "completed",
+      "usage": {
+        "input_tokens": 6983,
+        "input_tokens_details": {
+          "cache_write_tokens": 0,
+          "cached_tokens": 0
+        },
+        "output_tokens": 159,
+        "output_tokens_details": {
+          "reasoning_tokens": 0
+        },
+        "total_tokens": 7142
+      },
+      "promptSha256": "97106482e700608c01db19a0e347e9f7b3412b32cd23eb8b0b63af11e381e055",
+      "rawOutputText": "{\"checks\":[{\"proposalId\":\"dino-cue-1-0\",\"verdict\":\"supported\",\"evidenceKo\":\"작은 전광 표시판에 숫자 '1444'가 선명하게 보입니다.\"},{\"proposalId\":\"dino-cue-1-1\",\"verdict\":\"partial\",\"evidenceKo\":\"건물 외관 일부는 맞지만, 전체 파사드만 잡혀 있어 제시된 작은 표시판의 존재를 직접 확인하기 어렵습니다.\"},{\"proposalId\":\"dino-cue-1-2\",\"verdict\":\"rejected\",\"evidenceKo\":\"해당 크롭에는 숫자 표시판이 아니라 창문과 기둥만 보이며 '1444'는 없습니다.\"}]}"
+    },
+    {
+      "stage": "verify_cue-2_0",
+      "at": "2026-11-10T13:54:09.760Z",
+      "requestedModel": "gpt-5.4-mini",
+      "responseModel": "gpt-5.4-mini-2026-03-17",
+      "responseId": "resp_0455d9aeaadd5329016af321fe21bc87d289d4377b0da7b885",
+      "status": "completed",
+      "usage": {
+        "input_tokens": 10506,
+        "input_tokens_details": {
+          "cache_write_tokens": 0,
+          "cached_tokens": 0
+        },
+        "output_tokens": 267,
+        "output_tokens_details": {
+          "reasoning_tokens": 0
+        },
+        "total_tokens": 10773
+      },
+      "promptSha256": "97106482e700608c01db19a0e347e9f7b3412b32cd23eb8b0b63af11e381e055",
+      "rawOutputText": "{\"checks\":[{\"proposalId\":\"dino-cue-2-0\",\"verdict\":\"supported\",\"evidenceKo\":\"배경의 대형 건물 전체가 보이고, 밝은 석재 타일처럼 보이는 외벽과 세로로 반복되는 창 배열이 확인됩니다.\"},{\"proposalId\":\"dino-cue-2-1\",\"verdict\":\"supported\",\"evidenceKo\":\"창 구간이 크게 잡혀 있으며, 세로로 길게 반복되는 창 형태가 स्पष्ट하게 보입니다.\"},{\"proposalId\":\"dino-cue-2-2\",\"verdict\":\"supported\",\"evidenceKo\":\"세로로 긴 창들이 연속으로 배치된 구간이 보이며, 창 배열 특징을 뒷받침합니다.\"},{\"proposalId\":\"dino-cue-2-3\",\"verdict\":\"supported\",\"evidenceKo\":\"석재처럼 보이는 밝은 외피와 규칙적인 세로 창들이 건물 전면에 넓게 나타납니다.\"},{\"proposalId\":\"dino-cue-2-4\",\"verdict\":\"supported\",\"evidenceKo\":\"세로형 창 한 구간이 명확히 보이고, 규칙적인 창 배열 일부를 확인할 수 있습니다.\"}]}"
+    },
+    {
+      "stage": "verify_cue-3_0",
+      "at": "2026-11-10T13:54:15.421Z",
+      "requestedModel": "gpt-5.4-mini",
+      "responseModel": "gpt-5.4-mini-2026-03-17",
+      "responseId": "resp_0ee00b2eaed0d3f9016af32204a6bc87d280693531b5d1daba",
+      "status": "completed",
+      "usage": {
+        "input_tokens": 6213,
+        "input_tokens_details": {
+          "cache_write_tokens": 0,
+          "cached_tokens": 0
+        },
+        "output_tokens": 219,
+        "output_tokens_details": {
+          "reasoning_tokens": 0
+        },
+        "total_tokens": 6432
+      },
+      "promptSha256": "97106482e700608c01db19a0e347e9f7b3412b32cd23eb8b0b63af11e381e055",
+      "rawOutputText": "{\"checks\":[{\"proposalId\":\"dino-cue-3-0\",\"verdict\":\"supported\",\"evidenceKo\":\"하부 전면에 큰 유리창이 길게 이어지고, 그 사이로 수직 기둥이 반복되어 저층 유리 파사드로 보입니다.\"},{\"proposalId\":\"dino-cue-3-1\",\"verdict\":\"supported\",\"evidenceKo\":\"기둥 하나가 크게 보이며, 상하로 이어진 수직 구조가 명확합니다.\"},{\"proposalId\":\"dino-cue-3-2\",\"verdict\":\"supported\",\"evidenceKo\":\"원통형 기둥이 स्पष्ट히 드러나 수직 기둥 요소를 확인할 수 있습니다.\"},{\"proposalId\":\"dino-cue-3-3\",\"verdict\":\"supported\",\"evidenceKo\":\"좁은 구간이지만 수직 기둥과 옆의 유리면이 함께 보여 저층부 구성 일부를 뒷받침합니다.\"}]}"
+    },
+    {
+      "stage": "verify_cue-4_0",
+      "at": "2026-11-10T13:54:20.635Z",
+      "requestedModel": "gpt-5.4-mini",
+      "responseModel": "gpt-5.4-mini-2026-03-17",
+      "responseId": "resp_061ac33afa597490016af3220aa14487d29b7440d77be86082",
+      "status": "completed",
+      "usage": {
+        "input_tokens": 6144,
+        "input_tokens_details": {
+          "cache_write_tokens": 0,
+          "cached_tokens": 0
+        },
+        "output_tokens": 130,
+        "output_tokens_details": {
+          "reasoning_tokens": 0
+        },
+        "total_tokens": 6274
+      },
+      "promptSha256": "97106482e700608c01db19a0e347e9f7b3412b32cd23eb8b0b63af11e381e055",
+      "rawOutputText": "{\"checks\":[{\"proposalId\":\"dino-cue-4-0\",\"verdict\":\"supported\",\"evidenceKo\":\"하단 전경에 초록색 인조잔디가 넓게 보이고, 흰색 경계선과 원형 라인이 확인됩니다.\"},{\"proposalId\":\"dino-cue-4-1\",\"verdict\":\"supported\",\"evidenceKo\":\"초록색 잔디 위에 흰색 선과 원형 라인이 뚜렷하게 보여, 흰색 경계선이 있는 운동장 일부로 확인됩니다.\"}]}"
+    },
+    {
+      "stage": "verify_cue-5_0",
+      "at": "2026-11-10T13:54:26.969Z",
+      "requestedModel": "gpt-5.4-mini",
+      "responseModel": "gpt-5.4-mini-2026-03-17",
+      "responseId": "resp_0d59bb0ebba4e526016af3221121fc87d2b267180bad25d0e5",
+      "status": "completed",
+      "usage": {
+        "input_tokens": 5912,
+        "input_tokens_details": {
+          "cache_write_tokens": 0,
+          "cached_tokens": 0
+        },
+        "output_tokens": 127,
+        "output_tokens_details": {
+          "reasoning_tokens": 0
+        },
+        "total_tokens": 6039
+      },
+      "promptSha256": "97106482e700608c01db19a0e347e9f7b3412b32cd23eb8b0b63af11e381e055",
+      "rawOutputText": "{\"checks\":[{\"proposalId\":\"dino-cue-5-0\",\"verdict\":\"supported\",\"evidenceKo\":\"잔디 표면에 큰 흰색 원형 라인이 뚜렷하게 보이고, 원 안쪽의 마킹 일부도 함께 확인됩니다.\"},{\"proposalId\":\"dino-cue-5-1\",\"verdict\":\"partial\",\"evidenceKo\":\"인공잔디 표면은 보이지만, 전체 영역이 잔디만으로 이루어진 것은 아니고 중앙의 원형 라인은 부분적으로만 포함됩니다.\"}]}"
+    },
+    {
+      "stage": "verify_cue-6_0",
+      "at": "2026-11-10T13:54:35.289Z",
+      "requestedModel": "gpt-5.4-mini",
+      "responseModel": "gpt-5.4-mini-2026-03-17",
+      "responseId": "resp_030cbfc1dd70418d016af3221805e087d2b8ffde7b7353b014",
+      "status": "completed",
+      "usage": {
+        "input_tokens": 10265,
+        "input_tokens_details": {
+          "cache_write_tokens": 0,
+          "cached_tokens": 0
+        },
+        "output_tokens": 245,
+        "output_tokens_details": {
+          "reasoning_tokens": 0
+        },
+        "total_tokens": 10510
+      },
+      "promptSha256": "97106482e700608c01db19a0e347e9f7b3412b32cd23eb8b0b63af11e381e055",
+      "rawOutputText": "{\"checks\":[{\"proposalId\":\"dino-cue-6-0\",\"verdict\":\"supported\",\"evidenceKo\":\"상단과 중간에 노란색·주황색으로 물든 가로수 잎이 여러 그루 뚜렷하게 보입니다.\"},{\"proposalId\":\"dino-cue-6-1\",\"verdict\":\"supported\",\"evidenceKo\":\"오른쪽의 나무가 붉은색·주황색 단풍으로 변해 있고, 수형과 줄기까지 함께 보여 가로수로 판단됩니다.\"},{\"proposalId\":\"dino-cue-6-2\",\"verdict\":\"supported\",\"evidenceKo\":\"여러 그루의 조경수 중 노란색·주황색 단풍이 선명하게 보여 가을색 가로수 묶음이 확인됩니다.\"},{\"proposalId\":\"dino-cue-6-3\",\"verdict\":\"partial\",\"evidenceKo\":\"하단 잔디와 경계부만 주로 보여 조경 구역은 보이지만, 가을색 가로수 자체는 대부분 밖으로 잘려 있습니다.\"}]}"
+    },
+    {
+      "stage": "verify_cue-7_0",
+      "at": "2026-11-10T13:54:45.962Z",
+      "requestedModel": "gpt-5.4-mini",
+      "responseModel": "gpt-5.4-mini-2026-03-17",
+      "responseId": "resp_0dd8c751954fafca016af32222227c87d284d8ba21f5adaf60",
+      "status": "completed",
+      "usage": {
+        "input_tokens": 13084,
+        "input_tokens_details": {
+          "cache_write_tokens": 0,
+          "cached_tokens": 0
+        },
+        "output_tokens": 362,
+        "output_tokens_details": {
+          "reasoning_tokens": 0
+        },
+        "total_tokens": 13446
+      },
+      "promptSha256": "97106482e700608c01db19a0e347e9f7b3412b32cd23eb8b0b63af11e381e055",
+      "rawOutputText": "{\"checks\":[{\"proposalId\":\"dino-cue-7-0\",\"verdict\":\"supported\",\"evidenceKo\":\"건물 앞 띠 공간에 인조잔디 운동장과 가장자리의 화단·나무 배치가 함께 보여 조경 공간으로 보입니다.\"},{\"proposalId\":\"dino-cue-7-1\",\"verdict\":\"supported\",\"evidenceKo\":\"건물 전면 일부와 함께 아래쪽에 화단과 정돈된 수목이 연속적으로 배치된 외부 조경이 보입니다.\"},{\"proposalId\":\"dino-cue-7-2\",\"verdict\":\"supported\",\"evidenceKo\":\"붉은 잎의 수목이 화단 위에 식재되어 있고 건물 전면 조경 요소로 확인됩니다.\"},{\"proposalId\":\"dino-cue-7-3\",\"verdict\":\"supported\",\"evidenceKo\":\"노란 잎의 수목이 화단에 심겨 있어 건물 앞 조경의 일부로 보입니다.\"},{\"proposalId\":\"dino-cue-7-4\",\"verdict\":\"supported\",\"evidenceKo\":\"건물 앞 화단에 작은 수목이 정돈된 형태로 식재되어 있습니다.\"},{\"proposalId\":\"dino-cue-7-5\",\"verdict\":\"supported\",\"evidenceKo\":\"노란 잎 수목과 하부 화단이 함께 보여 건물 전면 조경 요소가 맞습니다.\"},{\"proposalId\":\"dino-cue-7-6\",\"verdict\":\"supported\",\"evidenceKo\":\"건물 전면 전체에 여러 화단과 나무가 줄지어 배치된 조경 공간이 뚜렷합니다.\"}]}"
+    },
+    {
+      "stage": "verify_cue-8_0",
+      "at": "2026-11-10T13:54:55.911Z",
+      "requestedModel": "gpt-5.4-mini",
+      "responseModel": "gpt-5.4-mini-2026-03-17",
+      "responseId": "resp_0ee92c425128bc62016af3222d5a3887d2b0939e5aeff070c4",
+      "status": "completed",
+      "usage": {
+        "input_tokens": 12505,
+        "input_tokens_details": {
+          "cache_write_tokens": 0,
+          "cached_tokens": 0
+        },
+        "output_tokens": 177,
+        "output_tokens_details": {
+          "reasoning_tokens": 0
+        },
+        "total_tokens": 12682
+      },
+      "promptSha256": "97106482e700608c01db19a0e347e9f7b3412b32cd23eb8b0b63af11e381e055",
+      "rawOutputText": "{\"checks\":[{\"proposalId\":\"dino-cue-8-0\",\"verdict\":\"supported\",\"evidenceKo\":\"저층 유리면에 하늘빛이 넓게 비치고, 밝은 하늘/주변 환경 반사가 여러 창에서 뚜렷합니다.\"},{\"proposalId\":\"dino-cue-8-1\",\"verdict\":\"supported\",\"evidenceKo\":\"저층부 창문들에 하늘색 반사가 واضح하게 보이며, 유리면 반사 대상이 충분히 확인됩니다.\"},{\"proposalId\":\"dino-cue-8-2\",\"verdict\":\"partial\",\"evidenceKo\":\"상단부는 창과 외벽 위주로 보이고, 저층 유리창의 반사 특징이 충분히 담기지 않았습니다.\"}]}"
+    }
+  ]
+}

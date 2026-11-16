@@ -1,0 +1,2720 @@
+{
+  "schemaVersion": "location-cues-v1",
+  "id": "7d4e56e3-2e22-4923-a398-72a7eabb31af",
+  "createdAt": "2026-11-10T13:54:56.380Z",
+  "updatedAt": "2026-11-10T13:59:31.684Z",
+  "status": "completed",
+  "requestedModel": "gpt-5.4-mini",
+  "promptVersion": "research-cues-v1",
+  "image": {
+    "width": 1125,
+    "height": 2000,
+    "sha256": "b29c89ea324e0fb1f6482a35fb724b69bd38de98475efe8dd77d600ae460e263",
+    "coordinateSpace": "analysis-normalized",
+    "bboxFormat": "xyxy",
+    "mime": "image/jpeg",
+    "metadataRemoved": true
+  },
+  "stages": {
+    "discovery": {
+      "status": "completed",
+      "startedAt": "2026-11-10T13:54:56.386Z",
+      "finishedAt": "2026-11-10T13:55:10.296Z"
+    },
+    "ocr": {
+      "status": "completed",
+      "startedAt": "2026-11-10T13:55:10.296Z",
+      "finishedAt": "2026-11-10T13:57:03.975Z"
+    },
+    "ocr_review": {
+      "status": "completed",
+      "startedAt": "2026-11-10T13:57:03.977Z",
+      "finishedAt": "2026-11-10T13:57:13.152Z"
+    },
+    "detection": {
+      "status": "completed",
+      "startedAt": "2026-11-10T13:57:13.153Z",
+      "finishedAt": "2026-11-10T13:59:11.180Z"
+    },
+    "verify_cue-0": {
+      "status": "completed",
+      "startedAt": "2026-11-10T13:59:11.183Z",
+      "finishedAt": "2026-11-10T13:59:14.657Z"
+    },
+    "verify_cue-1": {
+      "status": "completed",
+      "startedAt": "2026-11-10T13:59:14.659Z",
+      "finishedAt": "2026-11-10T13:59:16.735Z"
+    },
+    "verify_cue-2": {
+      "status": "completed",
+      "startedAt": "2026-11-10T13:59:16.737Z",
+      "finishedAt": "2026-11-10T13:59:18.936Z"
+    },
+    "verify_cue-3": {
+      "status": "completed",
+      "startedAt": "2026-11-10T13:59:18.939Z",
+      "finishedAt": "2026-11-10T13:59:21.527Z"
+    },
+    "verify_cue-4": {
+      "status": "completed",
+      "startedAt": "2026-11-10T13:59:21.530Z",
+      "finishedAt": "2026-11-10T13:59:23.080Z"
+    },
+    "verify_cue-5": {
+      "status": "completed",
+      "startedAt": "2026-11-10T13:59:23.081Z",
+      "finishedAt": "2026-11-10T13:59:24.941Z"
+    },
+    "verify_cue-6": {
+      "status": "completed",
+      "startedAt": "2026-11-10T13:59:24.942Z",
+      "finishedAt": "2026-11-10T13:59:28.993Z"
+    },
+    "verify_cue-7": {
+      "status": "completed",
+      "startedAt": "2026-11-10T13:59:28.995Z",
+      "finishedAt": "2026-11-10T13:59:31.682Z"
+    }
+  },
+  "artifacts": {
+    "discovery_raw": {
+      "requestedModel": "gpt-5.4-mini",
+      "responseModel": "gpt-5.4-mini-2026-03-17",
+      "responseId": "resp_06eaa7519490fd7f016af3223152b487d28911cc129b3ee56d",
+      "status": "completed",
+      "usage": {
+        "input_tokens": 3421,
+        "input_tokens_details": {
+          "cache_write_tokens": 0,
+          "cached_tokens": 0
+        },
+        "output_tokens": 1479,
+        "output_tokens_details": {
+          "reasoning_tokens": 0
+        },
+        "total_tokens": 4900
+      },
+      "promptSha256": "84585c64986be78650806029298f0b8fa0dd5d919f7e333e9223af3a370c03ab",
+      "rawOutputText": "{\"cues\":[{\"kind\":\"text\",\"category\":\"overlay text\",\"nameKo\":\"한글 오버레이 문구\",\"observationKo\":\"하늘 부분에 흰색 글씨로 '오늘 하늘 예쁘다☁️'가 보임.\",\"geographicRelevanceKo\":\"한국어 사용은 촬영 환경의 언어권 단서를 줄 수 있어, 같은 지역권의 공개 이미지나 장소 사진과 비교할 때 보조 단서가 될 수 있음.\",\"regionDescriptionKo\":\"한국어 문구가 사진 상단 중앙 쪽에 겹쳐져 있음.\",\"scope\":\"scene\",\"visibleText\":\"오늘 하늘 예쁘다☁️\",\"surface\":\"depicted\",\"visibility\":\"clear\",\"detectorQueryEn\":\"white Korean text overlay near the top center of the sky\",\"limitationsKo\":\"사진에 덧씌운 문구로 보이며, 촬영 위치를 직접 지시하는 표지판은 아님.\"},{\"kind\":\"non_text\",\"category\":\"large building\",\"nameKo\":\"대형 현대식 건물\",\"observationKo\":\"왼쪽에 회색 외장과 세로 반복 창이 있는 큰 다층 건물이 보이고, 하부는 기둥 위로 띄운 형태임.\",\"geographicRelevanceKo\":\"대규모 교육·업무·숙박 복합시설에서 자주 보이는 건축 양식과 배치로, 지역별 캠퍼스나 기관 단지 사진과 비교하는 단서가 될 수 있음.\",\"regionDescriptionKo\":\"화면 왼쪽 가장자리부터 중앙 상단까지 크게 차지하는 건물 외관.\",\"scope\":\"object\",\"visibleText\":null,\"surface\":\"fixed\",\"visibility\":\"clear\",\"detectorQueryEn\":\"large modern building on the left with repetitive vertical windows\",\"limitationsKo\":\"일반적인 현대 건축이라 단독으로 지역을 특정하기 어렵다.\"},{\"kind\":\"non_text\",\"category\":\"elevated walkway\",\"nameKo\":\"상부 보행 연결부\",\"observationKo\":\"건물 하부와 맞닿은 위치에 경사형 계단/보행 연결 구조가 보이며, 상부로 이어지는 동선이 존재함.\",\"geographicRelevanceKo\":\"고저차를 처리하는 보행 동선 배치는 대학 캠퍼스, 병원, 대형 시설 단지의 공간 구성 비교에 도움이 될 수 있음.\",\"regionDescriptionKo\":\"왼쪽 중하단에서 중앙으로 이어지는 계단형 구조물.\",\"scope\":\"object\",\"visibleText\":null,\"surface\":\"fixed\",\"visibility\":\"clear\",\"detectorQueryEn\":\"sloped pedestrian stairway beside the left building\",\"limitationsKo\":\"상세한 용도는 보이지 않아 정확한 시설 유형 판정은 제한적이다.\"},{\"kind\":\"non_text\",\"category\":\"courtyard paving\",\"nameKo\":\"광장 포장 패턴\",\"observationKo\":\"전면 바닥이 회색 계열의 타일/블록 포장으로 넓게 조성되어 있고, 직선적 패턴이 반복됨.\",\"geographicRelevanceKo\":\"보행 중심의 광장형 외부 공간은 기관 단지, 캠퍼스, 상업 복합시설 등과 비교할 때 배경 단서가 될 수 있음.\",\"regionDescriptionKo\":\"화면 하단 전체의 바닥면.\",\"scope\":\"scene\",\"visibleText\":null,\"surface\":\"fixed\",\"visibility\":\"clear\",\"detectorQueryEn\":\"gray tiled plaza paving in the foreground\",\"limitationsKo\":\"일반적인 포장재라 지역성을 직접 지시하지 않는다.\"},{\"kind\":\"non_text\",\"category\":\"number marker\",\"nameKo\":\"숫자 표기 '304'\",\"observationKo\":\"오른쪽 중앙의 벽면과 작은 표지에 '304' 숫자가 보임.\",\"geographicRelevanceKo\":\"동·호수·구역 번호나 건물 식별 번호일 수 있어, 같은 단지 내 다른 공개 사진과 대조할 때 보조 단서가 될 수 있음.\",\"regionDescriptionKo\":\"오른쪽 중앙의 낮은 벽면 및 출입부 근처.\",\"scope\":\"object\",\"visibleText\":\"304\",\"surface\":\"fixed\",\"visibility\":\"clear\",\"detectorQueryEn\":\"wall-mounted number 304 on the right side\",\"limitationsKo\":\"단순 번호로 보이며, 어떤 체계의 번호인지 사진만으로는 알 수 없다.\"},{\"kind\":\"non_text\",\"category\":\"landscape planting\",\"nameKo\":\"조경 식재\",\"observationKo\":\"전경과 우측, 좌측에 키 작은 나무와 관목이 식재되어 있으며, 화분형 플랜터도 배치됨.\",\"geographicRelevanceKo\":\"정돈된 조경 구성은 캠퍼스나 기관형 외부 공간의 성격을 비교하는 데 참고가 될 수 있음.\",\"regionDescriptionKo\":\"화면 하단 좌우와 중앙의 식재 구역.\",\"scope\":\"scene\",\"visibleText\":null,\"surface\":\"fixed\",\"visibility\":\"clear\",\"detectorQueryEn\":\"landscaped trees and shrubs around the plaza\",\"limitationsKo\":\"일반적인 조경 요소로 지역 특이성은 낮다.\"},{\"kind\":\"non_text\",\"category\":\"pedestrian presence\",\"nameKo\":\"보행자 밀집\",\"observationKo\":\"여러 명의 보행자가 광장과 계단 주변을 이동하고 있어 유동 인구가 있는 공간으로 보임.\",\"geographicRelevanceKo\":\"시간대와 이용 형태가 드러나는 생활 환경 단서로, 캠퍼스·업무지구·복합시설 사진과의 비교에 보조적으로 유용할 수 있음.\",\"regionDescriptionKo\":\"화면 하단 중앙과 좌우 곳곳의 사람들.\",\"scope\":\"scene\",\"visibleText\":null,\"surface\":\"unknown\",\"visibility\":\"clear\",\"detectorQueryEn\":\"people walking in the plaza\",\"limitationsKo\":\"사람 수와 복장은 계절·시간 영향이 커서 위치 단서로는 약하다.\"},{\"kind\":\"non_text\",\"category\":\"sky weather\",\"nameKo\":\"맑은 하늘과 구름\",\"observationKo\":\"밝은 푸른 하늘과 흩어진 흰 구름이 크게 보이며 시야가 탁 트여 있음.\",\"geographicRelevanceKo\":\"일기와 개방감은 지역 판별보다는 촬영 조건을 보조적으로 설명하며, 동일 시기 다른 지역 사진과 비교할 때 참고가 될 수 있음.\",\"regionDescriptionKo\":\"화면 상단 대부분.\",\"scope\":\"scene\",\"visibleText\":null,\"surface\":\"depicted\",\"visibility\":\"clear\",\"detectorQueryEn\":\"blue sky with scattered white clouds\",\"limitationsKo\":\"위치 식별력은 매우 낮다.\"}],\"limitationsKo\":[\"실내외 경계의 전체 맥락이 보이지 않아 시설 유형을 단정할 수 없음.\",\"건물 외관과 번호 표기는 보이지만 고유 지명, 주소, 간판 전체는 확인되지 않음.\",\"인물의 복장·행동은 지역 단서가 약해 최소한만 기록함.\"],\"coverageLimited\":false}"
+    },
+    "discovery": {
+      "cues": [
+        {
+          "kind": "text",
+          "category": "overlay text",
+          "nameKo": "한글 오버레이 문구",
+          "observationKo": "하늘 부분에 흰색 글씨로 '오늘 하늘 예쁘다☁️'가 보임.",
+          "geographicRelevanceKo": "한국어 사용은 촬영 환경의 언어권 단서를 줄 수 있어, 같은 지역권의 공개 이미지나 장소 사진과 비교할 때 보조 단서가 될 수 있음.",
+          "regionDescriptionKo": "한국어 문구가 사진 상단 중앙 쪽에 겹쳐져 있음.",
+          "scope": "scene",
+          "visibleText": "오늘 하늘 예쁘다☁️",
+          "surface": "depicted",
+          "visibility": "clear",
+          "detectorQueryEn": "white Korean text overlay near the top center of the sky",
+          "limitationsKo": "사진에 덧씌운 문구로 보이며, 촬영 위치를 직접 지시하는 표지판은 아님."
+        },
+        {
+          "kind": "non_text",
+          "category": "large building",
+          "nameKo": "대형 현대식 건물",
+          "observationKo": "왼쪽에 회색 외장과 세로 반복 창이 있는 큰 다층 건물이 보이고, 하부는 기둥 위로 띄운 형태임.",
+          "geographicRelevanceKo": "대규모 교육·업무·숙박 복합시설에서 자주 보이는 건축 양식과 배치로, 지역별 캠퍼스나 기관 단지 사진과 비교하는 단서가 될 수 있음.",
+          "regionDescriptionKo": "화면 왼쪽 가장자리부터 중앙 상단까지 크게 차지하는 건물 외관.",
+          "scope": "object",
+          "visibleText": null,
+          "surface": "fixed",
+          "visibility": "clear",
+          "detectorQueryEn": "large modern building on the left with repetitive vertical windows",
+          "limitationsKo": "일반적인 현대 건축이라 단독으로 지역을 특정하기 어렵다."
+        },
+        {
+          "kind": "non_text",
+          "category": "elevated walkway",
+          "nameKo": "상부 보행 연결부",
+          "observationKo": "건물 하부와 맞닿은 위치에 경사형 계단/보행 연결 구조가 보이며, 상부로 이어지는 동선이 존재함.",
+          "geographicRelevanceKo": "고저차를 처리하는 보행 동선 배치는 대학 캠퍼스, 병원, 대형 시설 단지의 공간 구성 비교에 도움이 될 수 있음.",
+          "regionDescriptionKo": "왼쪽 중하단에서 중앙으로 이어지는 계단형 구조물.",
+          "scope": "object",
+          "visibleText": null,
+          "surface": "fixed",
+          "visibility": "clear",
+          "detectorQueryEn": "sloped pedestrian stairway beside the left building",
+          "limitationsKo": "상세한 용도는 보이지 않아 정확한 시설 유형 판정은 제한적이다."
+        },
+        {
+          "kind": "non_text",
+          "category": "courtyard paving",
+          "nameKo": "광장 포장 패턴",
+          "observationKo": "전면 바닥이 회색 계열의 타일/블록 포장으로 넓게 조성되어 있고, 직선적 패턴이 반복됨.",
+          "geographicRelevanceKo": "보행 중심의 광장형 외부 공간은 기관 단지, 캠퍼스, 상업 복합시설 등과 비교할 때 배경 단서가 될 수 있음.",
+          "regionDescriptionKo": "화면 하단 전체의 바닥면.",
+          "scope": "scene",
+          "visibleText": null,
+          "surface": "fixed",
+          "visibility": "clear",
+          "detectorQueryEn": "gray tiled plaza paving in the foreground",
+          "limitationsKo": "일반적인 포장재라 지역성을 직접 지시하지 않는다."
+        },
+        {
+          "kind": "non_text",
+          "category": "number marker",
+          "nameKo": "숫자 표기 '304'",
+          "observationKo": "오른쪽 중앙의 벽면과 작은 표지에 '304' 숫자가 보임.",
+          "geographicRelevanceKo": "동·호수·구역 번호나 건물 식별 번호일 수 있어, 같은 단지 내 다른 공개 사진과 대조할 때 보조 단서가 될 수 있음.",
+          "regionDescriptionKo": "오른쪽 중앙의 낮은 벽면 및 출입부 근처.",
+          "scope": "object",
+          "visibleText": "304",
+          "surface": "fixed",
+          "visibility": "clear",
+          "detectorQueryEn": "wall-mounted number 304 on the right side",
+          "limitationsKo": "단순 번호로 보이며, 어떤 체계의 번호인지 사진만으로는 알 수 없다."
+        },
+        {
+          "kind": "non_text",
+          "category": "landscape planting",
+          "nameKo": "조경 식재",
+          "observationKo": "전경과 우측, 좌측에 키 작은 나무와 관목이 식재되어 있으며, 화분형 플랜터도 배치됨.",
+          "geographicRelevanceKo": "정돈된 조경 구성은 캠퍼스나 기관형 외부 공간의 성격을 비교하는 데 참고가 될 수 있음.",
+          "regionDescriptionKo": "화면 하단 좌우와 중앙의 식재 구역.",
+          "scope": "scene",
+          "visibleText": null,
+          "surface": "fixed",
+          "visibility": "clear",
+          "detectorQueryEn": "landscaped trees and shrubs around the plaza",
+          "limitationsKo": "일반적인 조경 요소로 지역 특이성은 낮다."
+        },
+        {
+          "kind": "non_text",
+          "category": "pedestrian presence",
+          "nameKo": "보행자 밀집",
+          "observationKo": "여러 명의 보행자가 광장과 계단 주변을 이동하고 있어 유동 인구가 있는 공간으로 보임.",
+          "geographicRelevanceKo": "시간대와 이용 형태가 드러나는 생활 환경 단서로, 캠퍼스·업무지구·복합시설 사진과의 비교에 보조적으로 유용할 수 있음.",
+          "regionDescriptionKo": "화면 하단 중앙과 좌우 곳곳의 사람들.",
+          "scope": "scene",
+          "visibleText": null,
+          "surface": "unknown",
+          "visibility": "clear",
+          "detectorQueryEn": "people walking in the plaza",
+          "limitationsKo": "사람 수와 복장은 계절·시간 영향이 커서 위치 단서로는 약하다."
+        },
+        {
+          "kind": "non_text",
+          "category": "sky weather",
+          "nameKo": "맑은 하늘과 구름",
+          "observationKo": "밝은 푸른 하늘과 흩어진 흰 구름이 크게 보이며 시야가 탁 트여 있음.",
+          "geographicRelevanceKo": "일기와 개방감은 지역 판별보다는 촬영 조건을 보조적으로 설명하며, 동일 시기 다른 지역 사진과 비교할 때 참고가 될 수 있음.",
+          "regionDescriptionKo": "화면 상단 대부분.",
+          "scope": "scene",
+          "visibleText": null,
+          "surface": "depicted",
+          "visibility": "clear",
+          "detectorQueryEn": "blue sky with scattered white clouds",
+          "limitationsKo": "위치 식별력은 매우 낮다."
+        }
+      ],
+      "limitationsKo": [
+        "실내외 경계의 전체 맥락이 보이지 않아 시설 유형을 단정할 수 없음.",
+        "건물 외관과 번호 표기는 보이지만 고유 지명, 주소, 간판 전체는 확인되지 않음.",
+        "인물의 복장·행동은 지역 단서가 약해 최소한만 기록함."
+      ],
+      "coverageLimited": false
+    },
+    "ocr": {
+      "engine": "PaddleOCR",
+      "version": "3.3.2",
+      "coordinateSpace": "analysis-normalized",
+      "lines": [
+        {
+          "id": "ocr-0",
+          "text": "오늘",
+          "score": 0.9999963641166687,
+          "polygon": [
+            [
+              0.31377777777777777,
+              0.0955
+            ],
+            [
+              0.368,
+              0.0955
+            ],
+            [
+              0.368,
+              0.113
+            ],
+            [
+              0.31377777777777777,
+              0.113
+            ]
+          ],
+          "passId": "full"
+        },
+        {
+          "id": "ocr-1",
+          "text": "하늘",
+          "score": 0.9999514818191528,
+          "polygon": [
+            [
+              0.3688888888888889,
+              0.095
+            ],
+            [
+              0.4266666666666667,
+              0.095
+            ],
+            [
+              0.4266666666666667,
+              0.114
+            ],
+            [
+              0.3688888888888889,
+              0.114
+            ]
+          ],
+          "passId": "full"
+        },
+        {
+          "id": "ocr-2",
+          "text": "예쁘다",
+          "score": 0.9994568228721619,
+          "polygon": [
+            [
+              0.42577777777777776,
+              0.0945
+            ],
+            [
+              0.5351111111111111,
+              0.0945
+            ],
+            [
+              0.5351111111111111,
+              0.114
+            ],
+            [
+              0.42577777777777776,
+              0.114
+            ]
+          ],
+          "passId": "tile-101-0"
+        },
+        {
+          "id": "ocr-3",
+          "text": "304",
+          "score": 0.9996137022972107,
+          "polygon": [
+            [
+              0.6773333333333333,
+              0.6135
+            ],
+            [
+              0.72,
+              0.6135
+            ],
+            [
+              0.72,
+              0.6265
+            ],
+            [
+              0.6773333333333333,
+              0.6265
+            ]
+          ],
+          "passId": "full"
+        },
+        {
+          "id": "ocr-4",
+          "text": "하늘 예쁘다",
+          "score": 0.9471390843391418,
+          "polygon": [
+            [
+              0.3635555555555556,
+              0.094
+            ],
+            [
+              0.5351111111111111,
+              0.094
+            ],
+            [
+              0.5351111111111111,
+              0.1145
+            ],
+            [
+              0.3635555555555556,
+              0.1145
+            ]
+          ],
+          "passId": "tile-0-0"
+        },
+        {
+          "id": "ocr-5",
+          "text": "304",
+          "score": 0.998842179775238,
+          "polygon": [
+            [
+              0.8382222222222222,
+              0.6645
+            ],
+            [
+              0.8524444444444444,
+              0.6645
+            ],
+            [
+              0.8524444444444444,
+              0.6685
+            ],
+            [
+              0.8382222222222222,
+              0.6685
+            ]
+          ],
+          "passId": "tile-0-819"
+        }
+      ],
+      "diagnostics": {
+        "version": "tiled-v1",
+        "inputWidth": 1125,
+        "inputHeight": 2000,
+        "passes": [
+          {
+            "id": "full",
+            "x": 0,
+            "y": 0,
+            "width": 1125,
+            "height": 2000,
+            "count": 4
+          },
+          {
+            "id": "tile-0-0",
+            "x": 0,
+            "y": 0,
+            "width": 1024,
+            "height": 1024,
+            "count": 2
+          },
+          {
+            "id": "tile-101-0",
+            "x": 101,
+            "y": 0,
+            "width": 1024,
+            "height": 1024,
+            "count": 3
+          },
+          {
+            "id": "tile-0-819",
+            "x": 0,
+            "y": 819,
+            "width": 1024,
+            "height": 1024,
+            "count": 2
+          },
+          {
+            "id": "tile-101-819",
+            "x": 101,
+            "y": 819,
+            "width": 1024,
+            "height": 1024,
+            "count": 1
+          },
+          {
+            "id": "tile-0-976",
+            "x": 0,
+            "y": 976,
+            "width": 1024,
+            "height": 1024,
+            "count": 1
+          },
+          {
+            "id": "tile-101-976",
+            "x": 101,
+            "y": 976,
+            "width": 1024,
+            "height": 1024,
+            "count": 1
+          }
+        ],
+        "rawReadings": [
+          {
+            "text": "오늘",
+            "score": 0.9999963641166687,
+            "polygon": [
+              [
+                0.31377777777777777,
+                0.0955
+              ],
+              [
+                0.368,
+                0.0955
+              ],
+              [
+                0.368,
+                0.113
+              ],
+              [
+                0.31377777777777777,
+                0.113
+              ]
+            ],
+            "passId": "full"
+          },
+          {
+            "text": "하늘",
+            "score": 0.9999514818191528,
+            "polygon": [
+              [
+                0.3688888888888889,
+                0.095
+              ],
+              [
+                0.4266666666666667,
+                0.095
+              ],
+              [
+                0.4266666666666667,
+                0.114
+              ],
+              [
+                0.3688888888888889,
+                0.114
+              ]
+            ],
+            "passId": "full"
+          },
+          {
+            "text": "예쁘다",
+            "score": 0.9994568228721619,
+            "polygon": [
+              [
+                0.42577777777777776,
+                0.0945
+              ],
+              [
+                0.5351111111111111,
+                0.0945
+              ],
+              [
+                0.5351111111111111,
+                0.114
+              ],
+              [
+                0.42577777777777776,
+                0.114
+              ]
+            ],
+            "passId": "tile-101-0"
+          },
+          {
+            "text": "304",
+            "score": 0.9996137022972107,
+            "polygon": [
+              [
+                0.6773333333333333,
+                0.6135
+              ],
+              [
+                0.72,
+                0.6135
+              ],
+              [
+                0.72,
+                0.6265
+              ],
+              [
+                0.6773333333333333,
+                0.6265
+              ]
+            ],
+            "passId": "full"
+          },
+          {
+            "text": "오늘",
+            "score": 0.9999954104423523,
+            "polygon": [
+              [
+                0.31377777777777777,
+                0.0955
+              ],
+              [
+                0.36977777777777776,
+                0.0955
+              ],
+              [
+                0.36977777777777776,
+                0.113
+              ],
+              [
+                0.31377777777777777,
+                0.113
+              ]
+            ],
+            "passId": "tile-0-0"
+          },
+          {
+            "text": "하늘 예쁘다",
+            "score": 0.9471390843391418,
+            "polygon": [
+              [
+                0.3635555555555556,
+                0.094
+              ],
+              [
+                0.5351111111111111,
+                0.094
+              ],
+              [
+                0.5351111111111111,
+                0.1145
+              ],
+              [
+                0.3635555555555556,
+                0.1145
+              ]
+            ],
+            "passId": "tile-0-0"
+          },
+          {
+            "text": "오늘",
+            "score": 0.9999963641166687,
+            "polygon": [
+              [
+                0.31377777777777777,
+                0.0955
+              ],
+              [
+                0.368,
+                0.0955
+              ],
+              [
+                0.368,
+                0.113
+              ],
+              [
+                0.31377777777777777,
+                0.113
+              ]
+            ],
+            "passId": "tile-101-0"
+          },
+          {
+            "text": "하늘",
+            "score": 0.9999514818191528,
+            "polygon": [
+              [
+                0.3688888888888889,
+                0.095
+              ],
+              [
+                0.4266666666666667,
+                0.095
+              ],
+              [
+                0.4266666666666667,
+                0.114
+              ],
+              [
+                0.3688888888888889,
+                0.114
+              ]
+            ],
+            "passId": "tile-101-0"
+          },
+          {
+            "text": "예쁘다",
+            "score": 0.9994568228721619,
+            "polygon": [
+              [
+                0.42577777777777776,
+                0.0945
+              ],
+              [
+                0.5351111111111111,
+                0.0945
+              ],
+              [
+                0.5351111111111111,
+                0.114
+              ],
+              [
+                0.42577777777777776,
+                0.114
+              ]
+            ],
+            "passId": "tile-101-0"
+          },
+          {
+            "text": "304",
+            "score": 0.9996063709259033,
+            "polygon": [
+              [
+                0.6773333333333333,
+                0.6135
+              ],
+              [
+                0.7191111111111111,
+                0.6135
+              ],
+              [
+                0.7191111111111111,
+                0.6265
+              ],
+              [
+                0.6773333333333333,
+                0.6265
+              ]
+            ],
+            "passId": "tile-0-819"
+          },
+          {
+            "text": "304",
+            "score": 0.998842179775238,
+            "polygon": [
+              [
+                0.8382222222222222,
+                0.6645
+              ],
+              [
+                0.8524444444444444,
+                0.6645
+              ],
+              [
+                0.8524444444444444,
+                0.6685
+              ],
+              [
+                0.8382222222222222,
+                0.6685
+              ]
+            ],
+            "passId": "tile-0-819"
+          },
+          {
+            "text": "304",
+            "score": 0.9994518756866455,
+            "polygon": [
+              [
+                0.6782222222222222,
+                0.6135
+              ],
+              [
+                0.7191111111111111,
+                0.6135
+              ],
+              [
+                0.7191111111111111,
+                0.6265
+              ],
+              [
+                0.6782222222222222,
+                0.6265
+              ]
+            ],
+            "passId": "tile-101-819"
+          },
+          {
+            "text": "304",
+            "score": 0.9994518756866455,
+            "polygon": [
+              [
+                0.6782222222222222,
+                0.6135
+              ],
+              [
+                0.7191111111111111,
+                0.6135
+              ],
+              [
+                0.7191111111111111,
+                0.6265
+              ],
+              [
+                0.6782222222222222,
+                0.6265
+              ]
+            ],
+            "passId": "tile-0-976"
+          },
+          {
+            "text": "304",
+            "score": 0.9994518756866455,
+            "polygon": [
+              [
+                0.6782222222222222,
+                0.6135
+              ],
+              [
+                0.7191111111111111,
+                0.6135
+              ],
+              [
+                0.7191111111111111,
+                0.6265
+              ],
+              [
+                0.6782222222222222,
+                0.6265
+              ]
+            ],
+            "passId": "tile-101-976"
+          }
+        ],
+        "unreadRegions": [],
+        "conflicts": [
+          [
+            "ocr-2",
+            "ocr-4"
+          ]
+        ]
+      }
+    },
+    "ocr_batch_0_raw": {
+      "requestedModel": "gpt-5.4-mini",
+      "responseModel": "gpt-5.4-mini-2026-03-17",
+      "responseId": "resp_09baa4a3c5190300016af322b429d887d2b79cf42a00b664ef",
+      "status": "completed",
+      "usage": {
+        "input_tokens": 5248,
+        "input_tokens_details": {
+          "cache_write_tokens": 0,
+          "cached_tokens": 0
+        },
+        "output_tokens": 1042,
+        "output_tokens_details": {
+          "reasoning_tokens": 0
+        },
+        "total_tokens": 6290
+      },
+      "promptSha256": "6a390a1592faabfed2308d3bf75271d6fdcb67131417face8de92e6bdcf1088f",
+      "rawOutputText": "{\"groups\":[{\"lineIds\":[\"ocr-0\"],\"disposition\":\"uncertain\",\"category\":\"overlay text\",\"nameKo\":\"한글 오버레이 문구\",\"observationKo\":\"하늘 배경 위에 흰색 한글 '오늘'이 보이지만, 표시된 빨간 박스는 문구 일부만 포함하고 있음.\",\"geographicRelevanceKo\":\"한국어 오버레이 문구로 보이지만 촬영 위치를 직접 가리키는 지명·주소 정보는 없음.\",\"regionDescriptionKo\":\"하늘 쪽 상단 중앙 부근의 흰색 텍스트 일부.\",\"correctedText\":\"오늘\",\"surface\":\"depicted\",\"visibility\":\"partial\",\"limitationsKo\":\"문구 전체가 아니라 일부만 잘려 보이며, 사진 위에 덧씌운 장식성 문구로 판단됨.\",\"relatedDiscoveryIndexes\":[0]},{\"lineIds\":[\"ocr-1\"],\"disposition\":\"uncertain\",\"category\":\"overlay text\",\"nameKo\":\"한글 오버레이 문구\",\"observationKo\":\"빨간 박스 안에 흰색 한글 '하늘'이 비교적 또렷하게 보임.\",\"geographicRelevanceKo\":\"한국어 텍스트라는 점은 언어권 단서일 수 있으나, 장소 고유 식별 정보는 아님.\",\"regionDescriptionKo\":\"하늘 배경 위 상단 중앙의 오버레이 텍스트 일부.\",\"correctedText\":\"하늘\",\"surface\":\"depicted\",\"visibility\":\"clear\",\"limitationsKo\":\"디지털 오버레이로 보이며, 지리적 식별력은 낮음.\",\"relatedDiscoveryIndexes\":[0]},{\"lineIds\":[\"ocr-2\"],\"disposition\":\"uncertain\",\"category\":\"overlay text\",\"nameKo\":\"한글 오버레이 문구\",\"observationKo\":\"빨간 박스 안에 '예쁘다'와 구름 이모지가 보이지만, 왼쪽 글자 일부가 잘려 있음.\",\"geographicRelevanceKo\":\"한국어 문구이지만 촬영지 식별과 직접 관련된 정보는 없음.\",\"regionDescriptionKo\":\"상단 중앙 쪽 하늘 위에 겹쳐진 텍스트 영역.\",\"correctedText\":\"예쁘다\",\"surface\":\"depicted\",\"visibility\":\"partial\",\"limitationsKo\":\"앞부분 문맥이 잘려 있어 독립적인 지역 단서는 아님.\",\"relatedDiscoveryIndexes\":[0]},{\"lineIds\":[\"ocr-3\"],\"disposition\":\"uncertain\",\"category\":\"number sign\",\"nameKo\":\"건물 번호 표기\",\"observationKo\":\"건물 외벽에 숫자 '304'가 보이지만, 단독 숫자만으로는 특정 장소를 식별하기 어려움.\",\"geographicRelevanceKo\":\"건물 구획 또는 호수 표기처럼 보이나, 지리적 고유성은 낮음.\",\"regionDescriptionKo\":\"오른쪽 중단의 회색 외벽 상단에 붙은 숫자 표기.\",\"correctedText\":\"304\",\"surface\":\"fixed\",\"visibility\":\"clear\",\"limitationsKo\":\"일반적인 건물 번호로 보이며, 주소·상호·지점명 같은 직접적 위치 정보는 없음.\",\"relatedDiscoveryIndexes\":[]},{\"lineIds\":[\"ocr-4\"],\"disposition\":\"uncertain\",\"category\":\"overlay text\",\"nameKo\":\"한글 오버레이 문구\",\"observationKo\":\"하늘 배경 위에 '하늘 예쁘다'가 보이며, 빨간 박스는 가운데 부분을 포함함.\",\"geographicRelevanceKo\":\"한국어 오버레이로 보이지만 촬영 장소를 특정하는 지명 정보는 없음.\",\"regionDescriptionKo\":\"상단 중앙의 하늘 위에 놓인 흰색 문구.\",\"correctedText\":\"하늘 예쁘다\",\"surface\":\"depicted\",\"visibility\":\"clear\",\"limitationsKo\":\"사진 편집/캡션 성격의 문구로 보이며 위치 단서는 약함.\",\"relatedDiscoveryIndexes\":[0]},{\"lineIds\":[\"ocr-5\"],\"disposition\":\"uncertain\",\"category\":\"number sign\",\"nameKo\":\"건물 번호 표기\",\"observationKo\":\"작은 숫자 표식이 '304'처럼 보이지만 해상도가 낮아 읽기만 겨우 가능함.\",\"geographicRelevanceKo\":\"건물의 층/호수/구획 번호일 수 있으나 장소 식별에는 부족함.\",\"regionDescriptionKo\":\"오른쪽 하단 건물 외벽의 작은 번호판 영역.\",\"correctedText\":\"304\",\"surface\":\"fixed\",\"visibility\":\"partial\",\"limitationsKo\":\"크기가 작고 흐려서 텍스트 확인만 가능하며, 고유한 지리 정보는 없음.\",\"relatedDiscoveryIndexes\":[]}],\"limitationsKo\":[\"사진 상단의 한글은 실제 표지판이 아니라 이미지 위에 얹힌 문구로 보입니다.\",\"숫자 304는 건물 표기처럼 보이지만 단독으로는 특정 장소를 식별할 수 없습니다.\"]}"
+    },
+    "ocr_batch_0": {
+      "groups": [
+        {
+          "lineIds": [
+            "ocr-0"
+          ],
+          "disposition": "uncertain",
+          "category": "overlay text",
+          "nameKo": "한글 오버레이 문구",
+          "observationKo": "하늘 배경 위에 흰색 한글 '오늘'이 보이지만, 표시된 빨간 박스는 문구 일부만 포함하고 있음.",
+          "geographicRelevanceKo": "한국어 오버레이 문구로 보이지만 촬영 위치를 직접 가리키는 지명·주소 정보는 없음.",
+          "regionDescriptionKo": "하늘 쪽 상단 중앙 부근의 흰색 텍스트 일부.",
+          "correctedText": "오늘",
+          "surface": "depicted",
+          "visibility": "partial",
+          "limitationsKo": "문구 전체가 아니라 일부만 잘려 보이며, 사진 위에 덧씌운 장식성 문구로 판단됨.",
+          "relatedDiscoveryIndexes": [
+            0
+          ]
+        },
+        {
+          "lineIds": [
+            "ocr-1"
+          ],
+          "disposition": "uncertain",
+          "category": "overlay text",
+          "nameKo": "한글 오버레이 문구",
+          "observationKo": "빨간 박스 안에 흰색 한글 '하늘'이 비교적 또렷하게 보임.",
+          "geographicRelevanceKo": "한국어 텍스트라는 점은 언어권 단서일 수 있으나, 장소 고유 식별 정보는 아님.",
+          "regionDescriptionKo": "하늘 배경 위 상단 중앙의 오버레이 텍스트 일부.",
+          "correctedText": "하늘",
+          "surface": "depicted",
+          "visibility": "clear",
+          "limitationsKo": "디지털 오버레이로 보이며, 지리적 식별력은 낮음.",
+          "relatedDiscoveryIndexes": [
+            0
+          ]
+        },
+        {
+          "lineIds": [
+            "ocr-2"
+          ],
+          "disposition": "uncertain",
+          "category": "overlay text",
+          "nameKo": "한글 오버레이 문구",
+          "observationKo": "빨간 박스 안에 '예쁘다'와 구름 이모지가 보이지만, 왼쪽 글자 일부가 잘려 있음.",
+          "geographicRelevanceKo": "한국어 문구이지만 촬영지 식별과 직접 관련된 정보는 없음.",
+          "regionDescriptionKo": "상단 중앙 쪽 하늘 위에 겹쳐진 텍스트 영역.",
+          "correctedText": "예쁘다",
+          "surface": "depicted",
+          "visibility": "partial",
+          "limitationsKo": "앞부분 문맥이 잘려 있어 독립적인 지역 단서는 아님.",
+          "relatedDiscoveryIndexes": [
+            0
+          ]
+        },
+        {
+          "lineIds": [
+            "ocr-3"
+          ],
+          "disposition": "uncertain",
+          "category": "number sign",
+          "nameKo": "건물 번호 표기",
+          "observationKo": "건물 외벽에 숫자 '304'가 보이지만, 단독 숫자만으로는 특정 장소를 식별하기 어려움.",
+          "geographicRelevanceKo": "건물 구획 또는 호수 표기처럼 보이나, 지리적 고유성은 낮음.",
+          "regionDescriptionKo": "오른쪽 중단의 회색 외벽 상단에 붙은 숫자 표기.",
+          "correctedText": "304",
+          "surface": "fixed",
+          "visibility": "clear",
+          "limitationsKo": "일반적인 건물 번호로 보이며, 주소·상호·지점명 같은 직접적 위치 정보는 없음.",
+          "relatedDiscoveryIndexes": []
+        },
+        {
+          "lineIds": [
+            "ocr-4"
+          ],
+          "disposition": "uncertain",
+          "category": "overlay text",
+          "nameKo": "한글 오버레이 문구",
+          "observationKo": "하늘 배경 위에 '하늘 예쁘다'가 보이며, 빨간 박스는 가운데 부분을 포함함.",
+          "geographicRelevanceKo": "한국어 오버레이로 보이지만 촬영 장소를 특정하는 지명 정보는 없음.",
+          "regionDescriptionKo": "상단 중앙의 하늘 위에 놓인 흰색 문구.",
+          "correctedText": "하늘 예쁘다",
+          "surface": "depicted",
+          "visibility": "clear",
+          "limitationsKo": "사진 편집/캡션 성격의 문구로 보이며 위치 단서는 약함.",
+          "relatedDiscoveryIndexes": [
+            0
+          ]
+        },
+        {
+          "lineIds": [
+            "ocr-5"
+          ],
+          "disposition": "uncertain",
+          "category": "number sign",
+          "nameKo": "건물 번호 표기",
+          "observationKo": "작은 숫자 표식이 '304'처럼 보이지만 해상도가 낮아 읽기만 겨우 가능함.",
+          "geographicRelevanceKo": "건물의 층/호수/구획 번호일 수 있으나 장소 식별에는 부족함.",
+          "regionDescriptionKo": "오른쪽 하단 건물 외벽의 작은 번호판 영역.",
+          "correctedText": "304",
+          "surface": "fixed",
+          "visibility": "partial",
+          "limitationsKo": "크기가 작고 흐려서 텍스트 확인만 가능하며, 고유한 지리 정보는 없음.",
+          "relatedDiscoveryIndexes": []
+        }
+      ],
+      "limitationsKo": [
+        "사진 상단의 한글은 실제 표지판이 아니라 이미지 위에 얹힌 문구로 보입니다.",
+        "숫자 304는 건물 표기처럼 보이지만 단독으로는 특정 장소를 식별할 수 없습니다."
+      ]
+    },
+    "ocr_review": {
+      "groups": [
+        {
+          "lineIds": [
+            "ocr-0"
+          ],
+          "disposition": "uncertain",
+          "category": "overlay text",
+          "nameKo": "한글 오버레이 문구",
+          "observationKo": "하늘 배경 위에 흰색 한글 '오늘'이 보이지만, 표시된 빨간 박스는 문구 일부만 포함하고 있음.",
+          "geographicRelevanceKo": "한국어 오버레이 문구로 보이지만 촬영 위치를 직접 가리키는 지명·주소 정보는 없음.",
+          "regionDescriptionKo": "하늘 쪽 상단 중앙 부근의 흰색 텍스트 일부.",
+          "correctedText": "오늘",
+          "surface": "depicted",
+          "visibility": "partial",
+          "limitationsKo": "문구 전체가 아니라 일부만 잘려 보이며, 사진 위에 덧씌운 장식성 문구로 판단됨.",
+          "relatedDiscoveryIndexes": [
+            0
+          ]
+        },
+        {
+          "lineIds": [
+            "ocr-1"
+          ],
+          "disposition": "uncertain",
+          "category": "overlay text",
+          "nameKo": "한글 오버레이 문구",
+          "observationKo": "빨간 박스 안에 흰색 한글 '하늘'이 비교적 또렷하게 보임.",
+          "geographicRelevanceKo": "한국어 텍스트라는 점은 언어권 단서일 수 있으나, 장소 고유 식별 정보는 아님.",
+          "regionDescriptionKo": "하늘 배경 위 상단 중앙의 오버레이 텍스트 일부.",
+          "correctedText": "하늘",
+          "surface": "depicted",
+          "visibility": "clear",
+          "limitationsKo": "디지털 오버레이로 보이며, 지리적 식별력은 낮음.",
+          "relatedDiscoveryIndexes": [
+            0
+          ]
+        },
+        {
+          "lineIds": [
+            "ocr-2"
+          ],
+          "disposition": "uncertain",
+          "category": "overlay text",
+          "nameKo": "한글 오버레이 문구",
+          "observationKo": "빨간 박스 안에 '예쁘다'와 구름 이모지가 보이지만, 왼쪽 글자 일부가 잘려 있음.",
+          "geographicRelevanceKo": "한국어 문구이지만 촬영지 식별과 직접 관련된 정보는 없음.",
+          "regionDescriptionKo": "상단 중앙 쪽 하늘 위에 겹쳐진 텍스트 영역.",
+          "correctedText": "예쁘다",
+          "surface": "depicted",
+          "visibility": "partial",
+          "limitationsKo": "앞부분 문맥이 잘려 있어 독립적인 지역 단서는 아님.",
+          "relatedDiscoveryIndexes": [
+            0
+          ]
+        },
+        {
+          "lineIds": [
+            "ocr-3"
+          ],
+          "disposition": "uncertain",
+          "category": "number sign",
+          "nameKo": "건물 번호 표기",
+          "observationKo": "건물 외벽에 숫자 '304'가 보이지만, 단독 숫자만으로는 특정 장소를 식별하기 어려움.",
+          "geographicRelevanceKo": "건물 구획 또는 호수 표기처럼 보이나, 지리적 고유성은 낮음.",
+          "regionDescriptionKo": "오른쪽 중단의 회색 외벽 상단에 붙은 숫자 표기.",
+          "correctedText": "304",
+          "surface": "fixed",
+          "visibility": "clear",
+          "limitationsKo": "일반적인 건물 번호로 보이며, 주소·상호·지점명 같은 직접적 위치 정보는 없음.",
+          "relatedDiscoveryIndexes": []
+        },
+        {
+          "lineIds": [
+            "ocr-4"
+          ],
+          "disposition": "uncertain",
+          "category": "overlay text",
+          "nameKo": "한글 오버레이 문구",
+          "observationKo": "하늘 배경 위에 '하늘 예쁘다'가 보이며, 빨간 박스는 가운데 부분을 포함함.",
+          "geographicRelevanceKo": "한국어 오버레이로 보이지만 촬영 장소를 특정하는 지명 정보는 없음.",
+          "regionDescriptionKo": "상단 중앙의 하늘 위에 놓인 흰색 문구.",
+          "correctedText": "하늘 예쁘다",
+          "surface": "depicted",
+          "visibility": "clear",
+          "limitationsKo": "사진 편집/캡션 성격의 문구로 보이며 위치 단서는 약함.",
+          "relatedDiscoveryIndexes": [
+            0
+          ]
+        },
+        {
+          "lineIds": [
+            "ocr-5"
+          ],
+          "disposition": "uncertain",
+          "category": "number sign",
+          "nameKo": "건물 번호 표기",
+          "observationKo": "작은 숫자 표식이 '304'처럼 보이지만 해상도가 낮아 읽기만 겨우 가능함.",
+          "geographicRelevanceKo": "건물의 층/호수/구획 번호일 수 있으나 장소 식별에는 부족함.",
+          "regionDescriptionKo": "오른쪽 하단 건물 외벽의 작은 번호판 영역.",
+          "correctedText": "304",
+          "surface": "fixed",
+          "visibility": "partial",
+          "limitationsKo": "크기가 작고 흐려서 텍스트 확인만 가능하며, 고유한 지리 정보는 없음.",
+          "relatedDiscoveryIndexes": []
+        }
+      ],
+      "limitationsKo": [
+        "사진 상단의 한글은 실제 표지판이 아니라 이미지 위에 얹힌 문구로 보입니다.",
+        "숫자 304는 건물 표기처럼 보이지만 단독으로는 특정 장소를 식별할 수 없습니다."
+      ],
+      "reviewMode": "per_region_crops"
+    },
+    "detection": {
+      "engine": "Grounding DINO",
+      "model": "IDEA-Research/grounding-dino-tiny",
+      "revision": "a2bb814dd30d776dcf7e30523b00659f4f141c71",
+      "imageSha256": "b29c89ea324e0fb1f6482a35fb724b69bd38de98475efe8dd77d600ae460e263",
+      "coordinateSpace": "analysis-normalized",
+      "requests": [
+        {
+          "cueId": "cue-0",
+          "query": "white Korean text overlay near the top center of the sky",
+          "detections": [
+            {
+              "id": "dino-cue-0-0",
+              "bbox": [
+                0.31091883680555554,
+                0.0927078857421875,
+                0.5172521701388889,
+                0.11485895538330078
+              ],
+              "score": 0.6829927563667297,
+              "label": "white korean text overlay"
+            }
+          ]
+        },
+        {
+          "cueId": "cue-1",
+          "query": "large modern building on the left with repetitive vertical windows",
+          "detections": [
+            {
+              "id": "dino-cue-1-0",
+              "bbox": [
+                0.0035292803446451823,
+                0.0021986961364746094,
+                0.48781613498263887,
+                0.7617719116210937
+              ],
+              "score": 0.8057491779327393,
+              "label": "large modern building"
+            }
+          ]
+        },
+        {
+          "cueId": "cue-2",
+          "query": "sloped pedestrian stairway beside the left building",
+          "detections": [
+            {
+              "id": "dino-cue-2-0",
+              "bbox": [
+                0.31376106770833334,
+                0.60263427734375,
+                0.5306652560763889,
+                0.7584378051757813
+              ],
+              "score": 0.5983747243881226,
+              "label": "sloped pedestrian stairway"
+            }
+          ]
+        },
+        {
+          "cueId": "cue-3",
+          "query": "gray tiled plaza paving in the foreground",
+          "detections": [
+            {
+              "id": "dino-cue-3-0",
+              "bbox": [
+                0.0048471094767252604,
+                0.7524231567382812,
+                0.9960914713541666,
+                0.997003173828125
+              ],
+              "score": 0.6185293793678284,
+              "label": "gray tiled plaza paving"
+            }
+          ]
+        },
+        {
+          "cueId": "cue-4",
+          "query": "wall-mounted number 304 on the right side",
+          "detections": [
+            {
+              "id": "dino-cue-4-0",
+              "bbox": [
+                0.6703761935763889,
+                0.6107882080078125,
+                0.7233404947916666,
+                0.6286851196289063
+              ],
+              "score": 0.4394227862358093,
+              "label": "wall - mounted number"
+            }
+          ]
+        },
+        {
+          "cueId": "cue-5",
+          "query": "landscaped trees and shrubs around the plaza",
+          "detections": [
+            {
+              "id": "dino-cue-5-0",
+              "bbox": [
+                0.002914309607611762,
+                0.51283349609375,
+                0.20865421549479166,
+                0.7714302368164062
+              ],
+              "score": 0.30554455518722534,
+              "label": "landscaped trees"
+            }
+          ]
+        },
+        {
+          "cueId": "cue-6",
+          "query": "people walking in the plaza",
+          "detections": [
+            {
+              "id": "dino-cue-6-0",
+              "bbox": [
+                0.1966251491970486,
+                0.7100579833984375,
+                0.37157628038194446,
+                0.9601259155273437
+              ],
+              "score": 0.6025434136390686,
+              "label": "people"
+            },
+            {
+              "id": "dino-cue-6-1",
+              "bbox": [
+                0.01839371066623264,
+                0.7152804565429688,
+                0.1565888400607639,
+                0.9235660400390625
+              ],
+              "score": 0.45701584219932556,
+              "label": "people"
+            },
+            {
+              "id": "dino-cue-6-2",
+              "bbox": [
+                0.7632494574652777,
+                0.7195056762695312,
+                0.8336602105034723,
+                0.7902495727539063
+              ],
+              "score": 0.46424925327301025,
+              "label": "people"
+            },
+            {
+              "id": "dino-cue-6-3",
+              "bbox": [
+                0.4993777126736111,
+                0.7249061889648437,
+                0.5450138888888889,
+                0.77834033203125
+              ],
+              "score": 0.38972747325897217,
+              "label": "people"
+            },
+            {
+              "id": "dino-cue-6-4",
+              "bbox": [
+                0.5388874240451389,
+                0.7243455810546875,
+                0.5792545572916666,
+                0.766377685546875
+              ],
+              "score": 0.34564468264579773,
+              "label": "people"
+            },
+            {
+              "id": "dino-cue-6-5",
+              "bbox": [
+                0.6179791666666666,
+                0.7223438720703125,
+                0.6608760308159722,
+                0.7642799072265625
+              ],
+              "score": 0.3486386239528656,
+              "label": "people"
+            },
+            {
+              "id": "dino-cue-6-6",
+              "bbox": [
+                0.0053475795321994354,
+                0.7492625732421875,
+                0.9982008463541666,
+                0.999180419921875
+              ],
+              "score": 0.36714717745780945,
+              "label": "the plaza"
+            }
+          ]
+        },
+        {
+          "cueId": "cue-7",
+          "query": "blue sky with scattered white clouds",
+          "detections": [
+            {
+              "id": "dino-cue-7-0",
+              "bbox": [
+                0.18207457139756944,
+                0.002365589141845703,
+                0.994283203125,
+                0.6267066650390625
+              ],
+              "score": 0.6238569021224976,
+              "label": "blue sky"
+            }
+          ]
+        }
+      ]
+    },
+    "verify_cue-0_0_raw": {
+      "requestedModel": "gpt-5.4-mini",
+      "responseModel": "gpt-5.4-mini-2026-03-17",
+      "responseId": "resp_03d0d502b7b2b566016af3232fc08c87d28947002ad3f90a9f",
+      "status": "completed",
+      "usage": {
+        "input_tokens": 4308,
+        "input_tokens_details": {
+          "cache_write_tokens": 0,
+          "cached_tokens": 0
+        },
+        "output_tokens": 272,
+        "output_tokens_details": {
+          "reasoning_tokens": 0
+        },
+        "total_tokens": 4580
+      },
+      "promptSha256": "97106482e700608c01db19a0e347e9f7b3412b32cd23eb8b0b63af11e381e055",
+      "rawOutputText": "{\"checks\":[{\"proposalId\":\"link-0-0\",\"verdict\":\"supported\",\"evidenceKo\":\"하늘 위에 흰색 한글 '오늘'이 실제로 보이고, 박스 안에 해당 글자 형태가 포함됨.\"},{\"proposalId\":\"link-0-1\",\"verdict\":\"supported\",\"evidenceKo\":\"흰색 한글 '하늘'이 또렷하게 보이며, 제시된 영역이 글자 전체를 포함함.\"},{\"proposalId\":\"link-0-2\",\"verdict\":\"supported\",\"evidenceKo\":\"흰색 '예쁘다'와 구름 이모지가 보이고, 박스가 문구의 해당 부분을 포함함.\"},{\"proposalId\":\"link-0-4\",\"verdict\":\"supported\",\"evidenceKo\":\"하늘 배경 위에 '하늘 예쁘다☁️'가 연속해서 보이며, 제시된 범위가 문구를 충분히 담음.\"},{\"proposalId\":\"dino-cue-0-0\",\"verdict\":\"supported\",\"evidenceKo\":\"상단 중앙 쪽에 흰색 한글 오버레이가 실제로 있고, '오늘 하늘 예쁘다☁️' 문구와 대응됨.\"}]}"
+    },
+    "verify_cue-0": {
+      "checks": [
+        {
+          "proposalId": "link-0-0",
+          "verdict": "supported",
+          "evidenceKo": "하늘 위에 흰색 한글 '오늘'이 실제로 보이고, 박스 안에 해당 글자 형태가 포함됨."
+        },
+        {
+          "proposalId": "link-0-1",
+          "verdict": "supported",
+          "evidenceKo": "흰색 한글 '하늘'이 또렷하게 보이며, 제시된 영역이 글자 전체를 포함함."
+        },
+        {
+          "proposalId": "link-0-2",
+          "verdict": "supported",
+          "evidenceKo": "흰색 '예쁘다'와 구름 이모지가 보이고, 박스가 문구의 해당 부분을 포함함."
+        },
+        {
+          "proposalId": "link-0-4",
+          "verdict": "supported",
+          "evidenceKo": "하늘 배경 위에 '하늘 예쁘다☁️'가 연속해서 보이며, 제시된 범위가 문구를 충분히 담음."
+        },
+        {
+          "proposalId": "dino-cue-0-0",
+          "verdict": "supported",
+          "evidenceKo": "상단 중앙 쪽에 흰색 한글 오버레이가 실제로 있고, '오늘 하늘 예쁘다☁️' 문구와 대응됨."
+        }
+      ]
+    },
+    "verify_cue-1_0_raw": {
+      "requestedModel": "gpt-5.4-mini",
+      "responseModel": "gpt-5.4-mini-2026-03-17",
+      "responseId": "resp_07c6251cddaf470b016af3233339b887d29daee84440bf5f75",
+      "status": "completed",
+      "usage": {
+        "input_tokens": 4449,
+        "input_tokens_details": {
+          "cache_write_tokens": 0,
+          "cached_tokens": 0
+        },
+        "output_tokens": 77,
+        "output_tokens_details": {
+          "reasoning_tokens": 0
+        },
+        "total_tokens": 4526
+      },
+      "promptSha256": "97106482e700608c01db19a0e347e9f7b3412b32cd23eb8b0b63af11e381e055",
+      "rawOutputText": "{\"checks\":[{\"proposalId\":\"dino-cue-1-0\",\"verdict\":\"supported\",\"evidenceKo\":\"왼쪽에 회색 외장과 세로로 반복되는 창이 있는 큰 다층 건물이 보이고, 아래층이 기둥 위로 띄워진 형태도 확인됩니다.\"}]}"
+    },
+    "verify_cue-1": {
+      "checks": [
+        {
+          "proposalId": "dino-cue-1-0",
+          "verdict": "supported",
+          "evidenceKo": "왼쪽에 회색 외장과 세로로 반복되는 창이 있는 큰 다층 건물이 보이고, 아래층이 기둥 위로 띄워진 형태도 확인됩니다."
+        }
+      ]
+    },
+    "verify_cue-2_0_raw": {
+      "requestedModel": "gpt-5.4-mini",
+      "responseModel": "gpt-5.4-mini-2026-03-17",
+      "responseId": "resp_0c05cc788d4aeab4016af323353ae487d2a32115b3de8f5532",
+      "status": "completed",
+      "usage": {
+        "input_tokens": 3492,
+        "input_tokens_details": {
+          "cache_write_tokens": 0,
+          "cached_tokens": 0
+        },
+        "output_tokens": 74,
+        "output_tokens_details": {
+          "reasoning_tokens": 0
+        },
+        "total_tokens": 3566
+      },
+      "promptSha256": "97106482e700608c01db19a0e347e9f7b3412b32cd23eb8b0b63af11e381e055",
+      "rawOutputText": "{\"checks\":[{\"proposalId\":\"dino-cue-2-0\",\"verdict\":\"supported\",\"evidenceKo\":\"왼쪽 건물 하부에서 중앙 쪽으로 이어지는 경사형 계단/보행 연결 구조가 보이며, 상부로 오르는 동선이 확인됩니다.\"}]}"
+    },
+    "verify_cue-2": {
+      "checks": [
+        {
+          "proposalId": "dino-cue-2-0",
+          "verdict": "supported",
+          "evidenceKo": "왼쪽 건물 하부에서 중앙 쪽으로 이어지는 경사형 계단/보행 연결 구조가 보이며, 상부로 오르는 동선이 확인됩니다."
+        }
+      ]
+    },
+    "verify_cue-3_0_raw": {
+      "requestedModel": "gpt-5.4-mini",
+      "responseModel": "gpt-5.4-mini-2026-03-17",
+      "responseId": "resp_033b3d1f8b716928016af32337ac3087d29039893719d03c0a",
+      "status": "completed",
+      "usage": {
+        "input_tokens": 4056,
+        "input_tokens_details": {
+          "cache_write_tokens": 0,
+          "cached_tokens": 0
+        },
+        "output_tokens": 69,
+        "output_tokens_details": {
+          "reasoning_tokens": 0
+        },
+        "total_tokens": 4125
+      },
+      "promptSha256": "97106482e700608c01db19a0e347e9f7b3412b32cd23eb8b0b63af11e381e055",
+      "rawOutputText": "{\"checks\":[{\"proposalId\":\"dino-cue-3-0\",\"verdict\":\"supported\",\"evidenceKo\":\"하단 전체에 회색 계열의 타일/블록 포장이 넓게 보이고, 직선적 배열과 반복 패턴이 확인됩니다.\"}]}"
+    },
+    "verify_cue-3": {
+      "checks": [
+        {
+          "proposalId": "dino-cue-3-0",
+          "verdict": "supported",
+          "evidenceKo": "하단 전체에 회색 계열의 타일/블록 포장이 넓게 보이고, 직선적 배열과 반복 패턴이 확인됩니다."
+        }
+      ]
+    },
+    "verify_cue-4_0_raw": {
+      "requestedModel": "gpt-5.4-mini",
+      "responseModel": "gpt-5.4-mini-2026-03-17",
+      "responseId": "resp_03834c589e35e9fc016af32339d5dc87d2b1842579747eb895",
+      "status": "completed",
+      "usage": {
+        "input_tokens": 3391,
+        "input_tokens_details": {
+          "cache_write_tokens": 0,
+          "cached_tokens": 0
+        },
+        "output_tokens": 54,
+        "output_tokens_details": {
+          "reasoning_tokens": 0
+        },
+        "total_tokens": 3445
+      },
+      "promptSha256": "97106482e700608c01db19a0e347e9f7b3412b32cd23eb8b0b63af11e381e055",
+      "rawOutputText": "{\"checks\":[{\"proposalId\":\"dino-cue-4-0\",\"verdict\":\"supported\",\"evidenceKo\":\"작은 표지와 벽면에 ‘304’ 숫자가 실제로 보입니다.\"}]}"
+    },
+    "verify_cue-4": {
+      "checks": [
+        {
+          "proposalId": "dino-cue-4-0",
+          "verdict": "supported",
+          "evidenceKo": "작은 표지와 벽면에 ‘304’ 숫자가 실제로 보입니다."
+        }
+      ]
+    },
+    "verify_cue-5_0_raw": {
+      "requestedModel": "gpt-5.4-mini",
+      "responseModel": "gpt-5.4-mini-2026-03-17",
+      "responseId": "resp_0377c0ea323f222e016af3233b60f887d2a44a95c681f56356",
+      "status": "completed",
+      "usage": {
+        "input_tokens": 3538,
+        "input_tokens_details": {
+          "cache_write_tokens": 0,
+          "cached_tokens": 0
+        },
+        "output_tokens": 69,
+        "output_tokens_details": {
+          "reasoning_tokens": 0
+        },
+        "total_tokens": 3607
+      },
+      "promptSha256": "97106482e700608c01db19a0e347e9f7b3412b32cd23eb8b0b63af11e381e055",
+      "rawOutputText": "{\"checks\":[{\"proposalId\":\"dino-cue-5-0\",\"verdict\":\"supported\",\"evidenceKo\":\"크롭 안에 전경 좌측의 작은 나무가 뚜렷하게 보이며, 잎이 있는 식재가 실제로 포함됩니다.\"}]}"
+    },
+    "verify_cue-5": {
+      "checks": [
+        {
+          "proposalId": "dino-cue-5-0",
+          "verdict": "supported",
+          "evidenceKo": "크롭 안에 전경 좌측의 작은 나무가 뚜렷하게 보이며, 잎이 있는 식재가 실제로 포함됩니다."
+        }
+      ]
+    },
+    "verify_cue-6_0_raw": {
+      "requestedModel": "gpt-5.4-mini",
+      "responseModel": "gpt-5.4-mini-2026-03-17",
+      "responseId": "resp_04105d45818e192f016af3233d9c5487d2a1361a9718d3194c",
+      "status": "completed",
+      "usage": {
+        "input_tokens": 5159,
+        "input_tokens_details": {
+          "cache_write_tokens": 0,
+          "cached_tokens": 0
+        },
+        "output_tokens": 352,
+        "output_tokens_details": {
+          "reasoning_tokens": 0
+        },
+        "total_tokens": 5511
+      },
+      "promptSha256": "97106482e700608c01db19a0e347e9f7b3412b32cd23eb8b0b63af11e381e055",
+      "rawOutputText": "{\"checks\":[{\"proposalId\":\"dino-cue-6-0\",\"verdict\":\"supported\",\"evidenceKo\":\"크롭 안에 성인 보행자 1명이 또렷하게 보이며, 광장 바닥 위를 이동하는 모습이 확인됩니다.\"},{\"proposalId\":\"dino-cue-6-1\",\"verdict\":\"supported\",\"evidenceKo\":\"크롭에 보행자 1명이 보이고, 광장 가장자리에서 걷는 자세가 확인됩니다.\"},{\"proposalId\":\"dino-cue-6-2\",\"verdict\":\"supported\",\"evidenceKo\":\"크롭에 두 사람이 겹쳐 보이며 계단 주변에서 이동 중인 모습이 확인됩니다.\"},{\"proposalId\":\"dino-cue-6-3\",\"verdict\":\"supported\",\"evidenceKo\":\"크롭 안에 보행자 2명이 함께 보이고, 광장 쪽으로 걷는 장면이 확인됩니다.\"},{\"proposalId\":\"dino-cue-6-4\",\"verdict\":\"supported\",\"evidenceKo\":\"크롭에 보행자 1명이 보이며, 정지보다는 이동 중인 자세가 확인됩니다.\"},{\"proposalId\":\"dino-cue-6-5\",\"verdict\":\"supported\",\"evidenceKo\":\"크롭에 보행자 1명이 보이고, 광장 바닥 위를 걷는 모습이 확인됩니다.\"},{\"proposalId\":\"dino-cue-6-6\",\"verdict\":\"supported\",\"evidenceKo\":\"하단 광장 전체에 여러 보행자가 흩어져 이동하고 있어 보행자 밀집 장면으로 확인됩니다.\"}]}"
+    },
+    "verify_cue-6": {
+      "checks": [
+        {
+          "proposalId": "dino-cue-6-0",
+          "verdict": "supported",
+          "evidenceKo": "크롭 안에 성인 보행자 1명이 또렷하게 보이며, 광장 바닥 위를 이동하는 모습이 확인됩니다."
+        },
+        {
+          "proposalId": "dino-cue-6-1",
+          "verdict": "supported",
+          "evidenceKo": "크롭에 보행자 1명이 보이고, 광장 가장자리에서 걷는 자세가 확인됩니다."
+        },
+        {
+          "proposalId": "dino-cue-6-2",
+          "verdict": "supported",
+          "evidenceKo": "크롭에 두 사람이 겹쳐 보이며 계단 주변에서 이동 중인 모습이 확인됩니다."
+        },
+        {
+          "proposalId": "dino-cue-6-3",
+          "verdict": "supported",
+          "evidenceKo": "크롭 안에 보행자 2명이 함께 보이고, 광장 쪽으로 걷는 장면이 확인됩니다."
+        },
+        {
+          "proposalId": "dino-cue-6-4",
+          "verdict": "supported",
+          "evidenceKo": "크롭에 보행자 1명이 보이며, 정지보다는 이동 중인 자세가 확인됩니다."
+        },
+        {
+          "proposalId": "dino-cue-6-5",
+          "verdict": "supported",
+          "evidenceKo": "크롭에 보행자 1명이 보이고, 광장 바닥 위를 걷는 모습이 확인됩니다."
+        },
+        {
+          "proposalId": "dino-cue-6-6",
+          "verdict": "supported",
+          "evidenceKo": "하단 광장 전체에 여러 보행자가 흩어져 이동하고 있어 보행자 밀집 장면으로 확인됩니다."
+        }
+      ]
+    },
+    "verify_cue-7_0_raw": {
+      "requestedModel": "gpt-5.4-mini",
+      "responseModel": "gpt-5.4-mini-2026-03-17",
+      "responseId": "resp_09f22334954d26c0016af32341d93487d2bd4537a8478a6fdb",
+      "status": "completed",
+      "usage": {
+        "input_tokens": 4756,
+        "input_tokens_details": {
+          "cache_write_tokens": 0,
+          "cached_tokens": 0
+        },
+        "output_tokens": 72,
+        "output_tokens_details": {
+          "reasoning_tokens": 0
+        },
+        "total_tokens": 4828
+      },
+      "promptSha256": "97106482e700608c01db19a0e347e9f7b3412b32cd23eb8b0b63af11e381e055",
+      "rawOutputText": "{\"checks\":[{\"proposalId\":\"dino-cue-7-0\",\"verdict\":\"supported\",\"evidenceKo\":\"상단 대부분에 밝은 푸른 하늘이 넓게 보이고, 여러 개의 흰 구름이 흩어져 있어 설명과 일치합니다.\"}]}"
+    },
+    "verify_cue-7": {
+      "checks": [
+        {
+          "proposalId": "dino-cue-7-0",
+          "verdict": "supported",
+          "evidenceKo": "상단 대부분에 밝은 푸른 하늘이 넓게 보이고, 여러 개의 흰 구름이 흩어져 있어 설명과 일치합니다."
+        }
+      ]
+    }
+  },
+  "cues": [
+    {
+      "kind": "text",
+      "category": "overlay text",
+      "nameKo": "한글 오버레이 문구",
+      "observationKo": "하늘 부분에 흰색 글씨로 '오늘 하늘 예쁘다☁️'가 보임.",
+      "geographicRelevanceKo": "한국어 사용은 촬영 환경의 언어권 단서를 줄 수 있어, 같은 지역권의 공개 이미지나 장소 사진과 비교할 때 보조 단서가 될 수 있음.",
+      "regionDescriptionKo": "한국어 문구가 사진 상단 중앙 쪽에 겹쳐져 있음.",
+      "scope": "scene",
+      "visibleText": "오늘 하늘 예쁘다☁️",
+      "surface": "depicted",
+      "visibility": "clear",
+      "detectorQueryEn": "white Korean text overlay near the top center of the sky",
+      "limitationsKo": "사진에 덧씌운 문구로 보이며, 촬영 위치를 직접 지시하는 표지판은 아님.",
+      "id": "cue-0",
+      "source": "geominer_adaptation",
+      "sourceIndex": 0,
+      "disposition": "candidate",
+      "evidenceGroupIds": [
+        "ocr-cue-0",
+        "ocr-cue-1",
+        "ocr-cue-2",
+        "ocr-cue-4"
+      ],
+      "localization": {
+        "status": "supported",
+        "proposals": [
+          {
+            "id": "link-0-0",
+            "source": "paddleocr",
+            "bbox": [
+              0.31377777777777777,
+              0.0955,
+              0.368,
+              0.113
+            ],
+            "polygons": [
+              [
+                [
+                  0.31377777777777777,
+                  0.0955
+                ],
+                [
+                  0.368,
+                  0.0955
+                ],
+                [
+                  0.368,
+                  0.113
+                ],
+                [
+                  0.31377777777777777,
+                  0.113
+                ]
+              ]
+            ],
+            "lineIds": [
+              "ocr-0"
+            ],
+            "verdict": "supported",
+            "evidenceKo": "하늘 위에 흰색 한글 '오늘'이 실제로 보이고, 박스 안에 해당 글자 형태가 포함됨.",
+            "verificationSource": null,
+            "score": null,
+            "associationStatus": "model_proposed"
+          },
+          {
+            "id": "link-0-1",
+            "source": "paddleocr",
+            "bbox": [
+              0.3688888888888889,
+              0.095,
+              0.4266666666666667,
+              0.114
+            ],
+            "polygons": [
+              [
+                [
+                  0.3688888888888889,
+                  0.095
+                ],
+                [
+                  0.4266666666666667,
+                  0.095
+                ],
+                [
+                  0.4266666666666667,
+                  0.114
+                ],
+                [
+                  0.3688888888888889,
+                  0.114
+                ]
+              ]
+            ],
+            "lineIds": [
+              "ocr-1"
+            ],
+            "verdict": "supported",
+            "evidenceKo": "흰색 한글 '하늘'이 또렷하게 보이며, 제시된 영역이 글자 전체를 포함함.",
+            "verificationSource": null,
+            "score": null,
+            "associationStatus": "model_proposed"
+          },
+          {
+            "id": "link-0-2",
+            "source": "paddleocr",
+            "bbox": [
+              0.42577777777777776,
+              0.0945,
+              0.5351111111111111,
+              0.114
+            ],
+            "polygons": [
+              [
+                [
+                  0.42577777777777776,
+                  0.0945
+                ],
+                [
+                  0.5351111111111111,
+                  0.0945
+                ],
+                [
+                  0.5351111111111111,
+                  0.114
+                ],
+                [
+                  0.42577777777777776,
+                  0.114
+                ]
+              ]
+            ],
+            "lineIds": [
+              "ocr-2"
+            ],
+            "verdict": "supported",
+            "evidenceKo": "흰색 '예쁘다'와 구름 이모지가 보이고, 박스가 문구의 해당 부분을 포함함.",
+            "verificationSource": null,
+            "score": null,
+            "associationStatus": "model_proposed"
+          },
+          {
+            "id": "link-0-4",
+            "source": "paddleocr",
+            "bbox": [
+              0.3635555555555556,
+              0.094,
+              0.5351111111111111,
+              0.1145
+            ],
+            "polygons": [
+              [
+                [
+                  0.3635555555555556,
+                  0.094
+                ],
+                [
+                  0.5351111111111111,
+                  0.094
+                ],
+                [
+                  0.5351111111111111,
+                  0.1145
+                ],
+                [
+                  0.3635555555555556,
+                  0.1145
+                ]
+              ]
+            ],
+            "lineIds": [
+              "ocr-4"
+            ],
+            "verdict": "supported",
+            "evidenceKo": "하늘 배경 위에 '하늘 예쁘다☁️'가 연속해서 보이며, 제시된 범위가 문구를 충분히 담음.",
+            "verificationSource": null,
+            "score": null,
+            "associationStatus": "model_proposed"
+          },
+          {
+            "id": "dino-cue-0-0",
+            "bbox": [
+              0.31091883680555554,
+              0.0927078857421875,
+              0.5172521701388889,
+              0.11485895538330078
+            ],
+            "score": 0.6829927563667297,
+            "label": "white korean text overlay",
+            "source": "grounding_dino",
+            "verdict": "supported",
+            "evidenceKo": "상단 중앙 쪽에 흰색 한글 오버레이가 실제로 있고, '오늘 하늘 예쁘다☁️' 문구와 대응됨."
+          }
+        ],
+        "mask": null
+      },
+      "geoSpecificityVerified": false
+    },
+    {
+      "kind": "non_text",
+      "category": "large building",
+      "nameKo": "대형 현대식 건물",
+      "observationKo": "왼쪽에 회색 외장과 세로 반복 창이 있는 큰 다층 건물이 보이고, 하부는 기둥 위로 띄운 형태임.",
+      "geographicRelevanceKo": "대규모 교육·업무·숙박 복합시설에서 자주 보이는 건축 양식과 배치로, 지역별 캠퍼스나 기관 단지 사진과 비교하는 단서가 될 수 있음.",
+      "regionDescriptionKo": "화면 왼쪽 가장자리부터 중앙 상단까지 크게 차지하는 건물 외관.",
+      "scope": "object",
+      "visibleText": null,
+      "surface": "fixed",
+      "visibility": "clear",
+      "detectorQueryEn": "large modern building on the left with repetitive vertical windows",
+      "limitationsKo": "일반적인 현대 건축이라 단독으로 지역을 특정하기 어렵다.",
+      "id": "cue-1",
+      "source": "geominer_adaptation",
+      "sourceIndex": 1,
+      "disposition": "candidate",
+      "evidenceGroupIds": [],
+      "localization": {
+        "status": "supported",
+        "proposals": [
+          {
+            "id": "dino-cue-1-0",
+            "bbox": [
+              0.0035292803446451823,
+              0.0021986961364746094,
+              0.48781613498263887,
+              0.7617719116210937
+            ],
+            "score": 0.8057491779327393,
+            "label": "large modern building",
+            "source": "grounding_dino",
+            "verdict": "supported",
+            "evidenceKo": "왼쪽에 회색 외장과 세로로 반복되는 창이 있는 큰 다층 건물이 보이고, 아래층이 기둥 위로 띄워진 형태도 확인됩니다."
+          }
+        ],
+        "mask": null
+      },
+      "geoSpecificityVerified": false
+    },
+    {
+      "kind": "non_text",
+      "category": "elevated walkway",
+      "nameKo": "상부 보행 연결부",
+      "observationKo": "건물 하부와 맞닿은 위치에 경사형 계단/보행 연결 구조가 보이며, 상부로 이어지는 동선이 존재함.",
+      "geographicRelevanceKo": "고저차를 처리하는 보행 동선 배치는 대학 캠퍼스, 병원, 대형 시설 단지의 공간 구성 비교에 도움이 될 수 있음.",
+      "regionDescriptionKo": "왼쪽 중하단에서 중앙으로 이어지는 계단형 구조물.",
+      "scope": "object",
+      "visibleText": null,
+      "surface": "fixed",
+      "visibility": "clear",
+      "detectorQueryEn": "sloped pedestrian stairway beside the left building",
+      "limitationsKo": "상세한 용도는 보이지 않아 정확한 시설 유형 판정은 제한적이다.",
+      "id": "cue-2",
+      "source": "geominer_adaptation",
+      "sourceIndex": 2,
+      "disposition": "candidate",
+      "evidenceGroupIds": [],
+      "localization": {
+        "status": "supported",
+        "proposals": [
+          {
+            "id": "dino-cue-2-0",
+            "bbox": [
+              0.31376106770833334,
+              0.60263427734375,
+              0.5306652560763889,
+              0.7584378051757813
+            ],
+            "score": 0.5983747243881226,
+            "label": "sloped pedestrian stairway",
+            "source": "grounding_dino",
+            "verdict": "supported",
+            "evidenceKo": "왼쪽 건물 하부에서 중앙 쪽으로 이어지는 경사형 계단/보행 연결 구조가 보이며, 상부로 오르는 동선이 확인됩니다."
+          }
+        ],
+        "mask": null
+      },
+      "geoSpecificityVerified": false
+    },
+    {
+      "kind": "non_text",
+      "category": "courtyard paving",
+      "nameKo": "광장 포장 패턴",
+      "observationKo": "전면 바닥이 회색 계열의 타일/블록 포장으로 넓게 조성되어 있고, 직선적 패턴이 반복됨.",
+      "geographicRelevanceKo": "보행 중심의 광장형 외부 공간은 기관 단지, 캠퍼스, 상업 복합시설 등과 비교할 때 배경 단서가 될 수 있음.",
+      "regionDescriptionKo": "화면 하단 전체의 바닥면.",
+      "scope": "scene",
+      "visibleText": null,
+      "surface": "fixed",
+      "visibility": "clear",
+      "detectorQueryEn": "gray tiled plaza paving in the foreground",
+      "limitationsKo": "일반적인 포장재라 지역성을 직접 지시하지 않는다.",
+      "id": "cue-3",
+      "source": "geominer_adaptation",
+      "sourceIndex": 3,
+      "disposition": "candidate",
+      "evidenceGroupIds": [],
+      "localization": {
+        "status": "supported",
+        "proposals": [
+          {
+            "id": "dino-cue-3-0",
+            "bbox": [
+              0.0048471094767252604,
+              0.7524231567382812,
+              0.9960914713541666,
+              0.997003173828125
+            ],
+            "score": 0.6185293793678284,
+            "label": "gray tiled plaza paving",
+            "source": "grounding_dino",
+            "verdict": "supported",
+            "evidenceKo": "하단 전체에 회색 계열의 타일/블록 포장이 넓게 보이고, 직선적 배열과 반복 패턴이 확인됩니다."
+          }
+        ],
+        "mask": null
+      },
+      "geoSpecificityVerified": false
+    },
+    {
+      "kind": "non_text",
+      "category": "number marker",
+      "nameKo": "숫자 표기 '304'",
+      "observationKo": "오른쪽 중앙의 벽면과 작은 표지에 '304' 숫자가 보임.",
+      "geographicRelevanceKo": "동·호수·구역 번호나 건물 식별 번호일 수 있어, 같은 단지 내 다른 공개 사진과 대조할 때 보조 단서가 될 수 있음.",
+      "regionDescriptionKo": "오른쪽 중앙의 낮은 벽면 및 출입부 근처.",
+      "scope": "object",
+      "visibleText": "304",
+      "surface": "fixed",
+      "visibility": "clear",
+      "detectorQueryEn": "wall-mounted number 304 on the right side",
+      "limitationsKo": "단순 번호로 보이며, 어떤 체계의 번호인지 사진만으로는 알 수 없다.",
+      "id": "cue-4",
+      "source": "geominer_adaptation",
+      "sourceIndex": 4,
+      "disposition": "candidate",
+      "evidenceGroupIds": [],
+      "localization": {
+        "status": "supported",
+        "proposals": [
+          {
+            "id": "dino-cue-4-0",
+            "bbox": [
+              0.6703761935763889,
+              0.6107882080078125,
+              0.7233404947916666,
+              0.6286851196289063
+            ],
+            "score": 0.4394227862358093,
+            "label": "wall - mounted number",
+            "source": "grounding_dino",
+            "verdict": "supported",
+            "evidenceKo": "작은 표지와 벽면에 ‘304’ 숫자가 실제로 보입니다."
+          }
+        ],
+        "mask": null
+      },
+      "geoSpecificityVerified": false
+    },
+    {
+      "kind": "non_text",
+      "category": "landscape planting",
+      "nameKo": "조경 식재",
+      "observationKo": "전경과 우측, 좌측에 키 작은 나무와 관목이 식재되어 있으며, 화분형 플랜터도 배치됨.",
+      "geographicRelevanceKo": "정돈된 조경 구성은 캠퍼스나 기관형 외부 공간의 성격을 비교하는 데 참고가 될 수 있음.",
+      "regionDescriptionKo": "화면 하단 좌우와 중앙의 식재 구역.",
+      "scope": "scene",
+      "visibleText": null,
+      "surface": "fixed",
+      "visibility": "clear",
+      "detectorQueryEn": "landscaped trees and shrubs around the plaza",
+      "limitationsKo": "일반적인 조경 요소로 지역 특이성은 낮다.",
+      "id": "cue-5",
+      "source": "geominer_adaptation",
+      "sourceIndex": 5,
+      "disposition": "candidate",
+      "evidenceGroupIds": [],
+      "localization": {
+        "status": "supported",
+        "proposals": [
+          {
+            "id": "dino-cue-5-0",
+            "bbox": [
+              0.002914309607611762,
+              0.51283349609375,
+              0.20865421549479166,
+              0.7714302368164062
+            ],
+            "score": 0.30554455518722534,
+            "label": "landscaped trees",
+            "source": "grounding_dino",
+            "verdict": "supported",
+            "evidenceKo": "크롭 안에 전경 좌측의 작은 나무가 뚜렷하게 보이며, 잎이 있는 식재가 실제로 포함됩니다."
+          }
+        ],
+        "mask": null
+      },
+      "geoSpecificityVerified": false
+    },
+    {
+      "kind": "non_text",
+      "category": "pedestrian presence",
+      "nameKo": "보행자 밀집",
+      "observationKo": "여러 명의 보행자가 광장과 계단 주변을 이동하고 있어 유동 인구가 있는 공간으로 보임.",
+      "geographicRelevanceKo": "시간대와 이용 형태가 드러나는 생활 환경 단서로, 캠퍼스·업무지구·복합시설 사진과의 비교에 보조적으로 유용할 수 있음.",
+      "regionDescriptionKo": "화면 하단 중앙과 좌우 곳곳의 사람들.",
+      "scope": "scene",
+      "visibleText": null,
+      "surface": "unknown",
+      "visibility": "clear",
+      "detectorQueryEn": "people walking in the plaza",
+      "limitationsKo": "사람 수와 복장은 계절·시간 영향이 커서 위치 단서로는 약하다.",
+      "id": "cue-6",
+      "source": "geominer_adaptation",
+      "sourceIndex": 6,
+      "disposition": "candidate",
+      "evidenceGroupIds": [],
+      "localization": {
+        "status": "supported",
+        "proposals": [
+          {
+            "id": "dino-cue-6-0",
+            "bbox": [
+              0.1966251491970486,
+              0.7100579833984375,
+              0.37157628038194446,
+              0.9601259155273437
+            ],
+            "score": 0.6025434136390686,
+            "label": "people",
+            "source": "grounding_dino",
+            "verdict": "supported",
+            "evidenceKo": "크롭 안에 성인 보행자 1명이 또렷하게 보이며, 광장 바닥 위를 이동하는 모습이 확인됩니다."
+          },
+          {
+            "id": "dino-cue-6-1",
+            "bbox": [
+              0.01839371066623264,
+              0.7152804565429688,
+              0.1565888400607639,
+              0.9235660400390625
+            ],
+            "score": 0.45701584219932556,
+            "label": "people",
+            "source": "grounding_dino",
+            "verdict": "supported",
+            "evidenceKo": "크롭에 보행자 1명이 보이고, 광장 가장자리에서 걷는 자세가 확인됩니다."
+          },
+          {
+            "id": "dino-cue-6-2",
+            "bbox": [
+              0.7632494574652777,
+              0.7195056762695312,
+              0.8336602105034723,
+              0.7902495727539063
+            ],
+            "score": 0.46424925327301025,
+            "label": "people",
+            "source": "grounding_dino",
+            "verdict": "supported",
+            "evidenceKo": "크롭에 두 사람이 겹쳐 보이며 계단 주변에서 이동 중인 모습이 확인됩니다."
+          },
+          {
+            "id": "dino-cue-6-3",
+            "bbox": [
+              0.4993777126736111,
+              0.7249061889648437,
+              0.5450138888888889,
+              0.77834033203125
+            ],
+            "score": 0.38972747325897217,
+            "label": "people",
+            "source": "grounding_dino",
+            "verdict": "supported",
+            "evidenceKo": "크롭 안에 보행자 2명이 함께 보이고, 광장 쪽으로 걷는 장면이 확인됩니다."
+          },
+          {
+            "id": "dino-cue-6-4",
+            "bbox": [
+              0.5388874240451389,
+              0.7243455810546875,
+              0.5792545572916666,
+              0.766377685546875
+            ],
+            "score": 0.34564468264579773,
+            "label": "people",
+            "source": "grounding_dino",
+            "verdict": "supported",
+            "evidenceKo": "크롭에 보행자 1명이 보이며, 정지보다는 이동 중인 자세가 확인됩니다."
+          },
+          {
+            "id": "dino-cue-6-5",
+            "bbox": [
+              0.6179791666666666,
+              0.7223438720703125,
+              0.6608760308159722,
+              0.7642799072265625
+            ],
+            "score": 0.3486386239528656,
+            "label": "people",
+            "source": "grounding_dino",
+            "verdict": "supported",
+            "evidenceKo": "크롭에 보행자 1명이 보이고, 광장 바닥 위를 걷는 모습이 확인됩니다."
+          },
+          {
+            "id": "dino-cue-6-6",
+            "bbox": [
+              0.0053475795321994354,
+              0.7492625732421875,
+              0.9982008463541666,
+              0.999180419921875
+            ],
+            "score": 0.36714717745780945,
+            "label": "the plaza",
+            "source": "grounding_dino",
+            "verdict": "supported",
+            "evidenceKo": "하단 광장 전체에 여러 보행자가 흩어져 이동하고 있어 보행자 밀집 장면으로 확인됩니다."
+          }
+        ],
+        "mask": null
+      },
+      "geoSpecificityVerified": false
+    },
+    {
+      "kind": "non_text",
+      "category": "sky weather",
+      "nameKo": "맑은 하늘과 구름",
+      "observationKo": "밝은 푸른 하늘과 흩어진 흰 구름이 크게 보이며 시야가 탁 트여 있음.",
+      "geographicRelevanceKo": "일기와 개방감은 지역 판별보다는 촬영 조건을 보조적으로 설명하며, 동일 시기 다른 지역 사진과 비교할 때 참고가 될 수 있음.",
+      "regionDescriptionKo": "화면 상단 대부분.",
+      "scope": "scene",
+      "visibleText": null,
+      "surface": "depicted",
+      "visibility": "clear",
+      "detectorQueryEn": "blue sky with scattered white clouds",
+      "limitationsKo": "위치 식별력은 매우 낮다.",
+      "id": "cue-7",
+      "source": "geominer_adaptation",
+      "sourceIndex": 7,
+      "disposition": "candidate",
+      "evidenceGroupIds": [],
+      "localization": {
+        "status": "supported",
+        "proposals": [
+          {
+            "id": "dino-cue-7-0",
+            "bbox": [
+              0.18207457139756944,
+              0.002365589141845703,
+              0.994283203125,
+              0.6267066650390625
+            ],
+            "score": 0.6238569021224976,
+            "label": "blue sky",
+            "source": "grounding_dino",
+            "verdict": "supported",
+            "evidenceKo": "상단 대부분에 밝은 푸른 하늘이 넓게 보이고, 여러 개의 흰 구름이 흩어져 있어 설명과 일치합니다."
+          }
+        ],
+        "mask": null
+      },
+      "geoSpecificityVerified": false
+    },
+    {
+      "id": "ocr-cue-0",
+      "kind": "text",
+      "category": "overlay text",
+      "nameKo": "한글 오버레이 문구",
+      "observationKo": "하늘 배경 위에 흰색 한글 '오늘'이 보이지만, 표시된 빨간 박스는 문구 일부만 포함하고 있음.",
+      "geographicRelevanceKo": "한국어 오버레이 문구로 보이지만 촬영 위치를 직접 가리키는 지명·주소 정보는 없음.",
+      "regionDescriptionKo": "하늘 쪽 상단 중앙 부근의 흰색 텍스트 일부.",
+      "scope": "object",
+      "surface": "depicted",
+      "visibility": "partial",
+      "visibleText": "오늘",
+      "rawReadings": [
+        {
+          "id": "ocr-0",
+          "text": "오늘"
+        }
+      ],
+      "correctedText": "오늘",
+      "detectorQueryEn": null,
+      "limitationsKo": "문구 전체가 아니라 일부만 잘려 보이며, 사진 위에 덧씌운 장식성 문구로 판단됨.",
+      "source": "ocr_review",
+      "disposition": "uncertain",
+      "evidenceGroupIds": [
+        "ocr-cue-0"
+      ],
+      "geoSpecificityVerified": false,
+      "localization": {
+        "status": "partial",
+        "proposals": [
+          {
+            "id": "ocr-region-0",
+            "source": "paddleocr",
+            "bbox": [
+              0.31377777777777777,
+              0.0955,
+              0.368,
+              0.113
+            ],
+            "polygons": [
+              [
+                [
+                  0.31377777777777777,
+                  0.0955
+                ],
+                [
+                  0.368,
+                  0.0955
+                ],
+                [
+                  0.368,
+                  0.113
+                ],
+                [
+                  0.31377777777777777,
+                  0.113
+                ]
+              ]
+            ],
+            "lineIds": [
+              "ocr-0"
+            ],
+            "verdict": "partial",
+            "evidenceKo": "하늘 배경 위에 흰색 한글 '오늘'이 보이지만, 표시된 빨간 박스는 문구 일부만 포함하고 있음.",
+            "verificationSource": "ocr_crop_review",
+            "score": null
+          }
+        ],
+        "mask": null
+      }
+    },
+    {
+      "id": "ocr-cue-1",
+      "kind": "text",
+      "category": "overlay text",
+      "nameKo": "한글 오버레이 문구",
+      "observationKo": "빨간 박스 안에 흰색 한글 '하늘'이 비교적 또렷하게 보임.",
+      "geographicRelevanceKo": "한국어 텍스트라는 점은 언어권 단서일 수 있으나, 장소 고유 식별 정보는 아님.",
+      "regionDescriptionKo": "하늘 배경 위 상단 중앙의 오버레이 텍스트 일부.",
+      "scope": "object",
+      "surface": "depicted",
+      "visibility": "clear",
+      "visibleText": "하늘",
+      "rawReadings": [
+        {
+          "id": "ocr-1",
+          "text": "하늘"
+        }
+      ],
+      "correctedText": "하늘",
+      "detectorQueryEn": null,
+      "limitationsKo": "디지털 오버레이로 보이며, 지리적 식별력은 낮음.",
+      "source": "ocr_review",
+      "disposition": "uncertain",
+      "evidenceGroupIds": [
+        "ocr-cue-1"
+      ],
+      "geoSpecificityVerified": false,
+      "localization": {
+        "status": "partial",
+        "proposals": [
+          {
+            "id": "ocr-region-1",
+            "source": "paddleocr",
+            "bbox": [
+              0.3688888888888889,
+              0.095,
+              0.4266666666666667,
+              0.114
+            ],
+            "polygons": [
+              [
+                [
+                  0.3688888888888889,
+                  0.095
+                ],
+                [
+                  0.4266666666666667,
+                  0.095
+                ],
+                [
+                  0.4266666666666667,
+                  0.114
+                ],
+                [
+                  0.3688888888888889,
+                  0.114
+                ]
+              ]
+            ],
+            "lineIds": [
+              "ocr-1"
+            ],
+            "verdict": "partial",
+            "evidenceKo": "빨간 박스 안에 흰색 한글 '하늘'이 비교적 또렷하게 보임.",
+            "verificationSource": "ocr_crop_review",
+            "score": null
+          }
+        ],
+        "mask": null
+      }
+    },
+    {
+      "id": "ocr-cue-2",
+      "kind": "text",
+      "category": "overlay text",
+      "nameKo": "한글 오버레이 문구",
+      "observationKo": "빨간 박스 안에 '예쁘다'와 구름 이모지가 보이지만, 왼쪽 글자 일부가 잘려 있음.",
+      "geographicRelevanceKo": "한국어 문구이지만 촬영지 식별과 직접 관련된 정보는 없음.",
+      "regionDescriptionKo": "상단 중앙 쪽 하늘 위에 겹쳐진 텍스트 영역.",
+      "scope": "object",
+      "surface": "depicted",
+      "visibility": "partial",
+      "visibleText": "예쁘다",
+      "rawReadings": [
+        {
+          "id": "ocr-2",
+          "text": "예쁘다"
+        }
+      ],
+      "correctedText": "예쁘다",
+      "detectorQueryEn": null,
+      "limitationsKo": "앞부분 문맥이 잘려 있어 독립적인 지역 단서는 아님.",
+      "source": "ocr_review",
+      "disposition": "uncertain",
+      "evidenceGroupIds": [
+        "ocr-cue-2"
+      ],
+      "geoSpecificityVerified": false,
+      "localization": {
+        "status": "partial",
+        "proposals": [
+          {
+            "id": "ocr-region-2",
+            "source": "paddleocr",
+            "bbox": [
+              0.42577777777777776,
+              0.0945,
+              0.5351111111111111,
+              0.114
+            ],
+            "polygons": [
+              [
+                [
+                  0.42577777777777776,
+                  0.0945
+                ],
+                [
+                  0.5351111111111111,
+                  0.0945
+                ],
+                [
+                  0.5351111111111111,
+                  0.114
+                ],
+                [
+                  0.42577777777777776,
+                  0.114
+                ]
+              ]
+            ],
+            "lineIds": [
+              "ocr-2"
+            ],
+            "verdict": "partial",
+            "evidenceKo": "빨간 박스 안에 '예쁘다'와 구름 이모지가 보이지만, 왼쪽 글자 일부가 잘려 있음.",
+            "verificationSource": "ocr_crop_review",
+            "score": null
+          }
+        ],
+        "mask": null
+      }
+    },
+    {
+      "id": "ocr-cue-3",
+      "kind": "text",
+      "category": "number sign",
+      "nameKo": "건물 번호 표기",
+      "observationKo": "건물 외벽에 숫자 '304'가 보이지만, 단독 숫자만으로는 특정 장소를 식별하기 어려움.",
+      "geographicRelevanceKo": "건물 구획 또는 호수 표기처럼 보이나, 지리적 고유성은 낮음.",
+      "regionDescriptionKo": "오른쪽 중단의 회색 외벽 상단에 붙은 숫자 표기.",
+      "scope": "object",
+      "surface": "fixed",
+      "visibility": "clear",
+      "visibleText": "304",
+      "rawReadings": [
+        {
+          "id": "ocr-3",
+          "text": "304"
+        }
+      ],
+      "correctedText": "304",
+      "detectorQueryEn": null,
+      "limitationsKo": "일반적인 건물 번호로 보이며, 주소·상호·지점명 같은 직접적 위치 정보는 없음.",
+      "source": "ocr_review",
+      "disposition": "uncertain",
+      "evidenceGroupIds": [
+        "ocr-cue-3"
+      ],
+      "geoSpecificityVerified": false,
+      "localization": {
+        "status": "partial",
+        "proposals": [
+          {
+            "id": "ocr-region-3",
+            "source": "paddleocr",
+            "bbox": [
+              0.6773333333333333,
+              0.6135,
+              0.72,
+              0.6265
+            ],
+            "polygons": [
+              [
+                [
+                  0.6773333333333333,
+                  0.6135
+                ],
+                [
+                  0.72,
+                  0.6135
+                ],
+                [
+                  0.72,
+                  0.6265
+                ],
+                [
+                  0.6773333333333333,
+                  0.6265
+                ]
+              ]
+            ],
+            "lineIds": [
+              "ocr-3"
+            ],
+            "verdict": "partial",
+            "evidenceKo": "건물 외벽에 숫자 '304'가 보이지만, 단독 숫자만으로는 특정 장소를 식별하기 어려움.",
+            "verificationSource": "ocr_crop_review",
+            "score": null
+          }
+        ],
+        "mask": null
+      }
+    },
+    {
+      "id": "ocr-cue-4",
+      "kind": "text",
+      "category": "overlay text",
+      "nameKo": "한글 오버레이 문구",
+      "observationKo": "하늘 배경 위에 '하늘 예쁘다'가 보이며, 빨간 박스는 가운데 부분을 포함함.",
+      "geographicRelevanceKo": "한국어 오버레이로 보이지만 촬영 장소를 특정하는 지명 정보는 없음.",
+      "regionDescriptionKo": "상단 중앙의 하늘 위에 놓인 흰색 문구.",
+      "scope": "object",
+      "surface": "depicted",
+      "visibility": "clear",
+      "visibleText": "하늘 예쁘다",
+      "rawReadings": [
+        {
+          "id": "ocr-4",
+          "text": "하늘 예쁘다"
+        }
+      ],
+      "correctedText": "하늘 예쁘다",
+      "detectorQueryEn": null,
+      "limitationsKo": "사진 편집/캡션 성격의 문구로 보이며 위치 단서는 약함.",
+      "source": "ocr_review",
+      "disposition": "uncertain",
+      "evidenceGroupIds": [
+        "ocr-cue-4"
+      ],
+      "geoSpecificityVerified": false,
+      "localization": {
+        "status": "partial",
+        "proposals": [
+          {
+            "id": "ocr-region-4",
+            "source": "paddleocr",
+            "bbox": [
+              0.3635555555555556,
+              0.094,
+              0.5351111111111111,
+              0.1145
+            ],
+            "polygons": [
+              [
+                [
+                  0.3635555555555556,
+                  0.094
+                ],
+                [
+                  0.5351111111111111,
+                  0.094
+                ],
+                [
+                  0.5351111111111111,
+                  0.1145
+                ],
+                [
+                  0.3635555555555556,
+                  0.1145
+                ]
+              ]
+            ],
+            "lineIds": [
+              "ocr-4"
+            ],
+            "verdict": "partial",
+            "evidenceKo": "하늘 배경 위에 '하늘 예쁘다'가 보이며, 빨간 박스는 가운데 부분을 포함함.",
+            "verificationSource": "ocr_crop_review",
+            "score": null
+          }
+        ],
+        "mask": null
+      }
+    },
+    {
+      "id": "ocr-cue-5",
+      "kind": "text",
+      "category": "number sign",
+      "nameKo": "건물 번호 표기",
+      "observationKo": "작은 숫자 표식이 '304'처럼 보이지만 해상도가 낮아 읽기만 겨우 가능함.",
+      "geographicRelevanceKo": "건물의 층/호수/구획 번호일 수 있으나 장소 식별에는 부족함.",
+      "regionDescriptionKo": "오른쪽 하단 건물 외벽의 작은 번호판 영역.",
+      "scope": "object",
+      "surface": "fixed",
+      "visibility": "partial",
+      "visibleText": "304",
+      "rawReadings": [
+        {
+          "id": "ocr-5",
+          "text": "304"
+        }
+      ],
+      "correctedText": "304",
+      "detectorQueryEn": null,
+      "limitationsKo": "크기가 작고 흐려서 텍스트 확인만 가능하며, 고유한 지리 정보는 없음.",
+      "source": "ocr_review",
+      "disposition": "uncertain",
+      "evidenceGroupIds": [
+        "ocr-cue-5"
+      ],
+      "geoSpecificityVerified": false,
+      "localization": {
+        "status": "partial",
+        "proposals": [
+          {
+            "id": "ocr-region-5",
+            "source": "paddleocr",
+            "bbox": [
+              0.8382222222222222,
+              0.6645,
+              0.8524444444444444,
+              0.6685
+            ],
+            "polygons": [
+              [
+                [
+                  0.8382222222222222,
+                  0.6645
+                ],
+                [
+                  0.8524444444444444,
+                  0.6645
+                ],
+                [
+                  0.8524444444444444,
+                  0.6685
+                ],
+                [
+                  0.8382222222222222,
+                  0.6685
+                ]
+              ]
+            ],
+            "lineIds": [
+              "ocr-5"
+            ],
+            "verdict": "partial",
+            "evidenceKo": "작은 숫자 표식이 '304'처럼 보이지만 해상도가 낮아 읽기만 겨우 가능함.",
+            "verificationSource": "ocr_crop_review",
+            "score": null
+          }
+        ],
+        "mask": null
+      }
+    }
+  ],
+  "errors": [],
+  "humanReviews": {},
+  "modelCalls": [
+    {
+      "stage": "discovery",
+      "at": "2026-11-10T13:55:10.291Z",
+      "requestedModel": "gpt-5.4-mini",
+      "responseModel": "gpt-5.4-mini-2026-03-17",
+      "responseId": "resp_06eaa7519490fd7f016af3223152b487d28911cc129b3ee56d",
+      "status": "completed",
+      "usage": {
+        "input_tokens": 3421,
+        "input_tokens_details": {
+          "cache_write_tokens": 0,
+          "cached_tokens": 0
+        },
+        "output_tokens": 1479,
+        "output_tokens_details": {
+          "reasoning_tokens": 0
+        },
+        "total_tokens": 4900
+      },
+      "promptSha256": "84585c64986be78650806029298f0b8fa0dd5d919f7e333e9223af3a370c03ab",
+      "rawOutputText": "{\"cues\":[{\"kind\":\"text\",\"category\":\"overlay text\",\"nameKo\":\"한글 오버레이 문구\",\"observationKo\":\"하늘 부분에 흰색 글씨로 '오늘 하늘 예쁘다☁️'가 보임.\",\"geographicRelevanceKo\":\"한국어 사용은 촬영 환경의 언어권 단서를 줄 수 있어, 같은 지역권의 공개 이미지나 장소 사진과 비교할 때 보조 단서가 될 수 있음.\",\"regionDescriptionKo\":\"한국어 문구가 사진 상단 중앙 쪽에 겹쳐져 있음.\",\"scope\":\"scene\",\"visibleText\":\"오늘 하늘 예쁘다☁️\",\"surface\":\"depicted\",\"visibility\":\"clear\",\"detectorQueryEn\":\"white Korean text overlay near the top center of the sky\",\"limitationsKo\":\"사진에 덧씌운 문구로 보이며, 촬영 위치를 직접 지시하는 표지판은 아님.\"},{\"kind\":\"non_text\",\"category\":\"large building\",\"nameKo\":\"대형 현대식 건물\",\"observationKo\":\"왼쪽에 회색 외장과 세로 반복 창이 있는 큰 다층 건물이 보이고, 하부는 기둥 위로 띄운 형태임.\",\"geographicRelevanceKo\":\"대규모 교육·업무·숙박 복합시설에서 자주 보이는 건축 양식과 배치로, 지역별 캠퍼스나 기관 단지 사진과 비교하는 단서가 될 수 있음.\",\"regionDescriptionKo\":\"화면 왼쪽 가장자리부터 중앙 상단까지 크게 차지하는 건물 외관.\",\"scope\":\"object\",\"visibleText\":null,\"surface\":\"fixed\",\"visibility\":\"clear\",\"detectorQueryEn\":\"large modern building on the left with repetitive vertical windows\",\"limitationsKo\":\"일반적인 현대 건축이라 단독으로 지역을 특정하기 어렵다.\"},{\"kind\":\"non_text\",\"category\":\"elevated walkway\",\"nameKo\":\"상부 보행 연결부\",\"observationKo\":\"건물 하부와 맞닿은 위치에 경사형 계단/보행 연결 구조가 보이며, 상부로 이어지는 동선이 존재함.\",\"geographicRelevanceKo\":\"고저차를 처리하는 보행 동선 배치는 대학 캠퍼스, 병원, 대형 시설 단지의 공간 구성 비교에 도움이 될 수 있음.\",\"regionDescriptionKo\":\"왼쪽 중하단에서 중앙으로 이어지는 계단형 구조물.\",\"scope\":\"object\",\"visibleText\":null,\"surface\":\"fixed\",\"visibility\":\"clear\",\"detectorQueryEn\":\"sloped pedestrian stairway beside the left building\",\"limitationsKo\":\"상세한 용도는 보이지 않아 정확한 시설 유형 판정은 제한적이다.\"},{\"kind\":\"non_text\",\"category\":\"courtyard paving\",\"nameKo\":\"광장 포장 패턴\",\"observationKo\":\"전면 바닥이 회색 계열의 타일/블록 포장으로 넓게 조성되어 있고, 직선적 패턴이 반복됨.\",\"geographicRelevanceKo\":\"보행 중심의 광장형 외부 공간은 기관 단지, 캠퍼스, 상업 복합시설 등과 비교할 때 배경 단서가 될 수 있음.\",\"regionDescriptionKo\":\"화면 하단 전체의 바닥면.\",\"scope\":\"scene\",\"visibleText\":null,\"surface\":\"fixed\",\"visibility\":\"clear\",\"detectorQueryEn\":\"gray tiled plaza paving in the foreground\",\"limitationsKo\":\"일반적인 포장재라 지역성을 직접 지시하지 않는다.\"},{\"kind\":\"non_text\",\"category\":\"number marker\",\"nameKo\":\"숫자 표기 '304'\",\"observationKo\":\"오른쪽 중앙의 벽면과 작은 표지에 '304' 숫자가 보임.\",\"geographicRelevanceKo\":\"동·호수·구역 번호나 건물 식별 번호일 수 있어, 같은 단지 내 다른 공개 사진과 대조할 때 보조 단서가 될 수 있음.\",\"regionDescriptionKo\":\"오른쪽 중앙의 낮은 벽면 및 출입부 근처.\",\"scope\":\"object\",\"visibleText\":\"304\",\"surface\":\"fixed\",\"visibility\":\"clear\",\"detectorQueryEn\":\"wall-mounted number 304 on the right side\",\"limitationsKo\":\"단순 번호로 보이며, 어떤 체계의 번호인지 사진만으로는 알 수 없다.\"},{\"kind\":\"non_text\",\"category\":\"landscape planting\",\"nameKo\":\"조경 식재\",\"observationKo\":\"전경과 우측, 좌측에 키 작은 나무와 관목이 식재되어 있으며, 화분형 플랜터도 배치됨.\",\"geographicRelevanceKo\":\"정돈된 조경 구성은 캠퍼스나 기관형 외부 공간의 성격을 비교하는 데 참고가 될 수 있음.\",\"regionDescriptionKo\":\"화면 하단 좌우와 중앙의 식재 구역.\",\"scope\":\"scene\",\"visibleText\":null,\"surface\":\"fixed\",\"visibility\":\"clear\",\"detectorQueryEn\":\"landscaped trees and shrubs around the plaza\",\"limitationsKo\":\"일반적인 조경 요소로 지역 특이성은 낮다.\"},{\"kind\":\"non_text\",\"category\":\"pedestrian presence\",\"nameKo\":\"보행자 밀집\",\"observationKo\":\"여러 명의 보행자가 광장과 계단 주변을 이동하고 있어 유동 인구가 있는 공간으로 보임.\",\"geographicRelevanceKo\":\"시간대와 이용 형태가 드러나는 생활 환경 단서로, 캠퍼스·업무지구·복합시설 사진과의 비교에 보조적으로 유용할 수 있음.\",\"regionDescriptionKo\":\"화면 하단 중앙과 좌우 곳곳의 사람들.\",\"scope\":\"scene\",\"visibleText\":null,\"surface\":\"unknown\",\"visibility\":\"clear\",\"detectorQueryEn\":\"people walking in the plaza\",\"limitationsKo\":\"사람 수와 복장은 계절·시간 영향이 커서 위치 단서로는 약하다.\"},{\"kind\":\"non_text\",\"category\":\"sky weather\",\"nameKo\":\"맑은 하늘과 구름\",\"observationKo\":\"밝은 푸른 하늘과 흩어진 흰 구름이 크게 보이며 시야가 탁 트여 있음.\",\"geographicRelevanceKo\":\"일기와 개방감은 지역 판별보다는 촬영 조건을 보조적으로 설명하며, 동일 시기 다른 지역 사진과 비교할 때 참고가 될 수 있음.\",\"regionDescriptionKo\":\"화면 상단 대부분.\",\"scope\":\"scene\",\"visibleText\":null,\"surface\":\"depicted\",\"visibility\":\"clear\",\"detectorQueryEn\":\"blue sky with scattered white clouds\",\"limitationsKo\":\"위치 식별력은 매우 낮다.\"}],\"limitationsKo\":[\"실내외 경계의 전체 맥락이 보이지 않아 시설 유형을 단정할 수 없음.\",\"건물 외관과 번호 표기는 보이지만 고유 지명, 주소, 간판 전체는 확인되지 않음.\",\"인물의 복장·행동은 지역 단서가 약해 최소한만 기록함.\"],\"coverageLimited\":false}"
+    },
+    {
+      "stage": "ocr_batch_0",
+      "at": "2026-11-10T13:57:13.138Z",
+      "requestedModel": "gpt-5.4-mini",
+      "responseModel": "gpt-5.4-mini-2026-03-17",
+      "responseId": "resp_09baa4a3c5190300016af322b429d887d2b79cf42a00b664ef",
+      "status": "completed",
+      "usage": {
+        "input_tokens": 5248,
+        "input_tokens_details": {
+          "cache_write_tokens": 0,
+          "cached_tokens": 0
+        },
+        "output_tokens": 1042,
+        "output_tokens_details": {
+          "reasoning_tokens": 0
+        },
+        "total_tokens": 6290
+      },
+      "promptSha256": "6a390a1592faabfed2308d3bf75271d6fdcb67131417face8de92e6bdcf1088f",
+      "rawOutputText": "{\"groups\":[{\"lineIds\":[\"ocr-0\"],\"disposition\":\"uncertain\",\"category\":\"overlay text\",\"nameKo\":\"한글 오버레이 문구\",\"observationKo\":\"하늘 배경 위에 흰색 한글 '오늘'이 보이지만, 표시된 빨간 박스는 문구 일부만 포함하고 있음.\",\"geographicRelevanceKo\":\"한국어 오버레이 문구로 보이지만 촬영 위치를 직접 가리키는 지명·주소 정보는 없음.\",\"regionDescriptionKo\":\"하늘 쪽 상단 중앙 부근의 흰색 텍스트 일부.\",\"correctedText\":\"오늘\",\"surface\":\"depicted\",\"visibility\":\"partial\",\"limitationsKo\":\"문구 전체가 아니라 일부만 잘려 보이며, 사진 위에 덧씌운 장식성 문구로 판단됨.\",\"relatedDiscoveryIndexes\":[0]},{\"lineIds\":[\"ocr-1\"],\"disposition\":\"uncertain\",\"category\":\"overlay text\",\"nameKo\":\"한글 오버레이 문구\",\"observationKo\":\"빨간 박스 안에 흰색 한글 '하늘'이 비교적 또렷하게 보임.\",\"geographicRelevanceKo\":\"한국어 텍스트라는 점은 언어권 단서일 수 있으나, 장소 고유 식별 정보는 아님.\",\"regionDescriptionKo\":\"하늘 배경 위 상단 중앙의 오버레이 텍스트 일부.\",\"correctedText\":\"하늘\",\"surface\":\"depicted\",\"visibility\":\"clear\",\"limitationsKo\":\"디지털 오버레이로 보이며, 지리적 식별력은 낮음.\",\"relatedDiscoveryIndexes\":[0]},{\"lineIds\":[\"ocr-2\"],\"disposition\":\"uncertain\",\"category\":\"overlay text\",\"nameKo\":\"한글 오버레이 문구\",\"observationKo\":\"빨간 박스 안에 '예쁘다'와 구름 이모지가 보이지만, 왼쪽 글자 일부가 잘려 있음.\",\"geographicRelevanceKo\":\"한국어 문구이지만 촬영지 식별과 직접 관련된 정보는 없음.\",\"regionDescriptionKo\":\"상단 중앙 쪽 하늘 위에 겹쳐진 텍스트 영역.\",\"correctedText\":\"예쁘다\",\"surface\":\"depicted\",\"visibility\":\"partial\",\"limitationsKo\":\"앞부분 문맥이 잘려 있어 독립적인 지역 단서는 아님.\",\"relatedDiscoveryIndexes\":[0]},{\"lineIds\":[\"ocr-3\"],\"disposition\":\"uncertain\",\"category\":\"number sign\",\"nameKo\":\"건물 번호 표기\",\"observationKo\":\"건물 외벽에 숫자 '304'가 보이지만, 단독 숫자만으로는 특정 장소를 식별하기 어려움.\",\"geographicRelevanceKo\":\"건물 구획 또는 호수 표기처럼 보이나, 지리적 고유성은 낮음.\",\"regionDescriptionKo\":\"오른쪽 중단의 회색 외벽 상단에 붙은 숫자 표기.\",\"correctedText\":\"304\",\"surface\":\"fixed\",\"visibility\":\"clear\",\"limitationsKo\":\"일반적인 건물 번호로 보이며, 주소·상호·지점명 같은 직접적 위치 정보는 없음.\",\"relatedDiscoveryIndexes\":[]},{\"lineIds\":[\"ocr-4\"],\"disposition\":\"uncertain\",\"category\":\"overlay text\",\"nameKo\":\"한글 오버레이 문구\",\"observationKo\":\"하늘 배경 위에 '하늘 예쁘다'가 보이며, 빨간 박스는 가운데 부분을 포함함.\",\"geographicRelevanceKo\":\"한국어 오버레이로 보이지만 촬영 장소를 특정하는 지명 정보는 없음.\",\"regionDescriptionKo\":\"상단 중앙의 하늘 위에 놓인 흰색 문구.\",\"correctedText\":\"하늘 예쁘다\",\"surface\":\"depicted\",\"visibility\":\"clear\",\"limitationsKo\":\"사진 편집/캡션 성격의 문구로 보이며 위치 단서는 약함.\",\"relatedDiscoveryIndexes\":[0]},{\"lineIds\":[\"ocr-5\"],\"disposition\":\"uncertain\",\"category\":\"number sign\",\"nameKo\":\"건물 번호 표기\",\"observationKo\":\"작은 숫자 표식이 '304'처럼 보이지만 해상도가 낮아 읽기만 겨우 가능함.\",\"geographicRelevanceKo\":\"건물의 층/호수/구획 번호일 수 있으나 장소 식별에는 부족함.\",\"regionDescriptionKo\":\"오른쪽 하단 건물 외벽의 작은 번호판 영역.\",\"correctedText\":\"304\",\"surface\":\"fixed\",\"visibility\":\"partial\",\"limitationsKo\":\"크기가 작고 흐려서 텍스트 확인만 가능하며, 고유한 지리 정보는 없음.\",\"relatedDiscoveryIndexes\":[]}],\"limitationsKo\":[\"사진 상단의 한글은 실제 표지판이 아니라 이미지 위에 얹힌 문구로 보입니다.\",\"숫자 304는 건물 표기처럼 보이지만 단독으로는 특정 장소를 식별할 수 없습니다.\"]}"
+    },
+    {
+      "stage": "verify_cue-0_0",
+      "at": "2026-11-10T13:59:14.654Z",
+      "requestedModel": "gpt-5.4-mini",
+      "responseModel": "gpt-5.4-mini-2026-03-17",
+      "responseId": "resp_03d0d502b7b2b566016af3232fc08c87d28947002ad3f90a9f",
+      "status": "completed",
+      "usage": {
+        "input_tokens": 4308,
+        "input_tokens_details": {
+          "cache_write_tokens": 0,
+          "cached_tokens": 0
+        },
+        "output_tokens": 272,
+        "output_tokens_details": {
+          "reasoning_tokens": 0
+        },
+        "total_tokens": 4580
+      },
+      "promptSha256": "97106482e700608c01db19a0e347e9f7b3412b32cd23eb8b0b63af11e381e055",
+      "rawOutputText": "{\"checks\":[{\"proposalId\":\"link-0-0\",\"verdict\":\"supported\",\"evidenceKo\":\"하늘 위에 흰색 한글 '오늘'이 실제로 보이고, 박스 안에 해당 글자 형태가 포함됨.\"},{\"proposalId\":\"link-0-1\",\"verdict\":\"supported\",\"evidenceKo\":\"흰색 한글 '하늘'이 또렷하게 보이며, 제시된 영역이 글자 전체를 포함함.\"},{\"proposalId\":\"link-0-2\",\"verdict\":\"supported\",\"evidenceKo\":\"흰색 '예쁘다'와 구름 이모지가 보이고, 박스가 문구의 해당 부분을 포함함.\"},{\"proposalId\":\"link-0-4\",\"verdict\":\"supported\",\"evidenceKo\":\"하늘 배경 위에 '하늘 예쁘다☁️'가 연속해서 보이며, 제시된 범위가 문구를 충분히 담음.\"},{\"proposalId\":\"dino-cue-0-0\",\"verdict\":\"supported\",\"evidenceKo\":\"상단 중앙 쪽에 흰색 한글 오버레이가 실제로 있고, '오늘 하늘 예쁘다☁️' 문구와 대응됨.\"}]}"
+    },
+    {
+      "stage": "verify_cue-1_0",
+      "at": "2026-11-10T13:59:16.733Z",
+      "requestedModel": "gpt-5.4-mini",
+      "responseModel": "gpt-5.4-mini-2026-03-17",
+      "responseId": "resp_07c6251cddaf470b016af3233339b887d29daee84440bf5f75",
+      "status": "completed",
+      "usage": {
+        "input_tokens": 4449,
+        "input_tokens_details": {
+          "cache_write_tokens": 0,
+          "cached_tokens": 0
+        },
+        "output_tokens": 77,
+        "output_tokens_details": {
+          "reasoning_tokens": 0
+        },
+        "total_tokens": 4526
+      },
+      "promptSha256": "97106482e700608c01db19a0e347e9f7b3412b32cd23eb8b0b63af11e381e055",
+      "rawOutputText": "{\"checks\":[{\"proposalId\":\"dino-cue-1-0\",\"verdict\":\"supported\",\"evidenceKo\":\"왼쪽에 회색 외장과 세로로 반복되는 창이 있는 큰 다층 건물이 보이고, 아래층이 기둥 위로 띄워진 형태도 확인됩니다.\"}]}"
+    },
+    {
+      "stage": "verify_cue-2_0",
+      "at": "2026-11-10T13:59:18.934Z",
+      "requestedModel": "gpt-5.4-mini",
+      "responseModel": "gpt-5.4-mini-2026-03-17",
+      "responseId": "resp_0c05cc788d4aeab4016af323353ae487d2a32115b3de8f5532",
+      "status": "completed",
+      "usage": {
+        "input_tokens": 3492,
+        "input_tokens_details": {
+          "cache_write_tokens": 0,
+          "cached_tokens": 0
+        },
+        "output_tokens": 74,
+        "output_tokens_details": {
+          "reasoning_tokens": 0
+        },
+        "total_tokens": 3566
+      },
+      "promptSha256": "97106482e700608c01db19a0e347e9f7b3412b32cd23eb8b0b63af11e381e055",
+      "rawOutputText": "{\"checks\":[{\"proposalId\":\"dino-cue-2-0\",\"verdict\":\"supported\",\"evidenceKo\":\"왼쪽 건물 하부에서 중앙 쪽으로 이어지는 경사형 계단/보행 연결 구조가 보이며, 상부로 오르는 동선이 확인됩니다.\"}]}"
+    },
+    {
+      "stage": "verify_cue-3_0",
+      "at": "2026-11-10T13:59:21.525Z",
+      "requestedModel": "gpt-5.4-mini",
+      "responseModel": "gpt-5.4-mini-2026-03-17",
+      "responseId": "resp_033b3d1f8b716928016af32337ac3087d29039893719d03c0a",
+      "status": "completed",
+      "usage": {
+        "input_tokens": 4056,
+        "input_tokens_details": {
+          "cache_write_tokens": 0,
+          "cached_tokens": 0
+        },
+        "output_tokens": 69,
+        "output_tokens_details": {
+          "reasoning_tokens": 0
+        },
+        "total_tokens": 4125
+      },
+      "promptSha256": "97106482e700608c01db19a0e347e9f7b3412b32cd23eb8b0b63af11e381e055",
+      "rawOutputText": "{\"checks\":[{\"proposalId\":\"dino-cue-3-0\",\"verdict\":\"supported\",\"evidenceKo\":\"하단 전체에 회색 계열의 타일/블록 포장이 넓게 보이고, 직선적 배열과 반복 패턴이 확인됩니다.\"}]}"
+    },
+    {
+      "stage": "verify_cue-4_0",
+      "at": "2026-11-10T13:59:23.079Z",
+      "requestedModel": "gpt-5.4-mini",
+      "responseModel": "gpt-5.4-mini-2026-03-17",
+      "responseId": "resp_03834c589e35e9fc016af32339d5dc87d2b1842579747eb895",
+      "status": "completed",
+      "usage": {
+        "input_tokens": 3391,
+        "input_tokens_details": {
+          "cache_write_tokens": 0,
+          "cached_tokens": 0
+        },
+        "output_tokens": 54,
+        "output_tokens_details": {
+          "reasoning_tokens": 0
+        },
+        "total_tokens": 3445
+      },
+      "promptSha256": "97106482e700608c01db19a0e347e9f7b3412b32cd23eb8b0b63af11e381e055",
+      "rawOutputText": "{\"checks\":[{\"proposalId\":\"dino-cue-4-0\",\"verdict\":\"supported\",\"evidenceKo\":\"작은 표지와 벽면에 ‘304’ 숫자가 실제로 보입니다.\"}]}"
+    },
+    {
+      "stage": "verify_cue-5_0",
+      "at": "2026-11-10T13:59:24.930Z",
+      "requestedModel": "gpt-5.4-mini",
+      "responseModel": "gpt-5.4-mini-2026-03-17",
+      "responseId": "resp_0377c0ea323f222e016af3233b60f887d2a44a95c681f56356",
+      "status": "completed",
+      "usage": {
+        "input_tokens": 3538,
+        "input_tokens_details": {
+          "cache_write_tokens": 0,
+          "cached_tokens": 0
+        },
+        "output_tokens": 69,
+        "output_tokens_details": {
+          "reasoning_tokens": 0
+        },
+        "total_tokens": 3607
+      },
+      "promptSha256": "97106482e700608c01db19a0e347e9f7b3412b32cd23eb8b0b63af11e381e055",
+      "rawOutputText": "{\"checks\":[{\"proposalId\":\"dino-cue-5-0\",\"verdict\":\"supported\",\"evidenceKo\":\"크롭 안에 전경 좌측의 작은 나무가 뚜렷하게 보이며, 잎이 있는 식재가 실제로 포함됩니다.\"}]}"
+    },
+    {
+      "stage": "verify_cue-6_0",
+      "at": "2026-11-10T13:59:28.992Z",
+      "requestedModel": "gpt-5.4-mini",
+      "responseModel": "gpt-5.4-mini-2026-03-17",
+      "responseId": "resp_04105d45818e192f016af3233d9c5487d2a1361a9718d3194c",
+      "status": "completed",
+      "usage": {
+        "input_tokens": 5159,
+        "input_tokens_details": {
+          "cache_write_tokens": 0,
+          "cached_tokens": 0
+        },
+        "output_tokens": 352,
+        "output_tokens_details": {
+          "reasoning_tokens": 0
+        },
+        "total_tokens": 5511
+      },
+      "promptSha256": "97106482e700608c01db19a0e347e9f7b3412b32cd23eb8b0b63af11e381e055",
+      "rawOutputText": "{\"checks\":[{\"proposalId\":\"dino-cue-6-0\",\"verdict\":\"supported\",\"evidenceKo\":\"크롭 안에 성인 보행자 1명이 또렷하게 보이며, 광장 바닥 위를 이동하는 모습이 확인됩니다.\"},{\"proposalId\":\"dino-cue-6-1\",\"verdict\":\"supported\",\"evidenceKo\":\"크롭에 보행자 1명이 보이고, 광장 가장자리에서 걷는 자세가 확인됩니다.\"},{\"proposalId\":\"dino-cue-6-2\",\"verdict\":\"supported\",\"evidenceKo\":\"크롭에 두 사람이 겹쳐 보이며 계단 주변에서 이동 중인 모습이 확인됩니다.\"},{\"proposalId\":\"dino-cue-6-3\",\"verdict\":\"supported\",\"evidenceKo\":\"크롭 안에 보행자 2명이 함께 보이고, 광장 쪽으로 걷는 장면이 확인됩니다.\"},{\"proposalId\":\"dino-cue-6-4\",\"verdict\":\"supported\",\"evidenceKo\":\"크롭에 보행자 1명이 보이며, 정지보다는 이동 중인 자세가 확인됩니다.\"},{\"proposalId\":\"dino-cue-6-5\",\"verdict\":\"supported\",\"evidenceKo\":\"크롭에 보행자 1명이 보이고, 광장 바닥 위를 걷는 모습이 확인됩니다.\"},{\"proposalId\":\"dino-cue-6-6\",\"verdict\":\"supported\",\"evidenceKo\":\"하단 광장 전체에 여러 보행자가 흩어져 이동하고 있어 보행자 밀집 장면으로 확인됩니다.\"}]}"
+    },
+    {
+      "stage": "verify_cue-7_0",
+      "at": "2026-11-10T13:59:31.677Z",
+      "requestedModel": "gpt-5.4-mini",
+      "responseModel": "gpt-5.4-mini-2026-03-17",
+      "responseId": "resp_09f22334954d26c0016af32341d93487d2bd4537a8478a6fdb",
+      "status": "completed",
+      "usage": {
+        "input_tokens": 4756,
+        "input_tokens_details": {
+          "cache_write_tokens": 0,
+          "cached_tokens": 0
+        },
+        "output_tokens": 72,
+        "output_tokens_details": {
+          "reasoning_tokens": 0
+        },
+        "total_tokens": 4828
+      },
+      "promptSha256": "97106482e700608c01db19a0e347e9f7b3412b32cd23eb8b0b63af11e381e055",
+      "rawOutputText": "{\"checks\":[{\"proposalId\":\"dino-cue-7-0\",\"verdict\":\"supported\",\"evidenceKo\":\"상단 대부분에 밝은 푸른 하늘이 넓게 보이고, 여러 개의 흰 구름이 흩어져 있어 설명과 일치합니다.\"}]}"
+    }
+  ]
+}

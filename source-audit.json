@@ -1,0 +1,315 @@
+{
+  "method": "Static source/AST/XML/CSV inspection; no VLM, OCR, detector, training, or Bayesian inference run.",
+  "vlm_source_lines": {
+    "VLM_OUTPUT_COLUMNS": 46,
+    "SYSTEM_PROMPT": 59
+  },
+  "example_json_error": "Expecting value: line 8 column 19 (char 241)",
+  "missing_storage_keys_after_fixing_example_json": [
+    "geo_hint",
+    "weather",
+    "time_of_day",
+    "view_angle",
+    "focal_length",
+    "text_value",
+    "landmark_level"
+  ],
+  "network_nodes": [
+    {
+      "id": "focal_length",
+      "states": [
+        "Average",
+        "Long",
+        "Wide"
+      ],
+      "parents": []
+    },
+    {
+      "id": "clarity_laplacian_discrete",
+      "states": [
+        "State0",
+        "State1",
+        "State2",
+        "State3",
+        "State4",
+        "State5",
+        "State6",
+        "State7",
+        "State8",
+        "State9"
+      ],
+      "parents": []
+    },
+    {
+      "id": "weather",
+      "states": [
+        "Else",
+        "Cloudy",
+        "Sunny",
+        "Overcast",
+        "Rainy",
+        "Snowy",
+        "Foggy"
+      ],
+      "parents": []
+    },
+    {
+      "id": "view_angle",
+      "states": [
+        "Low_angle",
+        "Eve_level",
+        "Arieal_level",
+        "High_level"
+      ],
+      "parents": []
+    },
+    {
+      "id": "time_of_day",
+      "states": [
+        "Night",
+        "Indoor",
+        "Daytime",
+        "Dusk",
+        "Dawn"
+      ],
+      "parents": []
+    },
+    {
+      "id": "image_quality_for_geolocation",
+      "states": [
+        "State0",
+        "State1",
+        "State2",
+        "State3",
+        "State4",
+        "State5",
+        "State6",
+        "State7",
+        "State8",
+        "State9"
+      ],
+      "parents": [
+        "focal_length",
+        "clarity_laplacian_discrete",
+        "weather",
+        "view_angle",
+        "time_of_day"
+      ]
+    },
+    {
+      "id": "similarity_variance",
+      "states": [
+        "State0",
+        "State1",
+        "State2",
+        "State3",
+        "State4",
+        "State5",
+        "State6",
+        "State7",
+        "State8",
+        "State9"
+      ],
+      "parents": []
+    },
+    {
+      "id": "task_attractiveness",
+      "states": [
+        "State0",
+        "State1",
+        "State2",
+        "State3",
+        "State4",
+        "State5",
+        "State6",
+        "State7",
+        "State8",
+        "State9"
+      ],
+      "parents": []
+    },
+    {
+      "id": "geo_hint",
+      "states": [
+        "District",
+        "National",
+        "City",
+        "None",
+        "Provincial"
+      ],
+      "parents": []
+    },
+    {
+      "id": "text_value",
+      "states": [
+        "State0",
+        "State1",
+        "State2",
+        "State3",
+        "State4",
+        "State5",
+        "State6",
+        "State7",
+        "State8",
+        "State9"
+      ],
+      "parents": []
+    },
+    {
+      "id": "landmark_level",
+      "states": [
+        "World_class",
+        "National_level",
+        "City_level",
+        "No_landmark",
+        "Local_level",
+        "Provincial_level"
+      ],
+      "parents": []
+    },
+    {
+      "id": "scene_complexity",
+      "states": [
+        "State0",
+        "State1",
+        "State2",
+        "State3",
+        "State4",
+        "State5",
+        "State6",
+        "State7",
+        "State8",
+        "State9"
+      ],
+      "parents": []
+    },
+    {
+      "id": "spatial_modeling",
+      "states": [
+        "State0",
+        "State1"
+      ],
+      "parents": [
+        "image_quality_for_geolocation",
+        "task_attractiveness",
+        "geo_hint",
+        "scene_complexity"
+      ]
+    },
+    {
+      "id": "user_background_analysis",
+      "states": [
+        "State0",
+        "State1"
+      ],
+      "parents": [
+        "task_attractiveness",
+        "geo_hint",
+        "text_value"
+      ]
+    },
+    {
+      "id": "external_tools_application",
+      "states": [
+        "State0",
+        "State1"
+      ],
+      "parents": [
+        "image_quality_for_geolocation",
+        "landmark_level",
+        "task_attractiveness",
+        "geo_hint",
+        "text_value"
+      ]
+    },
+    {
+      "id": "region_lock_in_confidence",
+      "states": [
+        "State0",
+        "State1"
+      ],
+      "parents": [
+        "geo_hint",
+        "user_background_analysis",
+        "external_tools_application",
+        "landmark_level"
+      ]
+    },
+    {
+      "id": "similarity_mean",
+      "states": [
+        "State0",
+        "State1",
+        "State2",
+        "State3",
+        "State4",
+        "State5",
+        "State6",
+        "State7",
+        "State8",
+        "State9"
+      ],
+      "parents": []
+    },
+    {
+      "id": "search_engine_based_method",
+      "states": [
+        "State0",
+        "State1"
+      ],
+      "parents": [
+        "landmark_level",
+        "geo_hint",
+        "task_attractiveness",
+        "image_quality_for_geolocation",
+        "scene_complexity",
+        "similarity_variance",
+        "similarity_mean"
+      ]
+    },
+    {
+      "id": "environmental_detail_analysis",
+      "states": [
+        "State0",
+        "State1"
+      ],
+      "parents": [
+        "image_quality_for_geolocation",
+        "task_attractiveness",
+        "geo_hint",
+        "similarity_variance",
+        "similarity_mean"
+      ]
+    },
+    {
+      "id": "IsSolved",
+      "states": [
+        "State0",
+        "State1"
+      ],
+      "parents": [
+        "search_engine_based_method",
+        "region_lock_in_confidence",
+        "user_background_analysis",
+        "environmental_detail_analysis",
+        "spatial_modeling",
+        "external_tools_application"
+      ]
+    }
+  ],
+  "root_feature_count": 12,
+  "dataset_counts": {
+    "train_dataset.csv": {
+      "rows": 34561,
+      "distinct_post_ids": 34560
+    },
+    "eval_dataset.csv": {
+      "rows": 8001,
+      "distinct_post_ids": 8001
+    },
+    "data_after_preprocessing.csv": {
+      "rows": 42562,
+      "distinct_post_ids": 42561
+    }
+  }
+}

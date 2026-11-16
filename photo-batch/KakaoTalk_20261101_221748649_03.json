@@ -1,0 +1,2204 @@
+{
+  "schemaVersion": "location-cues-v1",
+  "id": "cc3395d4-64f0-4e24-9a83-8e04e1751e09",
+  "createdAt": "2026-11-10T13:41:37.475Z",
+  "updatedAt": "2026-11-10T13:44:28.492Z",
+  "status": "completed",
+  "requestedModel": "gpt-5.4-mini",
+  "promptVersion": "research-cues-v1",
+  "image": {
+    "width": 1125,
+    "height": 2000,
+    "sha256": "e8f84a1e273a9c738744e357efaea78d189fe3f784abdbd88e59240687555cf4",
+    "coordinateSpace": "analysis-normalized",
+    "bboxFormat": "xyxy",
+    "mime": "image/jpeg",
+    "metadataRemoved": true
+  },
+  "stages": {
+    "discovery": {
+      "status": "completed",
+      "startedAt": "2026-11-10T13:41:37.482Z",
+      "finishedAt": "2026-11-10T13:41:50.011Z"
+    },
+    "ocr": {
+      "status": "completed",
+      "startedAt": "2026-11-10T13:41:50.012Z",
+      "finishedAt": "2026-11-10T13:43:02.977Z"
+    },
+    "ocr_review": {
+      "status": "completed",
+      "startedAt": "2026-11-10T13:43:02.986Z",
+      "finishedAt": "2026-11-10T13:43:11.516Z"
+    },
+    "detection": {
+      "status": "completed",
+      "startedAt": "2026-11-10T13:43:11.516Z",
+      "finishedAt": "2026-11-10T13:44:03.854Z"
+    },
+    "verify_cue-0": {
+      "status": "completed",
+      "startedAt": "2026-11-10T13:44:03.865Z",
+      "finishedAt": "2026-11-10T13:44:06.044Z"
+    },
+    "verify_cue-1": {
+      "status": "completed",
+      "startedAt": "2026-11-10T13:44:06.045Z",
+      "finishedAt": "2026-11-10T13:44:15.746Z"
+    },
+    "verify_cue-2": {
+      "status": "completed",
+      "startedAt": "2026-11-10T13:44:15.747Z",
+      "finishedAt": "2026-11-10T13:44:20.087Z"
+    },
+    "verify_cue-3": {
+      "status": "completed",
+      "startedAt": "2026-11-10T13:44:20.088Z",
+      "finishedAt": "2026-11-10T13:44:23.563Z"
+    },
+    "verify_cue-4": {
+      "status": "completed",
+      "startedAt": "2026-11-10T13:44:23.564Z",
+      "finishedAt": "2026-11-10T13:44:26.246Z"
+    },
+    "verify_cue-5": {
+      "status": "completed",
+      "startedAt": "2026-11-10T13:44:26.247Z",
+      "finishedAt": "2026-11-10T13:44:28.490Z"
+    }
+  },
+  "artifacts": {
+    "discovery_raw": {
+      "requestedModel": "gpt-5.4-mini",
+      "responseModel": "gpt-5.4-mini-2026-03-17",
+      "responseId": "resp_060fd66cbbe96b59016af31f137be087d290a91b1dc58b760e",
+      "status": "completed",
+      "usage": {
+        "input_tokens": 3421,
+        "input_tokens_details": {
+          "cache_write_tokens": 0,
+          "cached_tokens": 0
+        },
+        "output_tokens": 1186,
+        "output_tokens_details": {
+          "reasoning_tokens": 0
+        },
+        "total_tokens": 4607
+      },
+      "promptSha256": "84585c64986be78650806029298f0b8fa0dd5d919f7e333e9223af3a370c03ab",
+      "rawOutputText": "{\"cues\":[{\"kind\":\"text\",\"category\":\"overlay text\",\"nameKo\":\"가을 문구\",\"observationKo\":\"하늘 부분에 흰색 한글로 '가을이다'가 보이고, 잎 이모지처럼 보이는 작은 그림이 함께 붙어 있음.\",\"geographicRelevanceKo\":\"촬영 시기나 계절감을 추정하는 보조 단서가 될 수 있어, 같은 지역의 다른 사진들과 비교할 때 계절 패턴을 참고하는 데 도움이 될 수 있음.\",\"regionDescriptionKo\":\"하늘 중앙 부근의 사진 편집 오버레이 텍스트.\",\"scope\":\"scene\",\"visibleText\":\"가을이다\",\"surface\":\"unknown\",\"visibility\":\"clear\",\"detectorQueryEn\":\"white Korean overlay text saying '가을이다' in the sky area\",\"limitationsKo\":\"이미지 편집 오버레이로 보이며 실제 현장 표지인지 불명확함. 위치 식별에는 직접적이지 않음.\"},{\"kind\":\"non_text\",\"category\":\"building facade\",\"nameKo\":\"대형 현대식 건물 외관\",\"observationKo\":\"회색 석재 패널과 반복적인 세로 창이 길게 이어진 대형 다층 건물이 보이며, 상부는 더 매끈한 수직창 리듬, 하부는 유리벽과 원통형 기둥이 있는 구조임.\",\"geographicRelevanceKo\":\"대형 공공·업무용 건축물의 양식과 외피 재료는 지역별 도시 개발 양식, 캠퍼스/관공서/업무지구 환경 비교에 도움이 될 수 있음.\",\"regionDescriptionKo\":\"사진 대부분을 차지하는 전면의 건물 외벽.\",\"scope\":\"object\",\"visibleText\":null,\"surface\":\"fixed\",\"visibility\":\"clear\",\"detectorQueryEn\":\"large modern building facade with repetitive narrow vertical windows and stone cladding\",\"limitationsKo\":\"일반적인 현대 건축으로 보이며 특정 지역 고유성은 확정할 수 없음.\"},{\"kind\":\"non_text\",\"category\":\"lower podium\",\"nameKo\":\"기둥형 저층부\",\"observationKo\":\"건물 하단에 넓은 유리면, 굵은 원통형 기둥 여러 개, 그 위를 지지하는 처마 형태의 돌출부가 보임.\",\"geographicRelevanceKo\":\"저층부의 개방형 포디엄 구조는 대형 기관 건물, 복합시설, 기업 캠퍼스 등에서 흔해 주변 용도와 도시 맥락 추정에 참고가 될 수 있음.\",\"regionDescriptionKo\":\"건물 하단 중앙~오른쪽의 지지 구조와 유리면.\",\"scope\":\"object\",\"visibleText\":null,\"surface\":\"fixed\",\"visibility\":\"clear\",\"detectorQueryEn\":\"building podium with cylindrical columns and glass frontage\",\"limitationsKo\":\"구조만으로는 지역을 특정하기 어렵고, 내부 용도도 단정할 수 없음.\"},{\"kind\":\"non_text\",\"category\":\"landscaping trees\",\"nameKo\":\"소나무 조경\",\"observationKo\":\"전경에 소나무로 보이는 상록수와 가을색이 섞인 관목이 조경으로 배치되어 있음.\",\"geographicRelevanceKo\":\"상록수 중심의 조경과 계절색이 섞인 정원 구성은 공원·캠퍼스·기관 부지의 환경 비교에 참고될 수 있음.\",\"regionDescriptionKo\":\"사진 하단의 전경 조경 구역.\",\"scope\":\"scene\",\"visibleText\":null,\"surface\":\"fixed\",\"visibility\":\"clear\",\"detectorQueryEn\":\"landscaped pine trees in the foreground\",\"limitationsKo\":\"식재만으로 지역을 특정하기 어렵고, 종 식별은 일부 불확실함.\"},{\"kind\":\"non_text\",\"category\":\"sky conditions\",\"nameKo\":\"맑은 주간 하늘\",\"observationKo\":\"구름이 거의 없는 짙은 푸른 하늘과 강한 직사광선이 보임.\",\"geographicRelevanceKo\":\"기후나 촬영 계절, 위도 비교의 보조 단서로 사용될 수 있음.\",\"regionDescriptionKo\":\"사진 상부 전체의 하늘 영역.\",\"scope\":\"scene\",\"visibleText\":null,\"surface\":\"unknown\",\"visibility\":\"clear\",\"detectorQueryEn\":\"clear blue daytime sky\",\"limitationsKo\":\"기상 상태는 순간적이며 지역 식별력은 낮음.\"},{\"kind\":\"non_text\",\"category\":\"foreground foliage\",\"nameKo\":\"가을 잎 장식\",\"observationKo\":\"우측 상단에 주황색과 노란색 잎이 프레임 안으로 들어와 있고, 계절감을 강조하는 전경 요소처럼 보임.\",\"geographicRelevanceKo\":\"식생의 계절 변화와 촬영 시기를 추정하는 데 참고될 수 있음.\",\"regionDescriptionKo\":\"사진 우상단 가장자리의 잎사귀.\",\"scope\":\"object\",\"visibleText\":null,\"surface\":\"movable\",\"visibility\":\"clear\",\"detectorQueryEn\":\"orange autumn leaves at the top right edge\",\"limitationsKo\":\"전경 장식성 요소인지 실제 나뭇잎인지 일부 불확실함.\"}],\"limitationsKo\":[\"건물의 정확한 명칭, 기관명, 도시명은 보이지 않아 식별할 수 없음.\",\"이미지에 있는 한글은 편집 오버레이로 보이며 실제 현장 표지로 보기 어려움.\",\"사진 한 장만으로는 건물 주변 도로망, 진입로, 교통표지 같은 추가 지리 단서를 충분히 확인할 수 없음.\"],\"coverageLimited\":true}"
+    },
+    "discovery": {
+      "cues": [
+        {
+          "kind": "text",
+          "category": "overlay text",
+          "nameKo": "가을 문구",
+          "observationKo": "하늘 부분에 흰색 한글로 '가을이다'가 보이고, 잎 이모지처럼 보이는 작은 그림이 함께 붙어 있음.",
+          "geographicRelevanceKo": "촬영 시기나 계절감을 추정하는 보조 단서가 될 수 있어, 같은 지역의 다른 사진들과 비교할 때 계절 패턴을 참고하는 데 도움이 될 수 있음.",
+          "regionDescriptionKo": "하늘 중앙 부근의 사진 편집 오버레이 텍스트.",
+          "scope": "scene",
+          "visibleText": "가을이다",
+          "surface": "unknown",
+          "visibility": "clear",
+          "detectorQueryEn": "white Korean overlay text saying '가을이다' in the sky area",
+          "limitationsKo": "이미지 편집 오버레이로 보이며 실제 현장 표지인지 불명확함. 위치 식별에는 직접적이지 않음."
+        },
+        {
+          "kind": "non_text",
+          "category": "building facade",
+          "nameKo": "대형 현대식 건물 외관",
+          "observationKo": "회색 석재 패널과 반복적인 세로 창이 길게 이어진 대형 다층 건물이 보이며, 상부는 더 매끈한 수직창 리듬, 하부는 유리벽과 원통형 기둥이 있는 구조임.",
+          "geographicRelevanceKo": "대형 공공·업무용 건축물의 양식과 외피 재료는 지역별 도시 개발 양식, 캠퍼스/관공서/업무지구 환경 비교에 도움이 될 수 있음.",
+          "regionDescriptionKo": "사진 대부분을 차지하는 전면의 건물 외벽.",
+          "scope": "object",
+          "visibleText": null,
+          "surface": "fixed",
+          "visibility": "clear",
+          "detectorQueryEn": "large modern building facade with repetitive narrow vertical windows and stone cladding",
+          "limitationsKo": "일반적인 현대 건축으로 보이며 특정 지역 고유성은 확정할 수 없음."
+        },
+        {
+          "kind": "non_text",
+          "category": "lower podium",
+          "nameKo": "기둥형 저층부",
+          "observationKo": "건물 하단에 넓은 유리면, 굵은 원통형 기둥 여러 개, 그 위를 지지하는 처마 형태의 돌출부가 보임.",
+          "geographicRelevanceKo": "저층부의 개방형 포디엄 구조는 대형 기관 건물, 복합시설, 기업 캠퍼스 등에서 흔해 주변 용도와 도시 맥락 추정에 참고가 될 수 있음.",
+          "regionDescriptionKo": "건물 하단 중앙~오른쪽의 지지 구조와 유리면.",
+          "scope": "object",
+          "visibleText": null,
+          "surface": "fixed",
+          "visibility": "clear",
+          "detectorQueryEn": "building podium with cylindrical columns and glass frontage",
+          "limitationsKo": "구조만으로는 지역을 특정하기 어렵고, 내부 용도도 단정할 수 없음."
+        },
+        {
+          "kind": "non_text",
+          "category": "landscaping trees",
+          "nameKo": "소나무 조경",
+          "observationKo": "전경에 소나무로 보이는 상록수와 가을색이 섞인 관목이 조경으로 배치되어 있음.",
+          "geographicRelevanceKo": "상록수 중심의 조경과 계절색이 섞인 정원 구성은 공원·캠퍼스·기관 부지의 환경 비교에 참고될 수 있음.",
+          "regionDescriptionKo": "사진 하단의 전경 조경 구역.",
+          "scope": "scene",
+          "visibleText": null,
+          "surface": "fixed",
+          "visibility": "clear",
+          "detectorQueryEn": "landscaped pine trees in the foreground",
+          "limitationsKo": "식재만으로 지역을 특정하기 어렵고, 종 식별은 일부 불확실함."
+        },
+        {
+          "kind": "non_text",
+          "category": "sky conditions",
+          "nameKo": "맑은 주간 하늘",
+          "observationKo": "구름이 거의 없는 짙은 푸른 하늘과 강한 직사광선이 보임.",
+          "geographicRelevanceKo": "기후나 촬영 계절, 위도 비교의 보조 단서로 사용될 수 있음.",
+          "regionDescriptionKo": "사진 상부 전체의 하늘 영역.",
+          "scope": "scene",
+          "visibleText": null,
+          "surface": "unknown",
+          "visibility": "clear",
+          "detectorQueryEn": "clear blue daytime sky",
+          "limitationsKo": "기상 상태는 순간적이며 지역 식별력은 낮음."
+        },
+        {
+          "kind": "non_text",
+          "category": "foreground foliage",
+          "nameKo": "가을 잎 장식",
+          "observationKo": "우측 상단에 주황색과 노란색 잎이 프레임 안으로 들어와 있고, 계절감을 강조하는 전경 요소처럼 보임.",
+          "geographicRelevanceKo": "식생의 계절 변화와 촬영 시기를 추정하는 데 참고될 수 있음.",
+          "regionDescriptionKo": "사진 우상단 가장자리의 잎사귀.",
+          "scope": "object",
+          "visibleText": null,
+          "surface": "movable",
+          "visibility": "clear",
+          "detectorQueryEn": "orange autumn leaves at the top right edge",
+          "limitationsKo": "전경 장식성 요소인지 실제 나뭇잎인지 일부 불확실함."
+        }
+      ],
+      "limitationsKo": [
+        "건물의 정확한 명칭, 기관명, 도시명은 보이지 않아 식별할 수 없음.",
+        "이미지에 있는 한글은 편집 오버레이로 보이며 실제 현장 표지로 보기 어려움.",
+        "사진 한 장만으로는 건물 주변 도로망, 진입로, 교통표지 같은 추가 지리 단서를 충분히 확인할 수 없음."
+      ],
+      "coverageLimited": true
+    },
+    "ocr": {
+      "engine": "PaddleOCR",
+      "version": "3.3.2",
+      "coordinateSpace": "analysis-normalized",
+      "lines": [
+        {
+          "id": "ocr-0",
+          "text": "가을이다",
+          "score": 0.9972541332244873,
+          "polygon": [
+            [
+              0.3413333333333333,
+              0.143
+            ],
+            [
+              0.4862222222222222,
+              0.143
+            ],
+            [
+              0.4862222222222222,
+              0.1625
+            ],
+            [
+              0.3413333333333333,
+              0.1625
+            ]
+          ],
+          "passId": "tile-0-0"
+        },
+        {
+          "id": "ocr-1",
+          "text": "이기페",
+          "score": 0.2346716672182083,
+          "polygon": [
+            [
+              0.7315555555555555,
+              0.671
+            ],
+            [
+              0.9946666666666667,
+              0.649
+            ],
+            [
+              1,
+              0.7275
+            ],
+            [
+              0.7511111111111111,
+              0.749
+            ]
+          ],
+          "passId": "full"
+        },
+        {
+          "id": "ocr-2",
+          "text": "기미피",
+          "score": 0.38603225350379944,
+          "polygon": [
+            [
+              0.7333333333333333,
+              0.6755
+            ],
+            [
+              0.9884444444444445,
+              0.65
+            ],
+            [
+              1,
+              0.7265
+            ],
+            [
+              0.7573333333333333,
+              0.752
+            ]
+          ],
+          "passId": "tile-101-819"
+        },
+        {
+          "id": "ocr-3",
+          "text": "이미!",
+          "score": 0.26484546065330505,
+          "polygon": [
+            [
+              0.7351111111111112,
+              0.679
+            ],
+            [
+              0.9715555555555555,
+              0.6585
+            ],
+            [
+              0.9893333333333333,
+              0.7245
+            ],
+            [
+              0.7528888888888889,
+              0.7445
+            ]
+          ],
+          "passId": "tile-101-976"
+        }
+      ],
+      "diagnostics": {
+        "version": "tiled-v1",
+        "inputWidth": 1125,
+        "inputHeight": 2000,
+        "passes": [
+          {
+            "id": "full",
+            "x": 0,
+            "y": 0,
+            "width": 1125,
+            "height": 2000,
+            "count": 2
+          },
+          {
+            "id": "tile-0-0",
+            "x": 0,
+            "y": 0,
+            "width": 1024,
+            "height": 1024,
+            "count": 1
+          },
+          {
+            "id": "tile-101-0",
+            "x": 101,
+            "y": 0,
+            "width": 1024,
+            "height": 1024,
+            "count": 1
+          },
+          {
+            "id": "tile-0-819",
+            "x": 0,
+            "y": 819,
+            "width": 1024,
+            "height": 1024,
+            "count": 0
+          },
+          {
+            "id": "tile-101-819",
+            "x": 101,
+            "y": 819,
+            "width": 1024,
+            "height": 1024,
+            "count": 1
+          },
+          {
+            "id": "tile-0-976",
+            "x": 0,
+            "y": 976,
+            "width": 1024,
+            "height": 1024,
+            "count": 0
+          },
+          {
+            "id": "tile-101-976",
+            "x": 101,
+            "y": 976,
+            "width": 1024,
+            "height": 1024,
+            "count": 1
+          }
+        ],
+        "rawReadings": [
+          {
+            "text": "가을이다",
+            "score": 0.9972541332244873,
+            "polygon": [
+              [
+                0.3413333333333333,
+                0.143
+              ],
+              [
+                0.4862222222222222,
+                0.143
+              ],
+              [
+                0.4862222222222222,
+                0.1625
+              ],
+              [
+                0.3413333333333333,
+                0.1625
+              ]
+            ],
+            "passId": "tile-0-0"
+          },
+          {
+            "text": "이기페",
+            "score": 0.2346716672182083,
+            "polygon": [
+              [
+                0.7315555555555555,
+                0.671
+              ],
+              [
+                0.9946666666666667,
+                0.649
+              ],
+              [
+                1,
+                0.7275
+              ],
+              [
+                0.7511111111111111,
+                0.749
+              ]
+            ],
+            "passId": "full"
+          },
+          {
+            "text": "가을이다",
+            "score": 0.9972541332244873,
+            "polygon": [
+              [
+                0.3413333333333333,
+                0.143
+              ],
+              [
+                0.4862222222222222,
+                0.143
+              ],
+              [
+                0.4862222222222222,
+                0.1625
+              ],
+              [
+                0.3413333333333333,
+                0.1625
+              ]
+            ],
+            "passId": "tile-0-0"
+          },
+          {
+            "text": "가을이다",
+            "score": 0.9965983629226685,
+            "polygon": [
+              [
+                0.33955555555555555,
+                0.1425
+              ],
+              [
+                0.4817777777777778,
+                0.1425
+              ],
+              [
+                0.4817777777777778,
+                0.1635
+              ],
+              [
+                0.33955555555555555,
+                0.1635
+              ]
+            ],
+            "passId": "tile-101-0"
+          },
+          {
+            "text": "기미피",
+            "score": 0.38603225350379944,
+            "polygon": [
+              [
+                0.7333333333333333,
+                0.6755
+              ],
+              [
+                0.9884444444444445,
+                0.65
+              ],
+              [
+                1,
+                0.7265
+              ],
+              [
+                0.7573333333333333,
+                0.752
+              ]
+            ],
+            "passId": "tile-101-819"
+          },
+          {
+            "text": "이미!",
+            "score": 0.26484546065330505,
+            "polygon": [
+              [
+                0.7351111111111112,
+                0.679
+              ],
+              [
+                0.9715555555555555,
+                0.6585
+              ],
+              [
+                0.9893333333333333,
+                0.7245
+              ],
+              [
+                0.7528888888888889,
+                0.7445
+              ]
+            ],
+            "passId": "tile-101-976"
+          }
+        ],
+        "unreadRegions": [],
+        "conflicts": [
+          [
+            "ocr-1",
+            "ocr-2"
+          ],
+          [
+            "ocr-1",
+            "ocr-3"
+          ],
+          [
+            "ocr-2",
+            "ocr-3"
+          ]
+        ]
+      }
+    },
+    "ocr_batch_0_raw": {
+      "requestedModel": "gpt-5.4-mini",
+      "responseModel": "gpt-5.4-mini-2026-03-17",
+      "responseId": "resp_06574e3ad0667d05016af31f6a209887d287283d6f882f5a6e",
+      "status": "completed",
+      "usage": {
+        "input_tokens": 4760,
+        "input_tokens_details": {
+          "cache_write_tokens": 0,
+          "cached_tokens": 0
+        },
+        "output_tokens": 735,
+        "output_tokens_details": {
+          "reasoning_tokens": 0
+        },
+        "total_tokens": 5495
+      },
+      "promptSha256": "6a390a1592faabfed2308d3bf75271d6fdcb67131417face8de92e6bdcf1088f",
+      "rawOutputText": "{\"groups\":[{\"lineIds\":[\"ocr-0\"],\"disposition\":\"candidate\",\"category\":\"overlay text\",\"nameKo\":\"가을 문구\",\"observationKo\":\"하늘 위에 흰색 한글 '가을이다'와 잎 이모지처럼 보이는 그림이 함께 보입니다.\",\"geographicRelevanceKo\":\"실제 위치 식별에는 직접적이지 않지만, 촬영 시기나 계절 분위기를 보조적으로 나타내는 단서가 될 수 있습니다.\",\"regionDescriptionKo\":\"하늘 중앙 부근에 겹쳐진 흰색 문구.\",\"correctedText\":\"가을이다\",\"surface\":\"depicted\",\"visibility\":\"clear\",\"limitationsKo\":\"사진 편집 오버레이로 보이며 실제 현장 표지인지 확인되지 않습니다. 지리적 식별력은 낮습니다.\",\"relatedDiscoveryIndexes\":[0]},{\"lineIds\":[\"ocr-1\"],\"disposition\":\"irrelevant\",\"category\":\"unreadable crop\",\"nameKo\":\"식별 불가 글자 조각\",\"observationKo\":\"세로로 잘린 건물 일부만 보이고, OCR 문자열을 뒷받침할 만한 명확한 글자는 확인되지 않습니다.\",\"geographicRelevanceKo\":\"지리적 단서로 해석할 수 있는 식별 가능한 텍스트가 보이지 않습니다.\",\"regionDescriptionKo\":\"건물 외관 일부가 잘린 세로형 영역.\",\"correctedText\":null,\"surface\":\"fixed\",\"visibility\":\"uncertain\",\"limitationsKo\":\"원문 OCR의 '이기페'를 지지하는 시각 증거가 부족하고, 보이는 요소는 창문과 구조물뿐입니다.\",\"relatedDiscoveryIndexes\":[]},{\"lineIds\":[\"ocr-2\"],\"disposition\":\"irrelevant\",\"category\":\"unreadable crop\",\"nameKo\":\"식별 불가 글자 조각\",\"observationKo\":\"건물 외관의 좁은 세로 구간만 보이며, OCR의 '기미피'를 확인할 수 있는 문자 형태가 드러나지 않습니다.\",\"geographicRelevanceKo\":\"명확한 지명, 상호, 주소 같은 지리적 단서는 없습니다.\",\"regionDescriptionKo\":\"건물 외벽의 좁은 세로형 크롭.\",\"correctedText\":null,\"surface\":\"fixed\",\"visibility\":\"uncertain\",\"limitationsKo\":\"텍스트가 존재한다는 증거가 약하고, OCR 결과는 픽셀로 지지되지 않습니다.\",\"relatedDiscoveryIndexes\":[]},{\"lineIds\":[\"ocr-3\"],\"disposition\":\"irrelevant\",\"category\":\"unreadable crop\",\"nameKo\":\"식별 불가 글자 조각\",\"observationKo\":\"건물 외관 일부만 보이며, OCR의 '이미!'를 확실히 읽을 수 있는 문자 구조는 확인되지 않습니다.\",\"geographicRelevanceKo\":\"위치나 장소를 특정할 수 있는 정보가 드러나지 않습니다.\",\"regionDescriptionKo\":\"건물 외벽과 창문이 보이는 세로형 영역.\",\"correctedText\":null,\"surface\":\"fixed\",\"visibility\":\"uncertain\",\"limitationsKo\":\"OCR 문자열은 시각적으로 검증되지 않으며, 주변은 건물 외피와 창문뿐입니다.\",\"relatedDiscoveryIndexes\":[]}],\"limitationsKo\":[\"사진 속 OCR 1~3은 텍스트로 보이는 요소가 거의 없어 지리적 단서로 채택하기 어렵습니다.\",\"ocr-0은 편집 오버레이로 보이며 실제 현장 표지로 단정할 수 없습니다.\"]}"
+    },
+    "ocr_batch_0": {
+      "groups": [
+        {
+          "lineIds": [
+            "ocr-0"
+          ],
+          "disposition": "candidate",
+          "category": "overlay text",
+          "nameKo": "가을 문구",
+          "observationKo": "하늘 위에 흰색 한글 '가을이다'와 잎 이모지처럼 보이는 그림이 함께 보입니다.",
+          "geographicRelevanceKo": "실제 위치 식별에는 직접적이지 않지만, 촬영 시기나 계절 분위기를 보조적으로 나타내는 단서가 될 수 있습니다.",
+          "regionDescriptionKo": "하늘 중앙 부근에 겹쳐진 흰색 문구.",
+          "correctedText": "가을이다",
+          "surface": "depicted",
+          "visibility": "clear",
+          "limitationsKo": "사진 편집 오버레이로 보이며 실제 현장 표지인지 확인되지 않습니다. 지리적 식별력은 낮습니다.",
+          "relatedDiscoveryIndexes": [
+            0
+          ]
+        },
+        {
+          "lineIds": [
+            "ocr-1"
+          ],
+          "disposition": "irrelevant",
+          "category": "unreadable crop",
+          "nameKo": "식별 불가 글자 조각",
+          "observationKo": "세로로 잘린 건물 일부만 보이고, OCR 문자열을 뒷받침할 만한 명확한 글자는 확인되지 않습니다.",
+          "geographicRelevanceKo": "지리적 단서로 해석할 수 있는 식별 가능한 텍스트가 보이지 않습니다.",
+          "regionDescriptionKo": "건물 외관 일부가 잘린 세로형 영역.",
+          "correctedText": null,
+          "surface": "fixed",
+          "visibility": "uncertain",
+          "limitationsKo": "원문 OCR의 '이기페'를 지지하는 시각 증거가 부족하고, 보이는 요소는 창문과 구조물뿐입니다.",
+          "relatedDiscoveryIndexes": []
+        },
+        {
+          "lineIds": [
+            "ocr-2"
+          ],
+          "disposition": "irrelevant",
+          "category": "unreadable crop",
+          "nameKo": "식별 불가 글자 조각",
+          "observationKo": "건물 외관의 좁은 세로 구간만 보이며, OCR의 '기미피'를 확인할 수 있는 문자 형태가 드러나지 않습니다.",
+          "geographicRelevanceKo": "명확한 지명, 상호, 주소 같은 지리적 단서는 없습니다.",
+          "regionDescriptionKo": "건물 외벽의 좁은 세로형 크롭.",
+          "correctedText": null,
+          "surface": "fixed",
+          "visibility": "uncertain",
+          "limitationsKo": "텍스트가 존재한다는 증거가 약하고, OCR 결과는 픽셀로 지지되지 않습니다.",
+          "relatedDiscoveryIndexes": []
+        },
+        {
+          "lineIds": [
+            "ocr-3"
+          ],
+          "disposition": "irrelevant",
+          "category": "unreadable crop",
+          "nameKo": "식별 불가 글자 조각",
+          "observationKo": "건물 외관 일부만 보이며, OCR의 '이미!'를 확실히 읽을 수 있는 문자 구조는 확인되지 않습니다.",
+          "geographicRelevanceKo": "위치나 장소를 특정할 수 있는 정보가 드러나지 않습니다.",
+          "regionDescriptionKo": "건물 외벽과 창문이 보이는 세로형 영역.",
+          "correctedText": null,
+          "surface": "fixed",
+          "visibility": "uncertain",
+          "limitationsKo": "OCR 문자열은 시각적으로 검증되지 않으며, 주변은 건물 외피와 창문뿐입니다.",
+          "relatedDiscoveryIndexes": []
+        }
+      ],
+      "limitationsKo": [
+        "사진 속 OCR 1~3은 텍스트로 보이는 요소가 거의 없어 지리적 단서로 채택하기 어렵습니다.",
+        "ocr-0은 편집 오버레이로 보이며 실제 현장 표지로 단정할 수 없습니다."
+      ]
+    },
+    "ocr_review": {
+      "groups": [
+        {
+          "lineIds": [
+            "ocr-0"
+          ],
+          "disposition": "candidate",
+          "category": "overlay text",
+          "nameKo": "가을 문구",
+          "observationKo": "하늘 위에 흰색 한글 '가을이다'와 잎 이모지처럼 보이는 그림이 함께 보입니다.",
+          "geographicRelevanceKo": "실제 위치 식별에는 직접적이지 않지만, 촬영 시기나 계절 분위기를 보조적으로 나타내는 단서가 될 수 있습니다.",
+          "regionDescriptionKo": "하늘 중앙 부근에 겹쳐진 흰색 문구.",
+          "correctedText": "가을이다",
+          "surface": "depicted",
+          "visibility": "clear",
+          "limitationsKo": "사진 편집 오버레이로 보이며 실제 현장 표지인지 확인되지 않습니다. 지리적 식별력은 낮습니다.",
+          "relatedDiscoveryIndexes": [
+            0
+          ]
+        },
+        {
+          "lineIds": [
+            "ocr-1"
+          ],
+          "disposition": "irrelevant",
+          "category": "unreadable crop",
+          "nameKo": "식별 불가 글자 조각",
+          "observationKo": "세로로 잘린 건물 일부만 보이고, OCR 문자열을 뒷받침할 만한 명확한 글자는 확인되지 않습니다.",
+          "geographicRelevanceKo": "지리적 단서로 해석할 수 있는 식별 가능한 텍스트가 보이지 않습니다.",
+          "regionDescriptionKo": "건물 외관 일부가 잘린 세로형 영역.",
+          "correctedText": null,
+          "surface": "fixed",
+          "visibility": "uncertain",
+          "limitationsKo": "원문 OCR의 '이기페'를 지지하는 시각 증거가 부족하고, 보이는 요소는 창문과 구조물뿐입니다.",
+          "relatedDiscoveryIndexes": []
+        },
+        {
+          "lineIds": [
+            "ocr-2"
+          ],
+          "disposition": "irrelevant",
+          "category": "unreadable crop",
+          "nameKo": "식별 불가 글자 조각",
+          "observationKo": "건물 외관의 좁은 세로 구간만 보이며, OCR의 '기미피'를 확인할 수 있는 문자 형태가 드러나지 않습니다.",
+          "geographicRelevanceKo": "명확한 지명, 상호, 주소 같은 지리적 단서는 없습니다.",
+          "regionDescriptionKo": "건물 외벽의 좁은 세로형 크롭.",
+          "correctedText": null,
+          "surface": "fixed",
+          "visibility": "uncertain",
+          "limitationsKo": "텍스트가 존재한다는 증거가 약하고, OCR 결과는 픽셀로 지지되지 않습니다.",
+          "relatedDiscoveryIndexes": []
+        },
+        {
+          "lineIds": [
+            "ocr-3"
+          ],
+          "disposition": "irrelevant",
+          "category": "unreadable crop",
+          "nameKo": "식별 불가 글자 조각",
+          "observationKo": "건물 외관 일부만 보이며, OCR의 '이미!'를 확실히 읽을 수 있는 문자 구조는 확인되지 않습니다.",
+          "geographicRelevanceKo": "위치나 장소를 특정할 수 있는 정보가 드러나지 않습니다.",
+          "regionDescriptionKo": "건물 외벽과 창문이 보이는 세로형 영역.",
+          "correctedText": null,
+          "surface": "fixed",
+          "visibility": "uncertain",
+          "limitationsKo": "OCR 문자열은 시각적으로 검증되지 않으며, 주변은 건물 외피와 창문뿐입니다.",
+          "relatedDiscoveryIndexes": []
+        }
+      ],
+      "limitationsKo": [
+        "사진 속 OCR 1~3은 텍스트로 보이는 요소가 거의 없어 지리적 단서로 채택하기 어렵습니다.",
+        "ocr-0은 편집 오버레이로 보이며 실제 현장 표지로 단정할 수 없습니다."
+      ],
+      "reviewMode": "per_region_crops"
+    },
+    "detection": {
+      "engine": "Grounding DINO",
+      "model": "IDEA-Research/grounding-dino-tiny",
+      "revision": "a2bb814dd30d776dcf7e30523b00659f4f141c71",
+      "imageSha256": "e8f84a1e273a9c738744e357efaea78d189fe3f784abdbd88e59240687555cf4",
+      "coordinateSpace": "analysis-normalized",
+      "requests": [
+        {
+          "cueId": "cue-0",
+          "query": "white Korean overlay text saying '가을이다' in the sky area",
+          "detections": [
+            {
+              "id": "dino-cue-0-0",
+              "bbox": [
+                0.33378678385416666,
+                0.14037034606933593,
+                0.4704042426215278,
+                0.1672645263671875
+              ],
+              "score": 0.5875161290168762,
+              "label": "white korean overlay text"
+            }
+          ]
+        },
+        {
+          "cueId": "cue-1",
+          "query": "large modern building facade with repetitive narrow vertical windows and stone cladding",
+          "detections": [
+            {
+              "id": "dino-cue-1-0",
+              "bbox": [
+                0.004611939324273003,
+                0.003116011619567871,
+                0.9957241753472222,
+                0.9131085815429687
+              ],
+              "score": 0.6489076614379883,
+              "label": "large modern building facade"
+            },
+            {
+              "id": "dino-cue-1-1",
+              "bbox": [
+                0.6697931315104166,
+                0.12970111083984376,
+                0.7348785264756944,
+                0.24041188049316406
+              ],
+              "score": 0.4723730683326721,
+              "label": "repetitive narrow vertical windows"
+            },
+            {
+              "id": "dino-cue-1-2",
+              "bbox": [
+                0.7254079318576389,
+                0.10376040649414063,
+                0.7953974066840278,
+                0.21746299743652345
+              ],
+              "score": 0.44031715393066406,
+              "label": "repetitive narrow vertical windows"
+            },
+            {
+              "id": "dino-cue-1-3",
+              "bbox": [
+                0.5633609483506944,
+                0.1768702392578125,
+                0.6261834852430556,
+                0.2820959777832031
+              ],
+              "score": 0.44385743141174316,
+              "label": "repetitive narrow vertical windows"
+            },
+            {
+              "id": "dino-cue-1-4",
+              "bbox": [
+                0.6162183702256945,
+                0.15371238708496093,
+                0.6793134765625,
+                0.26139959716796873
+              ],
+              "score": 0.4172969162464142,
+              "label": "repetitive narrow vertical windows"
+            },
+            {
+              "id": "dino-cue-1-5",
+              "bbox": [
+                0.4702421332465278,
+                0.552411376953125,
+                0.6099207356770834,
+                0.6745697631835937
+              ],
+              "score": 0.32065239548683167,
+              "label": "repetitive narrow vertical windows"
+            },
+            {
+              "id": "dino-cue-1-6",
+              "bbox": [
+                0.8367551540798611,
+                0.49119857788085936,
+                0.9961796875,
+                0.6327215576171875
+              ],
+              "score": 0.3214019536972046,
+              "label": "repetitive narrow vertical windows"
+            },
+            {
+              "id": "dino-cue-1-7",
+              "bbox": [
+                0.5184048936631944,
+                0.19883518981933593,
+                0.5781596137152778,
+                0.3005465393066406
+              ],
+              "score": 0.3407502770423889,
+              "label": "repetitive narrow vertical windows"
+            },
+            {
+              "id": "dino-cue-1-8",
+              "bbox": [
+                0.4727038302951389,
+                0.2189366912841797,
+                0.5320831705729167,
+                0.3175487060546875
+              ],
+              "score": 0.32077959179878235,
+              "label": "repetitive narrow vertical windows"
+            }
+          ]
+        },
+        {
+          "cueId": "cue-2",
+          "query": "building podium with cylindrical columns and glass frontage",
+          "detections": [
+            {
+              "id": "dino-cue-2-0",
+              "bbox": [
+                0.7900032009548611,
+                0.47192843627929687,
+                0.8594212782118056,
+                0.6397930908203125
+              ],
+              "score": 0.6088489890098572,
+              "label": "cylindrical columns"
+            },
+            {
+              "id": "dino-cue-2-1",
+              "bbox": [
+                0.5887199978298611,
+                0.5176784057617188,
+                0.6521202799479167,
+                0.6668939819335937
+              ],
+              "score": 0.6004787683486938,
+              "label": "cylindrical columns"
+            },
+            {
+              "id": "dino-cue-2-2",
+              "bbox": [
+                0.29083555772569447,
+                0.5829561157226563,
+                0.3584634060329861,
+                0.7078983154296875
+              ],
+              "score": 0.5687686800956726,
+              "label": "cylindrical columns"
+            },
+            {
+              "id": "dino-cue-2-3",
+              "bbox": [
+                0.005133479648166232,
+                0.003017514944076538,
+                0.9960753038194444,
+                0.91285107421875
+              ],
+              "score": 0.458558052778244,
+              "label": "building podium"
+            },
+            {
+              "id": "dino-cue-2-4",
+              "bbox": [
+                0.4263802897135417,
+                0.5532863159179687,
+                0.4905322265625,
+                0.6735903930664062
+              ],
+              "score": 0.5709306001663208,
+              "label": "cylindrical columns"
+            },
+            {
+              "id": "dino-cue-2-5",
+              "bbox": [
+                0.1897620849609375,
+                0.60664501953125,
+                0.24695328776041667,
+                0.697399658203125
+              ],
+              "score": 0.41814735531806946,
+              "label": "cylindrical columns"
+            }
+          ]
+        },
+        {
+          "cueId": "cue-3",
+          "query": "landscaped pine trees in the foreground",
+          "detections": [
+            {
+              "id": "dino-cue-3-0",
+              "bbox": [
+                0.0052926241556803385,
+                0.57373779296875,
+                0.9476537543402778,
+                0.9644617309570312
+              ],
+              "score": 0.3883771002292633,
+              "label": "landscaped pine trees"
+            },
+            {
+              "id": "dino-cue-3-1",
+              "bbox": [
+                0.0025328248341878255,
+                0.5726626586914062,
+                0.3012434353298611,
+                0.9062576904296875
+              ],
+              "score": 0.30842074751853943,
+              "label": "pine trees"
+            },
+            {
+              "id": "dino-cue-3-2",
+              "bbox": [
+                0.25694615342881943,
+                0.599181396484375,
+                0.9422403428819445,
+                0.9647525634765625
+              ],
+              "score": 0.33855101466178894,
+              "label": "##d pine trees"
+            }
+          ]
+        },
+        {
+          "cueId": "cue-4",
+          "query": "clear blue daytime sky",
+          "detections": [
+            {
+              "id": "dino-cue-4-0",
+              "bbox": [
+                0.0025268792046440973,
+                0.0012094974517822266,
+                0.8398694661458334,
+                0.37265972900390626
+              ],
+              "score": 0.5599056482315063,
+              "label": "clear blue daytime sky"
+            }
+          ]
+        },
+        {
+          "cueId": "cue-5",
+          "query": "orange autumn leaves at the top right edge",
+          "detections": [
+            {
+              "id": "dino-cue-5-0",
+              "bbox": [
+                0.73754541015625,
+                0.001174159288406372,
+                0.9951338975694445,
+                0.12777703857421874
+              ],
+              "score": 0.48314812779426575,
+              "label": "orange autumn"
+            }
+          ]
+        }
+      ]
+    },
+    "verify_cue-0_0_raw": {
+      "requestedModel": "gpt-5.4-mini",
+      "responseModel": "gpt-5.4-mini-2026-03-17",
+      "responseId": "resp_08d1b2556c13ac20016af31fa46a9887d2aa344bfbbf992c76",
+      "status": "completed",
+      "usage": {
+        "input_tokens": 3657,
+        "input_tokens_details": {
+          "cache_write_tokens": 0,
+          "cached_tokens": 0
+        },
+        "output_tokens": 117,
+        "output_tokens_details": {
+          "reasoning_tokens": 0
+        },
+        "total_tokens": 3774
+      },
+      "promptSha256": "97106482e700608c01db19a0e347e9f7b3412b32cd23eb8b0b63af11e381e055",
+      "rawOutputText": "{\"checks\":[{\"proposalId\":\"link-0-0\",\"verdict\":\"supported\",\"evidenceKo\":\"하늘 위 오버레이에 흰색 한글 '가을이다'가 보이고, 옆에 잎 모양 그림도 함께 보입니다.\"},{\"proposalId\":\"dino-cue-0-0\",\"verdict\":\"supported\",\"evidenceKo\":\"제안 구역 안에 흰색 한글 '가을이다' 텍스트와 잎 아이콘이 함께 들어 있습니다.\"}]}"
+    },
+    "verify_cue-0": {
+      "checks": [
+        {
+          "proposalId": "link-0-0",
+          "verdict": "supported",
+          "evidenceKo": "하늘 위 오버레이에 흰색 한글 '가을이다'가 보이고, 옆에 잎 모양 그림도 함께 보입니다."
+        },
+        {
+          "proposalId": "dino-cue-0-0",
+          "verdict": "supported",
+          "evidenceKo": "제안 구역 안에 흰색 한글 '가을이다' 텍스트와 잎 아이콘이 함께 들어 있습니다."
+        }
+      ]
+    },
+    "verify_cue-1_0_raw": {
+      "requestedModel": "gpt-5.4-mini",
+      "responseModel": "gpt-5.4-mini-2026-03-17",
+      "responseId": "resp_01910c5c98bc8011016af31fa7af5c87d29fc45fc5ef082459",
+      "status": "completed",
+      "usage": {
+        "input_tokens": 7170,
+        "input_tokens_details": {
+          "cache_write_tokens": 0,
+          "cached_tokens": 0
+        },
+        "output_tokens": 440,
+        "output_tokens_details": {
+          "reasoning_tokens": 0
+        },
+        "total_tokens": 7610
+      },
+      "promptSha256": "97106482e700608c01db19a0e347e9f7b3412b32cd23eb8b0b63af11e381e055",
+      "rawOutputText": "{\"checks\":[{\"proposalId\":\"dino-cue-1-0\",\"verdict\":\"supported\",\"evidenceKo\":\"회색 석재 외벽이 넓게 보이고, 반복적인 세로 창과 하부 유리벽·원통형 기둥까지 포함된 대형 현대식 건물 외관이 확인됩니다.\"},{\"proposalId\":\"dino-cue-1-1\",\"verdict\":\"supported\",\"evidenceKo\":\"긴 세로 형태의 창이 반복되어 보이며, 창 리듬이 분명합니다.\"},{\"proposalId\":\"dino-cue-1-2\",\"verdict\":\"supported\",\"evidenceKo\":\"세로로 길고 좁은 창 한 구획이 선명하게 보입니다.\"},{\"proposalId\":\"dino-cue-1-3\",\"verdict\":\"supported\",\"evidenceKo\":\"세로로 좁은 창과 반복되는 외곽 프레임이 확인됩니다.\"},{\"proposalId\":\"dino-cue-1-4\",\"verdict\":\"supported\",\"evidenceKo\":\"좁고 긴 세로 창이 뚜렷하게 보이며 반복 패턴의 일부를 이룹니다.\"},{\"proposalId\":\"dino-cue-1-5\",\"verdict\":\"supported\",\"evidenceKo\":\"하부 유리벽과 원통형 기둥이 함께 보여 설명된 하부 구조를 뒷받침합니다.\"},{\"proposalId\":\"dino-cue-1-6\",\"verdict\":\"supported\",\"evidenceKo\":\"유리벽과 곡선 형태의 하부 공간이 보이고, 건물 외관의 하단부 일부로 확인됩니다.\"},{\"proposalId\":\"dino-cue-1-7\",\"verdict\":\"supported\",\"evidenceKo\":\"세로로 긴 창과 그 주변의 반복 프레임이 잘 보입니다.\"},{\"proposalId\":\"dino-cue-1-8\",\"verdict\":\"supported\",\"evidenceKo\":\"좁고 긴 세로 창이 선명하며 반복적인 창 배열의 일부로 보입니다.\"}]}"
+    },
+    "verify_cue-1_8_raw": {
+      "requestedModel": "gpt-5.4-mini",
+      "responseModel": "gpt-5.4-mini-2026-03-17",
+      "responseId": "resp_05e818a8dbdc76ca016af31fac3f8c87d28b2671bfa09528c5",
+      "status": "completed",
+      "usage": {
+        "input_tokens": 4152,
+        "input_tokens_details": {
+          "cache_write_tokens": 0,
+          "cached_tokens": 3456
+        },
+        "output_tokens": 413,
+        "output_tokens_details": {
+          "reasoning_tokens": 0
+        },
+        "total_tokens": 4565
+      },
+      "promptSha256": "97106482e700608c01db19a0e347e9f7b3412b32cd23eb8b0b63af11e381e055",
+      "rawOutputText": "{\"checks\":[{\"proposalId\":\"dino-cue-1-0\",\"verdict\":\"supported\",\"evidenceKo\":\"전면의 대형 다층 건물 외관이 넓게 잡혀 있고, 회색 석재 패널과 반복적인 세로 창, 하부 유리벽과 원통형 기둥이 함께 보입니다.\"},{\"proposalId\":\"dino-cue-1-1\",\"verdict\":\"supported\",\"evidenceKo\":\"세로로 길고 좁은 창이 반복되는 구간이 분명히 보입니다.\"},{\"proposalId\":\"dino-cue-1-2\",\"verdict\":\"supported\",\"evidenceKo\":\"반복되는 좁은 세로 창 패턴이 확인됩니다.\"},{\"proposalId\":\"dino-cue-1-3\",\"verdict\":\"supported\",\"evidenceKo\":\"창들이 세로로 길게 반복 배치된 외피가 보입니다.\"},{\"proposalId\":\"dino-cue-1-4\",\"verdict\":\"supported\",\"evidenceKo\":\"좁고 긴 세로 창이 연속적으로 이어진 부분이 보입니다.\"},{\"proposalId\":\"dino-cue-1-5\",\"verdict\":\"supported\",\"evidenceKo\":\"하부 구간에도 반복적인 세로 창 구성의 외벽 일부가 보입니다.\"},{\"proposalId\":\"dino-cue-1-6\",\"verdict\":\"supported\",\"evidenceKo\":\"건물 우측 하부에 반복적인 세로 창이 있는 외관이 보입니다.\"},{\"proposalId\":\"dino-cue-1-7\",\"verdict\":\"supported\",\"evidenceKo\":\"세로로 긴 좁은 창 패턴이 분명합니다.\"},{\"proposalId\":\"dino-cue-1-8\",\"verdict\":\"supported\",\"evidenceKo\":\"확대된 부분에서 좁고 긴 세로 창과 외벽 마감이 뚜렷하게 보입니다.\"}]}"
+    },
+    "verify_cue-1": {
+      "checks": [
+        {
+          "proposalId": "dino-cue-1-0",
+          "verdict": "supported",
+          "evidenceKo": "회색 석재 외벽이 넓게 보이고, 반복적인 세로 창과 하부 유리벽·원통형 기둥까지 포함된 대형 현대식 건물 외관이 확인됩니다."
+        },
+        {
+          "proposalId": "dino-cue-1-1",
+          "verdict": "supported",
+          "evidenceKo": "긴 세로 형태의 창이 반복되어 보이며, 창 리듬이 분명합니다."
+        },
+        {
+          "proposalId": "dino-cue-1-2",
+          "verdict": "supported",
+          "evidenceKo": "세로로 길고 좁은 창 한 구획이 선명하게 보입니다."
+        },
+        {
+          "proposalId": "dino-cue-1-3",
+          "verdict": "supported",
+          "evidenceKo": "세로로 좁은 창과 반복되는 외곽 프레임이 확인됩니다."
+        },
+        {
+          "proposalId": "dino-cue-1-4",
+          "verdict": "supported",
+          "evidenceKo": "좁고 긴 세로 창이 뚜렷하게 보이며 반복 패턴의 일부를 이룹니다."
+        },
+        {
+          "proposalId": "dino-cue-1-5",
+          "verdict": "supported",
+          "evidenceKo": "하부 유리벽과 원통형 기둥이 함께 보여 설명된 하부 구조를 뒷받침합니다."
+        },
+        {
+          "proposalId": "dino-cue-1-6",
+          "verdict": "supported",
+          "evidenceKo": "유리벽과 곡선 형태의 하부 공간이 보이고, 건물 외관의 하단부 일부로 확인됩니다."
+        },
+        {
+          "proposalId": "dino-cue-1-7",
+          "verdict": "supported",
+          "evidenceKo": "세로로 긴 창과 그 주변의 반복 프레임이 잘 보입니다."
+        },
+        {
+          "proposalId": "dino-cue-1-8",
+          "verdict": "supported",
+          "evidenceKo": "확대된 부분에서 좁고 긴 세로 창과 외벽 마감이 뚜렷하게 보입니다."
+        }
+      ]
+    },
+    "verify_cue-2_0_raw": {
+      "requestedModel": "gpt-5.4-mini",
+      "responseModel": "gpt-5.4-mini-2026-03-17",
+      "responseId": "resp_0fd5236b12c29e02016af31fb113b887d2b4b731141c96718b",
+      "status": "completed",
+      "usage": {
+        "input_tokens": 6675,
+        "input_tokens_details": {
+          "cache_write_tokens": 0,
+          "cached_tokens": 0
+        },
+        "output_tokens": 358,
+        "output_tokens_details": {
+          "reasoning_tokens": 0
+        },
+        "total_tokens": 7033
+      },
+      "promptSha256": "97106482e700608c01db19a0e347e9f7b3412b32cd23eb8b0b63af11e381e055",
+      "rawOutputText": "{\"checks\":[{\"proposalId\":\"dino-cue-2-0\",\"verdict\":\"supported\",\"evidenceKo\":\"원통형 기둥 한 개가 크게 보이고, 뒤로 유리면과 상부 처마 하단이 함께 보여 저층부 지지 구조로 확인됨.\"},{\"proposalId\":\"dino-cue-2-1\",\"verdict\":\"supported\",\"evidenceKo\":\"원통형 기둥이 뚜렷하고, 상부 돌출부 아래에 위치해 유리 전면부를 지지하는 장면이 보임.\"},{\"proposalId\":\"dino-cue-2-2\",\"verdict\":\"supported\",\"evidenceKo\":\"기둥의 둥근 단면과 상부를 받치는 형태가 보이며, 주변에 유리면이 함께 나타남.\"},{\"proposalId\":\"dino-cue-2-3\",\"verdict\":\"supported\",\"evidenceKo\":\"건물 하단부 전반이 포함되어 있고, 여러 원통형 기둥과 넓은 유리면, 그 위의 돌출된 처마 구조가 함께 확인됨.\"},{\"proposalId\":\"dino-cue-2-4\",\"verdict\":\"supported\",\"evidenceKo\":\"원통형 기둥이 충분히 보이고, 아래 유리 파사드와 위쪽 처마 아래를 지지하는 모습이 확인됨.\"},{\"proposalId\":\"dino-cue-2-5\",\"verdict\":\"supported\",\"evidenceKo\":\"큰 원통형 기둥 일부와 인접한 유리면, 상부 구조를 받치는 하단부가 보여 cue와 일치함.\"}]}"
+    },
+    "verify_cue-2": {
+      "checks": [
+        {
+          "proposalId": "dino-cue-2-0",
+          "verdict": "supported",
+          "evidenceKo": "원통형 기둥 한 개가 크게 보이고, 뒤로 유리면과 상부 처마 하단이 함께 보여 저층부 지지 구조로 확인됨."
+        },
+        {
+          "proposalId": "dino-cue-2-1",
+          "verdict": "supported",
+          "evidenceKo": "원통형 기둥이 뚜렷하고, 상부 돌출부 아래에 위치해 유리 전면부를 지지하는 장면이 보임."
+        },
+        {
+          "proposalId": "dino-cue-2-2",
+          "verdict": "supported",
+          "evidenceKo": "기둥의 둥근 단면과 상부를 받치는 형태가 보이며, 주변에 유리면이 함께 나타남."
+        },
+        {
+          "proposalId": "dino-cue-2-3",
+          "verdict": "supported",
+          "evidenceKo": "건물 하단부 전반이 포함되어 있고, 여러 원통형 기둥과 넓은 유리면, 그 위의 돌출된 처마 구조가 함께 확인됨."
+        },
+        {
+          "proposalId": "dino-cue-2-4",
+          "verdict": "supported",
+          "evidenceKo": "원통형 기둥이 충분히 보이고, 아래 유리 파사드와 위쪽 처마 아래를 지지하는 모습이 확인됨."
+        },
+        {
+          "proposalId": "dino-cue-2-5",
+          "verdict": "supported",
+          "evidenceKo": "큰 원통형 기둥 일부와 인접한 유리면, 상부 구조를 받치는 하단부가 보여 cue와 일치함."
+        }
+      ]
+    },
+    "verify_cue-3_0_raw": {
+      "requestedModel": "gpt-5.4-mini",
+      "responseModel": "gpt-5.4-mini-2026-03-17",
+      "responseId": "resp_0f84b19b5d73de05016af31fb53d4887d2b9f287c3ee5e1c53",
+      "status": "completed",
+      "usage": {
+        "input_tokens": 5663,
+        "input_tokens_details": {
+          "cache_write_tokens": 0,
+          "cached_tokens": 0
+        },
+        "output_tokens": 177,
+        "output_tokens_details": {
+          "reasoning_tokens": 0
+        },
+        "total_tokens": 5840
+      },
+      "promptSha256": "97106482e700608c01db19a0e347e9f7b3412b32cd23eb8b0b63af11e381e055",
+      "rawOutputText": "{\"checks\":[{\"proposalId\":\"dino-cue-3-0\",\"verdict\":\"supported\",\"evidenceKo\":\"전경 조경 구역에 소나무로 보이는 상록수 여러 그루와 가을색이 섞인 관목이 함께 보입니다.\"},{\"proposalId\":\"dino-cue-3-1\",\"verdict\":\"supported\",\"evidenceKo\":\"전경 왼쪽에 소나무로 보이는 상록수가 크게 잡혀 있고, 주변에 가을색 관목이 일부 함께 보입니다.\"},{\"proposalId\":\"dino-cue-3-2\",\"verdict\":\"supported\",\"evidenceKo\":\"전경 오른쪽 쪽에 소나무로 보이는 상록수와 주변의 가을색 조경 식생이 함께 확인됩니다.\"}]}"
+    },
+    "verify_cue-3": {
+      "checks": [
+        {
+          "proposalId": "dino-cue-3-0",
+          "verdict": "supported",
+          "evidenceKo": "전경 조경 구역에 소나무로 보이는 상록수 여러 그루와 가을색이 섞인 관목이 함께 보입니다."
+        },
+        {
+          "proposalId": "dino-cue-3-1",
+          "verdict": "supported",
+          "evidenceKo": "전경 왼쪽에 소나무로 보이는 상록수가 크게 잡혀 있고, 주변에 가을색 관목이 일부 함께 보입니다."
+        },
+        {
+          "proposalId": "dino-cue-3-2",
+          "verdict": "supported",
+          "evidenceKo": "전경 오른쪽 쪽에 소나무로 보이는 상록수와 주변의 가을색 조경 식생이 함께 확인됩니다."
+        }
+      ]
+    },
+    "verify_cue-4_0_raw": {
+      "requestedModel": "gpt-5.4-mini",
+      "responseModel": "gpt-5.4-mini-2026-03-17",
+      "responseId": "resp_0db2bdf8e3a11ab1016af31fb876e487d297c0ef7101568663",
+      "status": "completed",
+      "usage": {
+        "input_tokens": 4221,
+        "input_tokens_details": {
+          "cache_write_tokens": 0,
+          "cached_tokens": 0
+        },
+        "output_tokens": 81,
+        "output_tokens_details": {
+          "reasoning_tokens": 0
+        },
+        "total_tokens": 4302
+      },
+      "promptSha256": "97106482e700608c01db19a0e347e9f7b3412b32cd23eb8b0b63af11e381e055",
+      "rawOutputText": "{\"checks\":[{\"proposalId\":\"dino-cue-4-0\",\"verdict\":\"supported\",\"evidenceKo\":\"상부 영역에 구름이 거의 없는 푸른 하늘이 넓게 보이고, 강한 햇빛 아래 건물과 나뭇잎이 선명하게 밝게 비칩니다.\"}]}"
+    },
+    "verify_cue-4": {
+      "checks": [
+        {
+          "proposalId": "dino-cue-4-0",
+          "verdict": "supported",
+          "evidenceKo": "상부 영역에 구름이 거의 없는 푸른 하늘이 넓게 보이고, 강한 햇빛 아래 건물과 나뭇잎이 선명하게 밝게 비칩니다."
+        }
+      ]
+    },
+    "verify_cue-5_0_raw": {
+      "requestedModel": "gpt-5.4-mini",
+      "responseModel": "gpt-5.4-mini-2026-03-17",
+      "responseId": "resp_0a17cd5e46e8e526016af31fbb14e087d2acccb145183579d5",
+      "status": "completed",
+      "usage": {
+        "input_tokens": 3468,
+        "input_tokens_details": {
+          "cache_write_tokens": 0,
+          "cached_tokens": 0
+        },
+        "output_tokens": 74,
+        "output_tokens_details": {
+          "reasoning_tokens": 0
+        },
+        "total_tokens": 3542
+      },
+      "promptSha256": "97106482e700608c01db19a0e347e9f7b3412b32cd23eb8b0b63af11e381e055",
+      "rawOutputText": "{\"checks\":[{\"proposalId\":\"dino-cue-5-0\",\"verdict\":\"supported\",\"evidenceKo\":\"우측 상단 크롭에 주황색·노란색 단풍잎이 실제로 보이며 프레임 가장자리에 걸쳐 전경 요소로 들어와 있습니다.\"}]}"
+    },
+    "verify_cue-5": {
+      "checks": [
+        {
+          "proposalId": "dino-cue-5-0",
+          "verdict": "supported",
+          "evidenceKo": "우측 상단 크롭에 주황색·노란색 단풍잎이 실제로 보이며 프레임 가장자리에 걸쳐 전경 요소로 들어와 있습니다."
+        }
+      ]
+    }
+  },
+  "cues": [
+    {
+      "kind": "text",
+      "category": "overlay text",
+      "nameKo": "가을 문구",
+      "observationKo": "하늘 부분에 흰색 한글로 '가을이다'가 보이고, 잎 이모지처럼 보이는 작은 그림이 함께 붙어 있음.",
+      "geographicRelevanceKo": "촬영 시기나 계절감을 추정하는 보조 단서가 될 수 있어, 같은 지역의 다른 사진들과 비교할 때 계절 패턴을 참고하는 데 도움이 될 수 있음.",
+      "regionDescriptionKo": "하늘 중앙 부근의 사진 편집 오버레이 텍스트.",
+      "scope": "scene",
+      "visibleText": "가을이다",
+      "surface": "unknown",
+      "visibility": "clear",
+      "detectorQueryEn": "white Korean overlay text saying '가을이다' in the sky area",
+      "limitationsKo": "이미지 편집 오버레이로 보이며 실제 현장 표지인지 불명확함. 위치 식별에는 직접적이지 않음.",
+      "id": "cue-0",
+      "source": "geominer_adaptation",
+      "sourceIndex": 0,
+      "disposition": "candidate",
+      "evidenceGroupIds": [
+        "ocr-cue-0"
+      ],
+      "localization": {
+        "status": "supported",
+        "proposals": [
+          {
+            "id": "link-0-0",
+            "source": "paddleocr",
+            "bbox": [
+              0.3413333333333333,
+              0.143,
+              0.4862222222222222,
+              0.1625
+            ],
+            "polygons": [
+              [
+                [
+                  0.3413333333333333,
+                  0.143
+                ],
+                [
+                  0.4862222222222222,
+                  0.143
+                ],
+                [
+                  0.4862222222222222,
+                  0.1625
+                ],
+                [
+                  0.3413333333333333,
+                  0.1625
+                ]
+              ]
+            ],
+            "lineIds": [
+              "ocr-0"
+            ],
+            "verdict": "supported",
+            "evidenceKo": "하늘 위 오버레이에 흰색 한글 '가을이다'가 보이고, 옆에 잎 모양 그림도 함께 보입니다.",
+            "verificationSource": null,
+            "score": null,
+            "associationStatus": "model_proposed"
+          },
+          {
+            "id": "dino-cue-0-0",
+            "bbox": [
+              0.33378678385416666,
+              0.14037034606933593,
+              0.4704042426215278,
+              0.1672645263671875
+            ],
+            "score": 0.5875161290168762,
+            "label": "white korean overlay text",
+            "source": "grounding_dino",
+            "verdict": "supported",
+            "evidenceKo": "제안 구역 안에 흰색 한글 '가을이다' 텍스트와 잎 아이콘이 함께 들어 있습니다."
+          }
+        ],
+        "mask": null
+      },
+      "geoSpecificityVerified": false
+    },
+    {
+      "kind": "non_text",
+      "category": "building facade",
+      "nameKo": "대형 현대식 건물 외관",
+      "observationKo": "회색 석재 패널과 반복적인 세로 창이 길게 이어진 대형 다층 건물이 보이며, 상부는 더 매끈한 수직창 리듬, 하부는 유리벽과 원통형 기둥이 있는 구조임.",
+      "geographicRelevanceKo": "대형 공공·업무용 건축물의 양식과 외피 재료는 지역별 도시 개발 양식, 캠퍼스/관공서/업무지구 환경 비교에 도움이 될 수 있음.",
+      "regionDescriptionKo": "사진 대부분을 차지하는 전면의 건물 외벽.",
+      "scope": "object",
+      "visibleText": null,
+      "surface": "fixed",
+      "visibility": "clear",
+      "detectorQueryEn": "large modern building facade with repetitive narrow vertical windows and stone cladding",
+      "limitationsKo": "일반적인 현대 건축으로 보이며 특정 지역 고유성은 확정할 수 없음.",
+      "id": "cue-1",
+      "source": "geominer_adaptation",
+      "sourceIndex": 1,
+      "disposition": "candidate",
+      "evidenceGroupIds": [],
+      "localization": {
+        "status": "supported",
+        "proposals": [
+          {
+            "id": "dino-cue-1-0",
+            "bbox": [
+              0.004611939324273003,
+              0.003116011619567871,
+              0.9957241753472222,
+              0.9131085815429687
+            ],
+            "score": 0.6489076614379883,
+            "label": "large modern building facade",
+            "source": "grounding_dino",
+            "verdict": "supported",
+            "evidenceKo": "회색 석재 외벽이 넓게 보이고, 반복적인 세로 창과 하부 유리벽·원통형 기둥까지 포함된 대형 현대식 건물 외관이 확인됩니다."
+          },
+          {
+            "id": "dino-cue-1-1",
+            "bbox": [
+              0.6697931315104166,
+              0.12970111083984376,
+              0.7348785264756944,
+              0.24041188049316406
+            ],
+            "score": 0.4723730683326721,
+            "label": "repetitive narrow vertical windows",
+            "source": "grounding_dino",
+            "verdict": "supported",
+            "evidenceKo": "긴 세로 형태의 창이 반복되어 보이며, 창 리듬이 분명합니다."
+          },
+          {
+            "id": "dino-cue-1-2",
+            "bbox": [
+              0.7254079318576389,
+              0.10376040649414063,
+              0.7953974066840278,
+              0.21746299743652345
+            ],
+            "score": 0.44031715393066406,
+            "label": "repetitive narrow vertical windows",
+            "source": "grounding_dino",
+            "verdict": "supported",
+            "evidenceKo": "세로로 길고 좁은 창 한 구획이 선명하게 보입니다."
+          },
+          {
+            "id": "dino-cue-1-3",
+            "bbox": [
+              0.5633609483506944,
+              0.1768702392578125,
+              0.6261834852430556,
+              0.2820959777832031
+            ],
+            "score": 0.44385743141174316,
+            "label": "repetitive narrow vertical windows",
+            "source": "grounding_dino",
+            "verdict": "supported",
+            "evidenceKo": "세로로 좁은 창과 반복되는 외곽 프레임이 확인됩니다."
+          },
+          {
+            "id": "dino-cue-1-4",
+            "bbox": [
+              0.6162183702256945,
+              0.15371238708496093,
+              0.6793134765625,
+              0.26139959716796873
+            ],
+            "score": 0.4172969162464142,
+            "label": "repetitive narrow vertical windows",
+            "source": "grounding_dino",
+            "verdict": "supported",
+            "evidenceKo": "좁고 긴 세로 창이 뚜렷하게 보이며 반복 패턴의 일부를 이룹니다."
+          },
+          {
+            "id": "dino-cue-1-5",
+            "bbox": [
+              0.4702421332465278,
+              0.552411376953125,
+              0.6099207356770834,
+              0.6745697631835937
+            ],
+            "score": 0.32065239548683167,
+            "label": "repetitive narrow vertical windows",
+            "source": "grounding_dino",
+            "verdict": "supported",
+            "evidenceKo": "하부 유리벽과 원통형 기둥이 함께 보여 설명된 하부 구조를 뒷받침합니다."
+          },
+          {
+            "id": "dino-cue-1-6",
+            "bbox": [
+              0.8367551540798611,
+              0.49119857788085936,
+              0.9961796875,
+              0.6327215576171875
+            ],
+            "score": 0.3214019536972046,
+            "label": "repetitive narrow vertical windows",
+            "source": "grounding_dino",
+            "verdict": "supported",
+            "evidenceKo": "유리벽과 곡선 형태의 하부 공간이 보이고, 건물 외관의 하단부 일부로 확인됩니다."
+          },
+          {
+            "id": "dino-cue-1-7",
+            "bbox": [
+              0.5184048936631944,
+              0.19883518981933593,
+              0.5781596137152778,
+              0.3005465393066406
+            ],
+            "score": 0.3407502770423889,
+            "label": "repetitive narrow vertical windows",
+            "source": "grounding_dino",
+            "verdict": "supported",
+            "evidenceKo": "세로로 긴 창과 그 주변의 반복 프레임이 잘 보입니다."
+          },
+          {
+            "id": "dino-cue-1-8",
+            "bbox": [
+              0.4727038302951389,
+              0.2189366912841797,
+              0.5320831705729167,
+              0.3175487060546875
+            ],
+            "score": 0.32077959179878235,
+            "label": "repetitive narrow vertical windows",
+            "source": "grounding_dino",
+            "verdict": "supported",
+            "evidenceKo": "확대된 부분에서 좁고 긴 세로 창과 외벽 마감이 뚜렷하게 보입니다."
+          }
+        ],
+        "mask": null
+      },
+      "geoSpecificityVerified": false
+    },
+    {
+      "kind": "non_text",
+      "category": "lower podium",
+      "nameKo": "기둥형 저층부",
+      "observationKo": "건물 하단에 넓은 유리면, 굵은 원통형 기둥 여러 개, 그 위를 지지하는 처마 형태의 돌출부가 보임.",
+      "geographicRelevanceKo": "저층부의 개방형 포디엄 구조는 대형 기관 건물, 복합시설, 기업 캠퍼스 등에서 흔해 주변 용도와 도시 맥락 추정에 참고가 될 수 있음.",
+      "regionDescriptionKo": "건물 하단 중앙~오른쪽의 지지 구조와 유리면.",
+      "scope": "object",
+      "visibleText": null,
+      "surface": "fixed",
+      "visibility": "clear",
+      "detectorQueryEn": "building podium with cylindrical columns and glass frontage",
+      "limitationsKo": "구조만으로는 지역을 특정하기 어렵고, 내부 용도도 단정할 수 없음.",
+      "id": "cue-2",
+      "source": "geominer_adaptation",
+      "sourceIndex": 2,
+      "disposition": "candidate",
+      "evidenceGroupIds": [],
+      "localization": {
+        "status": "supported",
+        "proposals": [
+          {
+            "id": "dino-cue-2-0",
+            "bbox": [
+              0.7900032009548611,
+              0.47192843627929687,
+              0.8594212782118056,
+              0.6397930908203125
+            ],
+            "score": 0.6088489890098572,
+            "label": "cylindrical columns",
+            "source": "grounding_dino",
+            "verdict": "supported",
+            "evidenceKo": "원통형 기둥 한 개가 크게 보이고, 뒤로 유리면과 상부 처마 하단이 함께 보여 저층부 지지 구조로 확인됨."
+          },
+          {
+            "id": "dino-cue-2-1",
+            "bbox": [
+              0.5887199978298611,
+              0.5176784057617188,
+              0.6521202799479167,
+              0.6668939819335937
+            ],
+            "score": 0.6004787683486938,
+            "label": "cylindrical columns",
+            "source": "grounding_dino",
+            "verdict": "supported",
+            "evidenceKo": "원통형 기둥이 뚜렷하고, 상부 돌출부 아래에 위치해 유리 전면부를 지지하는 장면이 보임."
+          },
+          {
+            "id": "dino-cue-2-2",
+            "bbox": [
+              0.29083555772569447,
+              0.5829561157226563,
+              0.3584634060329861,
+              0.7078983154296875
+            ],
+            "score": 0.5687686800956726,
+            "label": "cylindrical columns",
+            "source": "grounding_dino",
+            "verdict": "supported",
+            "evidenceKo": "기둥의 둥근 단면과 상부를 받치는 형태가 보이며, 주변에 유리면이 함께 나타남."
+          },
+          {
+            "id": "dino-cue-2-3",
+            "bbox": [
+              0.005133479648166232,
+              0.003017514944076538,
+              0.9960753038194444,
+              0.91285107421875
+            ],
+            "score": 0.458558052778244,
+            "label": "building podium",
+            "source": "grounding_dino",
+            "verdict": "supported",
+            "evidenceKo": "건물 하단부 전반이 포함되어 있고, 여러 원통형 기둥과 넓은 유리면, 그 위의 돌출된 처마 구조가 함께 확인됨."
+          },
+          {
+            "id": "dino-cue-2-4",
+            "bbox": [
+              0.4263802897135417,
+              0.5532863159179687,
+              0.4905322265625,
+              0.6735903930664062
+            ],
+            "score": 0.5709306001663208,
+            "label": "cylindrical columns",
+            "source": "grounding_dino",
+            "verdict": "supported",
+            "evidenceKo": "원통형 기둥이 충분히 보이고, 아래 유리 파사드와 위쪽 처마 아래를 지지하는 모습이 확인됨."
+          },
+          {
+            "id": "dino-cue-2-5",
+            "bbox": [
+              0.1897620849609375,
+              0.60664501953125,
+              0.24695328776041667,
+              0.697399658203125
+            ],
+            "score": 0.41814735531806946,
+            "label": "cylindrical columns",
+            "source": "grounding_dino",
+            "verdict": "supported",
+            "evidenceKo": "큰 원통형 기둥 일부와 인접한 유리면, 상부 구조를 받치는 하단부가 보여 cue와 일치함."
+          }
+        ],
+        "mask": null
+      },
+      "geoSpecificityVerified": false
+    },
+    {
+      "kind": "non_text",
+      "category": "landscaping trees",
+      "nameKo": "소나무 조경",
+      "observationKo": "전경에 소나무로 보이는 상록수와 가을색이 섞인 관목이 조경으로 배치되어 있음.",
+      "geographicRelevanceKo": "상록수 중심의 조경과 계절색이 섞인 정원 구성은 공원·캠퍼스·기관 부지의 환경 비교에 참고될 수 있음.",
+      "regionDescriptionKo": "사진 하단의 전경 조경 구역.",
+      "scope": "scene",
+      "visibleText": null,
+      "surface": "fixed",
+      "visibility": "clear",
+      "detectorQueryEn": "landscaped pine trees in the foreground",
+      "limitationsKo": "식재만으로 지역을 특정하기 어렵고, 종 식별은 일부 불확실함.",
+      "id": "cue-3",
+      "source": "geominer_adaptation",
+      "sourceIndex": 3,
+      "disposition": "candidate",
+      "evidenceGroupIds": [],
+      "localization": {
+        "status": "supported",
+        "proposals": [
+          {
+            "id": "dino-cue-3-0",
+            "bbox": [
+              0.0052926241556803385,
+              0.57373779296875,
+              0.9476537543402778,
+              0.9644617309570312
+            ],
+            "score": 0.3883771002292633,
+            "label": "landscaped pine trees",
+            "source": "grounding_dino",
+            "verdict": "supported",
+            "evidenceKo": "전경 조경 구역에 소나무로 보이는 상록수 여러 그루와 가을색이 섞인 관목이 함께 보입니다."
+          },
+          {
+            "id": "dino-cue-3-1",
+            "bbox": [
+              0.0025328248341878255,
+              0.5726626586914062,
+              0.3012434353298611,
+              0.9062576904296875
+            ],
+            "score": 0.30842074751853943,
+            "label": "pine trees",
+            "source": "grounding_dino",
+            "verdict": "supported",
+            "evidenceKo": "전경 왼쪽에 소나무로 보이는 상록수가 크게 잡혀 있고, 주변에 가을색 관목이 일부 함께 보입니다."
+          },
+          {
+            "id": "dino-cue-3-2",
+            "bbox": [
+              0.25694615342881943,
+              0.599181396484375,
+              0.9422403428819445,
+              0.9647525634765625
+            ],
+            "score": 0.33855101466178894,
+            "label": "##d pine trees",
+            "source": "grounding_dino",
+            "verdict": "supported",
+            "evidenceKo": "전경 오른쪽 쪽에 소나무로 보이는 상록수와 주변의 가을색 조경 식생이 함께 확인됩니다."
+          }
+        ],
+        "mask": null
+      },
+      "geoSpecificityVerified": false
+    },
+    {
+      "kind": "non_text",
+      "category": "sky conditions",
+      "nameKo": "맑은 주간 하늘",
+      "observationKo": "구름이 거의 없는 짙은 푸른 하늘과 강한 직사광선이 보임.",
+      "geographicRelevanceKo": "기후나 촬영 계절, 위도 비교의 보조 단서로 사용될 수 있음.",
+      "regionDescriptionKo": "사진 상부 전체의 하늘 영역.",
+      "scope": "scene",
+      "visibleText": null,
+      "surface": "unknown",
+      "visibility": "clear",
+      "detectorQueryEn": "clear blue daytime sky",
+      "limitationsKo": "기상 상태는 순간적이며 지역 식별력은 낮음.",
+      "id": "cue-4",
+      "source": "geominer_adaptation",
+      "sourceIndex": 4,
+      "disposition": "candidate",
+      "evidenceGroupIds": [],
+      "localization": {
+        "status": "supported",
+        "proposals": [
+          {
+            "id": "dino-cue-4-0",
+            "bbox": [
+              0.0025268792046440973,
+              0.0012094974517822266,
+              0.8398694661458334,
+              0.37265972900390626
+            ],
+            "score": 0.5599056482315063,
+            "label": "clear blue daytime sky",
+            "source": "grounding_dino",
+            "verdict": "supported",
+            "evidenceKo": "상부 영역에 구름이 거의 없는 푸른 하늘이 넓게 보이고, 강한 햇빛 아래 건물과 나뭇잎이 선명하게 밝게 비칩니다."
+          }
+        ],
+        "mask": null
+      },
+      "geoSpecificityVerified": false
+    },
+    {
+      "kind": "non_text",
+      "category": "foreground foliage",
+      "nameKo": "가을 잎 장식",
+      "observationKo": "우측 상단에 주황색과 노란색 잎이 프레임 안으로 들어와 있고, 계절감을 강조하는 전경 요소처럼 보임.",
+      "geographicRelevanceKo": "식생의 계절 변화와 촬영 시기를 추정하는 데 참고될 수 있음.",
+      "regionDescriptionKo": "사진 우상단 가장자리의 잎사귀.",
+      "scope": "object",
+      "visibleText": null,
+      "surface": "movable",
+      "visibility": "clear",
+      "detectorQueryEn": "orange autumn leaves at the top right edge",
+      "limitationsKo": "전경 장식성 요소인지 실제 나뭇잎인지 일부 불확실함.",
+      "id": "cue-5",
+      "source": "geominer_adaptation",
+      "sourceIndex": 5,
+      "disposition": "candidate",
+      "evidenceGroupIds": [],
+      "localization": {
+        "status": "supported",
+        "proposals": [
+          {
+            "id": "dino-cue-5-0",
+            "bbox": [
+              0.73754541015625,
+              0.001174159288406372,
+              0.9951338975694445,
+              0.12777703857421874
+            ],
+            "score": 0.48314812779426575,
+            "label": "orange autumn",
+            "source": "grounding_dino",
+            "verdict": "supported",
+            "evidenceKo": "우측 상단 크롭에 주황색·노란색 단풍잎이 실제로 보이며 프레임 가장자리에 걸쳐 전경 요소로 들어와 있습니다."
+          }
+        ],
+        "mask": null
+      },
+      "geoSpecificityVerified": false
+    },
+    {
+      "id": "ocr-cue-0",
+      "kind": "text",
+      "category": "overlay text",
+      "nameKo": "가을 문구",
+      "observationKo": "하늘 위에 흰색 한글 '가을이다'와 잎 이모지처럼 보이는 그림이 함께 보입니다.",
+      "geographicRelevanceKo": "실제 위치 식별에는 직접적이지 않지만, 촬영 시기나 계절 분위기를 보조적으로 나타내는 단서가 될 수 있습니다.",
+      "regionDescriptionKo": "하늘 중앙 부근에 겹쳐진 흰색 문구.",
+      "scope": "object",
+      "surface": "depicted",
+      "visibility": "clear",
+      "visibleText": "가을이다",
+      "rawReadings": [
+        {
+          "id": "ocr-0",
+          "text": "가을이다"
+        }
+      ],
+      "correctedText": "가을이다",
+      "detectorQueryEn": null,
+      "limitationsKo": "사진 편집 오버레이로 보이며 실제 현장 표지인지 확인되지 않습니다. 지리적 식별력은 낮습니다.",
+      "source": "ocr_review",
+      "disposition": "candidate",
+      "evidenceGroupIds": [
+        "ocr-cue-0"
+      ],
+      "geoSpecificityVerified": false,
+      "localization": {
+        "status": "supported",
+        "proposals": [
+          {
+            "id": "ocr-region-0",
+            "source": "paddleocr",
+            "bbox": [
+              0.3413333333333333,
+              0.143,
+              0.4862222222222222,
+              0.1625
+            ],
+            "polygons": [
+              [
+                [
+                  0.3413333333333333,
+                  0.143
+                ],
+                [
+                  0.4862222222222222,
+                  0.143
+                ],
+                [
+                  0.4862222222222222,
+                  0.1625
+                ],
+                [
+                  0.3413333333333333,
+                  0.1625
+                ]
+              ]
+            ],
+            "lineIds": [
+              "ocr-0"
+            ],
+            "verdict": "supported",
+            "evidenceKo": "하늘 위에 흰색 한글 '가을이다'와 잎 이모지처럼 보이는 그림이 함께 보입니다.",
+            "verificationSource": "ocr_crop_review",
+            "score": null
+          }
+        ],
+        "mask": null
+      }
+    },
+    {
+      "id": "ocr-cue-1",
+      "kind": "text",
+      "category": "unreadable crop",
+      "nameKo": "식별 불가 글자 조각",
+      "observationKo": "세로로 잘린 건물 일부만 보이고, OCR 문자열을 뒷받침할 만한 명확한 글자는 확인되지 않습니다.",
+      "geographicRelevanceKo": "지리적 단서로 해석할 수 있는 식별 가능한 텍스트가 보이지 않습니다.",
+      "regionDescriptionKo": "건물 외관 일부가 잘린 세로형 영역.",
+      "scope": "object",
+      "surface": "fixed",
+      "visibility": "uncertain",
+      "visibleText": "이기페",
+      "rawReadings": [
+        {
+          "id": "ocr-1",
+          "text": "이기페"
+        }
+      ],
+      "correctedText": null,
+      "detectorQueryEn": null,
+      "limitationsKo": "원문 OCR의 '이기페'를 지지하는 시각 증거가 부족하고, 보이는 요소는 창문과 구조물뿐입니다.",
+      "source": "ocr_review",
+      "disposition": "irrelevant",
+      "evidenceGroupIds": [
+        "ocr-cue-1"
+      ],
+      "geoSpecificityVerified": false,
+      "localization": {
+        "status": "not_assessed",
+        "proposals": [
+          {
+            "id": "ocr-region-1",
+            "source": "paddleocr",
+            "bbox": [
+              0.7315555555555555,
+              0.649,
+              1,
+              0.749
+            ],
+            "polygons": [
+              [
+                [
+                  0.7315555555555555,
+                  0.671
+                ],
+                [
+                  0.9946666666666667,
+                  0.649
+                ],
+                [
+                  1,
+                  0.7275
+                ],
+                [
+                  0.7511111111111111,
+                  0.749
+                ]
+              ]
+            ],
+            "lineIds": [
+              "ocr-1"
+            ],
+            "verdict": "not_assessed",
+            "evidenceKo": "세로로 잘린 건물 일부만 보이고, OCR 문자열을 뒷받침할 만한 명확한 글자는 확인되지 않습니다.",
+            "verificationSource": "ocr_crop_review",
+            "score": null
+          }
+        ],
+        "mask": null
+      }
+    },
+    {
+      "id": "ocr-cue-2",
+      "kind": "text",
+      "category": "unreadable crop",
+      "nameKo": "식별 불가 글자 조각",
+      "observationKo": "건물 외관의 좁은 세로 구간만 보이며, OCR의 '기미피'를 확인할 수 있는 문자 형태가 드러나지 않습니다.",
+      "geographicRelevanceKo": "명확한 지명, 상호, 주소 같은 지리적 단서는 없습니다.",
+      "regionDescriptionKo": "건물 외벽의 좁은 세로형 크롭.",
+      "scope": "object",
+      "surface": "fixed",
+      "visibility": "uncertain",
+      "visibleText": "기미피",
+      "rawReadings": [
+        {
+          "id": "ocr-2",
+          "text": "기미피"
+        }
+      ],
+      "correctedText": null,
+      "detectorQueryEn": null,
+      "limitationsKo": "텍스트가 존재한다는 증거가 약하고, OCR 결과는 픽셀로 지지되지 않습니다.",
+      "source": "ocr_review",
+      "disposition": "irrelevant",
+      "evidenceGroupIds": [
+        "ocr-cue-2"
+      ],
+      "geoSpecificityVerified": false,
+      "localization": {
+        "status": "not_assessed",
+        "proposals": [
+          {
+            "id": "ocr-region-2",
+            "source": "paddleocr",
+            "bbox": [
+              0.7333333333333333,
+              0.65,
+              1,
+              0.752
+            ],
+            "polygons": [
+              [
+                [
+                  0.7333333333333333,
+                  0.6755
+                ],
+                [
+                  0.9884444444444445,
+                  0.65
+                ],
+                [
+                  1,
+                  0.7265
+                ],
+                [
+                  0.7573333333333333,
+                  0.752
+                ]
+              ]
+            ],
+            "lineIds": [
+              "ocr-2"
+            ],
+            "verdict": "not_assessed",
+            "evidenceKo": "건물 외관의 좁은 세로 구간만 보이며, OCR의 '기미피'를 확인할 수 있는 문자 형태가 드러나지 않습니다.",
+            "verificationSource": "ocr_crop_review",
+            "score": null
+          }
+        ],
+        "mask": null
+      }
+    },
+    {
+      "id": "ocr-cue-3",
+      "kind": "text",
+      "category": "unreadable crop",
+      "nameKo": "식별 불가 글자 조각",
+      "observationKo": "건물 외관 일부만 보이며, OCR의 '이미!'를 확실히 읽을 수 있는 문자 구조는 확인되지 않습니다.",
+      "geographicRelevanceKo": "위치나 장소를 특정할 수 있는 정보가 드러나지 않습니다.",
+      "regionDescriptionKo": "건물 외벽과 창문이 보이는 세로형 영역.",
+      "scope": "object",
+      "surface": "fixed",
+      "visibility": "uncertain",
+      "visibleText": "이미!",
+      "rawReadings": [
+        {
+          "id": "ocr-3",
+          "text": "이미!"
+        }
+      ],
+      "correctedText": null,
+      "detectorQueryEn": null,
+      "limitationsKo": "OCR 문자열은 시각적으로 검증되지 않으며, 주변은 건물 외피와 창문뿐입니다.",
+      "source": "ocr_review",
+      "disposition": "irrelevant",
+      "evidenceGroupIds": [
+        "ocr-cue-3"
+      ],
+      "geoSpecificityVerified": false,
+      "localization": {
+        "status": "not_assessed",
+        "proposals": [
+          {
+            "id": "ocr-region-3",
+            "source": "paddleocr",
+            "bbox": [
+              0.7351111111111112,
+              0.6585,
+              0.9893333333333333,
+              0.7445
+            ],
+            "polygons": [
+              [
+                [
+                  0.7351111111111112,
+                  0.679
+                ],
+                [
+                  0.9715555555555555,
+                  0.6585
+                ],
+                [
+                  0.9893333333333333,
+                  0.7245
+                ],
+                [
+                  0.7528888888888889,
+                  0.7445
+                ]
+              ]
+            ],
+            "lineIds": [
+              "ocr-3"
+            ],
+            "verdict": "not_assessed",
+            "evidenceKo": "건물 외관 일부만 보이며, OCR의 '이미!'를 확실히 읽을 수 있는 문자 구조는 확인되지 않습니다.",
+            "verificationSource": "ocr_crop_review",
+            "score": null
+          }
+        ],
+        "mask": null
+      }
+    }
+  ],
+  "errors": [],
+  "humanReviews": {},
+  "modelCalls": [
+    {
+      "stage": "discovery",
+      "at": "2026-11-10T13:41:49.998Z",
+      "requestedModel": "gpt-5.4-mini",
+      "responseModel": "gpt-5.4-mini-2026-03-17",
+      "responseId": "resp_060fd66cbbe96b59016af31f137be087d290a91b1dc58b760e",
+      "status": "completed",
+      "usage": {
+        "input_tokens": 3421,
+        "input_tokens_details": {
+          "cache_write_tokens": 0,
+          "cached_tokens": 0
+        },
+        "output_tokens": 1186,
+        "output_tokens_details": {
+          "reasoning_tokens": 0
+        },
+        "total_tokens": 4607
+      },
+      "promptSha256": "84585c64986be78650806029298f0b8fa0dd5d919f7e333e9223af3a370c03ab",
+      "rawOutputText": "{\"cues\":[{\"kind\":\"text\",\"category\":\"overlay text\",\"nameKo\":\"가을 문구\",\"observationKo\":\"하늘 부분에 흰색 한글로 '가을이다'가 보이고, 잎 이모지처럼 보이는 작은 그림이 함께 붙어 있음.\",\"geographicRelevanceKo\":\"촬영 시기나 계절감을 추정하는 보조 단서가 될 수 있어, 같은 지역의 다른 사진들과 비교할 때 계절 패턴을 참고하는 데 도움이 될 수 있음.\",\"regionDescriptionKo\":\"하늘 중앙 부근의 사진 편집 오버레이 텍스트.\",\"scope\":\"scene\",\"visibleText\":\"가을이다\",\"surface\":\"unknown\",\"visibility\":\"clear\",\"detectorQueryEn\":\"white Korean overlay text saying '가을이다' in the sky area\",\"limitationsKo\":\"이미지 편집 오버레이로 보이며 실제 현장 표지인지 불명확함. 위치 식별에는 직접적이지 않음.\"},{\"kind\":\"non_text\",\"category\":\"building facade\",\"nameKo\":\"대형 현대식 건물 외관\",\"observationKo\":\"회색 석재 패널과 반복적인 세로 창이 길게 이어진 대형 다층 건물이 보이며, 상부는 더 매끈한 수직창 리듬, 하부는 유리벽과 원통형 기둥이 있는 구조임.\",\"geographicRelevanceKo\":\"대형 공공·업무용 건축물의 양식과 외피 재료는 지역별 도시 개발 양식, 캠퍼스/관공서/업무지구 환경 비교에 도움이 될 수 있음.\",\"regionDescriptionKo\":\"사진 대부분을 차지하는 전면의 건물 외벽.\",\"scope\":\"object\",\"visibleText\":null,\"surface\":\"fixed\",\"visibility\":\"clear\",\"detectorQueryEn\":\"large modern building facade with repetitive narrow vertical windows and stone cladding\",\"limitationsKo\":\"일반적인 현대 건축으로 보이며 특정 지역 고유성은 확정할 수 없음.\"},{\"kind\":\"non_text\",\"category\":\"lower podium\",\"nameKo\":\"기둥형 저층부\",\"observationKo\":\"건물 하단에 넓은 유리면, 굵은 원통형 기둥 여러 개, 그 위를 지지하는 처마 형태의 돌출부가 보임.\",\"geographicRelevanceKo\":\"저층부의 개방형 포디엄 구조는 대형 기관 건물, 복합시설, 기업 캠퍼스 등에서 흔해 주변 용도와 도시 맥락 추정에 참고가 될 수 있음.\",\"regionDescriptionKo\":\"건물 하단 중앙~오른쪽의 지지 구조와 유리면.\",\"scope\":\"object\",\"visibleText\":null,\"surface\":\"fixed\",\"visibility\":\"clear\",\"detectorQueryEn\":\"building podium with cylindrical columns and glass frontage\",\"limitationsKo\":\"구조만으로는 지역을 특정하기 어렵고, 내부 용도도 단정할 수 없음.\"},{\"kind\":\"non_text\",\"category\":\"landscaping trees\",\"nameKo\":\"소나무 조경\",\"observationKo\":\"전경에 소나무로 보이는 상록수와 가을색이 섞인 관목이 조경으로 배치되어 있음.\",\"geographicRelevanceKo\":\"상록수 중심의 조경과 계절색이 섞인 정원 구성은 공원·캠퍼스·기관 부지의 환경 비교에 참고될 수 있음.\",\"regionDescriptionKo\":\"사진 하단의 전경 조경 구역.\",\"scope\":\"scene\",\"visibleText\":null,\"surface\":\"fixed\",\"visibility\":\"clear\",\"detectorQueryEn\":\"landscaped pine trees in the foreground\",\"limitationsKo\":\"식재만으로 지역을 특정하기 어렵고, 종 식별은 일부 불확실함.\"},{\"kind\":\"non_text\",\"category\":\"sky conditions\",\"nameKo\":\"맑은 주간 하늘\",\"observationKo\":\"구름이 거의 없는 짙은 푸른 하늘과 강한 직사광선이 보임.\",\"geographicRelevanceKo\":\"기후나 촬영 계절, 위도 비교의 보조 단서로 사용될 수 있음.\",\"regionDescriptionKo\":\"사진 상부 전체의 하늘 영역.\",\"scope\":\"scene\",\"visibleText\":null,\"surface\":\"unknown\",\"visibility\":\"clear\",\"detectorQueryEn\":\"clear blue daytime sky\",\"limitationsKo\":\"기상 상태는 순간적이며 지역 식별력은 낮음.\"},{\"kind\":\"non_text\",\"category\":\"foreground foliage\",\"nameKo\":\"가을 잎 장식\",\"observationKo\":\"우측 상단에 주황색과 노란색 잎이 프레임 안으로 들어와 있고, 계절감을 강조하는 전경 요소처럼 보임.\",\"geographicRelevanceKo\":\"식생의 계절 변화와 촬영 시기를 추정하는 데 참고될 수 있음.\",\"regionDescriptionKo\":\"사진 우상단 가장자리의 잎사귀.\",\"scope\":\"object\",\"visibleText\":null,\"surface\":\"movable\",\"visibility\":\"clear\",\"detectorQueryEn\":\"orange autumn leaves at the top right edge\",\"limitationsKo\":\"전경 장식성 요소인지 실제 나뭇잎인지 일부 불확실함.\"}],\"limitationsKo\":[\"건물의 정확한 명칭, 기관명, 도시명은 보이지 않아 식별할 수 없음.\",\"이미지에 있는 한글은 편집 오버레이로 보이며 실제 현장 표지로 보기 어려움.\",\"사진 한 장만으로는 건물 주변 도로망, 진입로, 교통표지 같은 추가 지리 단서를 충분히 확인할 수 없음.\"],\"coverageLimited\":true}"
+    },
+    {
+      "stage": "ocr_batch_0",
+      "at": "2026-11-10T13:43:11.510Z",
+      "requestedModel": "gpt-5.4-mini",
+      "responseModel": "gpt-5.4-mini-2026-03-17",
+      "responseId": "resp_06574e3ad0667d05016af31f6a209887d287283d6f882f5a6e",
+      "status": "completed",
+      "usage": {
+        "input_tokens": 4760,
+        "input_tokens_details": {
+          "cache_write_tokens": 0,
+          "cached_tokens": 0
+        },
+        "output_tokens": 735,
+        "output_tokens_details": {
+          "reasoning_tokens": 0
+        },
+        "total_tokens": 5495
+      },
+      "promptSha256": "6a390a1592faabfed2308d3bf75271d6fdcb67131417face8de92e6bdcf1088f",
+      "rawOutputText": "{\"groups\":[{\"lineIds\":[\"ocr-0\"],\"disposition\":\"candidate\",\"category\":\"overlay text\",\"nameKo\":\"가을 문구\",\"observationKo\":\"하늘 위에 흰색 한글 '가을이다'와 잎 이모지처럼 보이는 그림이 함께 보입니다.\",\"geographicRelevanceKo\":\"실제 위치 식별에는 직접적이지 않지만, 촬영 시기나 계절 분위기를 보조적으로 나타내는 단서가 될 수 있습니다.\",\"regionDescriptionKo\":\"하늘 중앙 부근에 겹쳐진 흰색 문구.\",\"correctedText\":\"가을이다\",\"surface\":\"depicted\",\"visibility\":\"clear\",\"limitationsKo\":\"사진 편집 오버레이로 보이며 실제 현장 표지인지 확인되지 않습니다. 지리적 식별력은 낮습니다.\",\"relatedDiscoveryIndexes\":[0]},{\"lineIds\":[\"ocr-1\"],\"disposition\":\"irrelevant\",\"category\":\"unreadable crop\",\"nameKo\":\"식별 불가 글자 조각\",\"observationKo\":\"세로로 잘린 건물 일부만 보이고, OCR 문자열을 뒷받침할 만한 명확한 글자는 확인되지 않습니다.\",\"geographicRelevanceKo\":\"지리적 단서로 해석할 수 있는 식별 가능한 텍스트가 보이지 않습니다.\",\"regionDescriptionKo\":\"건물 외관 일부가 잘린 세로형 영역.\",\"correctedText\":null,\"surface\":\"fixed\",\"visibility\":\"uncertain\",\"limitationsKo\":\"원문 OCR의 '이기페'를 지지하는 시각 증거가 부족하고, 보이는 요소는 창문과 구조물뿐입니다.\",\"relatedDiscoveryIndexes\":[]},{\"lineIds\":[\"ocr-2\"],\"disposition\":\"irrelevant\",\"category\":\"unreadable crop\",\"nameKo\":\"식별 불가 글자 조각\",\"observationKo\":\"건물 외관의 좁은 세로 구간만 보이며, OCR의 '기미피'를 확인할 수 있는 문자 형태가 드러나지 않습니다.\",\"geographicRelevanceKo\":\"명확한 지명, 상호, 주소 같은 지리적 단서는 없습니다.\",\"regionDescriptionKo\":\"건물 외벽의 좁은 세로형 크롭.\",\"correctedText\":null,\"surface\":\"fixed\",\"visibility\":\"uncertain\",\"limitationsKo\":\"텍스트가 존재한다는 증거가 약하고, OCR 결과는 픽셀로 지지되지 않습니다.\",\"relatedDiscoveryIndexes\":[]},{\"lineIds\":[\"ocr-3\"],\"disposition\":\"irrelevant\",\"category\":\"unreadable crop\",\"nameKo\":\"식별 불가 글자 조각\",\"observationKo\":\"건물 외관 일부만 보이며, OCR의 '이미!'를 확실히 읽을 수 있는 문자 구조는 확인되지 않습니다.\",\"geographicRelevanceKo\":\"위치나 장소를 특정할 수 있는 정보가 드러나지 않습니다.\",\"regionDescriptionKo\":\"건물 외벽과 창문이 보이는 세로형 영역.\",\"correctedText\":null,\"surface\":\"fixed\",\"visibility\":\"uncertain\",\"limitationsKo\":\"OCR 문자열은 시각적으로 검증되지 않으며, 주변은 건물 외피와 창문뿐입니다.\",\"relatedDiscoveryIndexes\":[]}],\"limitationsKo\":[\"사진 속 OCR 1~3은 텍스트로 보이는 요소가 거의 없어 지리적 단서로 채택하기 어렵습니다.\",\"ocr-0은 편집 오버레이로 보이며 실제 현장 표지로 단정할 수 없습니다.\"]}"
+    },
+    {
+      "stage": "verify_cue-0_0",
+      "at": "2026-11-10T13:44:06.042Z",
+      "requestedModel": "gpt-5.4-mini",
+      "responseModel": "gpt-5.4-mini-2026-03-17",
+      "responseId": "resp_08d1b2556c13ac20016af31fa46a9887d2aa344bfbbf992c76",
+      "status": "completed",
+      "usage": {
+        "input_tokens": 3657,
+        "input_tokens_details": {
+          "cache_write_tokens": 0,
+          "cached_tokens": 0
+        },
+        "output_tokens": 117,
+        "output_tokens_details": {
+          "reasoning_tokens": 0
+        },
+        "total_tokens": 3774
+      },
+      "promptSha256": "97106482e700608c01db19a0e347e9f7b3412b32cd23eb8b0b63af11e381e055",
+      "rawOutputText": "{\"checks\":[{\"proposalId\":\"link-0-0\",\"verdict\":\"supported\",\"evidenceKo\":\"하늘 위 오버레이에 흰색 한글 '가을이다'가 보이고, 옆에 잎 모양 그림도 함께 보입니다.\"},{\"proposalId\":\"dino-cue-0-0\",\"verdict\":\"supported\",\"evidenceKo\":\"제안 구역 안에 흰색 한글 '가을이다' 텍스트와 잎 아이콘이 함께 들어 있습니다.\"}]}"
+    },
+    {
+      "stage": "verify_cue-1_0",
+      "at": "2026-11-10T13:44:11.317Z",
+      "requestedModel": "gpt-5.4-mini",
+      "responseModel": "gpt-5.4-mini-2026-03-17",
+      "responseId": "resp_01910c5c98bc8011016af31fa7af5c87d29fc45fc5ef082459",
+      "status": "completed",
+      "usage": {
+        "input_tokens": 7170,
+        "input_tokens_details": {
+          "cache_write_tokens": 0,
+          "cached_tokens": 0
+        },
+        "output_tokens": 440,
+        "output_tokens_details": {
+          "reasoning_tokens": 0
+        },
+        "total_tokens": 7610
+      },
+      "promptSha256": "97106482e700608c01db19a0e347e9f7b3412b32cd23eb8b0b63af11e381e055",
+      "rawOutputText": "{\"checks\":[{\"proposalId\":\"dino-cue-1-0\",\"verdict\":\"supported\",\"evidenceKo\":\"회색 석재 외벽이 넓게 보이고, 반복적인 세로 창과 하부 유리벽·원통형 기둥까지 포함된 대형 현대식 건물 외관이 확인됩니다.\"},{\"proposalId\":\"dino-cue-1-1\",\"verdict\":\"supported\",\"evidenceKo\":\"긴 세로 형태의 창이 반복되어 보이며, 창 리듬이 분명합니다.\"},{\"proposalId\":\"dino-cue-1-2\",\"verdict\":\"supported\",\"evidenceKo\":\"세로로 길고 좁은 창 한 구획이 선명하게 보입니다.\"},{\"proposalId\":\"dino-cue-1-3\",\"verdict\":\"supported\",\"evidenceKo\":\"세로로 좁은 창과 반복되는 외곽 프레임이 확인됩니다.\"},{\"proposalId\":\"dino-cue-1-4\",\"verdict\":\"supported\",\"evidenceKo\":\"좁고 긴 세로 창이 뚜렷하게 보이며 반복 패턴의 일부를 이룹니다.\"},{\"proposalId\":\"dino-cue-1-5\",\"verdict\":\"supported\",\"evidenceKo\":\"하부 유리벽과 원통형 기둥이 함께 보여 설명된 하부 구조를 뒷받침합니다.\"},{\"proposalId\":\"dino-cue-1-6\",\"verdict\":\"supported\",\"evidenceKo\":\"유리벽과 곡선 형태의 하부 공간이 보이고, 건물 외관의 하단부 일부로 확인됩니다.\"},{\"proposalId\":\"dino-cue-1-7\",\"verdict\":\"supported\",\"evidenceKo\":\"세로로 긴 창과 그 주변의 반복 프레임이 잘 보입니다.\"},{\"proposalId\":\"dino-cue-1-8\",\"verdict\":\"supported\",\"evidenceKo\":\"좁고 긴 세로 창이 선명하며 반복적인 창 배열의 일부로 보입니다.\"}]}"
+    },
+    {
+      "stage": "verify_cue-1_8",
+      "at": "2026-11-10T13:44:15.736Z",
+      "requestedModel": "gpt-5.4-mini",
+      "responseModel": "gpt-5.4-mini-2026-03-17",
+      "responseId": "resp_05e818a8dbdc76ca016af31fac3f8c87d28b2671bfa09528c5",
+      "status": "completed",
+      "usage": {
+        "input_tokens": 4152,
+        "input_tokens_details": {
+          "cache_write_tokens": 0,
+          "cached_tokens": 3456
+        },
+        "output_tokens": 413,
+        "output_tokens_details": {
+          "reasoning_tokens": 0
+        },
+        "total_tokens": 4565
+      },
+      "promptSha256": "97106482e700608c01db19a0e347e9f7b3412b32cd23eb8b0b63af11e381e055",
+      "rawOutputText": "{\"checks\":[{\"proposalId\":\"dino-cue-1-0\",\"verdict\":\"supported\",\"evidenceKo\":\"전면의 대형 다층 건물 외관이 넓게 잡혀 있고, 회색 석재 패널과 반복적인 세로 창, 하부 유리벽과 원통형 기둥이 함께 보입니다.\"},{\"proposalId\":\"dino-cue-1-1\",\"verdict\":\"supported\",\"evidenceKo\":\"세로로 길고 좁은 창이 반복되는 구간이 분명히 보입니다.\"},{\"proposalId\":\"dino-cue-1-2\",\"verdict\":\"supported\",\"evidenceKo\":\"반복되는 좁은 세로 창 패턴이 확인됩니다.\"},{\"proposalId\":\"dino-cue-1-3\",\"verdict\":\"supported\",\"evidenceKo\":\"창들이 세로로 길게 반복 배치된 외피가 보입니다.\"},{\"proposalId\":\"dino-cue-1-4\",\"verdict\":\"supported\",\"evidenceKo\":\"좁고 긴 세로 창이 연속적으로 이어진 부분이 보입니다.\"},{\"proposalId\":\"dino-cue-1-5\",\"verdict\":\"supported\",\"evidenceKo\":\"하부 구간에도 반복적인 세로 창 구성의 외벽 일부가 보입니다.\"},{\"proposalId\":\"dino-cue-1-6\",\"verdict\":\"supported\",\"evidenceKo\":\"건물 우측 하부에 반복적인 세로 창이 있는 외관이 보입니다.\"},{\"proposalId\":\"dino-cue-1-7\",\"verdict\":\"supported\",\"evidenceKo\":\"세로로 긴 좁은 창 패턴이 분명합니다.\"},{\"proposalId\":\"dino-cue-1-8\",\"verdict\":\"supported\",\"evidenceKo\":\"확대된 부분에서 좁고 긴 세로 창과 외벽 마감이 뚜렷하게 보입니다.\"}]}"
+    },
+    {
+      "stage": "verify_cue-2_0",
+      "at": "2026-11-10T13:44:20.075Z",
+      "requestedModel": "gpt-5.4-mini",
+      "responseModel": "gpt-5.4-mini-2026-03-17",
+      "responseId": "resp_0fd5236b12c29e02016af31fb113b887d2b4b731141c96718b",
+      "status": "completed",
+      "usage": {
+        "input_tokens": 6675,
+        "input_tokens_details": {
+          "cache_write_tokens": 0,
+          "cached_tokens": 0
+        },
+        "output_tokens": 358,
+        "output_tokens_details": {
+          "reasoning_tokens": 0
+        },
+        "total_tokens": 7033
+      },
+      "promptSha256": "97106482e700608c01db19a0e347e9f7b3412b32cd23eb8b0b63af11e381e055",
+      "rawOutputText": "{\"checks\":[{\"proposalId\":\"dino-cue-2-0\",\"verdict\":\"supported\",\"evidenceKo\":\"원통형 기둥 한 개가 크게 보이고, 뒤로 유리면과 상부 처마 하단이 함께 보여 저층부 지지 구조로 확인됨.\"},{\"proposalId\":\"dino-cue-2-1\",\"verdict\":\"supported\",\"evidenceKo\":\"원통형 기둥이 뚜렷하고, 상부 돌출부 아래에 위치해 유리 전면부를 지지하는 장면이 보임.\"},{\"proposalId\":\"dino-cue-2-2\",\"verdict\":\"supported\",\"evidenceKo\":\"기둥의 둥근 단면과 상부를 받치는 형태가 보이며, 주변에 유리면이 함께 나타남.\"},{\"proposalId\":\"dino-cue-2-3\",\"verdict\":\"supported\",\"evidenceKo\":\"건물 하단부 전반이 포함되어 있고, 여러 원통형 기둥과 넓은 유리면, 그 위의 돌출된 처마 구조가 함께 확인됨.\"},{\"proposalId\":\"dino-cue-2-4\",\"verdict\":\"supported\",\"evidenceKo\":\"원통형 기둥이 충분히 보이고, 아래 유리 파사드와 위쪽 처마 아래를 지지하는 모습이 확인됨.\"},{\"proposalId\":\"dino-cue-2-5\",\"verdict\":\"supported\",\"evidenceKo\":\"큰 원통형 기둥 일부와 인접한 유리면, 상부 구조를 받치는 하단부가 보여 cue와 일치함.\"}]}"
+    },
+    {
+      "stage": "verify_cue-3_0",
+      "at": "2026-11-10T13:44:23.562Z",
+      "requestedModel": "gpt-5.4-mini",
+      "responseModel": "gpt-5.4-mini-2026-03-17",
+      "responseId": "resp_0f84b19b5d73de05016af31fb53d4887d2b9f287c3ee5e1c53",
+      "status": "completed",
+      "usage": {
+        "input_tokens": 5663,
+        "input_tokens_details": {
+          "cache_write_tokens": 0,
+          "cached_tokens": 0
+        },
+        "output_tokens": 177,
+        "output_tokens_details": {
+          "reasoning_tokens": 0
+        },
+        "total_tokens": 5840
+      },
+      "promptSha256": "97106482e700608c01db19a0e347e9f7b3412b32cd23eb8b0b63af11e381e055",
+      "rawOutputText": "{\"checks\":[{\"proposalId\":\"dino-cue-3-0\",\"verdict\":\"supported\",\"evidenceKo\":\"전경 조경 구역에 소나무로 보이는 상록수 여러 그루와 가을색이 섞인 관목이 함께 보입니다.\"},{\"proposalId\":\"dino-cue-3-1\",\"verdict\":\"supported\",\"evidenceKo\":\"전경 왼쪽에 소나무로 보이는 상록수가 크게 잡혀 있고, 주변에 가을색 관목이 일부 함께 보입니다.\"},{\"proposalId\":\"dino-cue-3-2\",\"verdict\":\"supported\",\"evidenceKo\":\"전경 오른쪽 쪽에 소나무로 보이는 상록수와 주변의 가을색 조경 식생이 함께 확인됩니다.\"}]}"
+    },
+    {
+      "stage": "verify_cue-4_0",
+      "at": "2026-11-10T13:44:26.243Z",
+      "requestedModel": "gpt-5.4-mini",
+      "responseModel": "gpt-5.4-mini-2026-03-17",
+      "responseId": "resp_0db2bdf8e3a11ab1016af31fb876e487d297c0ef7101568663",
+      "status": "completed",
+      "usage": {
+        "input_tokens": 4221,
+        "input_tokens_details": {
+          "cache_write_tokens": 0,
+          "cached_tokens": 0
+        },
+        "output_tokens": 81,
+        "output_tokens_details": {
+          "reasoning_tokens": 0
+        },
+        "total_tokens": 4302
+      },
+      "promptSha256": "97106482e700608c01db19a0e347e9f7b3412b32cd23eb8b0b63af11e381e055",
+      "rawOutputText": "{\"checks\":[{\"proposalId\":\"dino-cue-4-0\",\"verdict\":\"supported\",\"evidenceKo\":\"상부 영역에 구름이 거의 없는 푸른 하늘이 넓게 보이고, 강한 햇빛 아래 건물과 나뭇잎이 선명하게 밝게 비칩니다.\"}]}"
+    },
+    {
+      "stage": "verify_cue-5_0",
+      "at": "2026-11-10T13:44:28.488Z",
+      "requestedModel": "gpt-5.4-mini",
+      "responseModel": "gpt-5.4-mini-2026-03-17",
+      "responseId": "resp_0a17cd5e46e8e526016af31fbb14e087d2acccb145183579d5",
+      "status": "completed",
+      "usage": {
+        "input_tokens": 3468,
+        "input_tokens_details": {
+          "cache_write_tokens": 0,
+          "cached_tokens": 0
+        },
+        "output_tokens": 74,
+        "output_tokens_details": {
+          "reasoning_tokens": 0
+        },
+        "total_tokens": 3542
+      },
+      "promptSha256": "97106482e700608c01db19a0e347e9f7b3412b32cd23eb8b0b63af11e381e055",
+      "rawOutputText": "{\"checks\":[{\"proposalId\":\"dino-cue-5-0\",\"verdict\":\"supported\",\"evidenceKo\":\"우측 상단 크롭에 주황색·노란색 단풍잎이 실제로 보이며 프레임 가장자리에 걸쳐 전경 요소로 들어와 있습니다.\"}]}"
+    }
+  ]
+}

@@ -1,0 +1,1822 @@
+{
+  "schemaVersion": "location-cues-v1",
+  "id": "488d548f-0281-43b1-aed4-413049063795",
+  "createdAt": "2026-11-10T13:44:28.909Z",
+  "updatedAt": "2026-11-10T13:47:40.405Z",
+  "status": "completed",
+  "requestedModel": "gpt-5.4-mini",
+  "promptVersion": "research-cues-v1",
+  "image": {
+    "width": 1125,
+    "height": 2000,
+    "sha256": "05c3e0cf321ad06e0939702c5251332aaa74cd2a015dfa0bf654d757f949fe36",
+    "coordinateSpace": "analysis-normalized",
+    "bboxFormat": "xyxy",
+    "mime": "image/jpeg",
+    "metadataRemoved": true
+  },
+  "stages": {
+    "discovery": {
+      "status": "completed",
+      "startedAt": "2026-11-10T13:44:28.915Z",
+      "finishedAt": "2026-11-10T13:44:41.371Z"
+    },
+    "ocr": {
+      "status": "completed",
+      "startedAt": "2026-11-10T13:44:41.372Z",
+      "finishedAt": "2026-11-10T13:45:57.271Z"
+    },
+    "ocr_review": {
+      "status": "completed",
+      "startedAt": "2026-11-10T13:45:57.273Z",
+      "finishedAt": "2026-11-10T13:46:04.174Z"
+    },
+    "detection": {
+      "status": "completed",
+      "startedAt": "2026-11-10T13:46:04.175Z",
+      "finishedAt": "2026-11-10T13:47:17.590Z"
+    },
+    "verify_cue-0": {
+      "status": "completed",
+      "startedAt": "2026-11-10T13:47:17.592Z",
+      "finishedAt": "2026-11-10T13:47:19.833Z"
+    },
+    "verify_cue-1": {
+      "status": "completed",
+      "startedAt": "2026-11-10T13:47:19.834Z",
+      "finishedAt": "2026-11-10T13:47:22.028Z"
+    },
+    "verify_cue-2": {
+      "status": "completed",
+      "startedAt": "2026-11-10T13:47:22.029Z",
+      "finishedAt": "2026-11-10T13:47:23.808Z"
+    },
+    "verify_cue-3": {
+      "status": "completed",
+      "startedAt": "2026-11-10T13:47:23.809Z",
+      "finishedAt": "2026-11-10T13:47:25.708Z"
+    },
+    "verify_cue-4": {
+      "status": "completed",
+      "startedAt": "2026-11-10T13:47:25.709Z",
+      "finishedAt": "2026-11-10T13:47:32.808Z"
+    },
+    "verify_cue-5": {
+      "status": "completed",
+      "startedAt": "2026-11-10T13:47:32.808Z",
+      "finishedAt": "2026-11-10T13:47:34.535Z"
+    },
+    "verify_cue-6": {
+      "status": "completed",
+      "startedAt": "2026-11-10T13:47:34.535Z",
+      "finishedAt": "2026-11-10T13:47:36.309Z"
+    },
+    "verify_cue-7": {
+      "status": "completed",
+      "startedAt": "2026-11-10T13:47:36.309Z",
+      "finishedAt": "2026-11-10T13:47:38.412Z"
+    },
+    "verify_cue-8": {
+      "status": "completed",
+      "startedAt": "2026-11-10T13:47:38.413Z",
+      "finishedAt": "2026-11-10T13:47:40.404Z"
+    }
+  },
+  "artifacts": {
+    "discovery_raw": {
+      "requestedModel": "gpt-5.4-mini",
+      "responseModel": "gpt-5.4-mini-2026-03-17",
+      "responseId": "resp_023bbb52e3d413c9016af31fbd947087d2b5989a214518631f",
+      "status": "completed",
+      "usage": {
+        "input_tokens": 3421,
+        "input_tokens_details": {
+          "cache_write_tokens": 0,
+          "cached_tokens": 0
+        },
+        "output_tokens": 1482,
+        "output_tokens_details": {
+          "reasoning_tokens": 0
+        },
+        "total_tokens": 4903
+      },
+      "promptSha256": "84585c64986be78650806029298f0b8fa0dd5d919f7e333e9223af3a370c03ab",
+      "rawOutputText": "{\"cues\":[{\"kind\":\"text\",\"category\":\"caption sticker\",\"nameKo\":\"문구 스티커\",\"observationKo\":\"사진 중앙 하단 쪽 흰색 사각 스티커에 검은색 한글 문구가 인쇄되어 있다.\",\"geographicRelevanceKo\":\"한글 사용 여부와 맞춤법/표기 습관은 한국어권 환경인지 비교하는 데 참고가 될 수 있다.\",\"regionDescriptionKo\":\"사진 중앙 하단, 식판 위 흰색 스티커\",\"scope\":\"object\",\"visibleText\":\"식식 백년만인듯....;;\",\"surface\":\"movable\",\"visibility\":\"clear\",\"detectorQueryEn\":\"white text sticker on cafeteria tray\",\"limitationsKo\":\"짧은 문구만 보이며, 개인적 메모인지 매장 표기인지 구분되지 않는다.\"},{\"kind\":\"non_text\",\"category\":\"meal tray\",\"nameKo\":\"연두색 식판\",\"observationKo\":\"연두색 플라스틱 식판이 여러 칸으로 나뉘어 있고, 식당 급식용처럼 보이는 배식 형태이다.\",\"geographicRelevanceKo\":\"학교·구내식당·급식실 같은 집단급식 환경은 지역별 식문화와 시설 유형 비교에 도움이 될 수 있다.\",\"regionDescriptionKo\":\"사진 하단과 상단 중앙의 식판\",\"scope\":\"scene\",\"visibleText\":null,\"surface\":\"movable\",\"visibility\":\"clear\",\"detectorQueryEn\":\"light green compartmented cafeteria tray\",\"limitationsKo\":\"식판은 매우 흔한 물건이라 지역성은 약하다.\"},{\"kind\":\"non_text\",\"category\":\"soup bowl\",\"nameKo\":\"검은색 국그릇\",\"observationKo\":\"검은색 둥근 그릇에 국물과 면, 채소, 김치가 들어 있다.\",\"geographicRelevanceKo\":\"국물 요리의 종류와 제공 방식은 급식·외식 문화 비교에 참고가 될 수 있다.\",\"regionDescriptionKo\":\"사진 하단 오른쪽의 그릇\",\"scope\":\"object\",\"visibleText\":null,\"surface\":\"movable\",\"visibility\":\"clear\",\"detectorQueryEn\":\"black soup bowl with noodle soup\",\"limitationsKo\":\"음식만으로는 정확한 지역 판별이 어렵다.\"},{\"kind\":\"non_text\",\"category\":\"rice portion\",\"nameKo\":\"흰쌀밥\",\"observationKo\":\"식판 왼쪽 칸에 흰쌀밥이 소량 담겨 있다.\",\"geographicRelevanceKo\":\"쌀밥 중심 식단은 동아시아권 급식 환경을 추정하는 보조 단서가 될 수 있다.\",\"regionDescriptionKo\":\"사진 하단 왼쪽 식판 칸\",\"scope\":\"object\",\"visibleText\":null,\"surface\":\"movable\",\"visibility\":\"clear\",\"detectorQueryEn\":\"portion of white rice on cafeteria tray\",\"limitationsKo\":\"쌀밥은 여러 지역에서 흔히 보인다.\"},{\"kind\":\"non_text\",\"category\":\"side dishes\",\"nameKo\":\"반찬 칸 구성\",\"observationKo\":\"식판 칸에 양배추 채썬 것, 깍두기처럼 보이는 무김치 조각, 버섯볶음/조림처럼 보이는 반찬, 튀김류가 따로 배치되어 있다.\",\"geographicRelevanceKo\":\"분리된 반찬 구성과 김치류 포함은 한국식 급식·한식 환경 비교에 도움이 될 수 있다.\",\"regionDescriptionKo\":\"사진 상단과 하단의 여러 식판 칸\",\"scope\":\"group\",\"visibleText\":null,\"surface\":\"movable\",\"visibility\":\"clear\",\"detectorQueryEn\":\"cafeteria side dishes on divided tray\",\"limitationsKo\":\"반찬의 정확한 종류는 일부 불확실하며, 일반적인 한식 계열일 수 있다.\"},{\"kind\":\"non_text\",\"category\":\"kimchi side\",\"nameKo\":\"김치류 반찬\",\"observationKo\":\"붉은 양념이 묻은 무 조각 형태의 반찬이 보이며 김치 또는 깍두기로 보인다.\",\"geographicRelevanceKo\":\"김치 제공 여부는 한국 식문화와의 연관성을 비교하는 데 참고가 될 수 있다.\",\"regionDescriptionKo\":\"사진 하단 중앙과 상단 오른쪽 식판 칸\",\"scope\":\"object\",\"visibleText\":null,\"surface\":\"movable\",\"visibility\":\"partial\",\"detectorQueryEn\":\"kimchi cubes in tray compartment\",\"limitationsKo\":\"정확한 종류는 사진만으로 확정할 수 없다.\"},{\"kind\":\"non_text\",\"category\":\"vegetable garnish\",\"nameKo\":\"채썬 채소 고명\",\"observationKo\":\"국 그릇 안에 채썬 당근, 양배추 또는 배추, 해조류 같은 재료가 보인다.\",\"geographicRelevanceKo\":\"국물 음식의 재료 구성은 지역별 급식 조리 방식과 식단 스타일을 비교하는 데 참고가 될 수 있다.\",\"regionDescriptionKo\":\"사진 하단 오른쪽 국그릇 내부\",\"scope\":\"object\",\"visibleText\":null,\"surface\":\"movable\",\"visibility\":\"clear\",\"detectorQueryEn\":\"mixed vegetable soup garnish in black bowl\",\"limitationsKo\":\"재료 일부는 물에 젖어 보이며 정확한 식재료 식별이 제한된다.\"},{\"kind\":\"non_text\",\"category\":\"table setting\",\"nameKo\":\"흰색 테이블\",\"observationKo\":\"음식 트레이들이 놓인 표면은 매끈한 흰색 테이블이며, 주변에 특별한 장식은 보이지 않는다.\",\"geographicRelevanceKo\":\"급식실·식당·학교 식당 같은 실내 공용 식사 공간 유형을 추정하는 데 참고가 될 수 있다.\",\"regionDescriptionKo\":\"사진 전체 배경의 식탁 표면\",\"scope\":\"scene\",\"visibleText\":null,\"surface\":\"fixed\",\"visibility\":\"clear\",\"detectorQueryEn\":\"white cafeteria table surface\",\"limitationsKo\":\"평범한 실내 테이블로 지역성은 약하다.\"},{\"kind\":\"non_text\",\"category\":\"dining context\",\"nameKo\":\"집단 식사 장면\",\"observationKo\":\"여러 사람이 함께 식판 식사를 하고 있어 학교 급식이나 구내식당처럼 보이는 공동 식사 상황이다.\",\"geographicRelevanceKo\":\"집단급식 문화와 식판 사용 여부는 지역 비교에 보조 단서가 될 수 있다.\",\"regionDescriptionKo\":\"사진 상단과 중앙의 전체 장면\",\"scope\":\"scene\",\"visibleText\":null,\"surface\":\"unknown\",\"visibility\":\"clear\",\"detectorQueryEn\":\"shared cafeteria meal scene\",\"limitationsKo\":\"사람 수와 상황만으로는 구체적 위치를 알 수 없다.\"}],\"limitationsKo\":[\"실내 식당/급식실의 구체적 시설명은 보이지 않는다.\",\"창문, 간판, 주소, 차량번호, 브랜드 등 직접적인 위치 단서는 확인되지 않는다.\",\"음식 종류는 일부 흐릿하거나 부분만 보여 정확한 판별이 제한된다.\"],\"coverageLimited\":false}"
+    },
+    "discovery": {
+      "cues": [
+        {
+          "kind": "text",
+          "category": "caption sticker",
+          "nameKo": "문구 스티커",
+          "observationKo": "사진 중앙 하단 쪽 흰색 사각 스티커에 검은색 한글 문구가 인쇄되어 있다.",
+          "geographicRelevanceKo": "한글 사용 여부와 맞춤법/표기 습관은 한국어권 환경인지 비교하는 데 참고가 될 수 있다.",
+          "regionDescriptionKo": "사진 중앙 하단, 식판 위 흰색 스티커",
+          "scope": "object",
+          "visibleText": "식식 백년만인듯....;;",
+          "surface": "movable",
+          "visibility": "clear",
+          "detectorQueryEn": "white text sticker on cafeteria tray",
+          "limitationsKo": "짧은 문구만 보이며, 개인적 메모인지 매장 표기인지 구분되지 않는다."
+        },
+        {
+          "kind": "non_text",
+          "category": "meal tray",
+          "nameKo": "연두색 식판",
+          "observationKo": "연두색 플라스틱 식판이 여러 칸으로 나뉘어 있고, 식당 급식용처럼 보이는 배식 형태이다.",
+          "geographicRelevanceKo": "학교·구내식당·급식실 같은 집단급식 환경은 지역별 식문화와 시설 유형 비교에 도움이 될 수 있다.",
+          "regionDescriptionKo": "사진 하단과 상단 중앙의 식판",
+          "scope": "scene",
+          "visibleText": null,
+          "surface": "movable",
+          "visibility": "clear",
+          "detectorQueryEn": "light green compartmented cafeteria tray",
+          "limitationsKo": "식판은 매우 흔한 물건이라 지역성은 약하다."
+        },
+        {
+          "kind": "non_text",
+          "category": "soup bowl",
+          "nameKo": "검은색 국그릇",
+          "observationKo": "검은색 둥근 그릇에 국물과 면, 채소, 김치가 들어 있다.",
+          "geographicRelevanceKo": "국물 요리의 종류와 제공 방식은 급식·외식 문화 비교에 참고가 될 수 있다.",
+          "regionDescriptionKo": "사진 하단 오른쪽의 그릇",
+          "scope": "object",
+          "visibleText": null,
+          "surface": "movable",
+          "visibility": "clear",
+          "detectorQueryEn": "black soup bowl with noodle soup",
+          "limitationsKo": "음식만으로는 정확한 지역 판별이 어렵다."
+        },
+        {
+          "kind": "non_text",
+          "category": "rice portion",
+          "nameKo": "흰쌀밥",
+          "observationKo": "식판 왼쪽 칸에 흰쌀밥이 소량 담겨 있다.",
+          "geographicRelevanceKo": "쌀밥 중심 식단은 동아시아권 급식 환경을 추정하는 보조 단서가 될 수 있다.",
+          "regionDescriptionKo": "사진 하단 왼쪽 식판 칸",
+          "scope": "object",
+          "visibleText": null,
+          "surface": "movable",
+          "visibility": "clear",
+          "detectorQueryEn": "portion of white rice on cafeteria tray",
+          "limitationsKo": "쌀밥은 여러 지역에서 흔히 보인다."
+        },
+        {
+          "kind": "non_text",
+          "category": "side dishes",
+          "nameKo": "반찬 칸 구성",
+          "observationKo": "식판 칸에 양배추 채썬 것, 깍두기처럼 보이는 무김치 조각, 버섯볶음/조림처럼 보이는 반찬, 튀김류가 따로 배치되어 있다.",
+          "geographicRelevanceKo": "분리된 반찬 구성과 김치류 포함은 한국식 급식·한식 환경 비교에 도움이 될 수 있다.",
+          "regionDescriptionKo": "사진 상단과 하단의 여러 식판 칸",
+          "scope": "group",
+          "visibleText": null,
+          "surface": "movable",
+          "visibility": "clear",
+          "detectorQueryEn": "cafeteria side dishes on divided tray",
+          "limitationsKo": "반찬의 정확한 종류는 일부 불확실하며, 일반적인 한식 계열일 수 있다."
+        },
+        {
+          "kind": "non_text",
+          "category": "kimchi side",
+          "nameKo": "김치류 반찬",
+          "observationKo": "붉은 양념이 묻은 무 조각 형태의 반찬이 보이며 김치 또는 깍두기로 보인다.",
+          "geographicRelevanceKo": "김치 제공 여부는 한국 식문화와의 연관성을 비교하는 데 참고가 될 수 있다.",
+          "regionDescriptionKo": "사진 하단 중앙과 상단 오른쪽 식판 칸",
+          "scope": "object",
+          "visibleText": null,
+          "surface": "movable",
+          "visibility": "partial",
+          "detectorQueryEn": "kimchi cubes in tray compartment",
+          "limitationsKo": "정확한 종류는 사진만으로 확정할 수 없다."
+        },
+        {
+          "kind": "non_text",
+          "category": "vegetable garnish",
+          "nameKo": "채썬 채소 고명",
+          "observationKo": "국 그릇 안에 채썬 당근, 양배추 또는 배추, 해조류 같은 재료가 보인다.",
+          "geographicRelevanceKo": "국물 음식의 재료 구성은 지역별 급식 조리 방식과 식단 스타일을 비교하는 데 참고가 될 수 있다.",
+          "regionDescriptionKo": "사진 하단 오른쪽 국그릇 내부",
+          "scope": "object",
+          "visibleText": null,
+          "surface": "movable",
+          "visibility": "clear",
+          "detectorQueryEn": "mixed vegetable soup garnish in black bowl",
+          "limitationsKo": "재료 일부는 물에 젖어 보이며 정확한 식재료 식별이 제한된다."
+        },
+        {
+          "kind": "non_text",
+          "category": "table setting",
+          "nameKo": "흰색 테이블",
+          "observationKo": "음식 트레이들이 놓인 표면은 매끈한 흰색 테이블이며, 주변에 특별한 장식은 보이지 않는다.",
+          "geographicRelevanceKo": "급식실·식당·학교 식당 같은 실내 공용 식사 공간 유형을 추정하는 데 참고가 될 수 있다.",
+          "regionDescriptionKo": "사진 전체 배경의 식탁 표면",
+          "scope": "scene",
+          "visibleText": null,
+          "surface": "fixed",
+          "visibility": "clear",
+          "detectorQueryEn": "white cafeteria table surface",
+          "limitationsKo": "평범한 실내 테이블로 지역성은 약하다."
+        },
+        {
+          "kind": "non_text",
+          "category": "dining context",
+          "nameKo": "집단 식사 장면",
+          "observationKo": "여러 사람이 함께 식판 식사를 하고 있어 학교 급식이나 구내식당처럼 보이는 공동 식사 상황이다.",
+          "geographicRelevanceKo": "집단급식 문화와 식판 사용 여부는 지역 비교에 보조 단서가 될 수 있다.",
+          "regionDescriptionKo": "사진 상단과 중앙의 전체 장면",
+          "scope": "scene",
+          "visibleText": null,
+          "surface": "unknown",
+          "visibility": "clear",
+          "detectorQueryEn": "shared cafeteria meal scene",
+          "limitationsKo": "사람 수와 상황만으로는 구체적 위치를 알 수 없다."
+        }
+      ],
+      "limitationsKo": [
+        "실내 식당/급식실의 구체적 시설명은 보이지 않는다.",
+        "창문, 간판, 주소, 차량번호, 브랜드 등 직접적인 위치 단서는 확인되지 않는다.",
+        "음식 종류는 일부 흐릿하거나 부분만 보여 정확한 판별이 제한된다."
+      ],
+      "coverageLimited": false
+    },
+    "ocr": {
+      "engine": "PaddleOCR",
+      "version": "3.3.2",
+      "coordinateSpace": "analysis-normalized",
+      "lines": [
+        {
+          "id": "ocr-0",
+          "text": "긱식 백년만인듯..",
+          "score": 0.9843114018440247,
+          "polygon": [
+            [
+              0.4648888888888889,
+              0.3475
+            ],
+            [
+              0.6471111111111111,
+              0.3475
+            ],
+            [
+              0.6471111111111111,
+              0.365
+            ],
+            [
+              0.4648888888888889,
+              0.365
+            ]
+          ],
+          "passId": "full"
+        },
+        {
+          "id": "ocr-1",
+          "text": "긱식 백년만인듯.",
+          "score": 0.9741894602775574,
+          "polygon": [
+            [
+              0.4648888888888889,
+              0.3475
+            ],
+            [
+              0.6408888888888888,
+              0.3475
+            ],
+            [
+              0.6408888888888888,
+              0.365
+            ],
+            [
+              0.4648888888888889,
+              0.365
+            ]
+          ],
+          "passId": "tile-101-0"
+        }
+      ],
+      "diagnostics": {
+        "version": "tiled-v1",
+        "inputWidth": 1125,
+        "inputHeight": 2000,
+        "passes": [
+          {
+            "id": "full",
+            "x": 0,
+            "y": 0,
+            "width": 1125,
+            "height": 2000,
+            "count": 1
+          },
+          {
+            "id": "tile-0-0",
+            "x": 0,
+            "y": 0,
+            "width": 1024,
+            "height": 1024,
+            "count": 1
+          },
+          {
+            "id": "tile-101-0",
+            "x": 101,
+            "y": 0,
+            "width": 1024,
+            "height": 1024,
+            "count": 1
+          },
+          {
+            "id": "tile-0-819",
+            "x": 0,
+            "y": 819,
+            "width": 1024,
+            "height": 1024,
+            "count": 0
+          },
+          {
+            "id": "tile-101-819",
+            "x": 101,
+            "y": 819,
+            "width": 1024,
+            "height": 1024,
+            "count": 0
+          },
+          {
+            "id": "tile-0-976",
+            "x": 0,
+            "y": 976,
+            "width": 1024,
+            "height": 1024,
+            "count": 0
+          },
+          {
+            "id": "tile-101-976",
+            "x": 101,
+            "y": 976,
+            "width": 1024,
+            "height": 1024,
+            "count": 0
+          }
+        ],
+        "rawReadings": [
+          {
+            "text": "긱식 백년만인듯..",
+            "score": 0.9843114018440247,
+            "polygon": [
+              [
+                0.4648888888888889,
+                0.3475
+              ],
+              [
+                0.6471111111111111,
+                0.3475
+              ],
+              [
+                0.6471111111111111,
+                0.365
+              ],
+              [
+                0.4648888888888889,
+                0.365
+              ]
+            ],
+            "passId": "full"
+          },
+          {
+            "text": "긱식 백년만인듯.",
+            "score": 0.9741894602775574,
+            "polygon": [
+              [
+                0.4648888888888889,
+                0.3475
+              ],
+              [
+                0.6408888888888888,
+                0.3475
+              ],
+              [
+                0.6408888888888888,
+                0.365
+              ],
+              [
+                0.4648888888888889,
+                0.365
+              ]
+            ],
+            "passId": "tile-101-0"
+          },
+          {
+            "text": "긱식 백년만인듯.",
+            "score": 0.9741894602775574,
+            "polygon": [
+              [
+                0.4648888888888889,
+                0.3475
+              ],
+              [
+                0.6408888888888888,
+                0.3475
+              ],
+              [
+                0.6408888888888888,
+                0.365
+              ],
+              [
+                0.4648888888888889,
+                0.365
+              ]
+            ],
+            "passId": "tile-101-0"
+          }
+        ],
+        "unreadRegions": [],
+        "conflicts": [
+          [
+            "ocr-0",
+            "ocr-1"
+          ]
+        ]
+      }
+    },
+    "ocr_batch_0_raw": {
+      "requestedModel": "gpt-5.4-mini",
+      "responseModel": "gpt-5.4-mini-2026-03-17",
+      "responseId": "resp_084cd1697a94b3f0016af320180d6087d2b87c714c0d45ef18",
+      "status": "completed",
+      "usage": {
+        "input_tokens": 4246,
+        "input_tokens_details": {
+          "cache_write_tokens": 0,
+          "cached_tokens": 0
+        },
+        "output_tokens": 259,
+        "output_tokens_details": {
+          "reasoning_tokens": 0
+        },
+        "total_tokens": 4505
+      },
+      "promptSha256": "6a390a1592faabfed2308d3bf75271d6fdcb67131417face8de92e6bdcf1088f",
+      "rawOutputText": "{\"groups\":[{\"lineIds\":[\"ocr-0\"],\"disposition\":\"uncertain\",\"category\":\"personal commentary / caption sticker\",\"nameKo\":\"문구 스티커\",\"observationKo\":\"흰색 스티커에 한글 문구가 인쇄되어 있으나, 의미가 모호하고 개인적 메모처럼 보여 지리 단서로 보기 어렵다.\",\"geographicRelevanceKo\":\"한글 사용은 한국어권 환경을 시사할 수 있지만, 이 문구 자체는 특정 장소나 지점을 식별하지 않는다.\",\"regionDescriptionKo\":\"사진 중앙 하단의 흰색 스티커 영역\",\"correctedText\":\"식식 백년만인듯....;;\",\"surface\":\"movable\",\"visibility\":\"clear\",\"limitationsKo\":\"문구는 읽히지만 장소명, 주소, 지점명 같은 지리 식별 정보가 아니다. 개인 감상문에 가깝다.\",\"relatedDiscoveryIndexes\":[0]}],\"limitationsKo\":[\"제공된 OCR ID는 1개이며, 해당 영역에는 지리적으로 유의미한 고유 식별 정보가 없다.\",\"문구는 명확하지만 장소 식별에 직접 연결되지 않는 개인적 표현으로 보인다.\"]}"
+    },
+    "ocr_batch_0": {
+      "groups": [
+        {
+          "lineIds": [
+            "ocr-0"
+          ],
+          "disposition": "uncertain",
+          "category": "personal commentary / caption sticker",
+          "nameKo": "문구 스티커",
+          "observationKo": "흰색 스티커에 한글 문구가 인쇄되어 있으나, 의미가 모호하고 개인적 메모처럼 보여 지리 단서로 보기 어렵다.",
+          "geographicRelevanceKo": "한글 사용은 한국어권 환경을 시사할 수 있지만, 이 문구 자체는 특정 장소나 지점을 식별하지 않는다.",
+          "regionDescriptionKo": "사진 중앙 하단의 흰색 스티커 영역",
+          "correctedText": "식식 백년만인듯....;;",
+          "surface": "movable",
+          "visibility": "clear",
+          "limitationsKo": "문구는 읽히지만 장소명, 주소, 지점명 같은 지리 식별 정보가 아니다. 개인 감상문에 가깝다.",
+          "relatedDiscoveryIndexes": [
+            0
+          ]
+        },
+        {
+          "lineIds": [
+            "ocr-1"
+          ],
+          "disposition": "uncertain",
+          "category": "Unresolved Text",
+          "nameKo": "검토가 필요한 OCR 영역",
+          "observationKo": "OCR 원문: 긱식 백년만인듯.",
+          "geographicRelevanceKo": "모델의 영역 배정이 유효하지 않아 위치 관련성을 확정하지 않았습니다.",
+          "regionDescriptionKo": "OCR이 반환한 영역",
+          "correctedText": null,
+          "surface": "unknown",
+          "visibility": "uncertain",
+          "limitationsKo": "모델의 누락·중복 또는 잘못된 참조를 서버가 보류 처리했습니다.",
+          "relatedDiscoveryIndexes": []
+        }
+      ],
+      "limitationsKo": [
+        "제공된 OCR ID는 1개이며, 해당 영역에는 지리적으로 유의미한 고유 식별 정보가 없다.",
+        "문구는 명확하지만 장소 식별에 직접 연결되지 않는 개인적 표현으로 보인다."
+      ]
+    },
+    "ocr_review": {
+      "groups": [
+        {
+          "lineIds": [
+            "ocr-0"
+          ],
+          "disposition": "uncertain",
+          "category": "personal commentary / caption sticker",
+          "nameKo": "문구 스티커",
+          "observationKo": "흰색 스티커에 한글 문구가 인쇄되어 있으나, 의미가 모호하고 개인적 메모처럼 보여 지리 단서로 보기 어렵다.",
+          "geographicRelevanceKo": "한글 사용은 한국어권 환경을 시사할 수 있지만, 이 문구 자체는 특정 장소나 지점을 식별하지 않는다.",
+          "regionDescriptionKo": "사진 중앙 하단의 흰색 스티커 영역",
+          "correctedText": "식식 백년만인듯....;;",
+          "surface": "movable",
+          "visibility": "clear",
+          "limitationsKo": "문구는 읽히지만 장소명, 주소, 지점명 같은 지리 식별 정보가 아니다. 개인 감상문에 가깝다.",
+          "relatedDiscoveryIndexes": [
+            0
+          ]
+        },
+        {
+          "lineIds": [
+            "ocr-1"
+          ],
+          "disposition": "uncertain",
+          "category": "Unresolved Text",
+          "nameKo": "검토가 필요한 OCR 영역",
+          "observationKo": "OCR 원문: 긱식 백년만인듯.",
+          "geographicRelevanceKo": "모델의 영역 배정이 유효하지 않아 위치 관련성을 확정하지 않았습니다.",
+          "regionDescriptionKo": "OCR이 반환한 영역",
+          "correctedText": null,
+          "surface": "unknown",
+          "visibility": "uncertain",
+          "limitationsKo": "모델의 누락·중복 또는 잘못된 참조를 서버가 보류 처리했습니다.",
+          "relatedDiscoveryIndexes": []
+        }
+      ],
+      "limitationsKo": [
+        "제공된 OCR ID는 1개이며, 해당 영역에는 지리적으로 유의미한 고유 식별 정보가 없다.",
+        "문구는 명확하지만 장소 식별에 직접 연결되지 않는 개인적 표현으로 보인다."
+      ],
+      "reviewMode": "per_region_crops"
+    },
+    "detection": {
+      "engine": "Grounding DINO",
+      "model": "IDEA-Research/grounding-dino-tiny",
+      "revision": "a2bb814dd30d776dcf7e30523b00659f4f141c71",
+      "imageSha256": "05c3e0cf321ad06e0939702c5251332aaa74cd2a015dfa0bf654d757f949fe36",
+      "coordinateSpace": "analysis-normalized",
+      "requests": [
+        {
+          "cueId": "cue-0",
+          "query": "white text sticker on cafeteria tray",
+          "detections": [
+            {
+              "id": "dino-cue-0-0",
+              "bbox": [
+                0.45234871419270833,
+                0.3410059509277344,
+                0.6936570638020834,
+                0.3712539978027344
+              ],
+              "score": 0.6406279802322388,
+              "label": "white text sticker"
+            }
+          ]
+        },
+        {
+          "cueId": "cue-1",
+          "query": "light green compartmented cafeteria tray",
+          "detections": [
+            {
+              "id": "dino-cue-1-0",
+              "bbox": [
+                0.002246648152669271,
+                0.36972756958007813,
+                0.9969576822916667,
+                0.8046822509765625
+              ],
+              "score": 0.7406585216522217,
+              "label": "light green compartmented cafeteria tray"
+            }
+          ]
+        },
+        {
+          "cueId": "cue-2",
+          "query": "black soup bowl with noodle soup",
+          "detections": [
+            {
+              "id": "dino-cue-2-0",
+              "bbox": [
+                0.42701806640625,
+                0.40333670043945313,
+                0.9969852430555556,
+                0.725364013671875
+              ],
+              "score": 0.8624388575553894,
+              "label": "black soup bowl"
+            }
+          ]
+        },
+        {
+          "cueId": "cue-3",
+          "query": "portion of white rice on cafeteria tray",
+          "detections": [
+            {
+              "id": "dino-cue-3-0",
+              "bbox": [
+                0.0028946846856011286,
+                0.542548583984375,
+                0.33333420138888886,
+                0.7130771484375
+              ],
+              "score": 0.5523231625556946,
+              "label": "portion"
+            },
+            {
+              "id": "dino-cue-3-1",
+              "bbox": [
+                0.002096787134806315,
+                0.54307861328125,
+                0.3337099609375,
+                0.7141201171875
+              ],
+              "score": 0.3698174059391022,
+              "label": "rice"
+            }
+          ]
+        },
+        {
+          "cueId": "cue-4",
+          "query": "cafeteria side dishes on divided tray",
+          "detections": [
+            {
+              "id": "dino-cue-4-0",
+              "bbox": [
+                0.005713462829589844,
+                0.160246826171875,
+                0.9949963107638888,
+                0.8050145874023438
+              ],
+              "score": 0.36522138118743896,
+              "label": "cafeteria side dishes"
+            },
+            {
+              "id": "dino-cue-4-1",
+              "bbox": [
+                0.0037318170335557724,
+                0.36718820190429685,
+                0.9969159071180556,
+                0.8059663696289062
+              ],
+              "score": 0.32947713136672974,
+              "label": "tray"
+            }
+          ]
+        },
+        {
+          "cueId": "cue-5",
+          "query": "kimchi cubes in tray compartment",
+          "detections": [
+            {
+              "id": "dino-cue-5-0",
+              "bbox": [
+                0.23004893663194445,
+                0.4038703002929688,
+                0.43609836154513887,
+                0.4971353759765625
+              ],
+              "score": 0.38653460144996643,
+              "label": "kimchi cubes"
+            }
+          ]
+        },
+        {
+          "cueId": "cue-6",
+          "query": "mixed vegetable soup garnish in black bowl",
+          "detections": [
+            {
+              "id": "dino-cue-6-0",
+              "bbox": [
+                0.4279172905815972,
+                0.4028572387695312,
+                0.9961410590277778,
+                0.7260096435546874
+              ],
+              "score": 0.6285111904144287,
+              "label": "mixed vegetable soup garnish"
+            }
+          ]
+        },
+        {
+          "cueId": "cue-7",
+          "query": "white cafeteria table surface",
+          "detections": [
+            {
+              "id": "dino-cue-7-0",
+              "bbox": [
+                0.004449814690483941,
+                0.17612722778320314,
+                0.9944603949652778,
+                0.9649581909179688
+              ],
+              "score": 0.6632053852081299,
+              "label": "white cafeteria table surface"
+            }
+          ]
+        },
+        {
+          "cueId": "cue-8",
+          "query": "shared cafeteria meal scene",
+          "detections": [
+            {
+              "id": "dino-cue-8-0",
+              "bbox": [
+                0.005011111365424262,
+                0.007556498050689697,
+                0.9953743489583333,
+                0.98555615234375
+              ],
+              "score": 0.4479112923145294,
+              "label": "shared cafeteria meal scene"
+            }
+          ]
+        }
+      ]
+    },
+    "verify_cue-0_0_raw": {
+      "requestedModel": "gpt-5.4-mini",
+      "responseModel": "gpt-5.4-mini-2026-03-17",
+      "responseId": "resp_0fb60b20fca48e74016af320662f3887d2acc66fc18b0f76a5",
+      "status": "completed",
+      "usage": {
+        "input_tokens": 3648,
+        "input_tokens_details": {
+          "cache_write_tokens": 0,
+          "cached_tokens": 0
+        },
+        "output_tokens": 127,
+        "output_tokens_details": {
+          "reasoning_tokens": 0
+        },
+        "total_tokens": 3775
+      },
+      "promptSha256": "97106482e700608c01db19a0e347e9f7b3412b32cd23eb8b0b63af11e381e055",
+      "rawOutputText": "{\"checks\":[{\"proposalId\":\"link-0-0\",\"verdict\":\"supported\",\"evidenceKo\":\"흰색 스티커가 맞고, 검은색 한글 문구 ‘식식 백년만인듯....;;’가 스티커에 인쇄된 모습이 보입니다.\"},{\"proposalId\":\"dino-cue-0-0\",\"verdict\":\"supported\",\"evidenceKo\":\"식판 위의 흰색 텍스트 스티커가 보이며, 안에 검은색 한글 문구가 인쇄되어 있습니다.\"}]}"
+    },
+    "verify_cue-0": {
+      "checks": [
+        {
+          "proposalId": "link-0-0",
+          "verdict": "supported",
+          "evidenceKo": "흰색 스티커가 맞고, 검은색 한글 문구 ‘식식 백년만인듯....;;’가 스티커에 인쇄된 모습이 보입니다."
+        },
+        {
+          "proposalId": "dino-cue-0-0",
+          "verdict": "supported",
+          "evidenceKo": "식판 위의 흰색 텍스트 스티커가 보이며, 안에 검은색 한글 문구가 인쇄되어 있습니다."
+        }
+      ]
+    },
+    "verify_cue-1_0_raw": {
+      "requestedModel": "gpt-5.4-mini",
+      "responseModel": "gpt-5.4-mini-2026-03-17",
+      "responseId": "resp_00add091d4c66f5d016af320682e6887d29749ae6a8d4ec7f4",
+      "status": "completed",
+      "usage": {
+        "input_tokens": 4553,
+        "input_tokens_details": {
+          "cache_write_tokens": 0,
+          "cached_tokens": 0
+        },
+        "output_tokens": 75,
+        "output_tokens_details": {
+          "reasoning_tokens": 0
+        },
+        "total_tokens": 4628
+      },
+      "promptSha256": "97106482e700608c01db19a0e347e9f7b3412b32cd23eb8b0b63af11e381e055",
+      "rawOutputText": "{\"checks\":[{\"proposalId\":\"dino-cue-1-0\",\"verdict\":\"supported\",\"evidenceKo\":\"연두색 플라스틱 식판이 여러 칸으로 나뉘어 있고, 급식용 식판처럼 식사와 함께 놓여 있어 설명과 잘 맞습니다.\"}]}"
+    },
+    "verify_cue-1": {
+      "checks": [
+        {
+          "proposalId": "dino-cue-1-0",
+          "verdict": "supported",
+          "evidenceKo": "연두색 플라스틱 식판이 여러 칸으로 나뉘어 있고, 급식용 식판처럼 식사와 함께 놓여 있어 설명과 잘 맞습니다."
+        }
+      ]
+    },
+    "verify_cue-2_0_raw": {
+      "requestedModel": "gpt-5.4-mini",
+      "responseModel": "gpt-5.4-mini-2026-03-17",
+      "responseId": "resp_005a1f6526c0114d016af3206a3afc87d282f002a2c77de86e",
+      "status": "completed",
+      "usage": {
+        "input_tokens": 3883,
+        "input_tokens_details": {
+          "cache_write_tokens": 0,
+          "cached_tokens": 0
+        },
+        "output_tokens": 69,
+        "output_tokens_details": {
+          "reasoning_tokens": 0
+        },
+        "total_tokens": 3952
+      },
+      "promptSha256": "97106482e700608c01db19a0e347e9f7b3412b32cd23eb8b0b63af11e381e055",
+      "rawOutputText": "{\"checks\":[{\"proposalId\":\"dino-cue-2-0\",\"verdict\":\"supported\",\"evidenceKo\":\"검은색 둥근 그릇이 보이고, 안에 국물과 면, 채소가 담겨 있어 대상과 설명이 잘 맞습니다.\"}]}"
+    },
+    "verify_cue-2": {
+      "checks": [
+        {
+          "proposalId": "dino-cue-2-0",
+          "verdict": "supported",
+          "evidenceKo": "검은색 둥근 그릇이 보이고, 안에 국물과 면, 채소가 담겨 있어 대상과 설명이 잘 맞습니다."
+        }
+      ]
+    },
+    "verify_cue-3_0_raw": {
+      "requestedModel": "gpt-5.4-mini",
+      "responseModel": "gpt-5.4-mini-2026-03-17",
+      "responseId": "resp_0a1dc22cb67ef204016af3206c137c87d2999147998a71376d",
+      "status": "completed",
+      "usage": {
+        "input_tokens": 3805,
+        "input_tokens_details": {
+          "cache_write_tokens": 0,
+          "cached_tokens": 0
+        },
+        "output_tokens": 111,
+        "output_tokens_details": {
+          "reasoning_tokens": 0
+        },
+        "total_tokens": 3916
+      },
+      "promptSha256": "97106482e700608c01db19a0e347e9f7b3412b32cd23eb8b0b63af11e381e055",
+      "rawOutputText": "{\"checks\":[{\"proposalId\":\"dino-cue-3-0\",\"verdict\":\"supported\",\"evidenceKo\":\"식판 왼쪽 아래 칸에 흰쌀밥이 실제로 소량 담겨 보입니다.\"},{\"proposalId\":\"dino-cue-3-1\",\"verdict\":\"supported\",\"evidenceKo\":\"같은 왼쪽 아래 칸의 흰쌀밥 부분이 보이며, 소량 담긴 상태가 확인됩니다.\"}]}"
+    },
+    "verify_cue-3": {
+      "checks": [
+        {
+          "proposalId": "dino-cue-3-0",
+          "verdict": "supported",
+          "evidenceKo": "식판 왼쪽 아래 칸에 흰쌀밥이 실제로 소량 담겨 보입니다."
+        },
+        {
+          "proposalId": "dino-cue-3-1",
+          "verdict": "supported",
+          "evidenceKo": "같은 왼쪽 아래 칸의 흰쌀밥 부분이 보이며, 소량 담긴 상태가 확인됩니다."
+        }
+      ]
+    },
+    "verify_cue-4_0_raw": {
+      "requestedModel": "gpt-5.4-mini",
+      "responseModel": "gpt-5.4-mini-2026-03-17",
+      "responseId": "resp_05e88dcc2c663d63016af3206e536487d2bb7fdf3a5a55653f",
+      "status": "completed",
+      "usage": {
+        "input_tokens": 6442,
+        "input_tokens_details": {
+          "cache_write_tokens": 0,
+          "cached_tokens": 0
+        },
+        "output_tokens": 152,
+        "output_tokens_details": {
+          "reasoning_tokens": 0
+        },
+        "total_tokens": 6594
+      },
+      "promptSha256": "97106482e700608c01db19a0e347e9f7b3412b32cd23eb8b0b63af11e381e055",
+      "rawOutputText": "{\"checks\":[{\"proposalId\":\"dino-cue-4-0\",\"verdict\":\"supported\",\"evidenceKo\":\"식판 칸에 채썬 양배추, 무김치로 보이는 조각, 버섯 반찬, 튀김류가 나뉘어 담겨 있어 설명과 부합함.\"},{\"proposalId\":\"dino-cue-4-1\",\"verdict\":\"supported\",\"evidenceKo\":\"식판 하단과 상단의 분리 칸 배치가 보이고, 양배추채·무김치류·버섯반찬·튀김이 각각 칸에 배치된 모습이 확인됨.\"}]}"
+    },
+    "verify_cue-4": {
+      "checks": [
+        {
+          "proposalId": "dino-cue-4-0",
+          "verdict": "supported",
+          "evidenceKo": "식판 칸에 채썬 양배추, 무김치로 보이는 조각, 버섯 반찬, 튀김류가 나뉘어 담겨 있어 설명과 부합함."
+        },
+        {
+          "proposalId": "dino-cue-4-1",
+          "verdict": "supported",
+          "evidenceKo": "식판 하단과 상단의 분리 칸 배치가 보이고, 양배추채·무김치류·버섯반찬·튀김이 각각 칸에 배치된 모습이 확인됨."
+        }
+      ]
+    },
+    "verify_cue-5_0_raw": {
+      "requestedModel": "gpt-5.4-mini",
+      "responseModel": "gpt-5.4-mini-2026-03-17",
+      "responseId": "resp_07be6e3646eaa6f4016af32075055887d2b6bf984bdaa02cb5",
+      "status": "completed",
+      "usage": {
+        "input_tokens": 3420,
+        "input_tokens_details": {
+          "cache_write_tokens": 0,
+          "cached_tokens": 0
+        },
+        "output_tokens": 71,
+        "output_tokens_details": {
+          "reasoning_tokens": 0
+        },
+        "total_tokens": 3491
+      },
+      "promptSha256": "97106482e700608c01db19a0e347e9f7b3412b32cd23eb8b0b63af11e381e055",
+      "rawOutputText": "{\"checks\":[{\"proposalId\":\"dino-cue-5-0\",\"verdict\":\"supported\",\"evidenceKo\":\"빨간 양념이 묻은 무 깍둑 형태의 반찬이 보이며, 김치/깍두기류로 판단할 수 있습니다.\"}]}"
+    },
+    "verify_cue-5": {
+      "checks": [
+        {
+          "proposalId": "dino-cue-5-0",
+          "verdict": "supported",
+          "evidenceKo": "빨간 양념이 묻은 무 깍둑 형태의 반찬이 보이며, 김치/깍두기류로 판단할 수 있습니다."
+        }
+      ]
+    },
+    "verify_cue-6_0_raw": {
+      "requestedModel": "gpt-5.4-mini",
+      "responseModel": "gpt-5.4-mini-2026-03-17",
+      "responseId": "resp_0bfc3b647b5e8cb2016af32076c9b887d28ef8d73157bd1fef",
+      "status": "completed",
+      "usage": {
+        "input_tokens": 3883,
+        "input_tokens_details": {
+          "cache_write_tokens": 0,
+          "cached_tokens": 0
+        },
+        "output_tokens": 86,
+        "output_tokens_details": {
+          "reasoning_tokens": 0
+        },
+        "total_tokens": 3969
+      },
+      "promptSha256": "97106482e700608c01db19a0e347e9f7b3412b32cd23eb8b0b63af11e381e055",
+      "rawOutputText": "{\"checks\":[{\"proposalId\":\"dino-cue-6-0\",\"verdict\":\"supported\",\"evidenceKo\":\"검은 국그릇 안에 채썬 당근, 잘게 썬 양배추/배추로 보이는 재료, 해조류처럼 보이는 초록색 재료가 함께 보여 큐 설명과 맞습니다.\"}]}"
+    },
+    "verify_cue-6": {
+      "checks": [
+        {
+          "proposalId": "dino-cue-6-0",
+          "verdict": "supported",
+          "evidenceKo": "검은 국그릇 안에 채썬 당근, 잘게 썬 양배추/배추로 보이는 재료, 해조류처럼 보이는 초록색 재료가 함께 보여 큐 설명과 맞습니다."
+        }
+      ]
+    },
+    "verify_cue-7_0_raw": {
+      "requestedModel": "gpt-5.4-mini",
+      "responseModel": "gpt-5.4-mini-2026-03-17",
+      "responseId": "resp_05f7b5d6459a7106016af32078df8487d2b0cb1087636739b1",
+      "status": "completed",
+      "usage": {
+        "input_tokens": 5467,
+        "input_tokens_details": {
+          "cache_write_tokens": 0,
+          "cached_tokens": 0
+        },
+        "output_tokens": 68,
+        "output_tokens_details": {
+          "reasoning_tokens": 0
+        },
+        "total_tokens": 5535
+      },
+      "promptSha256": "97106482e700608c01db19a0e347e9f7b3412b32cd23eb8b0b63af11e381e055",
+      "rawOutputText": "{\"checks\":[{\"proposalId\":\"dino-cue-7-0\",\"verdict\":\"supported\",\"evidenceKo\":\"연한 흰색 계열의 매끈한 테이블 표면이 넓게 보이고, 별도 장식은 거의 보이지 않습니다.\"}]}"
+    },
+    "verify_cue-7": {
+      "checks": [
+        {
+          "proposalId": "dino-cue-7-0",
+          "verdict": "supported",
+          "evidenceKo": "연한 흰색 계열의 매끈한 테이블 표면이 넓게 보이고, 별도 장식은 거의 보이지 않습니다."
+        }
+      ]
+    },
+    "verify_cue-8_0_raw": {
+      "requestedModel": "gpt-5.4-mini",
+      "responseModel": "gpt-5.4-mini-2026-03-17",
+      "responseId": "resp_0c78165ad7e0c9bf016af3207b067c87d2abb41db86d6821b9",
+      "status": "completed",
+      "usage": {
+        "input_tokens": 5962,
+        "input_tokens_details": {
+          "cache_write_tokens": 0,
+          "cached_tokens": 0
+        },
+        "output_tokens": 68,
+        "output_tokens_details": {
+          "reasoning_tokens": 0
+        },
+        "total_tokens": 6030
+      },
+      "promptSha256": "97106482e700608c01db19a0e347e9f7b3412b32cd23eb8b0b63af11e381e055",
+      "rawOutputText": "{\"checks\":[{\"proposalId\":\"dino-cue-8-0\",\"verdict\":\"supported\",\"evidenceKo\":\"여러 사람이 한 테이블에 모여 각자 식판과 국그릇으로 식사하고 있어 집단 식사 장면이 보입니다.\"}]}"
+    },
+    "verify_cue-8": {
+      "checks": [
+        {
+          "proposalId": "dino-cue-8-0",
+          "verdict": "supported",
+          "evidenceKo": "여러 사람이 한 테이블에 모여 각자 식판과 국그릇으로 식사하고 있어 집단 식사 장면이 보입니다."
+        }
+      ]
+    }
+  },
+  "cues": [
+    {
+      "kind": "text",
+      "category": "caption sticker",
+      "nameKo": "문구 스티커",
+      "observationKo": "사진 중앙 하단 쪽 흰색 사각 스티커에 검은색 한글 문구가 인쇄되어 있다.",
+      "geographicRelevanceKo": "한글 사용 여부와 맞춤법/표기 습관은 한국어권 환경인지 비교하는 데 참고가 될 수 있다.",
+      "regionDescriptionKo": "사진 중앙 하단, 식판 위 흰색 스티커",
+      "scope": "object",
+      "visibleText": "식식 백년만인듯....;;",
+      "surface": "movable",
+      "visibility": "clear",
+      "detectorQueryEn": "white text sticker on cafeteria tray",
+      "limitationsKo": "짧은 문구만 보이며, 개인적 메모인지 매장 표기인지 구분되지 않는다.",
+      "id": "cue-0",
+      "source": "geominer_adaptation",
+      "sourceIndex": 0,
+      "disposition": "candidate",
+      "evidenceGroupIds": [
+        "ocr-cue-0"
+      ],
+      "localization": {
+        "status": "supported",
+        "proposals": [
+          {
+            "id": "link-0-0",
+            "source": "paddleocr",
+            "bbox": [
+              0.4648888888888889,
+              0.3475,
+              0.6471111111111111,
+              0.365
+            ],
+            "polygons": [
+              [
+                [
+                  0.4648888888888889,
+                  0.3475
+                ],
+                [
+                  0.6471111111111111,
+                  0.3475
+                ],
+                [
+                  0.6471111111111111,
+                  0.365
+                ],
+                [
+                  0.4648888888888889,
+                  0.365
+                ]
+              ]
+            ],
+            "lineIds": [
+              "ocr-0"
+            ],
+            "verdict": "supported",
+            "evidenceKo": "흰색 스티커가 맞고, 검은색 한글 문구 ‘식식 백년만인듯....;;’가 스티커에 인쇄된 모습이 보입니다.",
+            "verificationSource": null,
+            "score": null,
+            "associationStatus": "model_proposed"
+          },
+          {
+            "id": "dino-cue-0-0",
+            "bbox": [
+              0.45234871419270833,
+              0.3410059509277344,
+              0.6936570638020834,
+              0.3712539978027344
+            ],
+            "score": 0.6406279802322388,
+            "label": "white text sticker",
+            "source": "grounding_dino",
+            "verdict": "supported",
+            "evidenceKo": "식판 위의 흰색 텍스트 스티커가 보이며, 안에 검은색 한글 문구가 인쇄되어 있습니다."
+          }
+        ],
+        "mask": null
+      },
+      "geoSpecificityVerified": false
+    },
+    {
+      "kind": "non_text",
+      "category": "meal tray",
+      "nameKo": "연두색 식판",
+      "observationKo": "연두색 플라스틱 식판이 여러 칸으로 나뉘어 있고, 식당 급식용처럼 보이는 배식 형태이다.",
+      "geographicRelevanceKo": "학교·구내식당·급식실 같은 집단급식 환경은 지역별 식문화와 시설 유형 비교에 도움이 될 수 있다.",
+      "regionDescriptionKo": "사진 하단과 상단 중앙의 식판",
+      "scope": "scene",
+      "visibleText": null,
+      "surface": "movable",
+      "visibility": "clear",
+      "detectorQueryEn": "light green compartmented cafeteria tray",
+      "limitationsKo": "식판은 매우 흔한 물건이라 지역성은 약하다.",
+      "id": "cue-1",
+      "source": "geominer_adaptation",
+      "sourceIndex": 1,
+      "disposition": "candidate",
+      "evidenceGroupIds": [],
+      "localization": {
+        "status": "supported",
+        "proposals": [
+          {
+            "id": "dino-cue-1-0",
+            "bbox": [
+              0.002246648152669271,
+              0.36972756958007813,
+              0.9969576822916667,
+              0.8046822509765625
+            ],
+            "score": 0.7406585216522217,
+            "label": "light green compartmented cafeteria tray",
+            "source": "grounding_dino",
+            "verdict": "supported",
+            "evidenceKo": "연두색 플라스틱 식판이 여러 칸으로 나뉘어 있고, 급식용 식판처럼 식사와 함께 놓여 있어 설명과 잘 맞습니다."
+          }
+        ],
+        "mask": null
+      },
+      "geoSpecificityVerified": false
+    },
+    {
+      "kind": "non_text",
+      "category": "soup bowl",
+      "nameKo": "검은색 국그릇",
+      "observationKo": "검은색 둥근 그릇에 국물과 면, 채소, 김치가 들어 있다.",
+      "geographicRelevanceKo": "국물 요리의 종류와 제공 방식은 급식·외식 문화 비교에 참고가 될 수 있다.",
+      "regionDescriptionKo": "사진 하단 오른쪽의 그릇",
+      "scope": "object",
+      "visibleText": null,
+      "surface": "movable",
+      "visibility": "clear",
+      "detectorQueryEn": "black soup bowl with noodle soup",
+      "limitationsKo": "음식만으로는 정확한 지역 판별이 어렵다.",
+      "id": "cue-2",
+      "source": "geominer_adaptation",
+      "sourceIndex": 2,
+      "disposition": "candidate",
+      "evidenceGroupIds": [],
+      "localization": {
+        "status": "supported",
+        "proposals": [
+          {
+            "id": "dino-cue-2-0",
+            "bbox": [
+              0.42701806640625,
+              0.40333670043945313,
+              0.9969852430555556,
+              0.725364013671875
+            ],
+            "score": 0.8624388575553894,
+            "label": "black soup bowl",
+            "source": "grounding_dino",
+            "verdict": "supported",
+            "evidenceKo": "검은색 둥근 그릇이 보이고, 안에 국물과 면, 채소가 담겨 있어 대상과 설명이 잘 맞습니다."
+          }
+        ],
+        "mask": null
+      },
+      "geoSpecificityVerified": false
+    },
+    {
+      "kind": "non_text",
+      "category": "rice portion",
+      "nameKo": "흰쌀밥",
+      "observationKo": "식판 왼쪽 칸에 흰쌀밥이 소량 담겨 있다.",
+      "geographicRelevanceKo": "쌀밥 중심 식단은 동아시아권 급식 환경을 추정하는 보조 단서가 될 수 있다.",
+      "regionDescriptionKo": "사진 하단 왼쪽 식판 칸",
+      "scope": "object",
+      "visibleText": null,
+      "surface": "movable",
+      "visibility": "clear",
+      "detectorQueryEn": "portion of white rice on cafeteria tray",
+      "limitationsKo": "쌀밥은 여러 지역에서 흔히 보인다.",
+      "id": "cue-3",
+      "source": "geominer_adaptation",
+      "sourceIndex": 3,
+      "disposition": "candidate",
+      "evidenceGroupIds": [],
+      "localization": {
+        "status": "supported",
+        "proposals": [
+          {
+            "id": "dino-cue-3-0",
+            "bbox": [
+              0.0028946846856011286,
+              0.542548583984375,
+              0.33333420138888886,
+              0.7130771484375
+            ],
+            "score": 0.5523231625556946,
+            "label": "portion",
+            "source": "grounding_dino",
+            "verdict": "supported",
+            "evidenceKo": "식판 왼쪽 아래 칸에 흰쌀밥이 실제로 소량 담겨 보입니다."
+          },
+          {
+            "id": "dino-cue-3-1",
+            "bbox": [
+              0.002096787134806315,
+              0.54307861328125,
+              0.3337099609375,
+              0.7141201171875
+            ],
+            "score": 0.3698174059391022,
+            "label": "rice",
+            "source": "grounding_dino",
+            "verdict": "supported",
+            "evidenceKo": "같은 왼쪽 아래 칸의 흰쌀밥 부분이 보이며, 소량 담긴 상태가 확인됩니다."
+          }
+        ],
+        "mask": null
+      },
+      "geoSpecificityVerified": false
+    },
+    {
+      "kind": "non_text",
+      "category": "side dishes",
+      "nameKo": "반찬 칸 구성",
+      "observationKo": "식판 칸에 양배추 채썬 것, 깍두기처럼 보이는 무김치 조각, 버섯볶음/조림처럼 보이는 반찬, 튀김류가 따로 배치되어 있다.",
+      "geographicRelevanceKo": "분리된 반찬 구성과 김치류 포함은 한국식 급식·한식 환경 비교에 도움이 될 수 있다.",
+      "regionDescriptionKo": "사진 상단과 하단의 여러 식판 칸",
+      "scope": "group",
+      "visibleText": null,
+      "surface": "movable",
+      "visibility": "clear",
+      "detectorQueryEn": "cafeteria side dishes on divided tray",
+      "limitationsKo": "반찬의 정확한 종류는 일부 불확실하며, 일반적인 한식 계열일 수 있다.",
+      "id": "cue-4",
+      "source": "geominer_adaptation",
+      "sourceIndex": 4,
+      "disposition": "candidate",
+      "evidenceGroupIds": [],
+      "localization": {
+        "status": "supported",
+        "proposals": [
+          {
+            "id": "dino-cue-4-0",
+            "bbox": [
+              0.005713462829589844,
+              0.160246826171875,
+              0.9949963107638888,
+              0.8050145874023438
+            ],
+            "score": 0.36522138118743896,
+            "label": "cafeteria side dishes",
+            "source": "grounding_dino",
+            "verdict": "supported",
+            "evidenceKo": "식판 칸에 채썬 양배추, 무김치로 보이는 조각, 버섯 반찬, 튀김류가 나뉘어 담겨 있어 설명과 부합함."
+          },
+          {
+            "id": "dino-cue-4-1",
+            "bbox": [
+              0.0037318170335557724,
+              0.36718820190429685,
+              0.9969159071180556,
+              0.8059663696289062
+            ],
+            "score": 0.32947713136672974,
+            "label": "tray",
+            "source": "grounding_dino",
+            "verdict": "supported",
+            "evidenceKo": "식판 하단과 상단의 분리 칸 배치가 보이고, 양배추채·무김치류·버섯반찬·튀김이 각각 칸에 배치된 모습이 확인됨."
+          }
+        ],
+        "mask": null
+      },
+      "geoSpecificityVerified": false
+    },
+    {
+      "kind": "non_text",
+      "category": "kimchi side",
+      "nameKo": "김치류 반찬",
+      "observationKo": "붉은 양념이 묻은 무 조각 형태의 반찬이 보이며 김치 또는 깍두기로 보인다.",
+      "geographicRelevanceKo": "김치 제공 여부는 한국 식문화와의 연관성을 비교하는 데 참고가 될 수 있다.",
+      "regionDescriptionKo": "사진 하단 중앙과 상단 오른쪽 식판 칸",
+      "scope": "object",
+      "visibleText": null,
+      "surface": "movable",
+      "visibility": "partial",
+      "detectorQueryEn": "kimchi cubes in tray compartment",
+      "limitationsKo": "정확한 종류는 사진만으로 확정할 수 없다.",
+      "id": "cue-5",
+      "source": "geominer_adaptation",
+      "sourceIndex": 5,
+      "disposition": "candidate",
+      "evidenceGroupIds": [],
+      "localization": {
+        "status": "supported",
+        "proposals": [
+          {
+            "id": "dino-cue-5-0",
+            "bbox": [
+              0.23004893663194445,
+              0.4038703002929688,
+              0.43609836154513887,
+              0.4971353759765625
+            ],
+            "score": 0.38653460144996643,
+            "label": "kimchi cubes",
+            "source": "grounding_dino",
+            "verdict": "supported",
+            "evidenceKo": "빨간 양념이 묻은 무 깍둑 형태의 반찬이 보이며, 김치/깍두기류로 판단할 수 있습니다."
+          }
+        ],
+        "mask": null
+      },
+      "geoSpecificityVerified": false
+    },
+    {
+      "kind": "non_text",
+      "category": "vegetable garnish",
+      "nameKo": "채썬 채소 고명",
+      "observationKo": "국 그릇 안에 채썬 당근, 양배추 또는 배추, 해조류 같은 재료가 보인다.",
+      "geographicRelevanceKo": "국물 음식의 재료 구성은 지역별 급식 조리 방식과 식단 스타일을 비교하는 데 참고가 될 수 있다.",
+      "regionDescriptionKo": "사진 하단 오른쪽 국그릇 내부",
+      "scope": "object",
+      "visibleText": null,
+      "surface": "movable",
+      "visibility": "clear",
+      "detectorQueryEn": "mixed vegetable soup garnish in black bowl",
+      "limitationsKo": "재료 일부는 물에 젖어 보이며 정확한 식재료 식별이 제한된다.",
+      "id": "cue-6",
+      "source": "geominer_adaptation",
+      "sourceIndex": 6,
+      "disposition": "candidate",
+      "evidenceGroupIds": [],
+      "localization": {
+        "status": "supported",
+        "proposals": [
+          {
+            "id": "dino-cue-6-0",
+            "bbox": [
+              0.4279172905815972,
+              0.4028572387695312,
+              0.9961410590277778,
+              0.7260096435546874
+            ],
+            "score": 0.6285111904144287,
+            "label": "mixed vegetable soup garnish",
+            "source": "grounding_dino",
+            "verdict": "supported",
+            "evidenceKo": "검은 국그릇 안에 채썬 당근, 잘게 썬 양배추/배추로 보이는 재료, 해조류처럼 보이는 초록색 재료가 함께 보여 큐 설명과 맞습니다."
+          }
+        ],
+        "mask": null
+      },
+      "geoSpecificityVerified": false
+    },
+    {
+      "kind": "non_text",
+      "category": "table setting",
+      "nameKo": "흰색 테이블",
+      "observationKo": "음식 트레이들이 놓인 표면은 매끈한 흰색 테이블이며, 주변에 특별한 장식은 보이지 않는다.",
+      "geographicRelevanceKo": "급식실·식당·학교 식당 같은 실내 공용 식사 공간 유형을 추정하는 데 참고가 될 수 있다.",
+      "regionDescriptionKo": "사진 전체 배경의 식탁 표면",
+      "scope": "scene",
+      "visibleText": null,
+      "surface": "fixed",
+      "visibility": "clear",
+      "detectorQueryEn": "white cafeteria table surface",
+      "limitationsKo": "평범한 실내 테이블로 지역성은 약하다.",
+      "id": "cue-7",
+      "source": "geominer_adaptation",
+      "sourceIndex": 7,
+      "disposition": "candidate",
+      "evidenceGroupIds": [],
+      "localization": {
+        "status": "supported",
+        "proposals": [
+          {
+            "id": "dino-cue-7-0",
+            "bbox": [
+              0.004449814690483941,
+              0.17612722778320314,
+              0.9944603949652778,
+              0.9649581909179688
+            ],
+            "score": 0.6632053852081299,
+            "label": "white cafeteria table surface",
+            "source": "grounding_dino",
+            "verdict": "supported",
+            "evidenceKo": "연한 흰색 계열의 매끈한 테이블 표면이 넓게 보이고, 별도 장식은 거의 보이지 않습니다."
+          }
+        ],
+        "mask": null
+      },
+      "geoSpecificityVerified": false
+    },
+    {
+      "kind": "non_text",
+      "category": "dining context",
+      "nameKo": "집단 식사 장면",
+      "observationKo": "여러 사람이 함께 식판 식사를 하고 있어 학교 급식이나 구내식당처럼 보이는 공동 식사 상황이다.",
+      "geographicRelevanceKo": "집단급식 문화와 식판 사용 여부는 지역 비교에 보조 단서가 될 수 있다.",
+      "regionDescriptionKo": "사진 상단과 중앙의 전체 장면",
+      "scope": "scene",
+      "visibleText": null,
+      "surface": "unknown",
+      "visibility": "clear",
+      "detectorQueryEn": "shared cafeteria meal scene",
+      "limitationsKo": "사람 수와 상황만으로는 구체적 위치를 알 수 없다.",
+      "id": "cue-8",
+      "source": "geominer_adaptation",
+      "sourceIndex": 8,
+      "disposition": "candidate",
+      "evidenceGroupIds": [],
+      "localization": {
+        "status": "supported",
+        "proposals": [
+          {
+            "id": "dino-cue-8-0",
+            "bbox": [
+              0.005011111365424262,
+              0.007556498050689697,
+              0.9953743489583333,
+              0.98555615234375
+            ],
+            "score": 0.4479112923145294,
+            "label": "shared cafeteria meal scene",
+            "source": "grounding_dino",
+            "verdict": "supported",
+            "evidenceKo": "여러 사람이 한 테이블에 모여 각자 식판과 국그릇으로 식사하고 있어 집단 식사 장면이 보입니다."
+          }
+        ],
+        "mask": null
+      },
+      "geoSpecificityVerified": false
+    },
+    {
+      "id": "ocr-cue-0",
+      "kind": "text",
+      "category": "personal commentary / caption sticker",
+      "nameKo": "문구 스티커",
+      "observationKo": "흰색 스티커에 한글 문구가 인쇄되어 있으나, 의미가 모호하고 개인적 메모처럼 보여 지리 단서로 보기 어렵다.",
+      "geographicRelevanceKo": "한글 사용은 한국어권 환경을 시사할 수 있지만, 이 문구 자체는 특정 장소나 지점을 식별하지 않는다.",
+      "regionDescriptionKo": "사진 중앙 하단의 흰색 스티커 영역",
+      "scope": "object",
+      "surface": "movable",
+      "visibility": "clear",
+      "visibleText": "식식 백년만인듯....;;",
+      "rawReadings": [
+        {
+          "id": "ocr-0",
+          "text": "긱식 백년만인듯.."
+        }
+      ],
+      "correctedText": "식식 백년만인듯....;;",
+      "detectorQueryEn": null,
+      "limitationsKo": "문구는 읽히지만 장소명, 주소, 지점명 같은 지리 식별 정보가 아니다. 개인 감상문에 가깝다.",
+      "source": "ocr_review",
+      "disposition": "uncertain",
+      "evidenceGroupIds": [
+        "ocr-cue-0"
+      ],
+      "geoSpecificityVerified": false,
+      "localization": {
+        "status": "partial",
+        "proposals": [
+          {
+            "id": "ocr-region-0",
+            "source": "paddleocr",
+            "bbox": [
+              0.4648888888888889,
+              0.3475,
+              0.6471111111111111,
+              0.365
+            ],
+            "polygons": [
+              [
+                [
+                  0.4648888888888889,
+                  0.3475
+                ],
+                [
+                  0.6471111111111111,
+                  0.3475
+                ],
+                [
+                  0.6471111111111111,
+                  0.365
+                ],
+                [
+                  0.4648888888888889,
+                  0.365
+                ]
+              ]
+            ],
+            "lineIds": [
+              "ocr-0"
+            ],
+            "verdict": "partial",
+            "evidenceKo": "흰색 스티커에 한글 문구가 인쇄되어 있으나, 의미가 모호하고 개인적 메모처럼 보여 지리 단서로 보기 어렵다.",
+            "verificationSource": "ocr_crop_review",
+            "score": null
+          }
+        ],
+        "mask": null
+      }
+    },
+    {
+      "id": "ocr-cue-1",
+      "kind": "text",
+      "category": "Unresolved Text",
+      "nameKo": "검토가 필요한 OCR 영역",
+      "observationKo": "OCR 원문: 긱식 백년만인듯.",
+      "geographicRelevanceKo": "모델의 영역 배정이 유효하지 않아 위치 관련성을 확정하지 않았습니다.",
+      "regionDescriptionKo": "OCR이 반환한 영역",
+      "scope": "object",
+      "surface": "unknown",
+      "visibility": "uncertain",
+      "visibleText": "긱식 백년만인듯.",
+      "rawReadings": [
+        {
+          "id": "ocr-1",
+          "text": "긱식 백년만인듯."
+        }
+      ],
+      "correctedText": null,
+      "detectorQueryEn": null,
+      "limitationsKo": "모델의 누락·중복 또는 잘못된 참조를 서버가 보류 처리했습니다.",
+      "source": "ocr_review",
+      "disposition": "uncertain",
+      "evidenceGroupIds": [
+        "ocr-cue-1"
+      ],
+      "geoSpecificityVerified": false,
+      "localization": {
+        "status": "partial",
+        "proposals": [
+          {
+            "id": "ocr-region-1",
+            "source": "paddleocr",
+            "bbox": [
+              0.4648888888888889,
+              0.3475,
+              0.6408888888888888,
+              0.365
+            ],
+            "polygons": [
+              [
+                [
+                  0.4648888888888889,
+                  0.3475
+                ],
+                [
+                  0.6408888888888888,
+                  0.3475
+                ],
+                [
+                  0.6408888888888888,
+                  0.365
+                ],
+                [
+                  0.4648888888888889,
+                  0.365
+                ]
+              ]
+            ],
+            "lineIds": [
+              "ocr-1"
+            ],
+            "verdict": "partial",
+            "evidenceKo": "OCR 원문: 긱식 백년만인듯.",
+            "verificationSource": "ocr_crop_review",
+            "score": null
+          }
+        ],
+        "mask": null
+      }
+    }
+  ],
+  "errors": [],
+  "humanReviews": {},
+  "modelCalls": [
+    {
+      "stage": "discovery",
+      "at": "2026-11-10T13:44:41.358Z",
+      "requestedModel": "gpt-5.4-mini",
+      "responseModel": "gpt-5.4-mini-2026-03-17",
+      "responseId": "resp_023bbb52e3d413c9016af31fbd947087d2b5989a214518631f",
+      "status": "completed",
+      "usage": {
+        "input_tokens": 3421,
+        "input_tokens_details": {
+          "cache_write_tokens": 0,
+          "cached_tokens": 0
+        },
+        "output_tokens": 1482,
+        "output_tokens_details": {
+          "reasoning_tokens": 0
+        },
+        "total_tokens": 4903
+      },
+      "promptSha256": "84585c64986be78650806029298f0b8fa0dd5d919f7e333e9223af3a370c03ab",
+      "rawOutputText": "{\"cues\":[{\"kind\":\"text\",\"category\":\"caption sticker\",\"nameKo\":\"문구 스티커\",\"observationKo\":\"사진 중앙 하단 쪽 흰색 사각 스티커에 검은색 한글 문구가 인쇄되어 있다.\",\"geographicRelevanceKo\":\"한글 사용 여부와 맞춤법/표기 습관은 한국어권 환경인지 비교하는 데 참고가 될 수 있다.\",\"regionDescriptionKo\":\"사진 중앙 하단, 식판 위 흰색 스티커\",\"scope\":\"object\",\"visibleText\":\"식식 백년만인듯....;;\",\"surface\":\"movable\",\"visibility\":\"clear\",\"detectorQueryEn\":\"white text sticker on cafeteria tray\",\"limitationsKo\":\"짧은 문구만 보이며, 개인적 메모인지 매장 표기인지 구분되지 않는다.\"},{\"kind\":\"non_text\",\"category\":\"meal tray\",\"nameKo\":\"연두색 식판\",\"observationKo\":\"연두색 플라스틱 식판이 여러 칸으로 나뉘어 있고, 식당 급식용처럼 보이는 배식 형태이다.\",\"geographicRelevanceKo\":\"학교·구내식당·급식실 같은 집단급식 환경은 지역별 식문화와 시설 유형 비교에 도움이 될 수 있다.\",\"regionDescriptionKo\":\"사진 하단과 상단 중앙의 식판\",\"scope\":\"scene\",\"visibleText\":null,\"surface\":\"movable\",\"visibility\":\"clear\",\"detectorQueryEn\":\"light green compartmented cafeteria tray\",\"limitationsKo\":\"식판은 매우 흔한 물건이라 지역성은 약하다.\"},{\"kind\":\"non_text\",\"category\":\"soup bowl\",\"nameKo\":\"검은색 국그릇\",\"observationKo\":\"검은색 둥근 그릇에 국물과 면, 채소, 김치가 들어 있다.\",\"geographicRelevanceKo\":\"국물 요리의 종류와 제공 방식은 급식·외식 문화 비교에 참고가 될 수 있다.\",\"regionDescriptionKo\":\"사진 하단 오른쪽의 그릇\",\"scope\":\"object\",\"visibleText\":null,\"surface\":\"movable\",\"visibility\":\"clear\",\"detectorQueryEn\":\"black soup bowl with noodle soup\",\"limitationsKo\":\"음식만으로는 정확한 지역 판별이 어렵다.\"},{\"kind\":\"non_text\",\"category\":\"rice portion\",\"nameKo\":\"흰쌀밥\",\"observationKo\":\"식판 왼쪽 칸에 흰쌀밥이 소량 담겨 있다.\",\"geographicRelevanceKo\":\"쌀밥 중심 식단은 동아시아권 급식 환경을 추정하는 보조 단서가 될 수 있다.\",\"regionDescriptionKo\":\"사진 하단 왼쪽 식판 칸\",\"scope\":\"object\",\"visibleText\":null,\"surface\":\"movable\",\"visibility\":\"clear\",\"detectorQueryEn\":\"portion of white rice on cafeteria tray\",\"limitationsKo\":\"쌀밥은 여러 지역에서 흔히 보인다.\"},{\"kind\":\"non_text\",\"category\":\"side dishes\",\"nameKo\":\"반찬 칸 구성\",\"observationKo\":\"식판 칸에 양배추 채썬 것, 깍두기처럼 보이는 무김치 조각, 버섯볶음/조림처럼 보이는 반찬, 튀김류가 따로 배치되어 있다.\",\"geographicRelevanceKo\":\"분리된 반찬 구성과 김치류 포함은 한국식 급식·한식 환경 비교에 도움이 될 수 있다.\",\"regionDescriptionKo\":\"사진 상단과 하단의 여러 식판 칸\",\"scope\":\"group\",\"visibleText\":null,\"surface\":\"movable\",\"visibility\":\"clear\",\"detectorQueryEn\":\"cafeteria side dishes on divided tray\",\"limitationsKo\":\"반찬의 정확한 종류는 일부 불확실하며, 일반적인 한식 계열일 수 있다.\"},{\"kind\":\"non_text\",\"category\":\"kimchi side\",\"nameKo\":\"김치류 반찬\",\"observationKo\":\"붉은 양념이 묻은 무 조각 형태의 반찬이 보이며 김치 또는 깍두기로 보인다.\",\"geographicRelevanceKo\":\"김치 제공 여부는 한국 식문화와의 연관성을 비교하는 데 참고가 될 수 있다.\",\"regionDescriptionKo\":\"사진 하단 중앙과 상단 오른쪽 식판 칸\",\"scope\":\"object\",\"visibleText\":null,\"surface\":\"movable\",\"visibility\":\"partial\",\"detectorQueryEn\":\"kimchi cubes in tray compartment\",\"limitationsKo\":\"정확한 종류는 사진만으로 확정할 수 없다.\"},{\"kind\":\"non_text\",\"category\":\"vegetable garnish\",\"nameKo\":\"채썬 채소 고명\",\"observationKo\":\"국 그릇 안에 채썬 당근, 양배추 또는 배추, 해조류 같은 재료가 보인다.\",\"geographicRelevanceKo\":\"국물 음식의 재료 구성은 지역별 급식 조리 방식과 식단 스타일을 비교하는 데 참고가 될 수 있다.\",\"regionDescriptionKo\":\"사진 하단 오른쪽 국그릇 내부\",\"scope\":\"object\",\"visibleText\":null,\"surface\":\"movable\",\"visibility\":\"clear\",\"detectorQueryEn\":\"mixed vegetable soup garnish in black bowl\",\"limitationsKo\":\"재료 일부는 물에 젖어 보이며 정확한 식재료 식별이 제한된다.\"},{\"kind\":\"non_text\",\"category\":\"table setting\",\"nameKo\":\"흰색 테이블\",\"observationKo\":\"음식 트레이들이 놓인 표면은 매끈한 흰색 테이블이며, 주변에 특별한 장식은 보이지 않는다.\",\"geographicRelevanceKo\":\"급식실·식당·학교 식당 같은 실내 공용 식사 공간 유형을 추정하는 데 참고가 될 수 있다.\",\"regionDescriptionKo\":\"사진 전체 배경의 식탁 표면\",\"scope\":\"scene\",\"visibleText\":null,\"surface\":\"fixed\",\"visibility\":\"clear\",\"detectorQueryEn\":\"white cafeteria table surface\",\"limitationsKo\":\"평범한 실내 테이블로 지역성은 약하다.\"},{\"kind\":\"non_text\",\"category\":\"dining context\",\"nameKo\":\"집단 식사 장면\",\"observationKo\":\"여러 사람이 함께 식판 식사를 하고 있어 학교 급식이나 구내식당처럼 보이는 공동 식사 상황이다.\",\"geographicRelevanceKo\":\"집단급식 문화와 식판 사용 여부는 지역 비교에 보조 단서가 될 수 있다.\",\"regionDescriptionKo\":\"사진 상단과 중앙의 전체 장면\",\"scope\":\"scene\",\"visibleText\":null,\"surface\":\"unknown\",\"visibility\":\"clear\",\"detectorQueryEn\":\"shared cafeteria meal scene\",\"limitationsKo\":\"사람 수와 상황만으로는 구체적 위치를 알 수 없다.\"}],\"limitationsKo\":[\"실내 식당/급식실의 구체적 시설명은 보이지 않는다.\",\"창문, 간판, 주소, 차량번호, 브랜드 등 직접적인 위치 단서는 확인되지 않는다.\",\"음식 종류는 일부 흐릿하거나 부분만 보여 정확한 판별이 제한된다.\"],\"coverageLimited\":false}"
+    },
+    {
+      "stage": "ocr_batch_0",
+      "at": "2026-11-10T13:46:04.162Z",
+      "requestedModel": "gpt-5.4-mini",
+      "responseModel": "gpt-5.4-mini-2026-03-17",
+      "responseId": "resp_084cd1697a94b3f0016af320180d6087d2b87c714c0d45ef18",
+      "status": "completed",
+      "usage": {
+        "input_tokens": 4246,
+        "input_tokens_details": {
+          "cache_write_tokens": 0,
+          "cached_tokens": 0
+        },
+        "output_tokens": 259,
+        "output_tokens_details": {
+          "reasoning_tokens": 0
+        },
+        "total_tokens": 4505
+      },
+      "promptSha256": "6a390a1592faabfed2308d3bf75271d6fdcb67131417face8de92e6bdcf1088f",
+      "rawOutputText": "{\"groups\":[{\"lineIds\":[\"ocr-0\"],\"disposition\":\"uncertain\",\"category\":\"personal commentary / caption sticker\",\"nameKo\":\"문구 스티커\",\"observationKo\":\"흰색 스티커에 한글 문구가 인쇄되어 있으나, 의미가 모호하고 개인적 메모처럼 보여 지리 단서로 보기 어렵다.\",\"geographicRelevanceKo\":\"한글 사용은 한국어권 환경을 시사할 수 있지만, 이 문구 자체는 특정 장소나 지점을 식별하지 않는다.\",\"regionDescriptionKo\":\"사진 중앙 하단의 흰색 스티커 영역\",\"correctedText\":\"식식 백년만인듯....;;\",\"surface\":\"movable\",\"visibility\":\"clear\",\"limitationsKo\":\"문구는 읽히지만 장소명, 주소, 지점명 같은 지리 식별 정보가 아니다. 개인 감상문에 가깝다.\",\"relatedDiscoveryIndexes\":[0]}],\"limitationsKo\":[\"제공된 OCR ID는 1개이며, 해당 영역에는 지리적으로 유의미한 고유 식별 정보가 없다.\",\"문구는 명확하지만 장소 식별에 직접 연결되지 않는 개인적 표현으로 보인다.\"]}"
+    },
+    {
+      "stage": "verify_cue-0_0",
+      "at": "2026-11-10T13:47:19.822Z",
+      "requestedModel": "gpt-5.4-mini",
+      "responseModel": "gpt-5.4-mini-2026-03-17",
+      "responseId": "resp_0fb60b20fca48e74016af320662f3887d2acc66fc18b0f76a5",
+      "status": "completed",
+      "usage": {
+        "input_tokens": 3648,
+        "input_tokens_details": {
+          "cache_write_tokens": 0,
+          "cached_tokens": 0
+        },
+        "output_tokens": 127,
+        "output_tokens_details": {
+          "reasoning_tokens": 0
+        },
+        "total_tokens": 3775
+      },
+      "promptSha256": "97106482e700608c01db19a0e347e9f7b3412b32cd23eb8b0b63af11e381e055",
+      "rawOutputText": "{\"checks\":[{\"proposalId\":\"link-0-0\",\"verdict\":\"supported\",\"evidenceKo\":\"흰색 스티커가 맞고, 검은색 한글 문구 ‘식식 백년만인듯....;;’가 스티커에 인쇄된 모습이 보입니다.\"},{\"proposalId\":\"dino-cue-0-0\",\"verdict\":\"supported\",\"evidenceKo\":\"식판 위의 흰색 텍스트 스티커가 보이며, 안에 검은색 한글 문구가 인쇄되어 있습니다.\"}]}"
+    },
+    {
+      "stage": "verify_cue-1_0",
+      "at": "2026-11-10T13:47:22.025Z",
+      "requestedModel": "gpt-5.4-mini",
+      "responseModel": "gpt-5.4-mini-2026-03-17",
+      "responseId": "resp_00add091d4c66f5d016af320682e6887d29749ae6a8d4ec7f4",
+      "status": "completed",
+      "usage": {
+        "input_tokens": 4553,
+        "input_tokens_details": {
+          "cache_write_tokens": 0,
+          "cached_tokens": 0
+        },
+        "output_tokens": 75,
+        "output_tokens_details": {
+          "reasoning_tokens": 0
+        },
+        "total_tokens": 4628
+      },
+      "promptSha256": "97106482e700608c01db19a0e347e9f7b3412b32cd23eb8b0b63af11e381e055",
+      "rawOutputText": "{\"checks\":[{\"proposalId\":\"dino-cue-1-0\",\"verdict\":\"supported\",\"evidenceKo\":\"연두색 플라스틱 식판이 여러 칸으로 나뉘어 있고, 급식용 식판처럼 식사와 함께 놓여 있어 설명과 잘 맞습니다.\"}]}"
+    },
+    {
+      "stage": "verify_cue-2_0",
+      "at": "2026-11-10T13:47:23.799Z",
+      "requestedModel": "gpt-5.4-mini",
+      "responseModel": "gpt-5.4-mini-2026-03-17",
+      "responseId": "resp_005a1f6526c0114d016af3206a3afc87d282f002a2c77de86e",
+      "status": "completed",
+      "usage": {
+        "input_tokens": 3883,
+        "input_tokens_details": {
+          "cache_write_tokens": 0,
+          "cached_tokens": 0
+        },
+        "output_tokens": 69,
+        "output_tokens_details": {
+          "reasoning_tokens": 0
+        },
+        "total_tokens": 3952
+      },
+      "promptSha256": "97106482e700608c01db19a0e347e9f7b3412b32cd23eb8b0b63af11e381e055",
+      "rawOutputText": "{\"checks\":[{\"proposalId\":\"dino-cue-2-0\",\"verdict\":\"supported\",\"evidenceKo\":\"검은색 둥근 그릇이 보이고, 안에 국물과 면, 채소가 담겨 있어 대상과 설명이 잘 맞습니다.\"}]}"
+    },
+    {
+      "stage": "verify_cue-3_0",
+      "at": "2026-11-10T13:47:25.698Z",
+      "requestedModel": "gpt-5.4-mini",
+      "responseModel": "gpt-5.4-mini-2026-03-17",
+      "responseId": "resp_0a1dc22cb67ef204016af3206c137c87d2999147998a71376d",
+      "status": "completed",
+      "usage": {
+        "input_tokens": 3805,
+        "input_tokens_details": {
+          "cache_write_tokens": 0,
+          "cached_tokens": 0
+        },
+        "output_tokens": 111,
+        "output_tokens_details": {
+          "reasoning_tokens": 0
+        },
+        "total_tokens": 3916
+      },
+      "promptSha256": "97106482e700608c01db19a0e347e9f7b3412b32cd23eb8b0b63af11e381e055",
+      "rawOutputText": "{\"checks\":[{\"proposalId\":\"dino-cue-3-0\",\"verdict\":\"supported\",\"evidenceKo\":\"식판 왼쪽 아래 칸에 흰쌀밥이 실제로 소량 담겨 보입니다.\"},{\"proposalId\":\"dino-cue-3-1\",\"verdict\":\"supported\",\"evidenceKo\":\"같은 왼쪽 아래 칸의 흰쌀밥 부분이 보이며, 소량 담긴 상태가 확인됩니다.\"}]}"
+    },
+    {
+      "stage": "verify_cue-4_0",
+      "at": "2026-11-10T13:47:32.798Z",
+      "requestedModel": "gpt-5.4-mini",
+      "responseModel": "gpt-5.4-mini-2026-03-17",
+      "responseId": "resp_05e88dcc2c663d63016af3206e536487d2bb7fdf3a5a55653f",
+      "status": "completed",
+      "usage": {
+        "input_tokens": 6442,
+        "input_tokens_details": {
+          "cache_write_tokens": 0,
+          "cached_tokens": 0
+        },
+        "output_tokens": 152,
+        "output_tokens_details": {
+          "reasoning_tokens": 0
+        },
+        "total_tokens": 6594
+      },
+      "promptSha256": "97106482e700608c01db19a0e347e9f7b3412b32cd23eb8b0b63af11e381e055",
+      "rawOutputText": "{\"checks\":[{\"proposalId\":\"dino-cue-4-0\",\"verdict\":\"supported\",\"evidenceKo\":\"식판 칸에 채썬 양배추, 무김치로 보이는 조각, 버섯 반찬, 튀김류가 나뉘어 담겨 있어 설명과 부합함.\"},{\"proposalId\":\"dino-cue-4-1\",\"verdict\":\"supported\",\"evidenceKo\":\"식판 하단과 상단의 분리 칸 배치가 보이고, 양배추채·무김치류·버섯반찬·튀김이 각각 칸에 배치된 모습이 확인됨.\"}]}"
+    },
+    {
+      "stage": "verify_cue-5_0",
+      "at": "2026-11-10T13:47:34.533Z",
+      "requestedModel": "gpt-5.4-mini",
+      "responseModel": "gpt-5.4-mini-2026-03-17",
+      "responseId": "resp_07be6e3646eaa6f4016af32075055887d2b6bf984bdaa02cb5",
+      "status": "completed",
+      "usage": {
+        "input_tokens": 3420,
+        "input_tokens_details": {
+          "cache_write_tokens": 0,
+          "cached_tokens": 0
+        },
+        "output_tokens": 71,
+        "output_tokens_details": {
+          "reasoning_tokens": 0
+        },
+        "total_tokens": 3491
+      },
+      "promptSha256": "97106482e700608c01db19a0e347e9f7b3412b32cd23eb8b0b63af11e381e055",
+      "rawOutputText": "{\"checks\":[{\"proposalId\":\"dino-cue-5-0\",\"verdict\":\"supported\",\"evidenceKo\":\"빨간 양념이 묻은 무 깍둑 형태의 반찬이 보이며, 김치/깍두기류로 판단할 수 있습니다.\"}]}"
+    },
+    {
+      "stage": "verify_cue-6_0",
+      "at": "2026-11-10T13:47:36.307Z",
+      "requestedModel": "gpt-5.4-mini",
+      "responseModel": "gpt-5.4-mini-2026-03-17",
+      "responseId": "resp_0bfc3b647b5e8cb2016af32076c9b887d28ef8d73157bd1fef",
+      "status": "completed",
+      "usage": {
+        "input_tokens": 3883,
+        "input_tokens_details": {
+          "cache_write_tokens": 0,
+          "cached_tokens": 0
+        },
+        "output_tokens": 86,
+        "output_tokens_details": {
+          "reasoning_tokens": 0
+        },
+        "total_tokens": 3969
+      },
+      "promptSha256": "97106482e700608c01db19a0e347e9f7b3412b32cd23eb8b0b63af11e381e055",
+      "rawOutputText": "{\"checks\":[{\"proposalId\":\"dino-cue-6-0\",\"verdict\":\"supported\",\"evidenceKo\":\"검은 국그릇 안에 채썬 당근, 잘게 썬 양배추/배추로 보이는 재료, 해조류처럼 보이는 초록색 재료가 함께 보여 큐 설명과 맞습니다.\"}]}"
+    },
+    {
+      "stage": "verify_cue-7_0",
+      "at": "2026-11-10T13:47:38.410Z",
+      "requestedModel": "gpt-5.4-mini",
+      "responseModel": "gpt-5.4-mini-2026-03-17",
+      "responseId": "resp_05f7b5d6459a7106016af32078df8487d2b0cb1087636739b1",
+      "status": "completed",
+      "usage": {
+        "input_tokens": 5467,
+        "input_tokens_details": {
+          "cache_write_tokens": 0,
+          "cached_tokens": 0
+        },
+        "output_tokens": 68,
+        "output_tokens_details": {
+          "reasoning_tokens": 0
+        },
+        "total_tokens": 5535
+      },
+      "promptSha256": "97106482e700608c01db19a0e347e9f7b3412b32cd23eb8b0b63af11e381e055",
+      "rawOutputText": "{\"checks\":[{\"proposalId\":\"dino-cue-7-0\",\"verdict\":\"supported\",\"evidenceKo\":\"연한 흰색 계열의 매끈한 테이블 표면이 넓게 보이고, 별도 장식은 거의 보이지 않습니다.\"}]}"
+    },
+    {
+      "stage": "verify_cue-8_0",
+      "at": "2026-11-10T13:47:40.394Z",
+      "requestedModel": "gpt-5.4-mini",
+      "responseModel": "gpt-5.4-mini-2026-03-17",
+      "responseId": "resp_0c78165ad7e0c9bf016af3207b067c87d2abb41db86d6821b9",
+      "status": "completed",
+      "usage": {
+        "input_tokens": 5962,
+        "input_tokens_details": {
+          "cache_write_tokens": 0,
+          "cached_tokens": 0
+        },
+        "output_tokens": 68,
+        "output_tokens_details": {
+          "reasoning_tokens": 0
+        },
+        "total_tokens": 6030
+      },
+      "promptSha256": "97106482e700608c01db19a0e347e9f7b3412b32cd23eb8b0b63af11e381e055",
+      "rawOutputText": "{\"checks\":[{\"proposalId\":\"dino-cue-8-0\",\"verdict\":\"supported\",\"evidenceKo\":\"여러 사람이 한 테이블에 모여 각자 식판과 국그릇으로 식사하고 있어 집단 식사 장면이 보입니다.\"}]}"
+    }
+  ]
+}

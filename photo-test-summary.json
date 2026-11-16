@@ -1,0 +1,16 @@
+{
+  "recordId": "de0ae180-c9ed-4126-815b-fc68e0be48a9",
+  "status": "completed",
+  "initialCandidates": 10,
+  "initialText": 4,
+  "initialNonText": 6,
+  "ocrRegions": 33,
+  "allRecords": 43,
+  "supportedRecords": 14,
+  "dispositions": {
+    "candidate": 28,
+    "uncertain": 2,
+    "irrelevant": 13
+  },
+  "errors": []
+}
