@@ -256,6 +256,7 @@ node scripts/paper.mjs preview
 - 글자마다 검색된 곳의 수(`total`), 첫 결과까지의 거리, 첫 결과가 반경 안인지(`topWithinRadius`), 보여 준 결과 중 하나라도 반경 안인지(`anyWithinRadius`)를 기록의 `placeSearches`에 남깁니다. 좌표와 주소는 저장하지 않고 업체 이름과 거리만 남깁니다.
 - 키는 지도 키와 다릅니다. 콘솔의 `Application Services > NAVER API HUB`에서 이용 신청을 하고, 지역 검색을 선택해 Application을 등록한 뒤 `[인증 정보]`의 값을 `.env`의 `NAVER_APIHUB_CLIENT_ID`, `NAVER_APIHUB_CLIENT_SECRET`에 넣습니다. 지도 Application의 키로 부르면 401 "A subscription to the API is required"가 납니다.
 - 한 번에 5곳까지만 받습니다. 같은 이름의 가게가 5곳보다 많으면 그 장소가 결과에 없을 수 있습니다.
+- 정답 좌표 없이 건수만 세는 명령은 `node scripts/paper.mjs probe --all`입니다. `probe --export [--out 파일]`은 저장된 건수를 (기록, 단서, 글자)마다 한 줄씩 `private-data/paper/probe-counts.jsonl`에 씁니다. 누적 분석용이며 좌표는 들어가지 않습니다. `capped: true`인 줄은 건수가 상한(5)에 닿은 것이라 "5곳 이상"으로 읽어야 합니다.
 - 응답의 `total`은 일치한 곳의 수가 아닙니다(결과가 없어도 5가 옵니다). 기록의 `total`은 실제로 돌려받은 곳의 수입니다. 좌표 `mapx`, `mapy`는 도 단위에 10^7을 곱한 정수로 옵니다. 콘솔의 `Application Services > Maps > Application`에서 Geocoding을 선택해 등록한 뒤 `[인증 정보]`에서 확인합니다. `ncp_iam_`으로 시작하는 계정 API 인증키는 지도 API에 쓸 수 없고 401이 납니다.
 
 - 인자는 **EXIF가 남아 있는 원본 사진**입니다. 분석 이미지의 해시로 기록을 찾으므로 `extract`에 넣었던 것과 같은 파일이어야 합니다.

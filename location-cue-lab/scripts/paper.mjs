@@ -8,12 +8,14 @@
 //   node scripts/paper.mjs settings
 //   node scripts/paper.mjs pending
 //   node scripts/paper.mjs regions (--all | <runId> ...) [--force] [--all-clues]   (default: risk tiers decide which clues are searched)
+//   node scripts/paper.mjs recheck (--all | <runId> ...) [--force]   (quoted text OCR did not link: read again where the model says it is, else the model's box; `regions` runs this too)
+//   node scripts/paper.mjs masks (--all | <runId> ...) [--force]   (Segment Anything: the shape inside each detector box; after `regions`)
 //   node scripts/paper.mjs preview [--out <file.html>] [--images <dir>]
-//   node scripts/paper.mjs viewer [--out <dir>]          (interactive page: boxes on and off per clue)
+//   node scripts/paper.mjs viewer [--out <dir>] [--revealed]   (interactive page: boxes on and off per clue; --revealed: only photos whose place came out)
 //   node scripts/paper.mjs locate (--all | <runId> ...) [--top3] [--force]     (evaluation only)
 //   node scripts/paper.mjs score (<original image> ... | --pilot <pilot dir>) [--radius 500] [--geocoder naver|google] [--force]   (evaluation only)
 //   node scripts/paper.mjs places (<original image> ... | --pilot <pilot dir>) [--radius 500] [--force] [--combine]   (evaluation only; --combine also tries texts in pairs and with the guessed district)
-//   node scripts/paper.mjs probe (--all | <runId> ...) [--force]   (counts map-search results per quoted text; needs no true position)
+//   node scripts/paper.mjs probe (--all | <runId> ...) [--force] [--export [--out file]]   (counts map-search results per quoted text; needs no true position)
 //   node scripts/paper.mjs reviews [<reviews.json>]   (counts what a person answered in the viewer, by clue label)
 // Add --handoff <stand-in-label> to extract/mine/classify to run without an API key: each model
 // request is written to private-data/paper/handoff/<id>/ and the command stops until a stand-in
@@ -25,15 +27,16 @@ import { prepareImage,realAdapters } from '../lib/adapters.mjs';
 import { PaperStore } from '../lib/paper-store.mjs';
 import { paperLlm,paperStages,regionStage,locatorStage } from '../lib/paper-llm.mjs';
 import { handoffLlm,handoffBrief,pendingHandoffs,HANDOFF_PENDING } from '../lib/paper-handoff.mjs';
-import { extractAndClassify,classifyRun,mineTaxonomy,linkRunRegions,locateRun,scoreRun,searchPlacesRun } from '../lib/paper-runner.mjs';
+import { extractAndClassify,classifyRun,mineTaxonomy,linkRunRegions,recheckRunText,locateRun,scoreRun,searchPlacesRun } from '../lib/paper-runner.mjs';
+import { maskRunRegions } from '../lib/paper-masks.mjs';
 import { searchCombinationsRun } from '../lib/paper-combo.mjs';
-import { probePlacesRun } from '../lib/paper-probe.mjs';
+import { probePlacesRun,probeLedger } from '../lib/paper-probe.mjs';
 import { reviewSummary } from '../lib/paper-risk.mjs';
 import { GEOCODERS,DEFAULT_RADIUS_M,pilotTruths,naverPlaceSearch } from '../lib/paper-score.mjs';
 import { parseGps } from '../lib/location-experiment.mjs';
 import { renderOverlay,buildPreviewHtml } from '../lib/paper-preview.mjs';
 import { viewerData,VIEWER_HTML } from '../lib/paper-viewer.mjs';
-import { TIERED_POLICY,tierForLinking } from '../lib/paper-risk-tiers.mjs';
+import { TIERED_POLICY,tierForLinking,isCombinationBasis } from '../lib/paper-risk-tiers.mjs';
 import { FIGURE25_SOURCE,FIGURE25_KOREAN,figure25Categories } from '../lib/paper-taxonomy-figure25.mjs';
 import { MINED_GROUP_OF,MINED_KOREAN } from '../lib/paper-taxonomy-mined-labels.mjs';
 
@@ -45,7 +48,7 @@ for(let i=0;i<rest.length;i++){
   else if(arg.startsWith('--'))flags[arg.slice(2)]=true;
   else positional.push(arg);
 }
-const usage=()=>{console.error(readFileSync(new URL(import.meta.url),'utf8').split('\n').slice(1,21).map(line=>line.replace(/^\/\/ ?/,'')).join('\n'));process.exit(1);};
+const usage=()=>{console.error(readFileSync(new URL(import.meta.url),'utf8').split('\n').slice(1,23).map(line=>line.replace(/^\/\/ ?/,'')).join('\n'));process.exit(1);};
 const store=new PaperStore(dataDir);
 const handoff=typeof flags.handoff==='string'&&flags.handoff.trim()?flags.handoff.trim():null;
 if('handoff' in flags&&!handoff)usage();
@@ -153,6 +156,17 @@ if(command==='settings'){
     if(run.pending){showPending(run.pending);process.exitCode=3;}
     else if(run.status!=='classified')process.exitCode=2;
   }
+}else if(command==='masks'){
+  // Not a paper step: the shape of what each detector box holds, from Segment Anything (paper-masks.mjs).
+  // No model is asked anything: only records already linked by `regions` are touched.
+  const runs=flags.all?store.listRuns():positional.map(id=>store.getRun(id));
+  if(!runs.length||runs.some(run=>!run))usage();
+  for(const source of runs){
+    if(!source.regions||(source.masks&&!flags.force))continue;
+    const before=source.errors.length,started=Date.now();
+    const run=await maskRunRegions({store,run:source,segment:realAdapters.segment,force:Boolean(flags.force)});
+    console.log(JSON.stringify({runId:run.id,status:run.errors.length>before?'failed':'masked',boxes:run.masks?.boxes??null,regions:run.masks?.regions??null,model:run.masks?.model??null,seconds:Math.round((Date.now()-started)/100)/10,errors:run.errors.slice(before)}));
+  }
 }else if(command==='regions'){
   // Not a paper step: finds where each clue is, with PaddleOCR and Grounding DINO (see paper-regions.mjs).
   const stage=regionStage(process.env,{handoffModel:handoff});
@@ -161,13 +175,33 @@ if(command==='settings'){
   if(!runs.length||runs.some(run=>!run))usage();
   showStage('regionTargets',stage);
   for(const source of runs){
-    if(!['extracted','classified'].includes(source.status)||(source.regions&&!flags.force))continue;
+    // A record linked but parked at the text recheck (hand-off answer awaited) is continued from there.
+    const parkedAtRecheck=Boolean(source.regions)&&source.pending?.stage==='textHints'&&!flags.force;
+    if(!['extracted','classified'].includes(source.status)||(source.regions&&!flags.force&&!parkedAtRecheck))continue;
     const before=source.errors.length;
-    const run=await linkRunRegions({store,run:source,stage,llm,ocr:realAdapters.ocr,detect:realAdapters.detect,...(flags['all-clues']?{}:{policy:TIERED_POLICY,tierOf:tierForLinking})});
+    let run=parkedAtRecheck?source:await linkRunRegions({store,run:source,stage,llm,ocr:realAdapters.ocr,detect:realAdapters.detect,...(flags['all-clues']?{}:{policy:TIERED_POLICY,tierOf:tierForLinking})});
+    // Quoted text that OCR did not link is read again where the model says it is (paper-text-recheck.mjs).
+    if(!run.pending&&run.errors.length===before)run=await recheckRunText({store,run,stage,llm,ocr:realAdapters.ocr,force:true});
     const failed=run.errors.length>before;
     console.log(JSON.stringify({runId:run.id,status:run.pending?'pending':failed?'failed':'linked',clues:run.clues.length,located:run.clues.filter(clue=>clue.regions?.length).length,
       textRegions:run.clues.reduce((n,clue)=>n+(clue.regions||[]).filter(r=>r.kind==='text').length,0),objectRegions:run.clues.reduce((n,clue)=>n+(clue.regions||[]).filter(r=>r.kind==='object').length,0),
-      ocrLines:run.regions?.ocr?.lineCount??null,detectorQueries:run.regions?.detection?.queryCount??null,errors:run.errors.slice(before)}));
+      textRecheck:run.regions?.textRecheck?{clues:run.regions.textRecheck.clues,verified:run.regions.textRecheck.verified,standIn:run.regions.textRecheck.standIn,noHint:run.regions.textRecheck.noHint}:null,ocrLines:run.regions?.ocr?.lineCount??null,detectorQueries:run.regions?.detection?.queryCount??null,errors:run.errors.slice(before)}));
+    if(run.pending){showPending(run.pending);process.exitCode=3;}
+    else if(failed)process.exitCode=2;
+  }
+}else if(command==='recheck'){
+  // For records already linked: only the text recheck, without reading the whole photo again.
+  const stage=regionStage(process.env,{handoffModel:handoff});
+  requireModel(stage);
+  const runs=flags.all?store.listRuns():positional.map(id=>store.getRun(id));
+  if(!runs.length||runs.some(run=>!run))usage();
+  showStage('textHints',stage);
+  for(const source of runs){
+    if(!source.regions||(source.regions.textRecheck&&!flags.force))continue;
+    const before=source.errors.length;
+    const run=await recheckRunText({store,run:source,stage,llm,ocr:realAdapters.ocr,force:Boolean(flags.force)});
+    const failed=run.errors.length>before,summary=run.regions.textRecheck;
+    console.log(JSON.stringify({runId:run.id,status:run.pending?'pending':failed?'failed':'rechecked',clues:summary?.clues??null,verified:summary?.verified??null,standIn:summary?.standIn??null,noHint:summary?.noHint??null,ocrCalls:summary?.ocrCalls??null,errors:run.errors.slice(before)}));
     if(run.pending){showPending(run.pending);process.exitCode=3;}
     else if(failed)process.exitCode=2;
   }
@@ -265,7 +299,7 @@ if(command==='settings'){
     // --combine: also tries the texts that revealed nothing alone, in pairs and with the district
     // the address guess pointed to (paper-combo.mjs). The guess stays inside this evaluation.
     if(flags.combine&&record.placeSearches){
-      const combined=await searchCombinationsRun({store,run:record,truth,search:naverPlaceSearch,geocode:GEOCODERS.naver.geocode,tierOf:tierForLinking,radiusM,force:Boolean(flags.force)});
+      const combined=await searchCombinationsRun({store,run:record,truth,search:naverPlaceSearch,geocode:GEOCODERS.naver.geocode,tierOf:tierForLinking,basisOf:isCombinationBasis,radiusM,force:Boolean(flags.force)});
       if(combined.blocked){blocked=combined.blocked;break;}
       record=combined.run;
     }
@@ -281,9 +315,11 @@ if(command==='settings'){
 }else if(command==='probe'){
   // Not a paper step. Counts what the map search returns for each text quoted from a photo, without
   // any true position: so it also runs for photos that carry none (paper-probe.mjs). Only the texts go out.
+  // --export [--out file]: writes the stored counts of every probed record as JSON lines (paper-probe.mjs
+  // probeLedger), for the cumulative analysis. Alone, without --all or ids, it searches nothing.
   const runs=flags.all?store.listRuns():positional.map(id=>store.getRun(id));
-  if(!runs.length||runs.some(run=>!run))usage();
-  console.log('This sends the texts quoted from each photo to NAVER place search and stores how many places come back, in all and in the assumed area. No position is sent or stored.');
+  if((!runs.length&&!flags.export)||runs.some(run=>!run))usage();
+  if(runs.length)console.log('This sends the texts quoted from each photo to NAVER place search and stores how many places come back, in all and in the assumed area. No position is sent or stored.');
   let blocked=null,records=0,texts=0,none=0;
   for(const source of runs){
     const result=await probePlacesRun({store,run:source,search:naverPlaceSearch,force:Boolean(flags.force)});
@@ -291,7 +327,12 @@ if(command==='settings'){
     if(!result.run.placeProbes)continue;
     records++;texts+=result.run.placeProbes.length;none+=result.run.placeProbes.filter(probe=>probe.inAreaCount===0).length;
   }
-  console.log(JSON.stringify({records,texts,withoutResultInArea:none}));
+  if(runs.length)console.log(JSON.stringify({records,texts,withoutResultInArea:none}));
+  if(flags.export){
+    const out=resolve(typeof flags.out==='string'?flags.out:resolve(store.directory,'probe-counts.jsonl')),rows=probeLedger(store.listRuns());
+    writeFileSync(out,rows.map(row=>JSON.stringify(row)).join('\n')+(rows.length?'\n':''));
+    console.log(JSON.stringify({exported:out,rows:rows.length,records:new Set(rows.map(row=>row.recordId)).size}));
+  }
   if(blocked){console.log(JSON.stringify({status:'place_search_unavailable',reason:blocked}));process.exitCode=2;}
 }else if(command==='preview'){
   // Local page only: photos and clues can reveal a location, so it is written under private-data.
@@ -330,11 +371,14 @@ if(command==='settings'){
   const entries=[];
   for(const [index,run] of runs.entries()){
     const photo=named.get(run.id);
-    writeFileSync(resolve(out,'images',`${run.id}.jpg`),await sharp(store.image(run.id)).resize({width:1100,height:1100,fit:'inside',withoutEnlargement:true}).jpeg({quality:84}).toBuffer());
     const title=photo?`${photo.folder} ${photo.index}`:`사진 ${index+1}`;
     entries.push({run,korean:korean[run.id],folder:photo?.folder??null,title,pick:picks.get(title)??null});
   }
   const data=viewerData(entries,{labels:{...FIGURE25_KOREAN,...MINED_KOREAN}});
+  // --revealed: only the photos whose place came out, by a map search of a clue (확인된 위험) or by the
+  // address guess (사진 경고). Give --out as well, or the full viewer is replaced by this selection.
+  if(flags.revealed)data.photos=data.photos.filter(photo=>photo.risk.confirmed||photo.warning);
+  for(const photo of data.photos)writeFileSync(resolve(out,'images',`${photo.id}.jpg`),await sharp(store.image(photo.id)).resize({width:1100,height:1100,fit:'inside',withoutEnlargement:true}).jpeg({quality:84}).toBuffer());
   writeFileSync(resolve(out,'data.js'),`window.VIEWER_DATA=${JSON.stringify(data)};\n`);
   writeFileSync(resolve(out,'index.html'),VIEWER_HTML);
   console.log(JSON.stringify({photos:data.photos.length,withBoxes:data.photos.filter(photo=>photo.boxes).length,picks:data.photos.filter(photo=>photo.pick).length,file:resolve(out,'index.html')}));

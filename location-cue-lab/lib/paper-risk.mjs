@@ -5,10 +5,12 @@
 //              (8 of the 25 texts that led to the place were not read by OCR)
 //   low        tier B or C, or tier A whose quoted texts
 //              find nothing on the map in the assumed area (added 2026-11-15)
+// combinationBasis (2026-11-16): a low clue that is material for a combination (a chain's name, a
+// distant view; paper-risk-tiers.mjs COMBINATION_BASIS). It stays low until a combination confirms it.
 // A category's tier is only the default (paper-risk-tiers.mjs); `confirmed` is the measured part.
 // The address guess is an evaluation element kept inside: a guess that hit marks the PHOTO
 // (photo.guessHit), not a clue, because the guess does not say which clue decided it.
-import { riskTierOf } from './paper-risk-tiers.mjs';
+import { clueTier,isCombinationBasis,KEEPS_LABEL_WITHOUT_MAP_RESULT } from './paper-risk-tiers.mjs';
 
 export const COMBINATION_RADIUS_M=150;
 export const RISK_LABEL_KO={confirmed:'확인된 위험',potential:'잠재 위험',low:'낮음'};
@@ -32,8 +34,18 @@ export const hasQuotedText=clue=>(clue.textTargets||[]).length>0;
 //   a box the model pointed at (kind 'pointed', scripts/pointing-experiment.mjs) is a suggestion to
 //   be checked, not a location: it never counts.
 export const trustedRegions=clue=>(clue.regions||[]).filter(region=>region.kind!=='pointed'&&(hasQuotedText(clue)?region.kind==='text':true));
+//   a quoted text that OCR could not read even in an enlarged cut-out has the model's own box instead
+//   (paper-text-recheck.mjs, verified:false). By the owner's decision of 2026-11-16 it counts as located
+//   and is told apart: locatedBy is 'ocr' (a tool read the text there), 'model' (the stand-in box),
+//   'detector' (an object box of a clue that quotes nothing) or null.
+export function locatedBy(clue){
+  const regions=trustedRegions(clue);
+  if(!regions.length)return null;
+  if(!hasQuotedText(clue))return 'detector';
+  return regions.some(region=>region.verified!==false)?'ocr':'model';
+}
 
-// Returns {clues:{clueId:{label,tier,located,reason,evidence:[text]}},counts:{confirmed,potential,low},searched,probed}.
+// Returns {clues:{clueId:{label,tier,located,locatedBy,combinationBasis,reason,evidence:[text]}},counts:{confirmed,potential,low},searched,probed}.
 // searched: the record has place-search results, so `confirmed` could be decided at all. Without
 // them (no true position to compare with) the best a clue can get is `potential`.
 export function riskLabels(run){
@@ -55,14 +67,18 @@ export function riskLabels(run){
   const clues={},counts={confirmed:0,potential:0,low:0};
   for(const clue of run.clues){
     // The tier table as it is now, not the tier stored when the regions were linked.
-    const tier=riskTierOf(clue.taxonomy?.name)??clue.risk?.tier??'A',located=trustedRegions(clue).length>0,proof=evidence.get(clue.id)||[];
+    const tier=clueTier(clue)??clue.risk?.tier??'A',by=locatedBy(clue),located=by!==null,proof=evidence.get(clue.id)||[];
     // A search that led to the place always wins over a count that says nothing was found.
-    const nowhere=!proof.length&&tier==='A'&&unfindable.has(clue.id);
+    // An event or exhibition name is not on the map but is found by a web search: it keeps its label.
+    const offMap=unfindable.has(clue.id),webFindable=KEEPS_LABEL_WITHOUT_MAP_RESULT.has(clue.taxonomy?.name);
+    const nowhere=!proof.length&&tier==='A'&&offMap&&!webFindable;
     const label=proof.length?'confirmed':tier==='A'&&!nowhere?'potential':'low';
-    const reason=proof.length?'지도 검색으로 실제 위치가 나옴':tier!=='A'?`등급 ${tier}`
+    const basis=isCombinationBasis(clue);
+    const reason=proof.length?'지도 검색으로 실제 위치가 나옴':tier!=='A'?(basis?`등급 ${tier}. 혼자서는 낮음, 다른 단서와의 조합에서 근거가 됨`:`등급 ${tier}`)
       :nowhere?'A 등급이지만, 인용한 글자를 지도에서 검색해도 이 지역에 나오는 곳이 없음'
+      :offMap&&webFindable?'A 등급. 지도에는 없는 이름이지만, 행사·전시 이름은 웹 검색으로 장소가 나올 수 있음'
       :located?'A 등급. 검색으로는 위치가 나오지 않음':hasQuotedText(clue)?'A 등급. 인용한 글자를 사진에서 찾지 못해 상자가 없음':'A 등급. 사진에서 위치를 찾지 못해 상자가 없음';
-    clues[clue.id]={label,tier,located,reason,evidence:proof};counts[label]++;
+    clues[clue.id]={label,tier,located,locatedBy:by,combinationBasis:basis,reason,evidence:proof};counts[label]++;
   }
   return {clues,counts,searched:Boolean(run.placeSearches),probed:Boolean(run.placeProbes)};
 }

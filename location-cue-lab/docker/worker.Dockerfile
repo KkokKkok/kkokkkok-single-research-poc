@@ -15,7 +15,7 @@ WORKDIR /app
 COPY scripts/${KIND}-requirements.txt requirements.txt
 RUN pip install --no-cache-dir -r requirements.txt
 # compose.yaml mounts ./scripts over this copy, so editing a script needs a restart, not a rebuild.
-COPY scripts/ocr.py scripts/detect.py scripts/worker-server.py ./scripts/
+COPY scripts/ocr.py scripts/detect.py scripts/segment.py scripts/worker-server.py ./scripts/
 
 # Model weights download on first use into the /models volume and stay there.
 ENV KIND=${KIND} \

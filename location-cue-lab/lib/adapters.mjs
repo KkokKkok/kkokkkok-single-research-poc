@@ -56,6 +56,15 @@ export const realAdapters={
   },
   async ocr(bytes){const r=ocrSchema.parse(await runPython('ocr','ocr.py',bytes));if(new Set(r.lines.map(l=>l.id)).size!==r.lines.length)throw new Error('OCR_DUPLICATE_ID');return r;},
   async detect(bytes,queries){const r=detectionSchema.parse(await runPython('grounding','detect.py',Buffer.from(JSON.stringify({image:bytes.toString('base64'),queries})),{},1800000));if(r.imageSha256!==sha(bytes))throw new Error('DETECTOR_IMAGE_MISMATCH');const seen=new Set();for(const q of r.requests){if(seen.has(q.cueId)||!queries.some(x=>x.cueId===q.cueId&&x.query===q.query))throw new Error('DETECTOR_QUERY_MISMATCH');seen.add(q.cueId);}if(seen.size!==queries.length)throw new Error('DETECTOR_QUERY_MISSING');const ids=r.requests.flatMap(q=>q.detections.map(d=>d.id));if(ids.length!==new Set(ids).size)throw new Error('DETECTOR_DUPLICATE_ID');return r;},
+  // Segment Anything, one mask per box (scripts/segment.py). Runs in the grounding environment and
+  // worker: the same torch and transformers, no further requirement. boxes: [{id,bbox}].
+  async segment(bytes,boxes,{maskSide=512}={}){
+    const r=await runPython('grounding','segment.py',Buffer.from(JSON.stringify({image:bytes.toString('base64'),boxes:boxes.map(({id,bbox})=>({id,bbox})),maskSide})),{},1800000);
+    if(r?.imageSha256!==sha(bytes))throw new Error('SEGMENTER_IMAGE_MISMATCH');
+    const ids=new Set(boxes.map(box=>box.id));
+    if(!Array.isArray(r.masks)||r.masks.length!==ids.size||new Set(r.masks.map(mask=>mask.id)).size!==ids.size||r.masks.some(mask=>!ids.has(mask.id)))throw new Error('SEGMENTER_MASK_MISMATCH');
+    return r;
+  },
   async crop(bytes,bbox,image){return sharp(bytes).extract(cropPixels(bbox,image.width,image.height)).jpeg({quality:95}).toBuffer();},
   async ocrContext(bytes,lines,image){
     const sheets=[];

@@ -7,6 +7,7 @@
     POST /run     JSON body, JSON answer in the same shape the one-shot script prints:
         ocr        {"image": base64 JPEG, "settings": {"KKOK_OCR_LANGS": "korean", ...}?}
         grounding  {"image": base64 JPEG, "queries": [{"cueId", "query"}], "threshold"?, "textThreshold"?}
+                or {"image": base64 JPEG, "boxes": [{"id", "bbox"}], "maskSide"?}   (Segment Anything, segment.py)
 
 The worker keeps nothing between requests and never calls another worker: the caller decides the order.
 Standard library only, so the image needs nothing beyond the model's own requirements.
@@ -26,8 +27,13 @@ def runner(kind):
                 raise ValueError("Invalid settings")
             return module.extract(base64.b64decode(payload["image"], validate=True), settings)
         return run
-    module = importlib.import_module("detect")
-    return module.detect
+    # The grounding worker answers two kinds of request, told apart by their fields: detector queries
+    # (detect.py) and boxes to cut out (segment.py). Each model is loaded on its first request.
+    detect = importlib.import_module("detect").detect
+    def run(payload):
+        if "boxes" in payload: return importlib.import_module("segment").segment(payload)
+        return detect(payload)
+    return run
 
 def main():
     parser = argparse.ArgumentParser()

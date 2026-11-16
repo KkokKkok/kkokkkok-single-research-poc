@@ -4,7 +4,7 @@ import { mkdtempSync,rmSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { resolve } from 'node:path';
 import { PaperStore } from '../lib/paper-store.mjs';
-import { probeText,probePlacesRun,inProbeArea,PROBE_AREA } from '../lib/paper-probe.mjs';
+import { probeText,probePlacesRun,probeLedger,inProbeArea,PROBE_AREA } from '../lib/paper-probe.mjs';
 import { riskLabels,cluesWithoutAreaResult } from '../lib/paper-risk.mjs';
 import { shorterQueries,withShorterQueries,MAX_SHORTER_QUERIES } from '../lib/paper-runner.mjs';
 
@@ -91,4 +91,46 @@ test('a quoted sentence that finds nothing is typed again in shorter forms',asyn
   const labels=riskLabels({clues:[{id:'clue-0',category:'c',detail:'d',taxonomy:{number:1,name:'Event Announcement Displays'},regions:[]}],
     placeSearches:[{query:wall,searchedAs:'서울시립 서서울미술관',clueIds:['clue-0'],topWithinRadius:true,topDistanceM:40}]});
   assert.match(labels.clues['clue-0'].evidence[0],/지도 검색 "서울시립 서서울미술관" \(인용문을 줄여서 검색\) → 첫 결과가 실제 위치 \(40m\)/);
+});
+
+test('an exhibition title keeps its label without a map result; a brand clue is low alone and a combination basis only when it quotes text',()=>{
+  const clue=(id,name,detail,textTargets)=>({id,category:'c',detail,taxonomy:{number:1,name},textTargets,regions:[]});
+  const run={clues:[
+    clue('clue-0','Event Announcement Displays',"Solo exhibition titled 'Moles'",['Moles']),          // not on the map, found on the web
+    clue('clue-1','Commercial Signage',"Sign reads 'ZZQX'",['ZZQX']),                                  // not on the map: lowered as before
+    clue('clue-2','Retail Store Fixtures','Prices in Korean won on shelf cards',[]),                    // names nothing
+    clue('clue-3','Retail Store Fixtures',"Price cards reading 'BRANDX'",['BRANDX']),                  // names a brand
+    clue('clue-4','Portable Branded Items','A grey plastic cart with a red handle',undefined),
+  ],placeProbes:[{query:'Moles',clueIds:['clue-0'],inAreaCount:0},{query:'ZZQX',clueIds:['clue-1'],inAreaCount:0}]};
+  const marks=riskLabels(run).clues;
+  assert.deepEqual(Object.values(marks).map(entry=>[entry.label,entry.tier,entry.combinationBasis]),[['potential','A',false],['low','A',false],['low','B',false],['low','B',true],['low','B',false]]);
+  assert.match(marks['clue-3'].reason,/조합에서 근거가 됨/);assert.equal(marks['clue-2'].reason,'등급 B');
+  assert.match(marks['clue-0'].reason,/웹 검색으로 장소가 나올 수 있음/);
+});
+
+test('a view clue is tier B, a combination basis, and still looked for by the detector',async()=>{
+  const { riskTierOf,isCombinationBasis,TIERED_POLICY }=await import('../lib/paper-risk-tiers.mjs');
+  assert.deepEqual(['Portable Branded Items','Retail Store Fixtures','Distant Skyline Profile','Viewpoint Spatial Alignment','Bridge Structures'].map(riskTierOf),['B','B','B','B','A']);
+  const view={id:'clue-0',category:'c',detail:'A tower far behind the roofs',taxonomy:{number:1,name:'Distant Skyline Profile'},regions:[]};
+  assert.equal(isCombinationBasis(view),true);
+  assert.equal(isCombinationBasis({...view,taxonomy:{number:2,name:'Climate Indicators'}}),false);
+  assert.deepEqual(TIERED_POLICY.objectCategories,['Distant Skyline Profile','Viewpoint Spatial Alignment']);
+  const mark=riskLabels({clues:[view]}).clues['clue-0'];
+  assert.deepEqual([mark.label,mark.tier,mark.combinationBasis],['low','B',true]);
+});
+
+test('a count that reaches the search limit is marked, and the stored counts come out as flat rows',async()=>{
+  const full=await probeText({query:'체인',search:async()=>({status:'resolved',places:[seoul,seoul,seoul,busan,busan]})});
+  assert.deepEqual([full.resultCount,full.inAreaCount,full.limit,full.capped],[5,3,5,true]);
+  assert.equal((await probeText({query:'x',search:async()=>({status:'resolved',places:[seoul]})})).capped,false);
+  const run={id:'r1',createdAt:'2026-11-16T00:00:00.000Z',image:{sha256:'abc'},clues:[
+    {id:'clue-0',category:'c',detail:"Cup reads 'BRANDX'",taxonomy:{number:1,name:'Portable Branded Items'},textTargets:['BRANDX']},
+    {id:'clue-1',category:'c',detail:"Sign reads 'ROOT HAUS'",taxonomy:{number:2,name:'Commercial Signage'},textTargets:['ROOT HAUS']}],
+    placeProbes:[{...full,query:'BRANDX',clueIds:['clue-0']},{query:'ROOT HAUS 본점',searchedAs:'ROOT HAUS',status:'resolved',area:'seoul_box',resultCount:1,inAreaCount:1,clueIds:['clue-1','clue-9']}]};
+  const rows=probeLedger([run,{id:'r2',clues:[]}]);
+  assert.deepEqual(rows.map(row=>[row.recordId,row.imageSha256,row.clueId,row.category,row.tier,row.combinationBasis,row.text,row.searchedAs,row.resultCount,row.inAreaCount,row.limit,row.capped]),[
+    ['r1','abc','clue-0','Portable Branded Items','B',true,'BRANDX','BRANDX',5,3,5,true],
+    ['r1','abc','clue-1','Commercial Signage','A',false,'ROOT HAUS 본점','ROOT HAUS',1,1,5,false],   // an older probe: no limit stored
+    ['r1','abc','clue-9',null,null,false,'ROOT HAUS 본점','ROOT HAUS',1,1,5,false]]);                 // a clue that no longer exists
+  assert.ok(!/latitude|longitude/.test(JSON.stringify(rows)));
 });

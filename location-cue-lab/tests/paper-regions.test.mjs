@@ -33,6 +33,13 @@ test('quoted strings, text matching and target parsing',()=>{
   assert.equal(matchText('MAPO HANGANG PRUGIO','MAPO KANGANG'),'line_near_quote_part');
   assert.equal(matchText('DEPOUND','DEROUND WTM'),'quote_near_line_part');
   assert.equal(matchText('마포대교 (여의도한강공원)','(여의도환강공원)'),'line_near_quote_part');
+  // One or two wrong Hangul syllables, when the letters still mostly agree.
+  assert.equal(matchText('학교법인 일송학원','화교법인일송회원'),'fuzzy_syllables');
+  assert.equal(matchText('주말 장보기 재밌다아아','재있다아아'),'line_near_quote_syllables');
+  assert.equal(matchText('학교법인 일송학원','학교인일송회원'),'fuzzy_syllables');
+  assert.equal(matchText('찾아가는 엽기떡볶이','찾아가는업기픽볶이'),'fuzzy_syllables');
+  assert.equal(matchText('학교법인 일송학원','마이일?'),null);assert.equal(matchText('당산역','당산동'),null);
+  assert.equal(matchText('진영광고','판촉용품'),null);assert.equal(matchText('서울특별시','서울시청'),null);
   assert.equal(matchText('MAPO HANGANG PRUGIO','MARIO'),null);assert.equal(matchText('MAPO HANGANG PRUGIO','SEOUL STATION'),null);
   assert.equal(matchText('ROOT HAUS','ROOTHAUS'),'exact');assert.equal(matchText('ROOT HAUS','POOT HAUS'),'fuzzy');
   assert.equal(matchText('MATCHA CHOCO SALT BREAD','MATCHA CHOCO'),'line_in_quote');assert.equal(matchText('서서울미술관','서울시립 서서울미술관'),'quote_in_line');
@@ -122,6 +129,9 @@ test('preview draws one box per place and escapes everything it prints',async()=
   assert.deepEqual(displayRegions({regions:[]}),[]);assert.deepEqual(displayRegions({}),[]);
   const svg=overlaySvg([clue,{...clue,regions:[]}],200,100);
   assert.equal((svg.match(/stroke-dasharray/g)||[]).length,1);assert.equal((svg.match(/<text /g)||[]).length,2);assert.ok(svg.includes('x="20.0" y="10.0"'));
+  // An OCR line with an outline is drawn along it; a detector box stays a box even if it carries one.
+  const slanted=overlaySvg([{regions:[{kind:'text',match:'exact',quoted:'A',bbox:[.1,.1,.5,.4],polygon:[[.1,.2],[.5,.1],[.5,.3],[.1,.4]]},{kind:'object',query:'q',score:.9,bbox:[.6,.6,.8,.8],polygon:[[.6,.6],[.8,.6],[.8,.8]]}]}],200,100);
+  assert.equal((slanted.match(/<polygon points="20\.0,20\.0 100\.0,10\.0 100\.0,30\.0 20\.0,40\.0"/g)||[]).length,2);assert.equal((slanted.match(/<rect [^>]*fill="none"/g)||[]).length,2);
   const photo=await sharp({create:{width:400,height:200,channels:3,background:'#888888'}}).jpeg().toBuffer();
   const overlay=await renderOverlay(photo,[clue],200);
   const meta=await sharp(overlay).metadata();assert.deepEqual([meta.format,meta.width,meta.height],['jpeg',200,100]);

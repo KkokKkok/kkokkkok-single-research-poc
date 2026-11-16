@@ -5,12 +5,12 @@ import { viewerData,guessVerdict,photoWarning,VIEWER_HTML } from '../lib/paper-v
 const clue=(id,regions)=>({id,category:'Signage',detail:'Sign reads "CAFE"',taxonomy:{number:11,name:'Commercial Signage',group:'Identification'},textTargets:['CAFE'],objectTargets:['shop sign'],regions});
 const run=overrides=>({id:'run-1',image:{width:800,height:600},clues:[],regions:null,predictions:[],...overrides});
 
-test('viewer data keeps every region proposal and marks the ones the preview would draw',()=>{
+test('viewer data keeps the text regions of a clue that quotes text and drops its detector boxes',()=>{
   const regions=[
     {kind:'text',bbox:[0.1,0.1,0.3,0.2],quoted:'CAFE',match:'exact'},
     {kind:'object',bbox:[0.4,0.4,0.6,0.6],query:'shop sign',score:0.62},
-    {kind:'object',bbox:[0.7,0.1,0.9,0.3],query:'shop sign',score:0.41},   // second box of the same phrase: kept, not shown
-    {kind:'object',bbox:[0.0,0.0,0.2,0.2],query:'awning',score:0.2},        // below the display score: kept, not shown
+    {kind:'object',bbox:[0.7,0.1,0.9,0.3],query:'shop sign',score:0.41},   // a detector box of a clue that quotes text: left out
+    {kind:'object',bbox:[0.0,0.0,0.2,0.2],query:'awning',score:0.2},        // left out as well
   ];
   const data=viewerData([{run:run({clues:[clue('clue-0',regions),clue('clue-1',undefined)],regions:{version:'x'}}),korean:{'clue-0':'간판에 "CAFE"'},title:'집_합정 3',folder:'집_합정'}],
     {labels:{'Commercial Signage':'상업 간판','Identification':'식별 표지'},generatedAt:'t'});
@@ -19,9 +19,22 @@ test('viewer data keeps every region proposal and marks the ones the preview wou
   assert.deepEqual(photo.clues.map(entry=>entry.n),[1,2]);
   assert.deepEqual(photo.clues[0].taxonomy,{number:11,name:'Commercial Signage',ko:'상업 간판',group:'Identification',groupKo:'식별 표지'});
   assert.equal(photo.clues[0].ko,'간판에 "CAFE"');assert.equal(photo.clues[1].ko,null);
-  assert.deepEqual(photo.clues[0].regions.map(region=>[region.kind,region.label,region.score,region.shown]),[['t','CAFE',null,true],['o','shop sign',0.62,false],['o','shop sign',0.41,false],['o','awning',0.2,false]]);
+  assert.deepEqual(photo.clues[0].regions.map(region=>[region.kind,region.label,region.score,region.shown]),[['t','CAFE',null,true]]);
   assert.deepEqual(photo.clues[1].regions,[]);
   assert.equal(photo.guess,null);
+  // An OCR line carries its outline to the page; a region without one, and a detector box, do not.
+  assert.equal('polygon' in photo.clues[0].regions[0],false);
+  const outlined=viewerData([{run:run({clues:[{...clue('clue-0',[{kind:'text',bbox:[0.1,0.1,0.5,0.4],polygon:[[0.1,0.2],[0.5,0.1],[0.5,0.3],[0.123456,0.4]],quoted:'CAFE',match:'exact'}]),detail:'d'},
+    {...clue('clue-1',[{kind:'object',bbox:[0.4,0.4,0.6,0.6],polygon:[[0.4,0.4],[0.6,0.4],[0.6,0.6]],query:'shop sign',score:0.62}]),detail:'d',textTargets:[]}],regions:{version:'x'}}),title:'사진 1'}]).photos[0];
+  assert.deepEqual(outlined.clues[0].regions[0].polygon,[[0.1,0.2],[0.5,0.1],[0.5,0.3],[0.1235,0.4]]);
+  assert.equal('polygon' in outlined.clues[1].regions[0],false);
+  assert.ok(VIEWER_HTML.includes('<polygon points="'));
+  // OCR found the text: "찾음". The model's box stands in for it: "대체돼서 찾음", flagged so the page draws it dashed.
+  assert.equal(photo.clues[0].locatedBy,'ocr');assert.equal('standIn' in photo.clues[0].regions[0],false);
+  const stood=viewerData([{run:run({clues:[clue('clue-0',[{kind:'text',source:'model_hint',verified:false,bbox:[0.1,0.1,0.3,0.2],polygon:[[0.1,0.1],[0.3,0.1],[0.3,0.2],[0.1,0.2]],quoted:'CAFE',match:'unverified',score:null}])],regions:{version:'x'}}),title:'사진 1'}]).photos[0];
+  assert.deepEqual([stood.clues[0].located,stood.clues[0].locatedBy,stood.boxes],[true,'model',1]);
+  assert.deepEqual(stood.clues[0].regions.map(region=>[region.kind,region.standIn,region.shown]),[['t',true,true]]);
+  assert.ok(VIEWER_HTML.includes('대체돼서 찾음')&&VIEWER_HTML.includes('<strong>찾음</strong>'));
   // A photo a person is asked to look at first carries the question.
   assert.equal(photo.pick,null);
   assert.deepEqual(viewerData([{run:run({clues:[clue('clue-0',undefined)]}),title:'사진 1',pick:{order:2,ask:'상자가 맞나요?'}}]).photos[0].pick,{order:2,ask:'상자가 맞나요?'});

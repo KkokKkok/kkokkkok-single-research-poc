@@ -9,13 +9,17 @@ const escapeHtml=value=>String(value??'').replace(/[&<>"']/g,ch=>({'&':'&amp;','
 
 const area=box=>Math.max(0,box[2]-box[0])*Math.max(0,box[3]-box[1]);
 const iou=(a,b)=>{const inter=area([Math.max(a[0],b[0]),Math.max(a[1],b[1]),Math.min(a[2],b[2]),Math.min(a[3],b[3])]);const union=area(a)+area(b)-inter;return union?inter/union:0;};
-const MATCH_ORDER={exact:0,fuzzy:1,quote_in_line:2,line_in_quote:3,quote_near_line_part:4,line_near_quote_part:5};
+// 'unverified' is the model's box standing in for a text OCR could not read (paper-text-recheck.mjs): last.
+const MATCH_ORDER={exact:0,fuzzy:1,fuzzy_syllables:2,quote_in_line:3,line_in_quote:4,quote_near_line_part:5,line_near_quote_part:6,quote_near_line_syllables:7,line_near_quote_syllables:8,unverified:9};
 // What is drawn and counted for a clue. The record keeps every proposal; the picture shows one box
 // per place: OCR reads the same sign several times (tiles), and DINO returns several boxes a phrase.
 export function displayRegions(clue,{minScore=0.35,perPhrase=1}={}){
-  const text=(clue.regions||[]).filter(region=>region.kind==='text').sort((a,b)=>MATCH_ORDER[a.match]-MATCH_ORDER[b.match]);
+  const text=(clue.regions||[]).filter(region=>region.kind==='text').sort((a,b)=>(MATCH_ORDER[a.match]??8)-(MATCH_ORDER[b.match]??8));
   const perQuery=new Map();
-  const objects=(clue.regions||[]).filter(region=>region.kind==='object'&&region.score>=minScore).sort((a,b)=>b.score-a.score)
+  // A detector box that spans the whole width or height of the photo ("red cart handle" as a band from
+  // edge to edge) is the detector failing to pick anything out; it is kept in the record, not drawn.
+  const spans=box=>box[2]-box[0]>=0.9||box[3]-box[1]>=0.9;
+  const objects=(clue.regions||[]).filter(region=>region.kind==='object'&&region.score>=minScore&&!spans(region.bbox)).sort((a,b)=>b.score-a.score)
     .filter(region=>{const seen=perQuery.get(region.query)||0;perQuery.set(region.query,seen+1);return seen<perPhrase;});
   const kept=[];
   for(const region of [...text,...objects])if(!kept.some(other=>iou(other.bbox,region.bbox)>0.6))kept.push(region);
@@ -30,8 +34,11 @@ export function overlaySvg(clues,width,height){
     for(const region of displayRegions(clue)){
       const [x0,y0,x1,y1]=region.bbox,x=x0*width,y=y0*height,w=Math.max(2,(x1-x0)*width),h=Math.max(2,(y1-y0)*height),color=colorOf(index),label=String(index);
       const labelWidth=8+7*label.length,labelY=y>=16?y-16:y;
-      parts.push(`<rect x="${x.toFixed(1)}" y="${y.toFixed(1)}" width="${w.toFixed(1)}" height="${h.toFixed(1)}" fill="none" stroke="#ffffff" stroke-width="4" stroke-opacity="0.85"/>`);
-      parts.push(`<rect x="${x.toFixed(1)}" y="${y.toFixed(1)}" width="${w.toFixed(1)}" height="${h.toFixed(1)}" fill="none" stroke="${color}" stroke-width="2"${region.kind==='object'?' stroke-dasharray="7 4"':''}/>`);
+      // An OCR line is drawn along its own outline (a slanted sign as it lies); a detector box as a box.
+      const outline=region.kind==='text'&&Array.isArray(region.polygon)&&region.polygon.length>=3;
+      const shape=outline?`polygon points="${region.polygon.map(point=>`${(point[0]*width).toFixed(1)},${(point[1]*height).toFixed(1)}`).join(' ')}" stroke-linejoin="round"`:`rect x="${x.toFixed(1)}" y="${y.toFixed(1)}" width="${w.toFixed(1)}" height="${h.toFixed(1)}"`;
+      parts.push(`<${shape} fill="none" stroke="#ffffff" stroke-width="4" stroke-opacity="0.85"/>`);
+      parts.push(`<${shape} fill="none" stroke="${color}" stroke-width="2"${region.kind==='object'?' stroke-dasharray="7 4"':''}/>`);
       parts.push(`<rect x="${x.toFixed(1)}" y="${labelY.toFixed(1)}" width="${labelWidth}" height="16" fill="${color}"/><text x="${(x+4).toFixed(1)}" y="${(labelY+12.5).toFixed(1)}" fill="#ffffff" font-size="12" font-weight="bold" font-family="Arial, sans-serif">${label}</text>`);
     }
   });

@@ -26,7 +26,10 @@ export function haversineM(a,b){
   return 2*6371008.8*Math.asin(Math.sqrt(h));
 }
 
-// texts: [{query,clueIds,tier}] the photo's quoted texts that did NOT reveal the place alone.
+// texts: [{query,clueIds,tier,basis}] the photo's quoted texts that did NOT reveal the place alone.
+// basis: the text comes from a clue that is low alone but material for a combination (a chain's name;
+// paper-risk-tiers.mjs COMBINATION_BASIS). Such a text is combined like a tier A text (2026-11-16):
+// two chains seen together, or a chain in the guessed district, are what the rule sheet's chapter 3 is about.
 // guess: {latitude,longitude,districtKo} from the address guess, or null (no guess, or outside Seoul).
 // Returns {blocked:true,status} or {searches:[...]}. One entry per attempt:
 //   kind 'pair'  method 'co_location'  each text names places, and one of each lie within pairRadiusM
@@ -34,8 +37,8 @@ export function haversineM(a,b){
 //   kind 'area'  method 'district_nearest_to_guess'  "<district> <text>", taking the result nearest the guessed point
 // withinRadius: the place arrived at is within radiusM of the true position.
 export async function combinationSearches({texts,truth,search,guess=null,distance=geodesicDistanceM,radiusM=DEFAULT_RADIUS_M,pairRadiusM=300,maxTexts=6,maxPairs=10,maxArea=6}){
-  const order={A:0,B:1,C:2};
-  const chosen=[...texts].sort((a,b)=>(order[a.tier]??3)-(order[b.tier]??3)).slice(0,maxTexts);
+  const order={A:0,B:2,C:3},rank=text=>text.tier!=='A'&&text.basis?1:order[text.tier]??4,leads=text=>text.tier==='A'||Boolean(text.basis);
+  const chosen=[...texts].sort((a,b)=>rank(a)-rank(b)).slice(0,maxTexts);
   const toTruth=point=>distance({latitude:point.latitude,longitude:point.longitude},{latitude:truth.latitude,longitude:truth.longitude});
   const found=new Map(),searches=[];
   const lookUp=async query=>{
@@ -47,11 +50,11 @@ export async function combinationSearches({texts,truth,search,guess=null,distanc
     return found.get(query);
   };
   const entry=(kind,method,members,fields)=>({searchedAt:new Date().toISOString(),service:'naver_apihub_local',kind,method,texts:members.map(member=>member.query),clueIds:members.map(member=>member.clueIds),radiusM,...fields});
-  // Pairs: at least one of the two is tier A.
+  // Pairs: at least one of the two is tier A or a combination basis.
   let pairs=0;
   for(let i=0;i<chosen.length&&pairs<maxPairs;i++)for(let j=i+1;j<chosen.length&&pairs<maxPairs;j++){
     const a=chosen[i],b=chosen[j];
-    if(a.tier!=='A'&&b.tier!=='A')continue;
+    if(!leads(a)&&!leads(b))continue;
     pairs++;
     const placesA=await lookUp(a.query),placesB=await lookUp(b.query);
     if(!placesA||!placesB)return {blocked:true,status:'place_search_unavailable'};
@@ -73,7 +76,7 @@ export async function combinationSearches({texts,truth,search,guess=null,distanc
   // about the text; such an entry is kept for the record but is not evidence against the clue.
   if(guess?.districtKo){
     const guessWithinRadius=toTruth(guess)<=radiusM;
-    for(const text of chosen.filter(candidate=>candidate.tier==='A').slice(0,maxArea)){
+    for(const text of chosen.filter(leads).slice(0,maxArea)){
       const places=await lookUp(`${guess.districtKo} ${text.query}`);
       if(!places)return {blocked:true,status:'place_search_unavailable'};
       if(!places.length){searches.push(entry('area','district_nearest_to_guess',[text],{status:'no_result',area:guess.districtKo,guessWithinRadius,placeTitles:[],distanceM:null,withinRadius:null}));continue;}
@@ -87,12 +90,12 @@ export async function combinationSearches({texts,truth,search,guess=null,distanc
 
 // After the single-text place search of one record: tries the texts that did not give the place away
 // alone, in combination. The guess is geocoded here and used only to choose the area and to pick
-// among results. tierOf: clue => 'A'|'B'|'C'. Replaces earlier combination searches of the record.
-export async function searchCombinationsRun({store,run,truth,search,geocode,tierOf,distance,radiusM,force=false}){
+// among results. tierOf: clue => 'A'|'B'|'C'. basisOf: clue => true for a combination basis. Replaces earlier combination searches of the record.
+export async function searchCombinationsRun({store,run,truth,search,geocode,tierOf,basisOf=()=>false,distance,radiusM,force=false}){
   if(!run.placeSearches||(run.comboSearches&&!force))return {run,blocked:null};
-  const tierOfClue=new Map(run.clues.map(clue=>[clue.id,tierOf(clue)]));
+  const tierOfClue=new Map(run.clues.map(clue=>[clue.id,tierOf(clue)])),basisIds=new Set(run.clues.filter(basisOf).map(clue=>clue.id));
   const texts=run.placeSearches.filter(single=>!single.topWithinRadius).map(single=>({query:single.query,clueIds:single.clueIds||[],
-    tier:['A','B','C'].find(tier=>(single.clueIds||[]).some(id=>tierOfClue.get(id)===tier))??'C'}));
+    tier:['A','B','C'].find(tier=>(single.clueIds||[]).some(id=>tierOfClue.get(id)===tier))??'C',basis:(single.clueIds||[]).some(id=>basisIds.has(id))}));
   let guess=null;
   const address=(run.predictions||[]).filter(prediction=>prediction.status==='answered').at(-1)?.addressList?.[0];
   if(address){

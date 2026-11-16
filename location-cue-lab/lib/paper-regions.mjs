@@ -69,6 +69,22 @@ export function matchText(target,lineText){
     const allowed=Math.floor(shorter.length*0.15);
     if(allowed>=1)for(let start=0;start+shorter.length<=longer.length;start++)if(distance(shorter,longer.slice(start,start+shorter.length))<=allowed)return shorter===l?'line_near_quote_part':'quote_near_line_part';
   }
+  // One or two wrong syllables (added 2026-11-16): OCR read "화교법인일송회원" where the clue quotes
+  // "학교법인 일송학원". Hangul OCR errors are mostly a syllable with one wrong letter (학→화, 송→종),
+  // which the 15% rule above does not allow twice in eight syllables. For Hangul, 4-6 syllables may
+  // differ in one, 7 or more in two, and the letters (jamo) of the aligned stretch must still agree in
+  // at least 70%, so that a syllable is replaced by a similar one rather than by anything.
+  if(/[가-힣]/.test(shorter)&&shorter.length>=4){
+    const allowed=shorter.length>=7?2:1,jamo=text=>text.normalize('NFD');
+    // Whole strings first: a dropped syllable ("학교인일송회원") changes the length.
+    if(distance(t,l)<=allowed){const a=jamo(t),b=jamo(l);if(1-distance(a,b)/Math.max(a.length,b.length)>=0.7)return 'fuzzy_syllables';}
+    for(let start=0;start+shorter.length<=longer.length;start++){
+      const stretch=longer.slice(start,start+shorter.length);
+      if(distance(shorter,stretch)>allowed)continue;
+      const a=jamo(shorter),b=jamo(stretch);
+      if(1-distance(a,b)/Math.max(a.length,b.length)>=0.7)return shorter===l?'line_near_quote_syllables':'quote_near_line_syllables';
+    }
+  }
   return null;
 }
 export function boundsOf(polygon){
@@ -117,7 +133,7 @@ export async function linkRegions({bytes,clues,model,reasoningEffort=null,llm,oc
   // 2. Written text: quoted strings against OCR lines.
   const ocrResult=await ocr(bytes);
   const linked=clues.map(clue=>{
-    const tier=policy?tierOf(clue):null,searchText=!policy||policy.textTiers.includes(tier),searchObjects=!policy||policy.objectTiers.includes(tier);
+    const tier=policy?tierOf(clue):null,searchText=!policy||policy.textTiers.includes(tier),searchObjects=!policy||policy.objectTiers.includes(tier)||Boolean(policy.objectCategories?.includes(clue.taxonomy?.name));
     const textTargets=searchText?quotedStrings(clue.detail):[];
     // policy.skipObjectsForQuotedText: a clue that quotes text is located by its OCR line only (paper-risk.mjs
     // trustedRegions), so the detector is not asked about it at all.

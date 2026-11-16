@@ -91,10 +91,19 @@ export function viewerData(entries,{labels={},generatedAt=new Date().toISOString
       return {n:index+1,id:clue.id,category:clue.category,
         review:toReview.has(`${run.id}/${clue.id}`),label:mark.label,labelKo:RISK_LABEL_KO[mark.label],reason:mark.reason,evidence:internal?mark.evidence:[],
         taxonomy:clue.taxonomy?{number:clue.taxonomy.number,name:clue.taxonomy.name,ko:labels[clue.taxonomy.name]||clue.taxonomy.name,group:clue.taxonomy.group??null,groupKo:clue.taxonomy.group?(labels[clue.taxonomy.group]||clue.taxonomy.group):null}:null,
-        tier:mark.tier,located:mark.located,quotes:hasQuotedText(clue),tierNote:riskTierNote(clue.taxonomy?.name)||null,localization:clue.localization??null,
+        tier:mark.tier,located:mark.located,locatedBy:mark.locatedBy,quotes:hasQuotedText(clue),tierNote:riskTierNote(clue.taxonomy?.name)||null,localization:clue.localization??null,
         ko:korean?.[clue.id]??null,en:clue.detail,textTargets:clue.textTargets||[],objectTargets:clue.objectTargets||[],
         // 'p': a box the model pointed at (pointing experiment). Always drawn, long-dashed, never counted.
-        regions:(clue.regions||[]).map(region=>({kind:region.kind==='text'?'t':region.kind==='pointed'?'p':'o',bbox:region.bbox.map(value=>Math.round(value*10000)/10000),
+        // Detector boxes of a clue that quotes text are left out altogether (2026-11-16): they are never counted,
+        // the detector is no longer asked for such clues, and under "모든 후보 보기" the old ones showed up as large
+        // wrong boxes (two tall "exhibition poster" boxes for a clue about the text on the wall).
+        regions:(clue.regions||[]).filter(region=>!(region.kind==='object'&&hasQuotedText(clue))).map(region=>({kind:region.kind==='text'?'t':region.kind==='pointed'?'p':'o',bbox:region.bbox.map(value=>Math.round(value*10000)/10000),
+          // An OCR line keeps its outline (2026-11-16): a slanted sign is drawn as it lies, not as the upright box around it.
+          ...(region.kind==='text'&&Array.isArray(region.polygon)&&region.polygon.length>=3?{polygon:region.polygon.map(point=>[point[0],point[1]].map(value=>Math.round(value*10000)/10000))}:{}),
+          // A detector box with a Segment Anything mask (paper-masks.mjs) carries it as run lengths; the page paints it.
+          ...(region.kind==='object'&&region.mask?{mask:{size:region.mask.size,counts:region.mask.counts}}:{}),
+          // standIn: the model's box in place of a text OCR could not read. Counted as located, drawn dashed.
+          ...(region.kind==='text'&&region.verified===false?{standIn:true}:{}),
           label:region.kind==='text'?region.quoted:region.kind==='pointed'?'모델이 짚은 위치':region.query,score:region.kind==='object'?Math.round(region.score*100)/100:null,
           shown:region.kind==='pointed'||(shown.has(region)&&!(region.kind==='object'&&hasQuotedText(clue)))}))};
     });
@@ -130,7 +139,7 @@ main{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(320px,1fr);min-he
 .nav{border:1px solid var(--line);background:var(--card);border-radius:6px;padding:3px 10px;cursor:pointer}.nav:disabled{opacity:.4;cursor:default}
 .imgwrap{position:relative;display:inline-block;max-width:100%;line-height:0;border:1px solid var(--line);border-radius:4px;overflow:hidden;background:#000}
 .imgwrap img{display:block;max-width:100%;max-height:calc(100vh - 150px);height:auto;width:auto}.imgwrap svg{position:absolute;inset:0;width:100%;height:100%}
-.imgwrap rect.box{cursor:pointer}.info{font-size:12px;color:var(--muted);margin:8px 0 0}.guess{font-size:13px;margin:8px 0 0;padding:6px 10px;border-left:4px solid var(--line);background:var(--soft);border-radius:0 6px 6px 0}
+.imgwrap .box{cursor:pointer}.info{font-size:12px;color:var(--muted);margin:8px 0 0}.guess{font-size:13px;margin:8px 0 0;padding:6px 10px;border-left:4px solid var(--line);background:var(--soft);border-radius:0 6px 6px 0}
 .guess.hit{border-left-color:#c62f24}.guess code{background:var(--card);padding:0 4px;border-radius:3px;font-size:12px}
 .panel{border-left:1px solid var(--line);display:flex;flex-direction:column;min-height:0;background:var(--card)}
 .tools{padding:10px 12px;border-bottom:1px solid var(--line);display:grid;gap:8px}.row{display:flex;gap:6px;flex-wrap:wrap;align-items:center}
@@ -180,10 +189,10 @@ details{margin-top:4px}summary{cursor:pointer;color:var(--muted);font-size:12px}
   <div class="panel">
     <div class="tools">
       <div class="row"><button class="btn" id="allOn">모두 켜기</button><button class="btn" id="allOff">모두 끄기</button><button class="btn" id="riskOn">위험 단서만</button>
-        <label><input id="oText" type="checkbox" checked> 글자(실선)</label><label><input id="oObject" type="checkbox" checked> 물체(점선)·모델이 짚은 위치(긴 점선)</label></div>
-      <div class="row"><label><input id="oBig" type="checkbox" checked> 화면 절반을 넘는 큰 상자 숨기기</label><label><input id="oAll" type="checkbox"> 모든 후보 보기</label></div>
+        <label><input id="oText" type="checkbox" checked> 글자(실선)·모델 상자로 대체(파선)</label><label><input id="oObject" type="checkbox" checked> 물체(점선)·모델이 짚은 위치(긴 점선)</label></div>
+      <div class="row"><label><input id="oBig" type="checkbox" checked> 화면 절반을 넘는 큰 상자 숨기기</label><label><input id="oAll" type="checkbox"> 모든 후보 보기</label><label><input id="oMask" type="checkbox" checked> 물체 마스크 칠하기</label></div>
       <div class="row groups" id="groups"></div>
-      <div class="count">등급 <span class="tier A">A</span>특정 장소 <span class="tier B">B</span>동네·지역 <span class="tier">C</span>나라·계절·일반. 물체 상자는 A 등급만, 글자 상자는 A·B 등급만 찾습니다.</div>
+      <div class="count">등급 <span class="tier A">A</span>특정 장소 <span class="tier B">B</span>동네·지역 <span class="tier">C</span>나라·계절·일반. 물체 상자는 A 등급과 조망 단서만, 글자 상자는 A·B 등급만 찾습니다.</div>
       <div class="count">단서를 누르면 그 단서의 상자만 켜고 끕니다. 마우스를 올리면 그 단서만 강조됩니다. <kbd>←</kbd> <kbd>→</kbd> 사진 이동, <kbd>A</kbd> 모두 켜기, <kbd>N</kbd> 모두 끄기</div>
     </div>
     <div class="clues" id="clues"></div>
@@ -197,7 +206,20 @@ const DATA=window.VIEWER_DATA||{photos:[],colors:['#e6194b']};
 const $=id=>document.getElementById(id),esc=value=>String(value??'').replace(/[&<>"']/g,ch=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'})[ch]);
 const color=n=>DATA.colors[(n-1)%DATA.colors.length];
 const store={get(key,fallback){try{const value=localStorage.getItem('viewer.'+key);return value===null?fallback:JSON.parse(value);}catch{return fallback;}},set(key,value){try{localStorage.setItem('viewer.'+key,JSON.stringify(value));}catch{}}};
-const options={text:store.get('text',true),object:store.get('object',true),hideBig:store.get('hideBig',true),all:store.get('all',false)};
+const options={text:store.get('text',true),object:store.get('object',true),hideBig:store.get('hideBig',true),all:store.get('all',false),mask:store.get('mask',true)};
+// A mask arrives as run lengths (row by row, starting with 0s) over a small grid that covers the whole
+// photo. It is painted once per mask and colour into a canvas and kept as an image the SVG stretches.
+const maskImages=new Map();
+function maskImage(mask,hex){
+  const key=hex+':'+mask.size.join('x')+':'+mask.counts.join(',');
+  if(maskImages.has(key))return maskImages.get(key);
+  const [height,width]=mask.size,canvas=document.createElement('canvas');canvas.width=width;canvas.height=height;
+  const context=canvas.getContext('2d'),image=context.createImageData(width,height),r=parseInt(hex.slice(1,3),16),g=parseInt(hex.slice(3,5),16),b=parseInt(hex.slice(5,7),16);
+  let at=0,on=false;
+  for(const count of mask.counts){if(on)for(let i=at;i<at+count;i++){image.data[i*4]=r;image.data[i*4+1]=g;image.data[i*4+2]=b;image.data[i*4+3]=255;}at+=count;on=!on;}
+  context.putImageData(image,0,0);
+  const url=canvas.toDataURL('image/png');maskImages.set(key,url);return url;
+}
 const visible=new Map();   // photo id -> Set of clue numbers whose boxes are on
 let filtered=[],current=null,hover=null;
 // Reviews: what a person said about a clue. Kept by the local viewer server when the page is served
@@ -311,7 +333,7 @@ function renderClues(){
     return '<div class="clue'+(has?(on.has(clue.n)?'':' off'):' nobox')+'" data-n="'+clue.n+'"><div><span class="chip" style="background:'+color(clue.n)+';border-color:'+color(clue.n)+'">'+clue.n+'</span></div><div class="body">'+
       '<div>'+(clue.tier?'<span class="tier '+clue.tier+'" title="'+esc(clue.tierNote||'')+'">'+clue.tier+'</span>':'')+'<span class="cat">'+esc(clue.taxonomy?clue.taxonomy.ko:clue.category)+'</span> <span class="tax">'+esc(clue.taxonomy?.groupKo||'')+' · '+esc(clue.category)+'</span><span class="label '+clue.label+'" title="'+esc(clue.reason)+'">'+esc(clue.labelKo)+'</span>'+(clue.review?'<span class="todo'+(isDone(current,clue)?' done':'')+'">'+(isDone(current,clue)?'검토함':'검토 대상')+'</span>':'')+'</div>'+
       '<div class="ko">'+esc(clue.ko||clue.en)+'</div>'+clue.evidence.map(text=>'<div class="proof">'+esc(text)+'</div>').join('')+
-      '<div class="small">'+(clue.quotes&&!clue.located&&clue.label!=='low'?'<strong>인용한 글자를 사진에서 찾지 못했습니다.</strong> ':'')+(has?'상자 '+count+'개 표시 (후보 '+total+'개)':(!current.linked?'영역 연결 안 함':clue.localization==='not_searched'?'찾지 않음':'찾았으나 영역 없음'))+'</div>'+
+      '<div class="small">'+(clue.quotes&&!clue.located&&clue.label!=='low'?'<strong>인용한 글자를 사진에서 찾지 못했습니다.</strong> ':'')+(clue.quotes&&clue.locatedBy==='ocr'?'<strong>찾음</strong> (OCR이 읽은 글자) · ':clue.locatedBy==='model'?'<strong>대체돼서 찾음</strong> (OCR이 못 읽어 모델이 짚은 상자로 대체) · ':'')+(has?'상자 '+count+'개 표시 (후보 '+total+'개)':(!current.linked?'영역 연결 안 함':clue.localization==='not_searched'?'찾지 않음':'찾았으나 영역 없음'))+'</div>'+
       (clue.review?'':'<details class="extra"'+(reviews[keyOf(current,clue)]&&asked(clue).some(([field])=>reviews[keyOf(current,clue)][field])?' open':'')+'><summary>이 단서도 검토</summary>')+('<div class="review" data-n="'+clue.n+'">'+asked(clue).map(([field,title,choices])=>'<div class="q"><span>'+title+'</span>'+choices.map(([value,text])=>'<button data-field="'+field+'" data-value="'+value+'" class="'+((reviews[keyOf(current,clue)]||{})[field]===value?'on':'')+'">'+text+'</button>').join('')+'</div>').join('')+'</div>')+(clue.review?'':'</details>')+
       '<details><summary>원문과 검출 대상</summary><p class="en">'+esc(clue.en)+'</p>'+(targets?'<p class="en">'+targets+'</p>':'')+(clue.taxonomy?'<p class="en">범주 '+clue.taxonomy.number+'. '+esc(clue.taxonomy.name)+(clue.tierNote?' · 등급 조건: '+esc(clue.tierNote):'')+'</p>':'')+'</details></div></div>';
   }).join('');
@@ -330,15 +352,31 @@ function renderClues(){
 function renderBoxes(){
   const svg=$('svg');if(!svg||!current)return;
   const on=visibleSet(current),W=current.width,H=current.height,font=Math.max(11,Math.round(Math.max(W,H)/55)),parts=[];
+  // The same box is often given to several clues (three clues about one ad panel). It is drawn once,
+  // labelled with all their numbers.
+  const groups=new Map();
   for(const clue of current.clues){
     if(!on.has(clue.n)&&hover!==clue.n)continue;
-    const dim=hover!==null&&hover!==clue.n,strong=hover===clue.n;
     for(const region of drawn(clue)){
-      const [x0,y0,x1,y1]=region.bbox,x=x0*W,y=y0*H,w=Math.max(2,(x1-x0)*W),h=Math.max(2,(y1-y0)*H),c=color(clue.n),label=String(clue.n),lw=font*(0.5+0.62*label.length),ly=y>=font*1.3?y-font*1.3:y;
-      const title='<title>'+esc(clue.n+'. '+(clue.taxonomy?.ko||clue.category)+' — '+(region.kind==='t'?'글자 ':region.kind==='p'?'':'물체 ')+(region.label||'')+(region.score!==null?' ('+region.score+')':''))+'</title>';
-      parts.push('<g opacity="'+(dim?0.12:1)+'">'+
-        '<rect x="'+x+'" y="'+y+'" width="'+w+'" height="'+h+'" fill="'+(strong?c:'none')+'" fill-opacity="0.14" stroke="#fff" stroke-width="'+(strong?6:4)+'" stroke-opacity="0.85" vector-effect="non-scaling-stroke"/>'+
-        '<rect class="box" data-n="'+clue.n+'" x="'+x+'" y="'+y+'" width="'+w+'" height="'+h+'" fill="transparent" stroke="'+c+'" stroke-width="'+(strong?3.5:2)+'"'+(region.kind==='o'?' stroke-dasharray="7 4"':region.kind==='p'?' stroke-dasharray="16 6 3 6"':'')+' vector-effect="non-scaling-stroke">'+title+'</rect>'+
+      const key=region.kind+':'+region.bbox.map(value=>value.toFixed(2)).join(',');
+      if(!groups.has(key))groups.set(key,{region,clues:[]});
+      groups.get(key).clues.push(clue);
+    }
+  }
+  for(const {region,clues} of groups.values()){
+    const clue=clues.find(entry=>entry.n===hover)||clues[0];
+    const dim=hover!==null&&!clues.some(entry=>entry.n===hover),strong=clues.some(entry=>entry.n===hover);
+    {
+      const [x0,y0,x1,y1]=region.bbox,x=x0*W,y=y0*H,w=Math.max(2,(x1-x0)*W),h=Math.max(2,(y1-y0)*H),c=color(clue.n),label=clues.map(entry=>entry.n).join('·'),lw=font*(0.5+0.62*label.length),ly=y>=font*1.3?y-font*1.3:y;
+      const title='<title>'+esc(label+'. '+(clue.taxonomy?.ko||clue.category)+' — '+(region.standIn?'글자 (모델 상자로 대체, OCR 확인 안 됨) ':region.kind==='t'?'글자 ':region.kind==='p'?'':'물체 ')+(region.label||'')+(region.score!==null?' ('+region.score+')':''))+'</title>';
+      // An OCR line is drawn along its own outline; everything else as its box. The label stays at the box corner.
+      const points=region.polygon?region.polygon.map(point=>(point[0]*W)+','+(point[1]*H)).join(' '):null;
+      const shape=(attrs,inner)=>points?'<polygon points="'+points+'" stroke-linejoin="round"'+attrs+'>'+inner+'</polygon>':'<rect x="'+x+'" y="'+y+'" width="'+w+'" height="'+h+'"'+attrs+'>'+inner+'</rect>';
+      // The mask is painted under the box outline; the box stays, thin, to show what the detector gave.
+      const painted=options.mask&&region.mask?'<image href="'+maskImage(region.mask,c)+'" x="0" y="0" width="'+W+'" height="'+H+'" preserveAspectRatio="none" opacity="'+(strong?0.62:0.45)+'" pointer-events="none"/>':'';
+      parts.push('<g opacity="'+(dim?0.12:1)+'">'+painted+
+        shape(' fill="'+(strong?c:'none')+'" fill-opacity="0.14" stroke="#fff" stroke-width="'+(strong?6:4)+'" stroke-opacity="0.85" vector-effect="non-scaling-stroke"','')+
+        shape(' class="box" data-n="'+clue.n+'" fill="transparent" stroke="'+c+'" stroke-width="'+(strong?3.5:2)+'"'+(region.standIn?' stroke-dasharray="12 5"':region.kind==='o'?' stroke-dasharray="7 4"':region.kind==='p'?' stroke-dasharray="16 6 3 6"':'')+' vector-effect="non-scaling-stroke"',title)+
         '<rect x="'+x+'" y="'+ly+'" width="'+lw+'" height="'+font*1.3+'" fill="'+c+'"/><text x="'+(x+font*0.25)+'" y="'+(ly+font)+'" fill="#fff" font-size="'+font+'" font-weight="bold" font-family="Arial, sans-serif">'+label+'</text></g>');
     }
   }
@@ -347,7 +385,7 @@ function renderBoxes(){
 function flash(n){const row=$('clues').querySelector('.clue[data-n="'+n+'"]');if(!row)return;row.scrollIntoView({block:'center',behavior:'smooth'});row.classList.add('flash');setTimeout(()=>row.classList.remove('flash'),900);}
 function setAll(state){if(!current)return;const on=visibleSet(current);on.clear();if(state)for(const clue of current.clues)if(clue.regions.length)on.add(clue.n);renderGroups();renderClues();renderBoxes();}
 
-for(const [id,key] of [['oText','text'],['oObject','object'],['oBig','hideBig'],['oAll','all']]){
+for(const [id,key] of [['oText','text'],['oObject','object'],['oBig','hideBig'],['oAll','all'],['oMask','mask']]){
   $(id).checked=options[key];
   $(id).onchange=()=>{options[key]=$(id).checked;store.set(key,options[key]);if(current){renderClues();renderBoxes();}};
 }

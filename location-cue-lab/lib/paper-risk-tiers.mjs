@@ -13,14 +13,20 @@
 // 2026-11-15 (later): 'Bridge Structures', 'Distant Skyline Profile' and 'Viewpoint Spatial Alignment'
 // moved from B to A at the owner's request, after the mask experiment m1: two of the three photos whose
 // place still came out after masking were found from a gate, a hill and a tower, or a riverside view.
-export const RISK_TIER_VERSION='draft-2026-11-15';
+// 2026-11-16: 'Portable Branded Items', 'Retail Store Fixtures', 'Distant Skyline Profile' and 'Viewpoint
+// Spatial Alignment' moved back from A to B at the owner's request, to follow the owner's rule sheet
+// ("꼭꼭 규칙"): a nationwide chain's name or a distant view is low by itself and becomes a risk only
+// in a combination. They are not dropped: COMBINATION_BASIS below keeps them as material for the
+// combination step. 'Bridge Structures' stays A (a known bridge seen close names the place by itself).
+import { quotedStrings } from './paper-regions.mjs';
+export const RISK_TIER_VERSION='draft-2026-11-16';
 export const RISK_TIERS={
   A:{
     'House Number':'번지 숫자 자체','Institutional Markers':'기관 이름·로고','Commercial Signage':'상호. 체인점이면 B (지점은 모름)','Community Features':'랜드마크·기관 건물. 흔한 건물이면 B',
     'Building Name Lettering':'건물·단지 이름','Place Name Markers':'다리·하천·공원 이름','Tenant Directory Boards':'입점 업체 조합으로 건물 특정','Infrastructure Asset Tags':'관리 번호와 지역명',
     'Transit Station Identifiers':'역 이름과 출구 번호','Event Announcement Displays':'행사 이름과 장소·기간','Telephone Number Format':'번호 전체가 보이면 업체 특정. 지역번호만이면 B',
-    'Local Business Advertisements':'광고에 적힌 주소·층','Portable Branded Items':'상표로 체인 식별. 혼자서는 지점을 모르지만 다른 단서와 합쳐지면 장소가 나옴','Retail Store Fixtures':'매장 집기의 상표로 체인 식별','Transaction Record Labels':'지점 이름과 시각','Heritage Architecture':'알려진 문·궁·기념물. 흔한 전통 양식이면 B',
-    'Bridge Structures':'다리의 모양과 위치. 알려진 다리면 혼자서 장소가 나옴','Distant Skyline Profile':'멀리 보이는 탑·고층 건물·산의 윤곽으로 방향과 지구가 나옴','Viewpoint Spatial Alignment':'보이는 대상들의 배치로 찍은 자리가 좁혀짐',
+    'Local Business Advertisements':'광고에 적힌 주소·층','Transaction Record Labels':'지점 이름과 시각','Heritage Architecture':'알려진 문·궁·기념물. 흔한 전통 양식이면 B',
+    'Bridge Structures':'다리의 모양과 위치. 알려진 다리면 혼자서 장소가 나옴',
   },
   B:{
     'Residential Architecture':'','Facade Features':'','Entry Structure':'','Traffic Signage':'도로명·방면 표지면 A','Special Signs':'','Parking Regulations':'구 이름이 적혀 있으면 A','Waste Management':'구 이름이 적힌 봉투·수거함이면 A',
@@ -28,6 +34,8 @@ export const RISK_TIERS={
     'Enforcement Warning Notices':'발급 기관(구청) 이름이 있으면 A','Transit Vehicle Markings':'노선 번호로 운행 지역','Commercial Building Form':'','Institutional Building Form':'','Repurposed Industrial Structures':'알려진 시설이면 A','Building Compound Layout':'',
     'Towers And Masts':'알려진 탑이면 A','Large Natural Waterbodies':'','Urban Waterways':'알려진 하천이면 A','Boat Mooring Facilities':'',
     'Visitor Information Fixtures':'','Decorative Installations':'알려진 조형물이면 A','Premises Operating Notices':'','Media Overlay Content':'자막에 지명·상호가 있으면 A',
+    'Portable Branded Items':'상표로 체인 식별. 혼자서는 지점을 모름. 조합의 근거','Retail Store Fixtures':'매장 집기의 상표로 체인 식별. 조합의 근거',
+    'Distant Skyline Profile':'멀리 보이는 탑·고층 건물·산의 윤곽. 혼자서는 넓은 지역. 조합의 근거','Viewpoint Spatial Alignment':'보이는 대상들의 배치. 조합의 근거',
   },
   C:{
     'Roof Elements':'','Balcony / Window Details':'','Accessory Structures':'','Vehicle Registration':'','Climate Indicators':'','Curbs':'','Pedestrian Elements':'','Public Lighting':'','Water / Power':'','Boundary Elements':'','Plant Types':'','Regional Landscaping':'','Outdoor Fixtures':'','Safety Elements':'',
@@ -47,5 +55,29 @@ export const riskTierNote=name=>{const tier=riskTierOf(name);return tier?RISK_TI
 // unclassified clue, another taxonomy) is treated as tier A: unknown is not the same as harmless.
 // skipObjectsForQuotedText (2026-11-16): 249 of the 529 detector phrases of the 152 photos belonged to clues
 // that quote text. Their object boxes are never drawn or counted, so the detector is no longer asked.
-export const TIERED_POLICY={name:'tiered',tierVersion:RISK_TIER_VERSION,objectTiers:['A'],textTiers:['A','B'],maxPhrasesPerClue:2,skipObjectsForQuotedText:true};
-export const tierForLinking=clue=>riskTierOf(clue.taxonomy?.name)??'A';
+// objectCategories (2026-11-16): the two view categories are tier B now but are still looked for by the
+// detector, so that a view clue keeps a box to review and to combine with.
+export const TIERED_POLICY={name:'tiered',tierVersion:RISK_TIER_VERSION,objectTiers:['A'],textTiers:['A','B'],objectCategories:['Distant Skyline Profile','Viewpoint Spatial Alignment'],maxPhrasesPerClue:2,skipObjectsForQuotedText:true};
+// The tier of one clue. A category listed here counts as tier A only for a clue that quotes text.
+// Both are tier B since 2026-11-16, so this changes nothing now; it applies again if one is raised.
+export const BRAND_TIER_NEEDS_TEXT=new Set(['Portable Branded Items','Retail Store Fixtures']);
+export const clueTier=clue=>{
+  const name=clue.taxonomy?.name,tier=riskTierOf(name);
+  if(tier!=='A'||!BRAND_TIER_NEEDS_TEXT.has(name))return tier;
+  return (clue.textTargets?.length?clue.textTargets:quotedStrings(clue.detail)).length?'A':'B';
+};
+// Categories whose quoted text is not lowered when the map search finds nothing (paper-risk.mjs). An
+// exhibition title or an event name is not a place, so the map has no entry for it, but a web search
+// for it gives the venue. The "no result, never revealing" measurement was about map searches only.
+export const KEEPS_LABEL_WITHOUT_MAP_RESULT=new Set(['Event Announcement Displays']);
+export const tierForLinking=clue=>clueTier(clue)??'A';
+// Clues that are low alone but are material for a combination (the rule sheet's chapter 3): a chain's
+// name together with another shop, a distant landmark together with what stands in front of it.
+// The two brand categories also hold "prices in Korean won" and "a grey plastic cart", which name
+// nothing: of those, only a clue that quotes text is a basis.
+export const COMBINATION_BASIS=new Set(['Portable Branded Items','Retail Store Fixtures','Distant Skyline Profile','Viewpoint Spatial Alignment']);
+export const isCombinationBasis=clue=>{
+  const name=clue.taxonomy?.name;
+  if(!COMBINATION_BASIS.has(name))return false;
+  return !BRAND_TIER_NEEDS_TEXT.has(name)||(clue.textTargets?.length?clue.textTargets:quotedStrings(clue.detail)).length>0;
+};

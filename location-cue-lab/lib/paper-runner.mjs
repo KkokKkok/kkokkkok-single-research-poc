@@ -5,6 +5,7 @@ import { resolve } from 'node:path';
 import { sharp } from './config.mjs';
 import { extractClues,classifyClues,mineCategories,predictLocation,entryText,shuffled,numberTaxonomy,sortedMemory } from './paper-pipeline.mjs';
 import { linkRegions,quotedStrings } from './paper-regions.mjs';
+import { recheckClues,RECHECK_SOURCES } from './paper-text-recheck.mjs';
 import { scoreAddresses,scorePlaceSearch } from './paper-score.mjs';
 
 // Only short codes are stored; provider error text (which can quote part of a key) never reaches a record.
@@ -87,10 +88,28 @@ export async function linkRunRegions({store,run,stage,llm,ocr,detect,prepare=too
     const clues=run.clues.map(({textTargets,objectTargets,regions,localization,risk,...clue})=>clue);
     const tool=await prepare(store.image(run.id));
     const result=await linkRegions({bytes:tool.bytes,clues,model:stage.model,reasoningEffort:stage.reasoningEffort,llm,ocr,detect,policy,tierOf,onCall:recorder(store,run)});
+    // New boxes carry no masks: the mask summary of the old ones (paper-masks.mjs) goes with them.
+    delete run.masks;
     run.clues=result.clues;run.regions={...result.summary,stage,toolImage:{width:tool.width,height:tool.height,resized:tool.resized,maxSide:MAX_TOOL_SIDE}};
   }catch(error){
     if(isPending(error))run.pending={stage:'regionTargets',...error.handoff};
     else run.errors.push(errorEntry('regions',error));
+  }
+  return store.saveRun(run);
+}
+// Follows linkRunRegions (paper-text-recheck.mjs; not a paper step): quoted text that OCR did not link
+// is looked for again where the model says it is, and gets the model's box when OCR still reads nothing.
+// A record already rechecked is left alone unless force is set; force drops the earlier recheck regions.
+export async function recheckRunText({store,run,stage,llm,ocr,force=false}){
+  if(!run.regions||(run.regions.textRecheck&&!force))return run;
+  delete run.pending;
+  try{
+    if(force)for(const clue of run.clues)if(clue.regions)clue.regions=clue.regions.filter(region=>!RECHECK_SOURCES.includes(region.source));
+    const summary=await recheckClues({bytes:store.image(run.id),clues:run.clues,model:stage.model,reasoningEffort:stage.reasoningEffort,llm,ocr,onCall:recorder(store,run)});
+    run.regions.textRecheck={...summary,transport:stage.transport};
+  }catch(error){
+    if(isPending(error))run.pending={stage:'textHints',...error.handoff};
+    else run.errors.push(errorEntry('textRecheck',error));
   }
   return store.saveRun(run);
 }

@@ -6,7 +6,8 @@
 // a text with no result in the area never led to the place (0 of 114), so its clue need not be shown.
 // The opposite does not hold: results in the area do not make a text risky (the best such rule was
 // right 58% of the time), so a count never raises a clue's label.
-import { isBlocking } from './paper-score.mjs';
+import { isBlocking,PLACE_SEARCH_LIMIT } from './paper-score.mjs';
+import { clueTier,isCombinationBasis } from './paper-risk-tiers.mjs';
 import { placeQueries,withShorterQueries } from './paper-runner.mjs';
 
 // A box around Seoul, rough: it takes in a little of the neighbouring cities. Every photo so far is
@@ -15,11 +16,13 @@ export const PROBE_AREA={name:'seoul_box',south:37.41,north:37.71,west:126.76,ea
 export const inProbeArea=(place,area=PROBE_AREA)=>place.latitude>=area.south&&place.latitude<=area.north&&place.longitude>=area.west&&place.longitude<=area.east;
 
 // One text. Returns {blocked:true,status} when the service cannot be used, otherwise the counts.
-export async function probeText({query,search,area=PROBE_AREA}){
+// limit/capped (2026-11-16): the search returns at most `limit` places, so a count equal to it means
+// "that many or more". Stored so that a later analysis does not read 5 as exactly five places.
+export async function probeText({query,search,area=PROBE_AREA,limit=PLACE_SEARCH_LIMIT}){
   const found=await search(query);
   if(isBlocking(found.status))return {blocked:true,status:found.status};
   const places=found.places||[];
-  return {searchedAt:new Date().toISOString(),service:'naver_apihub_local',query,status:found.status,area:area.name,resultCount:places.length,inAreaCount:places.filter(place=>inProbeArea(place,area)).length};
+  return {searchedAt:new Date().toISOString(),service:'naver_apihub_local',query,status:found.status,area:area.name,resultCount:places.length,inAreaCount:places.filter(place=>inProbeArea(place,area)).length,limit,capped:places.length>=limit};
 }
 
 // Every quoted text of one record (the same texts the place search uses). Replaces earlier probes.
@@ -36,4 +39,22 @@ export async function probePlacesRun({store,run,search,area=PROBE_AREA,force=fal
   }
   run.placeProbes=probes;
   return {run:store.saveRun(run),blocked:null};
+}
+
+// The stored counts of every probed record as flat rows, one per (record, clue, quoted text), for the
+// cumulative analysis: photos taken near each other are grouped there, and these rows say how many
+// places each of their clues still fits. No position is in a row (none is stored): the analysis brings
+// its own positions and joins on imageSha256, the hash of the analysis image.
+// A probe stored before 2026-11-16 has no limit: it was 5.
+export function probeLedger(runs){
+  const rows=[];
+  for(const run of runs){
+    const clueOf=new Map((run.clues||[]).map(clue=>[clue.id,clue]));
+    for(const probe of run.placeProbes||[])for(const clueId of probe.clueIds||[]){
+      const clue=clueOf.get(clueId),limit=probe.limit??PLACE_SEARCH_LIMIT;
+      rows.push({recordId:run.id,imageSha256:run.image?.sha256??null,recordCreatedAt:run.createdAt??null,clueId,category:clue?.taxonomy?.name??null,tier:clue?clueTier(clue):null,combinationBasis:clue?isCombinationBasis(clue):false,
+        text:probe.query,searchedAs:probe.searchedAs??probe.query,status:probe.status??null,area:probe.area??null,resultCount:probe.resultCount??null,inAreaCount:probe.inAreaCount??null,limit,capped:probe.capped??(probe.resultCount??0)>=limit,searchedAt:probe.searchedAt??null});
+    }
+  }
+  return rows;
 }
