@@ -10,8 +10,9 @@
 //   node scripts/paper.mjs regions (--all | <runId> ...) [--force] [--all-clues]   (default: risk tiers decide which clues are searched)
 //   node scripts/paper.mjs recheck (--all | <runId> ...) [--force]   (quoted text OCR did not link: read again where the model says it is, else the model's box; `regions` runs this too)
 //   node scripts/paper.mjs masks (--all | <runId> ...) [--force]   (Segment Anything: the shape inside each detector box; after `regions`)
+//   node scripts/paper.mjs rules (--all | <runId> ...) [--force]   (the owner's rule sheet: unit and risk per clue, and combinations; before `regions` if boxes should follow it)
 //   node scripts/paper.mjs preview [--out <file.html>] [--images <dir>]
-//   node scripts/paper.mjs viewer [--out <dir>] [--revealed]   (interactive page: boxes on and off per clue; --revealed: only photos whose place came out)
+//   node scripts/paper.mjs viewer [--out <dir>] [--revealed] [--judged]   (interactive page: boxes on and off per clue; --revealed: only photos whose place came out; --judged: only photos judged by `rules`)
 //   node scripts/paper.mjs locate (--all | <runId> ...) [--top3] [--force]     (evaluation only)
 //   node scripts/paper.mjs score (<original image> ... | --pilot <pilot dir>) [--radius 500] [--geocoder naver|google] [--force]   (evaluation only)
 //   node scripts/paper.mjs places (<original image> ... | --pilot <pilot dir>) [--radius 500] [--force] [--combine]   (evaluation only; --combine also tries texts in pairs and with the guessed district)
@@ -25,9 +26,10 @@ import { resolve,dirname } from 'node:path';
 import { dataDir,sharp } from '../lib/config.mjs';
 import { prepareImage,realAdapters } from '../lib/adapters.mjs';
 import { PaperStore } from '../lib/paper-store.mjs';
-import { paperLlm,paperStages,regionStage,locatorStage } from '../lib/paper-llm.mjs';
+import { paperLlm,paperStages,regionStage,ruleStage,locatorStage } from '../lib/paper-llm.mjs';
 import { handoffLlm,handoffBrief,pendingHandoffs,HANDOFF_PENDING } from '../lib/paper-handoff.mjs';
-import { extractAndClassify,classifyRun,mineTaxonomy,linkRunRegions,recheckRunText,locateRun,scoreRun,searchPlacesRun } from '../lib/paper-runner.mjs';
+import { extractAndClassify,classifyRun,mineTaxonomy,linkRunRegions,recheckRunText,pointRunClues,judgeRunRules,locateRun,scoreRun,searchPlacesRun } from '../lib/paper-runner.mjs';
+import { linkingTierFor } from '../lib/paper-rules.mjs';
 import { maskRunRegions } from '../lib/paper-masks.mjs';
 import { searchCombinationsRun } from '../lib/paper-combo.mjs';
 import { probePlacesRun,probeLedger } from '../lib/paper-probe.mjs';
@@ -48,7 +50,7 @@ for(let i=0;i<rest.length;i++){
   else if(arg.startsWith('--'))flags[arg.slice(2)]=true;
   else positional.push(arg);
 }
-const usage=()=>{console.error(readFileSync(new URL(import.meta.url),'utf8').split('\n').slice(1,23).map(line=>line.replace(/^\/\/ ?/,'')).join('\n'));process.exit(1);};
+const usage=()=>{console.error(readFileSync(new URL(import.meta.url),'utf8').split('\n').slice(1,24).map(line=>line.replace(/^\/\/ ?/,'')).join('\n'));process.exit(1);};
 const store=new PaperStore(dataDir);
 const handoff=typeof flags.handoff==='string'&&flags.handoff.trim()?flags.handoff.trim():null;
 if('handoff' in flags&&!handoff)usage();
@@ -167,6 +169,24 @@ if(command==='settings'){
     const run=await maskRunRegions({store,run:source,segment:realAdapters.segment,force:Boolean(flags.force)});
     console.log(JSON.stringify({runId:run.id,status:run.errors.length>before?'failed':'masked',boxes:run.masks?.boxes??null,regions:run.masks?.regions??null,model:run.masks?.model??null,seconds:Math.round((Date.now()-started)/100)/10,errors:run.errors.slice(before)}));
   }
+}else if(command==='rules'){
+  // Not a paper step: the owner's rule sheet (paper-rules.mjs). A text-only model call per record.
+  const stage=ruleStage(process.env,{handoffModel:handoff});
+  requireModel(stage);
+  const runs=flags.all?store.listRuns():positional.map(id=>store.getRun(id));
+  if(!runs.length||runs.some(run=>!run))usage();
+  showStage('rules',stage);
+  for(const source of runs){
+    if(!['extracted','classified'].includes(source.status)||!source.clues.length||(source.rules&&!flags.force))continue;
+    const before=source.errors.length;
+    const run=await judgeRunRules({store,run:source,stage,llm,force:Boolean(flags.force)});
+    const failed=run.errors.length>before,risks=run.clues.map(clue=>clue.rule?.risk);
+    console.log(JSON.stringify({runId:run.id,status:run.pending?'pending':failed?'failed':'judged',clues:run.clues.length,high:risks.filter(risk=>risk==='high').length,medium:risks.filter(risk=>risk==='medium').length,low:risks.filter(risk=>risk==='low').length,
+      combinations:run.rules?.combinations.map(combo=>({type:combo.type,clueIds:combo.clueIds,risk:combo.risk}))??null,rejectedCombinations:run.rules?.rejectedCombinations.length??null,errors:run.errors.slice(before)}));
+    hintOnModelErrors(run.errors.slice(before));
+    if(run.pending){showPending(run.pending);process.exitCode=3;}
+    else if(failed)process.exitCode=2;
+  }
 }else if(command==='regions'){
   // Not a paper step: finds where each clue is, with PaddleOCR and Grounding DINO (see paper-regions.mjs).
   const stage=regionStage(process.env,{handoffModel:handoff});
@@ -175,15 +195,19 @@ if(command==='settings'){
   if(!runs.length||runs.some(run=>!run))usage();
   showStage('regionTargets',stage);
   for(const source of runs){
-    // A record linked but parked at the text recheck (hand-off answer awaited) is continued from there.
-    const parkedAtRecheck=Boolean(source.regions)&&source.pending?.stage==='textHints'&&!flags.force;
+    // A record linked but parked at the text recheck or at the pointing step (hand-off answer awaited) is continued from there.
+    const parkedStage=source.regions&&!flags.force?source.pending?.stage:null,parkedAtRecheck=['textHints','cluePoint'].includes(parkedStage);
     if(!['extracted','classified'].includes(source.status)||(source.regions&&!flags.force&&!parkedAtRecheck))continue;
-    const before=source.errors.length;
-    let run=parkedAtRecheck?source:await linkRunRegions({store,run:source,stage,llm,ocr:realAdapters.ocr,detect:realAdapters.detect,...(flags['all-clues']?{}:{policy:TIERED_POLICY,tierOf:tierForLinking})});
+    const before=source.errors.length,ruleTier=linkingTierFor(source);
+    // The parked step is about to be repeated: without this its marker would make the steps below skip themselves.
+    if(parkedAtRecheck)delete source.pending;
+    let run=parkedAtRecheck?source:await linkRunRegions({store,run:source,stage,llm,ocr:realAdapters.ocr,detect:realAdapters.detect,...(flags['all-clues']?{}:{policy:TIERED_POLICY,tierOf:clue=>ruleTier(clue)??tierForLinking(clue)})});
     // Quoted text that OCR did not link is read again where the model says it is (paper-text-recheck.mjs).
-    if(!run.pending&&run.errors.length===before)run=await recheckRunText({store,run,stage,llm,ocr:realAdapters.ocr,force:true});
+    if(parkedStage!=='cluePoint'&&!run.pending&&run.errors.length===before)run=await recheckRunText({store,run,stage,llm,ocr:realAdapters.ocr,force:true});
+    // A clue used in an inference that still has no region gets the box the model points at (paper-point.mjs).
+    if(!run.pending&&run.errors.length===before)run=await pointRunClues({store,run,stage,llm,force:true});
     const failed=run.errors.length>before;
-    console.log(JSON.stringify({runId:run.id,status:run.pending?'pending':failed?'failed':'linked',clues:run.clues.length,located:run.clues.filter(clue=>clue.regions?.length).length,
+    console.log(JSON.stringify({runId:run.id,status:run.pending?'pending':failed?'failed':'linked',clues:run.clues.length,pointed:run.regions?.pointing?{asked:run.regions.pointing.clues,pointed:run.regions.pointing.pointed}:null,located:run.clues.filter(clue=>clue.regions?.length).length,
       textRegions:run.clues.reduce((n,clue)=>n+(clue.regions||[]).filter(r=>r.kind==='text').length,0),objectRegions:run.clues.reduce((n,clue)=>n+(clue.regions||[]).filter(r=>r.kind==='object').length,0),
       textRecheck:run.regions?.textRecheck?{clues:run.regions.textRecheck.clues,verified:run.regions.textRecheck.verified,standIn:run.regions.textRecheck.standIn,noHint:run.regions.textRecheck.noHint}:null,ocrLines:run.regions?.ocr?.lineCount??null,detectorQueries:run.regions?.detection?.queryCount??null,errors:run.errors.slice(before)}));
     if(run.pending){showPending(run.pending);process.exitCode=3;}
@@ -377,7 +401,9 @@ if(command==='settings'){
   const data=viewerData(entries,{labels:{...FIGURE25_KOREAN,...MINED_KOREAN}});
   // --revealed: only the photos whose place came out, by a map search of a clue (확인된 위험) or by the
   // address guess (사진 경고). Give --out as well, or the full viewer is replaced by this selection.
-  if(flags.revealed)data.photos=data.photos.filter(photo=>photo.risk.confirmed||photo.warning);
+  if(flags.revealed)data.photos=data.photos.filter(photo=>photo.measured.confirmed||photo.warning);
+  // --judged: only the photos the rule sheet has been applied to (`rules`). Give --out as well.
+  if(flags.judged)data.photos=data.photos.filter(photo=>photo.risk.judged);
   for(const photo of data.photos)writeFileSync(resolve(out,'images',`${photo.id}.jpg`),await sharp(store.image(photo.id)).resize({width:1100,height:1100,fit:'inside',withoutEnlargement:true}).jpeg({quality:84}).toBuffer());
   writeFileSync(resolve(out,'data.js'),`window.VIEWER_DATA=${JSON.stringify(data)};\n`);
   writeFileSync(resolve(out,'index.html'),VIEWER_HTML);

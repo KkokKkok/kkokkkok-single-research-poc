@@ -11,6 +11,7 @@ const area=box=>Math.max(0,box[2]-box[0])*Math.max(0,box[3]-box[1]);
 const iou=(a,b)=>{const inter=area([Math.max(a[0],b[0]),Math.max(a[1],b[1]),Math.min(a[2],b[2]),Math.min(a[3],b[3])]);const union=area(a)+area(b)-inter;return union?inter/union:0;};
 // 'unverified' is the model's box standing in for a text OCR could not read (paper-text-recheck.mjs): last.
 const MATCH_ORDER={exact:0,fuzzy:1,fuzzy_syllables:2,quote_in_line:3,line_in_quote:4,quote_near_line_part:5,line_near_quote_part:6,quote_near_line_syllables:7,line_near_quote_syllables:8,unverified:9};
+// A detector-less stand-in box (paper-point.mjs, verified:false, no score) is drawn whatever minScore says.
 // What is drawn and counted for a clue. The record keeps every proposal; the picture shows one box
 // per place: OCR reads the same sign several times (tiles), and DINO returns several boxes a phrase.
 export function displayRegions(clue,{minScore=0.35,perPhrase=1}={}){
@@ -19,7 +20,7 @@ export function displayRegions(clue,{minScore=0.35,perPhrase=1}={}){
   // A detector box that spans the whole width or height of the photo ("red cart handle" as a band from
   // edge to edge) is the detector failing to pick anything out; it is kept in the record, not drawn.
   const spans=box=>box[2]-box[0]>=0.9||box[3]-box[1]>=0.9;
-  const objects=(clue.regions||[]).filter(region=>region.kind==='object'&&region.score>=minScore&&!spans(region.bbox)).sort((a,b)=>b.score-a.score)
+  const objects=(clue.regions||[]).filter(region=>region.kind==='object'&&(region.verified===false||region.score>=minScore)&&!spans(region.bbox)).sort((a,b)=>b.score-a.score)
     .filter(region=>{const seen=perQuery.get(region.query)||0;perQuery.set(region.query,seen+1);return seen<perPhrase;});
   const kept=[];
   for(const region of [...text,...objects])if(!kept.some(other=>iou(other.bbox,region.bbox)>0.6))kept.push(region);

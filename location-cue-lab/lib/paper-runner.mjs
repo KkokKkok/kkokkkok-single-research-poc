@@ -7,6 +7,8 @@ import { extractClues,classifyClues,mineCategories,predictLocation,entryText,shu
 import { linkRegions,quotedStrings } from './paper-regions.mjs';
 import { recheckClues,RECHECK_SOURCES } from './paper-text-recheck.mjs';
 import { scoreAddresses,scorePlaceSearch } from './paper-score.mjs';
+import { judgeClues } from './paper-rules.mjs';
+import { pointClues,POINT_SOURCE } from './paper-point.mjs';
 
 // Only short codes are stored; provider error text (which can quote part of a key) never reaches a record.
 const providerCode=error=>typeof error?.code==='string'&&/^[a-z0-9_]{1,64}$/.test(error.code)?error.code:null;
@@ -110,6 +112,41 @@ export async function recheckRunText({store,run,stage,llm,ocr,force=false}){
   }catch(error){
     if(isPending(error))run.pending={stage:'textHints',...error.handoff};
     else run.errors.push(errorEntry('textRecheck',error));
+  }
+  return store.saveRun(run);
+}
+// Follows the text recheck (paper-point.mjs; not a paper step): a clue that took part in an inference
+// of the place and has no region gets the box the model points at. New boxes carry no masks, so the
+// mask summary is dropped when one is added. Left alone when already done, unless force.
+export async function pointRunClues({store,run,stage,llm,force=false}){
+  if(!run.regions||(run.regions.pointing&&!force))return run;
+  delete run.pending;
+  try{
+    for(const clue of run.clues)if(clue.regions?.some(region=>region.source===POINT_SOURCE)){clue.regions=clue.regions.filter(region=>region.source!==POINT_SOURCE);if(!clue.regions.length)clue.localization='unlocalized';delete run.masks;}
+    const summary=await pointClues({bytes:store.image(run.id),run,model:stage.model,reasoningEffort:stage.reasoningEffort,llm,onCall:recorder(store,run)});
+    run.regions.pointing={...summary,transport:stage.transport};
+    if(summary.pointed)delete run.masks;
+  }catch(error){
+    if(isPending(error))run.pending={stage:'cluePoint',...error.handoff};
+    else run.errors.push(errorEntry('cluePoint',error));
+  }
+  return store.saveRun(run);
+}
+// The owner's rule sheet (paper-rules.mjs; not a paper step): each clue gets the unit it narrows the
+// place down to and the risk that follows, and the record the combinations of clues the sheet admits.
+// Needs only the clue text, so it can run right after extraction. A record already judged is left
+// alone unless force is set.
+export async function judgeRunRules({store,run,stage,llm,force=false}){
+  if(!['extracted','classified'].includes(run.status)||!run.clues.length||(run.rules&&!force))return run;
+  delete run.pending;
+  try{
+    const result=await judgeClues({clues:run.clues,model:stage.model,reasoningEffort:stage.reasoningEffort,llm,onCall:recorder(store,run)});
+    run.clues=result.clues;run.rules={...result.summary,stage};
+    // An earlier failed attempt of this step is settled by this one.
+    run.errors=run.errors.filter(entry=>entry.stage!=='rules');
+  }catch(error){
+    if(isPending(error))run.pending={stage:'rules',...error.handoff};
+    else run.errors.push(errorEntry('rules',error));
   }
   return store.saveRun(run);
 }

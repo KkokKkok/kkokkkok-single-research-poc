@@ -41,7 +41,7 @@ export const trustedRegions=clue=>(clue.regions||[]).filter(region=>region.kind!
 export function locatedBy(clue){
   const regions=trustedRegions(clue);
   if(!regions.length)return null;
-  if(!hasQuotedText(clue))return 'detector';
+  if(!hasQuotedText(clue))return regions.some(region=>region.verified!==false)?'detector':'model';
   return regions.some(region=>region.verified!==false)?'ocr':'model';
 }
 

@@ -6,8 +6,8 @@
 //   data.js      window.VIEWER_DATA = {...}; a script file so the page also works from file://
 //   images/<recordId>.jpg   the analysis image, resized, without boxes
 import { displayRegions,CLUE_COLORS } from './paper-preview.mjs';
-import { riskTierOf,riskTierNote } from './paper-risk-tiers.mjs';
-import { riskLabels,RISK_LABEL_KO,hasQuotedText } from './paper-risk.mjs';
+import { riskLabels,hasQuotedText } from './paper-risk.mjs';
+import { ruleMarks } from './paper-rules.mjs';
 import { createHash } from 'node:crypto';
 
 // The clues a person is asked to check: every confirmed one, and a fixed sample of the potential
@@ -77,6 +77,10 @@ export function photoWarning(run,counts=riskLabels(run).counts){
 // entries: [{run, korean, title, folder}] in display order. labels: {English name: Korean name}.
 // Every region proposal is kept (`shown` marks the ones the preview would draw), so the page can
 // offer both the tidy default and all candidates.
+// Risk (changed 2026-11-17): what a clue's risk is comes from the owner's rule sheet (paper-rules.mjs):
+// clue.rule = {class,situation,basis,unit,risk,...} and photo.combinations, in place of the category
+// tier (A/B/C) and the labels confirmed/potential/low. What the evaluation measured is kept beside it,
+// not as a risk level: clue.confirmed (a map search of this clue led to the true place) and photo.measured.
 // internal (default true, for the proof of concept): the page also shows what the evaluation knows —
 // the guessed address, distances to the true position, the guessed district and the search terms that
 // led to the place. With internal:false none of that is put into the data: a clue carries its label
@@ -85,13 +89,13 @@ export function photoWarning(run,counts=riskLabels(run).counts){
 export function viewerData(entries,{labels={},generatedAt=new Date().toISOString(),internal=true,reviewSize=45}={}){
   const toReview=reviewSample(entries,reviewSize);
   const photos=entries.map(({run,korean,title,folder,pick})=>{
-    const risk=riskLabels(run);
+    const risk=riskLabels(run),rules=ruleMarks(run),numberOf=new Map(run.clues.map((clue,index)=>[clue.id,index+1]));
     const clues=run.clues.map((clue,index)=>{
       const shown=new Set(displayRegions(clue)),mark=risk.clues[clue.id];
       return {n:index+1,id:clue.id,category:clue.category,
-        review:toReview.has(`${run.id}/${clue.id}`),label:mark.label,labelKo:RISK_LABEL_KO[mark.label],reason:mark.reason,evidence:internal?mark.evidence:[],
+        review:toReview.has(`${run.id}/${clue.id}`),rule:rules.clues[clue.id],combinations:rules.combinations.filter(combo=>combo.clueIds.includes(clue.id)).map(combo=>combo.id),confirmed:mark.label==='confirmed',evidence:internal?mark.evidence:[],
         taxonomy:clue.taxonomy?{number:clue.taxonomy.number,name:clue.taxonomy.name,ko:labels[clue.taxonomy.name]||clue.taxonomy.name,group:clue.taxonomy.group??null,groupKo:clue.taxonomy.group?(labels[clue.taxonomy.group]||clue.taxonomy.group):null}:null,
-        tier:mark.tier,located:mark.located,locatedBy:mark.locatedBy,quotes:hasQuotedText(clue),tierNote:riskTierNote(clue.taxonomy?.name)||null,localization:clue.localization??null,
+        located:mark.located,locatedBy:mark.locatedBy,quotes:hasQuotedText(clue),localization:clue.localization??null,
         ko:korean?.[clue.id]??null,en:clue.detail,textTargets:clue.textTargets||[],objectTargets:clue.objectTargets||[],
         // 'p': a box the model pointed at (pointing experiment). Always drawn, long-dashed, never counted.
         // Detector boxes of a clue that quotes text are left out altogether (2026-11-16): they are never counted,
@@ -103,15 +107,16 @@ export function viewerData(entries,{labels={},generatedAt=new Date().toISOString
           // A detector box with a Segment Anything mask (paper-masks.mjs) carries it as run lengths; the page paints it.
           ...(region.kind==='object'&&region.mask?{mask:{size:region.mask.size,counts:region.mask.counts}}:{}),
           // standIn: the model's box in place of a text OCR could not read. Counted as located, drawn dashed.
-          ...(region.kind==='text'&&region.verified===false?{standIn:true}:{}),
-          label:region.kind==='text'?region.quoted:region.kind==='pointed'?'모델이 짚은 위치':region.query,score:region.kind==='object'?Math.round(region.score*100)/100:null,
+          ...(region.verified===false&&region.kind!=='pointed'?{standIn:true}:{}),
+          label:region.kind==='text'?region.quoted:region.kind==='pointed'?'모델이 짚은 위치':region.query??'모델이 짚은 물체',score:region.kind==='object'&&region.score!==null?Math.round(region.score*100)/100:null,
           shown:region.kind==='pointed'||(shown.has(region)&&!(region.kind==='object'&&hasQuotedText(clue)))}))};
     });
     const verdict=guessVerdict(run),combos=run.comboSearches||[];
     return {id:run.id,title,folder:folder??null,width:run.image.width,height:run.image.height,image:`images/${run.id}.jpg`,
       linked:Boolean(run.regions),boxes:clues.reduce((sum,clue)=>sum+clue.regions.filter(region=>region.shown).length,0),clues,
       warning:photoWarning(run,risk.counts),pick:pick??null,
-      risk:{...risk.counts,searched:risk.searched,combinations:combos.length,revealingCombinations:combos.filter(combo=>combo.withinRadius===true).length},
+      risk:{...rules.counts,judged:rules.judged},combinations:rules.combinations.map(combo=>({...combo,clueNs:combo.clueIds.map(id=>numberOf.get(id))})),
+      measured:{confirmed:risk.counts.confirmed,searched:risk.searched,combinations:combos.length,revealingCombinations:combos.filter(combo=>combo.withinRadius===true).length},
       guess:verdict&&!internal?{hit:verdict.hit,text:verdict.hit?'맞힘':'못 맞힘',addresses:[],clues:[]}:verdict};
   });
   return {generatedAt,internal,colors:CLUE_COLORS,photos};
@@ -144,12 +149,12 @@ main{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(320px,1fr);min-he
 .panel{border-left:1px solid var(--line);display:flex;flex-direction:column;min-height:0;background:var(--card)}
 .tools{padding:10px 12px;border-bottom:1px solid var(--line);display:grid;gap:8px}.row{display:flex;gap:6px;flex-wrap:wrap;align-items:center}
 .btn{border:1px solid var(--line);background:var(--bg);border-radius:6px;padding:3px 9px;cursor:pointer;font-size:13px}.btn:hover{border-color:var(--accent)}
-.tools label{font-size:13px;display:flex;gap:5px;align-items:center}.groups .btn.off{opacity:.45;text-decoration:line-through}
+.tools label{font-size:13px;display:flex;gap:5px;align-items:center}.groups .btn.off,.levels .btn.off{opacity:.45;text-decoration:line-through}.levels .btn.high{border-color:#c62f24;color:#c62f24;font-weight:700}.levels .btn.medium{border-color:#b9770e;color:#b9770e;font-weight:700}.level{padding:4px 12px;font-size:12px;font-weight:700;background:var(--soft);color:var(--muted);border-bottom:1px solid var(--line)}.level.high{color:#c62f24}.level.medium{color:#b9770e}
 .clues{overflow:auto;flex:1}.clue{display:grid;grid-template-columns:auto 1fr;gap:10px;padding:9px 12px;border-bottom:1px solid var(--line);cursor:pointer}
 .clue:hover{background:var(--soft)}.clue.off .chip{background:transparent!important;color:var(--muted);border-color:var(--line)}.clue.off .body{opacity:.55}
 .clue.nobox{cursor:default}.clue.flash{outline:2px solid var(--accent);outline-offset:-2px}
 .chip{display:inline-block;min-width:28px;padding:1px 6px;border-radius:5px;border:2px solid transparent;color:#fff;font-weight:700;text-align:center}
-.label{display:inline-block;border-radius:4px;padding:0 6px;font-size:11px;font-weight:700;margin-left:6px;border:1px solid var(--line);color:var(--muted)}.label.confirmed{background:#c62f24;border-color:#c62f24;color:#fff}.label.potential{border-color:#b9770e;color:#b9770e}
+.label{display:inline-block;border-radius:4px;padding:0 6px;font-size:11px;font-weight:700;margin-left:6px;border:1px solid var(--line);color:var(--muted)}.label.high{background:#c62f24;border-color:#c62f24;color:#fff}.label.medium{border-color:#b9770e;color:#b9770e}.label.measured{border-color:#c62f24;color:#c62f24}.rule{font-size:12px;color:var(--muted)}
 .proof{font-size:12px;margin-top:3px;color:#c62f24}
 .warn{margin:0 0 8px;padding:8px 12px;border:1px solid #c62f24;border-left-width:5px;border-radius:6px;background:var(--card);font-size:13px}.warn strong{color:#c62f24}.warn.scene{background:#c62f24;color:#fff}.warn.scene strong{color:#fff}
 .pick{margin:0 0 8px;padding:8px 12px;border:1px solid var(--accent);border-left-width:5px;border-radius:6px;background:var(--card);font-size:13px}.pick strong{color:var(--accent)}
@@ -158,7 +163,7 @@ main{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(320px,1fr);min-he
 .review button{border:1px solid var(--line);background:var(--bg);border-radius:5px;padding:1px 8px;cursor:pointer;font-size:12px}.review button.on{background:var(--accent);border-color:var(--accent);color:#fff}
 .todo{display:inline-block;border-radius:4px;padding:0 6px;font-size:11px;font-weight:700;margin-left:6px;background:var(--accent);color:#fff}.todo.done{background:transparent;color:var(--muted);border:1px solid var(--line)}
 .saved{font-size:12px;color:var(--muted)}.saved.bad{color:#c62f24}
-.tier{display:inline-block;border-radius:4px;padding:0 5px;font-size:11px;font-weight:700;margin-right:5px;color:#fff;background:#8a8a82}.tier.A{background:#c62f24}.tier.B{background:#b9770e}
+.tier{display:inline-block;border-radius:4px;padding:0 5px;font-size:11px;font-weight:700;margin-right:5px;color:#fff;background:#8a8a82}.tier.high{background:#c62f24}.tier.medium{background:#b9770e}
 .cat{font-weight:700}.tax{color:var(--muted);font-size:12px}.ko{margin-top:2px}.small{font-size:12px;color:var(--muted);margin-top:3px}
 details{margin-top:4px}summary{cursor:pointer;color:var(--muted);font-size:12px}.en{font-size:12px;color:var(--muted);margin:4px 0}
 .empty{padding:40px;color:var(--muted)}kbd{border:1px solid var(--line);border-radius:4px;padding:0 4px;font-size:11px;background:var(--bg)}
@@ -170,7 +175,7 @@ details{margin-top:4px}summary{cursor:pointer;color:var(--muted);font-size:12px}
     <h1>단서 뷰어</h1>
     <select id="fFolder" aria-label="폴더"></select>
     <select id="fGuess" aria-label="주소 추정"><option value="">주소 추정: 전체</option><option value="hit">맞힌 사진</option><option value="miss">못 맞힌 사진</option><option value="none">추정하지 않은 사진</option></select>
-    <select id="fRisk" aria-label="위험 표시"><option value="">위험 표시: 전체</option><option value="confirmed">확인된 위험이 있는 사진</option><option value="potential">잠재 위험만 있는 사진</option><option value="none">위험 표시가 없는 사진</option><option value="unsearched">지도 검색을 하지 못한 사진</option></select>
+    <select id="fRisk" aria-label="위험 표시"><option value="">위험 표시: 전체</option><option value="high">높음이 있는 사진 (단서 또는 조합)</option><option value="medium">중간까지만 있는 사진</option><option value="none">낮음만 있는 사진</option><option value="combo">조합이 있는 사진</option><option value="confirmed">지도 검색으로 확인된 단서가 있는 사진</option><option value="unjudged">규칙 판정을 하지 않은 사진</option><option value="unsearched">지도 검색을 하지 못한 사진</option></select>
     <select id="fWarn" aria-label="사진 경고"><option value="">사진 경고: 전체</option><option value="any">사진 경고가 있는 사진</option><option value="scene">장면으로 추정된 사진 (글자 근거 없음)</option><option value="text">글자로 추정됐지만 확인된 단서가 없는 사진</option><option value="none">사진 경고가 없는 사진</option></select>
     <select id="fGroup" aria-label="묶음"></select>
     <input id="fSearch" type="search" placeholder="단서 내용·범주 검색">
@@ -191,8 +196,9 @@ details{margin-top:4px}summary{cursor:pointer;color:var(--muted);font-size:12px}
       <div class="row"><button class="btn" id="allOn">모두 켜기</button><button class="btn" id="allOff">모두 끄기</button><button class="btn" id="riskOn">위험 단서만</button>
         <label><input id="oText" type="checkbox" checked> 글자(실선)·모델 상자로 대체(파선)</label><label><input id="oObject" type="checkbox" checked> 물체(점선)·모델이 짚은 위치(긴 점선)</label></div>
       <div class="row"><label><input id="oBig" type="checkbox" checked> 화면 절반을 넘는 큰 상자 숨기기</label><label><input id="oAll" type="checkbox"> 모든 후보 보기</label><label><input id="oMask" type="checkbox" checked> 물체 마스크 칠하기</label></div>
+      <div class="row levels" id="levels"></div>
       <div class="row groups" id="groups"></div>
-      <div class="count">등급 <span class="tier A">A</span>특정 장소 <span class="tier B">B</span>동네·지역 <span class="tier">C</span>나라·계절·일반. 물체 상자는 A 등급과 조망 단서만, 글자 상자는 A·B 등급만 찾습니다.</div>
+      <div class="count">좁혀지는 단위 <span class="tier high">지점 하나</span>높음 <span class="tier medium">몇 곳 / 동네</span>중간 <span class="tier">도시·구</span><span class="tier">국가·광역</span>낮음. 단서 하나만 보고 판정하고, 함께 보일 때의 위험은 조합으로 따로 적습니다.</div>
       <div class="count">단서를 누르면 그 단서의 상자만 켜고 끕니다. 마우스를 올리면 그 단서만 강조됩니다. <kbd>←</kbd> <kbd>→</kbd> 사진 이동, <kbd>A</kbd> 모두 켜기, <kbd>N</kbd> 모두 끄기</div>
     </div>
     <div class="clues" id="clues"></div>
@@ -265,6 +271,10 @@ function fillFilters(){
   for(const photo of DATA.photos)for(const clue of photo.clues)if(clue.taxonomy?.group)groups.set(clue.taxonomy.group,clue.taxonomy.groupKo);
   $('fGroup').innerHTML='<option value="">묶음: 전체</option>'+[...groups].map(([group,ko])=>'<option value="'+esc(group)+'">'+esc(ko)+' 단서가 있는 사진</option>').join('');
 }
+// The highest risk in a photo, over its clues and its combinations.
+const LEVELS=['high','medium','low'],levels=new Set(LEVELS);
+const RISK_KO={high:'높음',medium:'중간',low:'낮음'},UNIT_KO={point:'지점 하나',few:'몇 곳 / 동네',city:'도시·구',country:'국가·광역'},CLASS_KO={identifier:'고유 식별자',structure:'독특한 구조물',chain:'체인·반복 브랜드',view:'조망·주변 맥락',regional:'지역 공통 양식',nature:'자연환경',other:'기타'};
+function topRisk(photo){const all=[...photo.clues.map(clue=>clue.rule.risk),...photo.combinations.map(combo=>combo.risk)];return all.includes('high')?'high':all.includes('medium')?'medium':'low';}
 function applyFilters(){
   const folder=$('fFolder').value,risk=$('fRisk').value,warn=$('fWarn').value,guess=$('fGuess').value,group=$('fGroup').value,linked=$('fLinked').checked,onlyPick=$('fPick').checked,onlyReview=$('fReview').checked,onlyTodo=$('fTodo').checked,query=$('fSearch').value.trim().toLowerCase();
   filtered=DATA.photos.filter(photo=>{
@@ -273,10 +283,13 @@ function applyFilters(){
     if(onlyPick&&!photo.pick)return false;
     if(onlyReview&&!photo.clues.some(clue=>clue.review))return false;
     if(onlyTodo&&!photo.clues.some(clue=>clue.review&&!isDone(photo,clue)))return false;
-    if(risk==='confirmed'&&!photo.risk.confirmed)return false;
-    if(risk==='potential'&&(photo.risk.confirmed||!photo.risk.potential))return false;
-    if(risk==='none'&&(photo.risk.confirmed||photo.risk.potential))return false;
-    if(risk==='unsearched'&&photo.risk.searched)return false;
+    const top=topRisk(photo);
+    if((risk==='high'||risk==='medium')&&top!==risk)return false;
+    if(risk==='none'&&top!=='low')return false;
+    if(risk==='combo'&&!photo.combinations.length)return false;
+    if(risk==='confirmed'&&!photo.measured.confirmed)return false;
+    if(risk==='unjudged'&&photo.risk.judged)return false;
+    if(risk==='unsearched'&&photo.measured.searched)return false;
     if(warn==='any'&&!photo.warning)return false;
     if((warn==='scene'||warn==='text')&&photo.warning?.kind!==warn)return false;
     if(warn==='none'&&photo.warning)return false;
@@ -292,7 +305,7 @@ function applyFilters(){
   $('list').innerHTML=filtered.map(photo=>{
     const head=(photo.folder||'기타')!==last?'<div class="folder">'+esc(last=photo.folder||'기타')+'</div>':'';
     const dot=photo.guess?'<span class="dot '+(photo.guess.hit?'hit':'miss')+'" title="'+esc(photo.guess.text)+'"></span>':'<span class="dot" title="주소 추정 없음"></span>';
-    return head+'<button class="item'+(current&&photo.id===current.id?' on':'')+'" data-id="'+photo.id+'">'+dot+esc(photo.title)+(photo.pick?'<span class="flag pick">확인 '+photo.pick.order+'</span>':'')+(photo.warning?'<span class="flag'+(photo.warning.kind==='scene'?'':' also')+'" title="'+esc(photo.warning.title)+'">사진 경고</span>':'')+'<span class="meta">'+(photo.risk.confirmed?'확인 '+photo.risk.confirmed+' · ':'')+(photo.risk.potential?'잠재 '+photo.risk.potential+' · ':'')+'단서 '+photo.clues.length+' · '+(photo.linked?'상자 '+photo.boxes:'상자 없음')+'</span></button>';
+    return head+'<button class="item'+(current&&photo.id===current.id?' on':'')+'" data-id="'+photo.id+'">'+dot+esc(photo.title)+(photo.pick?'<span class="flag pick">확인 '+photo.pick.order+'</span>':'')+(photo.warning?'<span class="flag'+(photo.warning.kind==='scene'?'':' also')+'" title="'+esc(photo.warning.title)+'">사진 경고</span>':'')+'<span class="meta">'+(photo.risk.high?'높음 '+photo.risk.high+' · ':'')+(photo.risk.medium?'중간 '+photo.risk.medium+' · ':'')+(photo.combinations.length?'조합 '+photo.combinations.length+' · ':'')+'단서 '+photo.clues.length+' · '+(photo.linked?'상자 '+photo.boxes:'상자 없음')+'</span></button>';
   }).join('')||'<div class="empty">조건에 맞는 사진이 없습니다.</div>';
   // The position counter and the previous/next buttons depend on the filtered list, so redraw either way.
   show(current&&filtered.some(photo=>photo.id===current.id)?current:filtered[0]||null,true);
@@ -307,11 +320,13 @@ function show(photo,keepScroll=false){
     (photo.pick?'<div class="pick"><strong>확인 부탁 '+photo.pick.order+'</strong> · '+esc(photo.pick.ask)+'</div>':'')+
     (photo.warning?'<div class="warn'+(photo.warning.kind==='scene'?' scene':'')+'" id="warning"><strong>사진 경고 · '+esc(photo.warning.title)+'</strong><br>'+esc(photo.warning.text)+'</div>':'')+
     '<div class="imgwrap"><img alt="'+esc(photo.title)+'" src="'+esc(photo.image)+'"><svg id="svg" viewBox="0 0 '+photo.width+' '+photo.height+'" preserveAspectRatio="none"></svg></div>'+
-    guess+'<div class="guess'+(photo.risk.confirmed?' hit':'')+'"><strong>위험 표시</strong> · 확인된 위험 '+photo.risk.confirmed+' · 잠재 위험 '+photo.risk.potential+' · 낮음 '+photo.risk.low+'<br>'+(photo.risk.searched?'지도 검색을 했습니다. 조합 검색 '+photo.risk.combinations+'회 중 '+photo.risk.revealingCombinations+'회에서 실제 위치가 나왔습니다.':'촬영 위치가 없는 사진이라 지도 검색으로 확인하지 못했습니다. "확인된 위험"은 나올 수 없습니다.')+'</div>'+
+    guess+'<div class="guess'+(topRisk(photo)==='high'?' hit':'')+'"><strong>위험도</strong> · 높음 '+photo.risk.high+' · 중간 '+photo.risk.medium+' · 낮음 '+photo.risk.low+(photo.risk.judged?'':'<br>규칙에 따른 단서별 판정을 하지 않은 사진입니다. 범주 기본값으로 표시합니다.')+
+      photo.combinations.map(combo=>'<br><span class="label '+combo.risk+'" style="margin-left:0">조합 '+RISK_KO[combo.risk]+'</span> '+esc(combo.type)+' · 단서 '+combo.clueNs.join(' + ')+' → '+UNIT_KO[combo.unit]+' · '+esc(combo.reason)).join('')+
+      '<br><span class="rule">'+(photo.measured.searched?'지도 검색으로 확인된 단서 '+photo.measured.confirmed+'개. 조합 검색 '+photo.measured.combinations+'회 중 '+photo.measured.revealingCombinations+'회에서 실제 위치가 나왔습니다.':'촬영 위치가 없는 사진이라 지도 검색으로 확인하지 못했습니다.')+'</span></div>'+
     '<p class="info">'+(photo.linked?'':'이 사진은 영역 연결을 하지 않아 상자가 없습니다. ')+'기록 '+esc(photo.id)+'</p>';
   $('prev').onclick=()=>step(-1);$('next').onclick=()=>step(1);
   $('svg').onclick=event=>{const n=event.target.dataset?.n;if(n)flash(Number(n));};
-  renderGroups();renderClues();renderBoxes();
+  renderLevels();renderGroups();renderClues();renderBoxes();
   if(!keepScroll)document.querySelector('.item.on')?.scrollIntoView({block:'nearest'});
 }
 function step(delta){const index=filtered.findIndex(photo=>photo.id===current?.id)+delta;if(index>=0&&index<filtered.length)show(filtered[index]);}
@@ -325,18 +340,27 @@ function renderGroups(){
     renderGroups();renderClues();renderBoxes();
   };
 }
+function renderLevels(){
+  $('levels').innerHTML='<span class="count">위험도별 보기</span>'+LEVELS.map(level=>'<button class="btn '+level+(levels.has(level)?'':' off')+'" data-level="'+level+'">'+RISK_KO[level]+' '+current.clues.filter(clue=>clue.rule.risk===level).length+'</button>').join('');
+  for(const button of $('levels').querySelectorAll('button'))button.onclick=()=>{const level=button.dataset.level;levels.has(level)?levels.delete(level):levels.add(level);renderLevels();renderClues();renderBoxes();};
+}
+// The list is grouped by risk, high first; within a level the clues keep their numbers and order.
 function renderClues(){
   const on=visibleSet(current);
-  $('clues').innerHTML=current.clues.map(clue=>{
+  $('clues').innerHTML=LEVELS.filter(level=>levels.has(level)).map(level=>{const rows=current.clues.filter(clue=>clue.rule.risk===level);return rows.length?'<div class="level '+level+'">'+RISK_KO[level]+' '+rows.length+'</div>'+rows.map(clueRow(on)).join(''):'';}).join('')||'<div class="empty">표시할 위험도를 고르세요.</div>';
+  bindClues();
+}
+const clueRow=on=>clue=>{
     const has=clue.regions.length>0,count=drawn(clue).length,total=clue.regions.length;
     const targets=[...clue.textTargets.map(text=>'글자 <code>'+esc(text)+'</code>'),...clue.objectTargets.map(text=>'물체 <code>'+esc(text)+'</code>')].join(' · ');
     return '<div class="clue'+(has?(on.has(clue.n)?'':' off'):' nobox')+'" data-n="'+clue.n+'"><div><span class="chip" style="background:'+color(clue.n)+';border-color:'+color(clue.n)+'">'+clue.n+'</span></div><div class="body">'+
-      '<div>'+(clue.tier?'<span class="tier '+clue.tier+'" title="'+esc(clue.tierNote||'')+'">'+clue.tier+'</span>':'')+'<span class="cat">'+esc(clue.taxonomy?clue.taxonomy.ko:clue.category)+'</span> <span class="tax">'+esc(clue.taxonomy?.groupKo||'')+' · '+esc(clue.category)+'</span><span class="label '+clue.label+'" title="'+esc(clue.reason)+'">'+esc(clue.labelKo)+'</span>'+(clue.review?'<span class="todo'+(isDone(current,clue)?' done':'')+'">'+(isDone(current,clue)?'검토함':'검토 대상')+'</span>':'')+'</div>'+
-      '<div class="ko">'+esc(clue.ko||clue.en)+'</div>'+clue.evidence.map(text=>'<div class="proof">'+esc(text)+'</div>').join('')+
-      '<div class="small">'+(clue.quotes&&!clue.located&&clue.label!=='low'?'<strong>인용한 글자를 사진에서 찾지 못했습니다.</strong> ':'')+(clue.quotes&&clue.locatedBy==='ocr'?'<strong>찾음</strong> (OCR이 읽은 글자) · ':clue.locatedBy==='model'?'<strong>대체돼서 찾음</strong> (OCR이 못 읽어 모델이 짚은 상자로 대체) · ':'')+(has?'상자 '+count+'개 표시 (후보 '+total+'개)':(!current.linked?'영역 연결 안 함':clue.localization==='not_searched'?'찾지 않음':'찾았으나 영역 없음'))+'</div>'+
+      '<div><span class="tier '+clue.rule.risk+'">'+UNIT_KO[clue.rule.unit]+'</span><span class="cat">'+esc(clue.taxonomy?clue.taxonomy.ko:clue.category)+'</span> <span class="tax">'+esc(clue.taxonomy?.groupKo||'')+' · '+esc(clue.category)+'</span><span class="label '+clue.rule.risk+'">'+RISK_KO[clue.rule.risk]+'</span>'+(clue.combinations.length?'<span class="label '+current.combinations.find(combo=>combo.id===clue.combinations[0]).risk+'" title="다른 단서와 함께 보일 때의 위험">조합</span>':'')+(clue.confirmed?'<span class="label measured" title="지도 검색으로 실제 위치가 나옴">검색 확인</span>':'')+(clue.review?'<span class="todo'+(isDone(current,clue)?' done':'')+'">'+(isDone(current,clue)?'검토함':'검토 대상')+'</span>':'')+'</div>'+
+      '<div class="ko">'+esc(clue.ko||clue.en)+'</div>'+'<div class="rule">'+[CLASS_KO[clue.rule.class],clue.rule.situation,clue.rule.basis].filter(Boolean).map(esc).join(' · ')+'</div>'+clue.evidence.map(text=>'<div class="proof">'+esc(text)+'</div>').join('')+
+      '<div class="small">'+(clue.quotes&&!clue.located&&clue.rule.risk!=='low'?'<strong>인용한 글자를 사진에서 찾지 못했습니다.</strong> ':'')+(clue.quotes&&clue.locatedBy==='ocr'?'<strong>찾음</strong> (OCR이 읽은 글자) · ':clue.locatedBy==='model'?'<strong>대체돼서 찾음</strong> ('+(clue.quotes?'OCR이 못 읽어':'검출기가 못 찾아')+' 모델이 짚은 상자로 대체) · ':'')+(has?'상자 '+count+'개 표시 (후보 '+total+'개)':(!current.linked?'영역 연결 안 함':clue.localization==='not_searched'?'찾지 않음':'찾았으나 영역 없음'))+'</div>'+
       (clue.review?'':'<details class="extra"'+(reviews[keyOf(current,clue)]&&asked(clue).some(([field])=>reviews[keyOf(current,clue)][field])?' open':'')+'><summary>이 단서도 검토</summary>')+('<div class="review" data-n="'+clue.n+'">'+asked(clue).map(([field,title,choices])=>'<div class="q"><span>'+title+'</span>'+choices.map(([value,text])=>'<button data-field="'+field+'" data-value="'+value+'" class="'+((reviews[keyOf(current,clue)]||{})[field]===value?'on':'')+'">'+text+'</button>').join('')+'</div>').join('')+'</div>')+(clue.review?'':'</details>')+
-      '<details><summary>원문과 검출 대상</summary><p class="en">'+esc(clue.en)+'</p>'+(targets?'<p class="en">'+targets+'</p>':'')+(clue.taxonomy?'<p class="en">범주 '+clue.taxonomy.number+'. '+esc(clue.taxonomy.name)+(clue.tierNote?' · 등급 조건: '+esc(clue.tierNote):'')+'</p>':'')+'</details></div></div>';
-  }).join('');
+      '<details><summary>원문과 검출 대상</summary><p class="en">'+esc(clue.en)+'</p>'+(targets?'<p class="en">'+targets+'</p>':'')+(clue.taxonomy?'<p class="en">범주 '+clue.taxonomy.number+'. '+esc(clue.taxonomy.name)+'</p>':'')+'</details></div></div>';
+};
+function bindClues(){
   for(const row of $('clues').querySelectorAll('.clue')){
     const n=Number(row.dataset.n);
     row.onmouseenter=()=>{hover=n;renderBoxes();};row.onmouseleave=()=>{hover=null;renderBoxes();};
@@ -356,7 +380,7 @@ function renderBoxes(){
   // labelled with all their numbers.
   const groups=new Map();
   for(const clue of current.clues){
-    if(!on.has(clue.n)&&hover!==clue.n)continue;
+    if(!levels.has(clue.rule.risk)||(!on.has(clue.n)&&hover!==clue.n))continue;
     for(const region of drawn(clue)){
       const key=region.kind+':'+region.bbox.map(value=>value.toFixed(2)).join(',');
       if(!groups.has(key))groups.set(key,{region,clues:[]});
@@ -368,7 +392,7 @@ function renderBoxes(){
     const dim=hover!==null&&!clues.some(entry=>entry.n===hover),strong=clues.some(entry=>entry.n===hover);
     {
       const [x0,y0,x1,y1]=region.bbox,x=x0*W,y=y0*H,w=Math.max(2,(x1-x0)*W),h=Math.max(2,(y1-y0)*H),c=color(clue.n),label=clues.map(entry=>entry.n).join('·'),lw=font*(0.5+0.62*label.length),ly=y>=font*1.3?y-font*1.3:y;
-      const title='<title>'+esc(label+'. '+(clue.taxonomy?.ko||clue.category)+' — '+(region.standIn?'글자 (모델 상자로 대체, OCR 확인 안 됨) ':region.kind==='t'?'글자 ':region.kind==='p'?'':'물체 ')+(region.label||'')+(region.score!==null?' ('+region.score+')':''))+'</title>';
+      const title='<title>'+esc(label+'. '+(clue.taxonomy?.ko||clue.category)+' — '+(region.standIn&&region.kind==='o'?'물체 (검출기가 못 찾아 모델 상자로 대체) ':region.standIn?'글자 (모델 상자로 대체, OCR 확인 안 됨) ':region.kind==='t'?'글자 ':region.kind==='p'?'':'물체 ')+(region.label||'')+(region.score!==null?' ('+region.score+')':''))+'</title>';
       // An OCR line is drawn along its own outline; everything else as its box. The label stays at the box corner.
       const points=region.polygon?region.polygon.map(point=>(point[0]*W)+','+(point[1]*H)).join(' '):null;
       const shape=(attrs,inner)=>points?'<polygon points="'+points+'" stroke-linejoin="round"'+attrs+'>'+inner+'</polygon>':'<rect x="'+x+'" y="'+y+'" width="'+w+'" height="'+h+'"'+attrs+'>'+inner+'</rect>';
@@ -390,7 +414,7 @@ for(const [id,key] of [['oText','text'],['oObject','object'],['oBig','hideBig'],
   $(id).onchange=()=>{options[key]=$(id).checked;store.set(key,options[key]);if(current){renderClues();renderBoxes();}};
 }
 $('allOn').onclick=()=>setAll(true);$('allOff').onclick=()=>setAll(false);
-$('riskOn').onclick=()=>{if(!current)return;const on=visibleSet(current);on.clear();for(const clue of current.clues)if(clue.regions.length&&clue.label!=='low')on.add(clue.n);renderGroups();renderClues();renderBoxes();};
+$('riskOn').onclick=()=>{if(!current)return;const on=visibleSet(current);on.clear();for(const clue of current.clues)if(clue.regions.length&&(clue.rule.risk!=='low'||clue.combinations.length||clue.confirmed))on.add(clue.n);renderGroups();renderClues();renderBoxes();};
 for(const id of ['fPick','fFolder','fRisk','fWarn','fGuess','fGroup','fLinked','fReview','fTodo'])$(id).onchange=applyFilters;
 $('fSearch').oninput=applyFilters;
 $('list').onclick=event=>{const item=event.target.closest('.item');if(item)show(DATA.photos.find(photo=>photo.id===item.dataset.id));};
