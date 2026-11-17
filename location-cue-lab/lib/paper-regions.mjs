@@ -174,3 +174,39 @@ export async function linkRegions({bytes,clues,model,reasoningEffort=null,llm,oc
     ocr:{engine:ocrResult.engine,version:ocrResult.version,lineCount:ocrResult.lines.length,linkedLineCount:usedLines.size,lines:ocrResult.lines.map(({id,text,score,polygon})=>({id,text,score,polygon,linked:usedLines.has(id)}))},
     detection:{engine:detection.engine,model:detection.model,revision:detection.revision,queryCount:phrases.length,maxPerPhrase,maxBoxArea,droppedLargeBoxes}}};
 }
+
+// A quoted string is taken to be text seen in the photo (quotedStrings). A model also puts in quotes
+// a name it recognised: a plush toy "matching 'Puang', the mascot of ..." carries no such text. Such
+// a clue was treated as written text, so the detector was never asked about the toy, OCR found
+// nothing, and the clue ended without a region although the toy fills a corner of the photo
+// (seen 2026-11-17). After the text recheck (paper-text-recheck.mjs), a clue whose quoted strings were
+// found neither by OCR nor by the model that looked for them has no text in the photo: the strings
+// are moved to clue.unreadQuotes, the clue counts as an object clue again, and the detector is asked
+// for the phrases the model gave for it in the region-target answer.
+// Changes `clues` in place. Returns {clues:[ids],queryCount,located,droppedLargeBoxes}.
+export const quotesNotInPhoto=clue=>(clue.textTargets||[]).length>0&&!(clue.regions||[]).some(region=>region.kind==='text');
+export async function relinkUnreadQuotes({bytes,clues,targetsAnswer,detect,maxPerPhrase=3,maxBoxArea=0.8,policy=null,tierOf=()=>null}){
+  const affected=clues.filter(quotesNotInPhoto),summary={clues:affected.map(clue=>clue.id),queryCount:0,located:0,droppedLargeBoxes:0};
+  if(!affected.length)return summary;
+  let targets={};
+  try{targets=parseTargets(targetsAnswer,clues.map(clue=>clue.id));}catch{}
+  for(const clue of affected){
+    const searchObjects=!policy||policy.objectTiers.includes(tierOf(clue))||Boolean(policy.objectCategories?.includes(clue.taxonomy?.name));
+    clue.unreadQuotes=clue.textTargets;clue.textTargets=[];
+    clue.objectTargets=searchObjects?(targets[clue.id]||[]).slice(0,policy?.maxPhrasesPerClue??MAX_PHRASES_PER_CLUE):[];
+    clue.regions??=[];
+  }
+  const phrases=[...new Set(affected.flatMap(clue=>clue.objectTargets))];
+  summary.queryCount=phrases.length;
+  if(!phrases.length)return summary;
+  const result=await detect(bytes,phrases.map((query,index)=>({cueId:`u-${index}`,query})));
+  const byPhrase=new Map(result.requests.map(request=>[request.query,[...request.detections].sort((a,b)=>b.score-a.score)]));
+  for(const clue of affected){
+    clue.objectTargets.forEach((phrase,phraseIndex)=>{
+      const boxes=(byPhrase.get(phrase)||[]).filter(box=>{const tooLarge=(box.bbox[2]-box.bbox[0])*(box.bbox[3]-box.bbox[1])>maxBoxArea;if(tooLarge)summary.droppedLargeBoxes++;return !tooLarge;});
+      boxes.slice(0,maxPerPhrase).forEach((box,rank)=>clue.regions.push({id:`${clue.id}-dino-${phraseIndex}-${rank}`,source:'grounding_dino',kind:'object',bbox:box.bbox,query:phrase,label:box.label,score:box.score}));
+    });
+    if(clue.regions.length){clue.localization='proposed';summary.located++;}
+  }
+  return summary;
+}

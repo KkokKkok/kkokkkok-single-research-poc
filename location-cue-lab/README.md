@@ -15,6 +15,84 @@ cd "C:\KKokKKok\KkokKkok-Research-PoC\location-cue-lab"
 
 새 PC에서는 Node 22.13 이상을 설치하고 `npm install`, `.env.example`을 `.env`로 복사한 뒤 키·모델·Python 환경을 설정합니다. `scripts/ocr-requirements.txt`와 `scripts/grounding-requirements.txt`는 각각 별도 Python 가상환경에 설치합니다. PaddleOCR 한국어 PP-OCRv5와 Grounding DINO Tiny가 최초 실행 시 가중치를 다운로드할 수 있습니다. 기존 설치를 재사용하려면 `KKOK_LEGACY_ROOT`에 기존 PoC 경로를 명시합니다. 설정 우선순위는 이미 설정된 프로세스 환경변수, 새 `.env`, 기존 `.env.local` 순서입니다.
 
+**백엔드·안드로이드와 연결 (분석 서버)**
+
+`analysis-server.mjs`는 Spring 백엔드가 호출하는 분석 서버입니다. 예전 런타임(`KkokKkok-PoC`의 Next.js 분석 서버와 OCR 사이드카)과 같은 경로·헤더를 받으므로, 백엔드와 안드로이드는 **코드를 바꾸지 않고 설정만** 맞추면 됩니다. 아래는 두 저장소를 새로 받은 상태에서 로컬로 연결하는 절차입니다. 배포 구성은 아직 없습니다.
+
+흐름: 안드로이드 앱 → 백엔드(8080) → 분석 서버(3001) → Claude API·PaddleOCR·Grounding DINO·Segment Anything
+
+1. 분석 서버 (이 폴더)
+
+   - `npm install` (Node 22.13 이상. `@anthropic-ai/sdk`가 추가되었습니다.)
+   - Python 환경은 위 **실행**의 설명대로 준비합니다(OCR, Grounding DINO. 마스크는 Grounding 환경을 같이 씁니다).
+   - `.env`에 다음 두 줄을 추가합니다. 값은 Git에 올리지 않습니다.
+
+     ```dotenv
+     ANTHROPIC_API_KEY=발급받은_키
+     ANALYSIS_API_KEY=백엔드와_맞출_임의의_긴_문자열
+     ```
+
+   - 실행:
+
+     ```powershell
+     cd "C:\KKokKKok\KkokKkok-Research-PoC\location-cue-lab"
+     .\start-analysis.ps1          # 포트 3001. 변경: -Port 3011
+     ```
+
+   - 확인: `http://127.0.0.1:3001/api/health`가 `{"status":"ok"}`를 돌려주면 떠 있는 것입니다. 모델·키 검증은 아닙니다.
+
+   | 환경 변수 | 기본값 | 뜻 |
+   |---|---|---|
+   | `ANALYSIS_API_KEY` | 없음 (필수) | 백엔드의 `NODE_ANALYSIS_API_KEY`와 같은 값 |
+   | `ANTHROPIC_API_KEY` | 없음 (필수) | Claude API 키 |
+   | `ANALYSIS_MODEL` | `claude-fable-5-2` | 모든 모델 단계에 쓰는 Claude 모델 |
+   | `ANALYSIS_EFFORT` | `medium` | `low`~`max` |
+   | `ANALYSIS_PORT` | `3001` | |
+   | `ANALYSIS_INCLUDE_MASKS` | `true` | `false`면 마스크 단계와 응답의 마스크를 뺍니다 |
+   | `ANALYSIS_LLM` | `claude` | `openai`면 연구용 CLI의 OpenAI 경로를 씁니다 |
+   | `ANALYSIS_BIND_HOST`, `ANALYSIS_API_HOSTS` | `127.0.0.1`, 없음 | 다른 컴퓨터·컨테이너에서 호출받을 때만 설정합니다. `ANALYSIS_API_HOSTS`에 없는 Host 헤더는 403입니다 |
+
+2. 백엔드 (`kkokkkok-backend`, 코드 변경 없음)
+
+   JDK 17이 필요합니다. 실행할 때 환경 변수만 다음처럼 줍니다. 기본값인 `stub`에서 달라지는 것은 `ANALYSIS_PROVIDER`와 `NODE_ANALYSIS_*` 네 줄입니다.
+
+   ```powershell
+   $env:SPRING_PROFILES_ACTIVE = 'local'          # 로컬 전용: 앱 API 키 검사를 끕니다
+   $env:SERVER_ADDRESS = '127.0.0.1'
+   $env:ANALYSIS_PROVIDER = 'node'
+   $env:NODE_ANALYSIS_BASE_URL = 'http://127.0.0.1:3001'
+   $env:NODE_ANALYSIS_API_KEY = '분석 서버 .env의 ANALYSIS_API_KEY와 같은 값'
+   $env:NODE_ANALYSIS_EXTERNAL_IMAGE_CONSENT = 'true'   # 사진이 Claude API로 전송됩니다
+   $env:NODE_ANALYSIS_TIMEOUT_SECONDS = '120'
+   .\gradlew.bat bootRun
+   ```
+
+   - `NODE_ANALYSIS_EXTERNAL_IMAGE_CONSENT`가 `true`가 아니면 백엔드가 분석 요청을 503으로 거절합니다.
+   - 보호 편집은 기본값 `EDITING_PROVIDER=stub`(모의 편집)으로 두면 됩니다. 실제 편집은 백엔드의 OpenAI 키가 따로 필요하고 이 서버와 무관합니다.
+   - 확인: `http://127.0.0.1:8080/actuator/health`
+
+3. 안드로이드 (`kkokkkok-android`, 코드 변경 없음)
+
+   앱은 백엔드 주소만 압니다. 분석 서버의 주소나 키는 앱에 넣지 않습니다.
+
+   - 에뮬레이터: 설정을 바꿀 것이 없습니다. 기본 주소가 `http://10.0.2.2:8080`입니다.
+   - USB로 연결한 실제 기기: `local.properties`에 `kkokkkok.backend.baseUrl=http://127.0.0.1:8080`을 추가해 빌드하고, `adb reverse tcp:8080 tcp:8080`을 실행합니다(USB를 다시 꽂으면 다시 실행).
+   - 로그인은 기본으로 꺼져 있습니다. 켜려면 앱의 `kkokkkok.login.required=true`와 백엔드의 `AUTH_ENABLED=true` 및 카카오·네이버 값이 함께 필요합니다(각 저장소 README 참고).
+
+4. 이 PC의 `C:\KKokKKok\kkokkkok-local\start.ps1`을 쓸 때
+
+   그 스크립트는 사이드카(8091) → 예전 분석 서버(3001) → 백엔드(8098)를 한꺼번에 띄우므로, 이 분석 서버와 3001 포트가 겹칩니다. 스크립트가 예전 분석 서버와 사이드카 대신 `start-analysis.ps1`을 띄우도록 고쳐야 함께 쓸 수 있습니다(아직 고치지 않았습니다). 그 구성에서 서버 간 키는 `C:\KKokKKok\local-test\KkokKkok-PoC\.env.local`의 `ANALYSIS_API_KEY`이고, `start-analysis.ps1`은 `.env`에 키가 없으면 그 파일에서 읽습니다.
+
+앱에서 달라지는 점 (예전 런타임 대비):
+
+- 단서 목록에 규칙으로 판정한 단서만 나옵니다. 위험도 없이 따로 나오던 OCR 줄·탐지 객체 항목은 없습니다(`visualObservations`가 빈 배열).
+- 단서 제목은 규칙의 세부 상황, 설명은 모델이 쓴 한국어 문장, 판단 근거는 규칙 판정의 근거입니다. 위험 점수는 없습니다(`riskSummary.score`가 `null`).
+- 영역이 없는 단서(`bbox: null`)는 앱에 보이지만 보호 편집 대상으로 고르면 백엔드가 409를 돌려줍니다.
+- 응답에 새 필드가 있습니다: 단서별 `unit`·`unitLabel`·`ruleClass`·`regions`(폴리곤·마스크), 그리고 `combinations`(단서 조합 판정). 백엔드는 그대로 통과시키고, 앱은 아직 읽지 않습니다.
+- 사진 한 장에 3~5분이 걸립니다(2026-11-17, 이 PC: 189초와 268초). 앱은 5분까지 기다리고 서버는 한 장씩 처리하므로, 여러 장을 한꺼번에 분석하면 시간 초과가 납니다.
+
+2026-11-17에 확인한 범위: 백엔드를 거쳐 사진 업로드 → 분석 요청 → 결과 조회 → 모의 보호 편집까지. 안드로이드 앱은 실행해 보지 않았고, 앱이 읽는 필드는 파서 코드(`BackendAnalysisRepository.kt`)와 대조했습니다.
+
 **논문에서 가져온 것과 추가한 것**
 
 | 출처 | 적용 | 변경 이유 |

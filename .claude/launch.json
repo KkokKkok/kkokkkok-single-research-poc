@@ -14,6 +14,12 @@
       "port": 4176
     },
     {
+      "name": "viewer-opus55",
+      "runtimeExecutable": "node",
+      "runtimeArgs": ["location-cue-lab/scripts/viewer-server.mjs", "--port", "4177", "--dir", "location-cue-lab/private-data/opus55/paper/viewer"],
+      "port": 4177
+    },
+    {
       "name": "viewer",
       "runtimeExecutable": "node",
       "runtimeArgs": ["location-cue-lab/scripts/viewer-server.mjs", "--port", "4175", "--dir", "location-cue-lab/private-data/paper/viewer"],
