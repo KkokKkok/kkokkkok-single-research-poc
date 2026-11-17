@@ -79,9 +79,21 @@ cd "C:\KKokKKok\KkokKkok-Research-PoC\location-cue-lab"
    - USB로 연결한 실제 기기: `local.properties`에 `kkokkkok.backend.baseUrl=http://127.0.0.1:8080`을 추가해 빌드하고, `adb reverse tcp:8080 tcp:8080`을 실행합니다(USB를 다시 꽂으면 다시 실행).
    - 로그인은 기본으로 꺼져 있습니다. 켜려면 앱의 `kkokkkok.login.required=true`와 백엔드의 `AUTH_ENABLED=true` 및 카카오·네이버 값이 함께 필요합니다(각 저장소 README 참고).
 
-4. 이 PC의 `C:\KKokKKok\kkokkkok-local\start.ps1`을 쓸 때
+4. 이 PC의 `C:\KKokKKok\kkokkkok-local\start.ps1`을 쓸 때 (2026-11-17부터 이 분석 서버가 기본)
 
-   그 스크립트는 사이드카(8091) → 예전 분석 서버(3001) → 백엔드(8098)를 한꺼번에 띄우므로, 이 분석 서버와 3001 포트가 겹칩니다. 스크립트가 예전 분석 서버와 사이드카 대신 `start-analysis.ps1`을 띄우도록 고쳐야 함께 쓸 수 있습니다(아직 고치지 않았습니다). 그 구성에서 서버 간 키는 `C:\KKokKKok\local-test\KkokKkok-PoC\.env.local`의 `ANALYSIS_API_KEY`이고, `start-analysis.ps1`은 `.env`에 키가 없으면 그 파일에서 읽습니다.
+   그 스크립트는 분석 서버(3001)와 백엔드(8098, 로그인 켜짐)를 한꺼번에 띄웁니다. 백엔드가 받는 값(`NODE_ANALYSIS_BASE_URL=http://127.0.0.1:3001` 등)은 예전 그대로이고, 3001 포트에 띄우는 프로그램만 예전 런타임에서 이 폴더의 `analysis-server.mjs`로 바꿨습니다. 사이드카(8091)는 띄우지 않습니다.
+
+   ```powershell
+   & "C:\KKokKKok\kkokkkok-local\stop.ps1"
+   & "C:\KKokKKok\kkokkkok-local\start.ps1"            # 이 분석 서버 + 백엔드
+   & "C:\KKokKKok\kkokkkok-local\start.ps1" -Legacy    # 예전 구성: 사이드카 + KkokKkok-PoC 분석 서버 + 백엔드
+   ```
+
+   - 서버 간 키는 `C:\KKokKKok\local-test\KkokKkok-PoC\.env.local`의 `ANALYSIS_API_KEY`를 두 서버에 같이 넘깁니다. Claude 키는 이 폴더의 `.env`에서 읽습니다.
+   - 사진과 분석 기록은 `C:\KKokKKok\kkokkkok-local\analysis-research`에, 로그는 `logs\analysis.out.log`에 쌓입니다. 로그 한 줄이 한 단계이고 소요 시간(초)과 오류 코드만 남습니다.
+   - 예전 구성에서 분석한 사진의 결과는 예전 분석 서버에 있으므로, 앱에서 그 이력을 열면 오류가 납니다. `-Legacy`로 띄우면 다시 보입니다.
+   - 그 스크립트는 저장소 밖에 있고 이 PC의 경로가 들어 있습니다. 참고용 사본을 `local-stack/`에 두었습니다. 다른 PC에서는 맨 위의 경로 변수(`$Research`, `$ResearchDeps`, `$Poc`, `$Backend`, `$Jdk17`)를 고쳐 쓰거나 위 1~3의 수동 절차를 따릅니다. 비밀값은 스크립트에 없고 `secrets.json`과 `.env.local`에서 읽습니다.
+   - 휴대폰 연결: `& "<SDK>\platform-tools\adb.exe" reverse tcp:8098 tcp:8098` (USB를 다시 꽂으면 다시 실행).
 
 앱에서 달라지는 점 (예전 런타임 대비):
 
@@ -91,7 +103,7 @@ cd "C:\KKokKKok\KkokKkok-Research-PoC\location-cue-lab"
 - 응답에 새 필드가 있습니다: 단서별 `unit`·`unitLabel`·`ruleClass`·`regions`(폴리곤·마스크), 그리고 `combinations`(단서 조합 판정). 백엔드는 그대로 통과시키고, 앱은 아직 읽지 않습니다.
 - 사진 한 장에 3~5분이 걸립니다(2026-11-17, 이 PC: 189초와 268초). 앱은 5분까지 기다리고 서버는 한 장씩 처리하므로, 여러 장을 한꺼번에 분석하면 시간 초과가 납니다.
 
-2026-11-17에 확인한 범위: 백엔드를 거쳐 사진 업로드 → 분석 요청 → 결과 조회 → 모의 보호 편집까지. 안드로이드 앱은 실행해 보지 않았고, 앱이 읽는 필드는 파서 코드(`BackendAnalysisRepository.kt`)와 대조했습니다.
+2026-11-17에 확인한 범위: 백엔드를 거쳐 사진 업로드 → 분석 요청 → 결과 조회 → 모의 보호 편집까지. 같은 날 USB로 연결한 휴대폰의 앱에서 사진 두 장을 분석해 이 서버가 처리한 것을 로그로 확인했습니다(114초, 175초). 앱 결과 화면은 위험도가 주의·높음인 단서만 세므로, 단서가 전부 낮음이면 "발견한 단서 0개"로 보입니다.
 
 **논문에서 가져온 것과 추가한 것**
 
