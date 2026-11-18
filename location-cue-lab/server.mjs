@@ -56,6 +56,8 @@ export function createApp({directory=dataDir,adapters,requireConfiguration=true}
   return {server,store,async close(){closing=true;await new Promise(resolve=>server.close(resolve));while(working)await new Promise(resolve=>setTimeout(resolve,50));store.close();}};
 }
 if(process.argv[1]&&resolve(process.argv[1])===fileURLToPath(import.meta.url)){
-  const port=Number(process.env.PORT||3210);const app=createApp();app.server.listen(port,'127.0.0.1',()=>console.log(`Location Cue Lab: http://127.0.0.1:${port}`));
+  // HOST is 0.0.0.0 only inside a container, whose port is published to the machine's 127.0.0.1.
+  // Requests are still refused unless their Host header is 127.0.0.1 or localhost.
+  const port=Number(process.env.PORT||3210),host=process.env.HOST||'127.0.0.1';const app=createApp();app.server.listen(port,host,()=>console.log(`Location Cue Lab: http://127.0.0.1:${port}`));
   app.server.on('error',()=>{console.error('Local server could not start. Check PORT and private-data access.');process.exitCode=1;});
 }

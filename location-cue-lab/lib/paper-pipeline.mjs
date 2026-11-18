@@ -44,10 +44,12 @@ export function parseDetectorAnswer(answer){
 export const clueText=clue=>`${clue.category}: ${clue.detail}`;
 
 // Prompt first, image second, no system prompt, as in call_geominer_detector().
-export async function extractClues({bytes,model,reasoningEffort=null,llm,attempts=2,onCall=()=>{}}){
+// prompt: the paper's by default. The analysis server gives a variant (paper-claude.mjs) when the
+// model in use does not accept the paper's wording.
+export async function extractClues({bytes,model,reasoningEffort=null,llm,attempts=2,onCall=()=>{},prompt=DETECTOR_PROMPT}){
   let lastError;
   for(let attempt=1;attempt<=attempts;attempt++){
-    const {text,raw}=await llm({model,reasoningEffort,text:DETECTOR_PROMPT,imageBytes:bytes,attempt});
+    const {text,raw}=await llm({model,reasoningEffort,text:prompt,imageBytes:bytes,attempt});
     onCall({stage:'detector',attempt,at:new Date().toISOString(),...raw,rawOutputText:text});
     try{return {...parseDetectorAnswer(text),answer:text,attempts:attempt};}catch(error){lastError=error;}
   }

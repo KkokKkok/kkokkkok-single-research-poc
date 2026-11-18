@@ -37,6 +37,16 @@ export function regionStage(env=process.env,{handoffModel=null}={}){
   const model=handoffModel||(env.PAPER_REGION_MODEL||'').trim()||(env.OPENAI_MODEL||'').trim()||null;
   return {model,reasoningEffort:null,maxOutputTokens:handoffModel?null:PAPER_MAX_OUTPUT_TOKENS,transport:handoffModel?'handoff':'openai-responses',paperModel:null,matchesPaper:null};
 }
+// The rule-sheet judgement (paper-rules.mjs) is not from the paper either: PAPER_RULE_MODEL, else OPENAI_MODEL.
+export function ruleStage(env=process.env,{handoffModel=null}={}){
+  const model=handoffModel||(env.PAPER_RULE_MODEL||'').trim()||(env.OPENAI_MODEL||'').trim()||null;
+  return {model,reasoningEffort:null,maxOutputTokens:handoffModel?null:PAPER_MAX_OUTPUT_TOKENS,transport:handoffModel?'handoff':'openai-responses',paperModel:null,matchesPaper:null};
+}
+// Evidence normalization (paper-evidence.mjs), not from the paper: PAPER_EVIDENCE_MODEL, else OPENAI_MODEL.
+export function evidenceStage(env=process.env,{handoffModel=null}={}){
+  const model=handoffModel||(env.PAPER_EVIDENCE_MODEL||'').trim()||(env.OPENAI_MODEL||'').trim()||null;
+  return {model,reasoningEffort:null,maxOutputTokens:handoffModel?null:PAPER_MAX_OUTPUT_TOKENS,transport:handoffModel?'handoff':'openai-responses',paperModel:null,matchesPaper:null};
+}
 // Evaluation only: the model asked where a photo was taken (the paper's CoT experiment). The paper
 // mined the clue lists of these three; experiment.py gives o3 reasoning_effort "medium".
 export const LOCATOR_REFERENCE=[

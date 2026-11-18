@@ -5,9 +5,10 @@ import { tmpdir } from 'node:os';
 import { resolve } from 'node:path';
 import { Store } from '../lib/store.mjs';
 import { sharp } from '../lib/config.mjs';
-import { prepareImage } from '../lib/adapters.mjs';
+import http from 'node:http';
+import { prepareImage,realAdapters,runPython,runtimeStatus,sha } from '../lib/adapters.mjs';
 import { discoverySchema,ocrReviewSchema,reconcileOcrBatch,verifyOcrCoverage,verifyProposalCoverage,cropPixels,jsonSchema } from '../lib/contracts.mjs';
-import { runPipeline,assembleCues } from '../lib/pipeline.mjs';
+import { runPipeline,assembleCues,pool } from '../lib/pipeline.mjs';
 import { createApp } from '../server.mjs';
 
 const cue=(overrides={})=>({kind:'non_text',category:'Architectural Details',nameKo:'아치형 창문',observationKo:'아치형 창문이 보임',geographicRelevanceKo:'외관 비교에 쓸 수 있음',regionDescriptionKo:'왼쪽',scope:'object',visibleText:null,surface:'fixed',visibility:'clear',detectorQueryEn:'arched building window',limitationsKo:'지역적 고유성 미검증',...overrides});
@@ -74,3 +75,63 @@ test('server validates upload, rejects CSRF, exports JSON and preserves separate
   }finally{await app.close();cleanup(dir);}
 });
 
+const pause=ms=>new Promise(r=>setTimeout(r,ms));
+test('pool keeps item order, caps calls in flight and stops starting work after a failure',async()=>{
+  let active=0,peak=0;
+  const out=await pool([30,5,20,1,10],async ms=>{active++;peak=Math.max(peak,active);await pause(ms);active--;return ms;},2);
+  assert.deepEqual(out,[30,5,20,1,10]);assert.equal(peak,2);
+  const started=[];
+  await assert.rejects(pool([0,1,2,3],async i=>{started.push(i);await pause(5);if(i===0)throw new Error('first');return i;},2),/first/);
+  assert.deepEqual(started,[0,1]);
+});
+test('independent stages overlap: discovery with OCR, OCR review with detection',async()=>{
+  const dir=temporary(),s=new Store(dir);try{const p=await sample(),r=s.create(p.image,p.bytes,'fixture');const a=fakeAdapters(),events=[];
+    const wrap=(name,fn)=>async(...args)=>{events.push(`${name}+`);await pause(15);const out=await fn(...args);events.push(`${name}-`);return out;};
+    const vlm=a.vlm;a.vlm=args=>wrap(args.schema===discoverySchema?'discovery':args.schema===ocrReviewSchema?'review':'verify',vlm)(args);
+    a.ocr=wrap('ocr',a.ocr);a.detect=wrap('detect',a.detect);
+    const out=await runPipeline(s,r.id,a);assert.equal(out.status,'completed');assert.equal(out.cues.length,4);
+    const at=e=>events.indexOf(e);
+    assert.ok(at('ocr+')<at('discovery-')&&at('discovery+')<at('ocr-'));
+    assert.ok(at('detect+')<at('review-')&&at('review+')<at('detect-'));
+    assert.ok(at('verify+')>at('review-')&&at('verify+')>at('detect-'));
+  }finally{s.close();cleanup(dir);}
+});
+test('OCR review batches run together and are joined in line order',async()=>{
+  const dir=temporary(),s=new Store(dir);try{const p=await sample(),r=s.create(p.image,p.bytes,'fixture');const a=fakeAdapters();
+    const lines=Array.from({length:20},(_,i)=>({id:`ocr-${i}`,text:`T${i}`,score:.9,polygon:[[.1,.1],[.5,.1],[.5,.3],[.1,.3]]}));
+    a.ocr=async()=>({...structuredClone(ocr),lines});a.ocrContext=async()=>[];let active=0,peak=0;const original=a.vlm;
+    a.vlm=async args=>{if(!args.schema.shape?.groups)return original(args);
+      const ids=JSON.parse(args.content[1].text).ocrLines.map(l=>l.id);active++;peak=Math.max(peak,active);await pause(ids[0]==='ocr-0'?40:5);active--;
+      const out={groups:ids.map(id=>({...group,lineIds:[id],relatedDiscoveryIndexes:[]})),limitationsKo:[]};args.onRaw({rawOutputText:JSON.stringify(out)});return args.schema.parse(out);};
+    const out=await runPipeline(s,r.id,a);assert.equal(out.status,'completed');assert.ok(peak>1);
+    assert.deepEqual(out.artifacts.ocr_review.groups.map(g=>g.lineIds[0]),lines.map(l=>l.id));
+    assert.deepEqual(Object.keys(out.artifacts).filter(k=>/^ocr_batch_\d+$/.test(k)).sort(),['ocr_batch_0','ocr_batch_16','ocr_batch_8']);
+  }finally{s.close();cleanup(dir);}
+});
+test('failed discovery ends as failed only after OCR has stopped writing, and keeps the OCR result for retry',async()=>{
+  const dir=temporary(),s=new Store(dir);try{const p=await sample(),r=s.create(p.image,p.bytes,'fixture');const a=fakeAdapters();let ocrDone=false;
+    a.vlm=async()=>{throw new Error('OFFLINE');};const readOcr=a.ocr;a.ocr=async()=>{await pause(30);ocrDone=true;return readOcr();};a.detect=()=>assert.fail('detection without discovery');
+    const out=await runPipeline(s,r.id,a);assert.equal(out.status,'failed');assert.ok(ocrDone);assert.equal(s.get(r.id).status,'failed');assert.equal(out.stages.ocr.status,'completed');
+    const next=fakeAdapters();next.ocr=()=>assert.fail('OCR rerun');const again=await runPipeline(s,r.id,next);assert.equal(again.status,'completed');assert.equal(again.cues.length,4);
+  }finally{s.close();cleanup(dir);}
+});
+test('OCR_URL and GROUNDING_URL send the same work to a resident worker and keep the answer checks',async()=>{
+  const seen=[];let fail=false;
+  const worker=http.createServer(async(req,res)=>{const chunks=[];for await(const c of req)chunks.push(c);const body=JSON.parse(Buffer.concat(chunks).toString('utf8'));seen.push({url:req.url,body});
+    if(fail){res.writeHead(500).end('{"error":"OCR_FAILED"}');return;}
+    const image=Buffer.from(body.image,'base64');
+    const out=body.queries?{engine:'Grounding DINO',model:'m',revision:'r',imageSha256:sha(image),coordinateSpace:'analysis-normalized',requests:body.queries.map(q=>({...q,detections:[{id:`dino-${q.cueId}-0`,bbox:[.1,.1,.5,.5],score:.7,label:q.query}]}))}:structuredClone(ocr);
+    res.writeHead(200,{'Content-Type':'application/json'}).end(JSON.stringify(out));});
+  await new Promise(r=>worker.listen(0,'127.0.0.1',r));const url=`http://127.0.0.1:${worker.address().port}`;
+  const before={ocr:process.env.OCR_URL,grounding:process.env.GROUNDING_URL};
+  try{
+    process.env.OCR_URL=url+'/';process.env.GROUNDING_URL=url;const p=await sample();
+    assert.equal(runtimeStatus().ocrPythonAvailable,true);
+    assert.equal((await realAdapters.ocr(p.bytes)).lines[0].text,'TEST');
+    assert.equal(seen[0].url,'/run');assert.equal(sha(Buffer.from(seen[0].body.image,'base64')),p.image.sha256);assert.deepEqual(seen[0].body.settings,{});
+    await runPython('ocr','ocr.py',p.bytes,{KKOK_OCR_LANGS:'korean,en',OTHER:'x'});assert.deepEqual(seen[1].body.settings,{KKOK_OCR_LANGS:'korean,en'});
+    const queries=[{cueId:'cue-0',query:'arched building window'}];
+    assert.equal((await realAdapters.detect(p.bytes,queries)).requests[0].detections[0].id,'dino-cue-0-0');assert.deepEqual(seen[2].body.queries,queries);
+    fail=true;await assert.rejects(realAdapters.ocr(p.bytes),/^Error: OCR_FAILED$/);
+  }finally{for(const [kind,value] of Object.entries(before)){const name=`${kind.toUpperCase()}_URL`;if(value===undefined)delete process.env[name];else process.env[name]=value;}await new Promise(r=>worker.close(r));}
+});

@@ -3,9 +3,14 @@
 import { writeFileSync } from 'node:fs';
 import { resolve } from 'node:path';
 import { sharp } from './config.mjs';
-import { extractClues,classifyClues,mineCategories,predictLocation,entryText,shuffled,numberTaxonomy,sortedMemory } from './paper-pipeline.mjs';
-import { linkRegions,quotedStrings } from './paper-regions.mjs';
+import { extractClues,classifyClues,clueText,mineCategories,predictLocation,entryText,shuffled,numberTaxonomy,sortedMemory } from './paper-pipeline.mjs';
+import { linkRegions,quotedStrings,relinkUnreadQuotes } from './paper-regions.mjs';
+import { recheckClues,RECHECK_SOURCES } from './paper-text-recheck.mjs';
 import { scoreAddresses,scorePlaceSearch } from './paper-score.mjs';
+import { judgeClues,ruleOf,guessSoloTargets,guessCombination } from './paper-rules.mjs';
+import { pointClues,POINT_SOURCE } from './paper-point.mjs';
+import { normalizeClues,assignClues,pendingChecks,checkPrompt,parseCheckAnswer } from './paper-evidence.mjs';
+import { matchGuessClues,needsGuessMatch,testGuessSolo,guessSoloResult } from './paper-guess.mjs';
 
 // Only short codes are stored; provider error text (which can quote part of a key) never reaches a record.
 const providerCode=error=>typeof error?.code==='string'&&/^[a-z0-9_]{1,64}$/.test(error.code)?error.code:null;
@@ -22,13 +27,14 @@ const isPending=error=>error?.message==='HANDOFF_PENDING';
 // prepared: {bytes,image} from prepareImage(), i.e. the normalized, metadata-free JPEG.
 // stages: the per-stage settings from paperStages(); they are stored on the record as used.
 // run: a pending record of the same image to continue, instead of creating a new one.
-export async function extractImage({store,prepared,stages,llm,run=null}){
+// detectorPrompt: {text,variant} to use instead of the paper's prompt; the variant's name is stored.
+export async function extractImage({store,prepared,stages,llm,run=null,detectorPrompt=null}){
   run??=store.createRun(prepared.image,prepared.bytes,stages);
   if(run.status==='registered')run.stages=stages;
   delete run.pending;
   try{
-    const result=await extractClues({bytes:prepared.bytes,model:stages.detector.model,reasoningEffort:stages.detector.reasoningEffort,llm,onCall:recorder(store,run)});
-    run.detector={answer:result.answer,detectorJson:result.detectorJson,candidateCategories:result.candidateCategories,attempts:result.attempts};
+    const result=await extractClues({bytes:prepared.bytes,model:stages.detector.model,reasoningEffort:stages.detector.reasoningEffort,llm,onCall:recorder(store,run),...(detectorPrompt?{prompt:detectorPrompt.text}:{})});
+    run.detector={...(detectorPrompt?{promptVariant:detectorPrompt.variant}:{}),answer:result.answer,detectorJson:result.detectorJson,candidateCategories:result.candidateCategories,attempts:result.attempts};
     run.clues=result.clues;run.status='extracted';
   }catch(error){
     if(isPending(error)){run.status='pending';run.pending={stage:'detector',...error.handoff};}
@@ -60,10 +66,10 @@ export async function classifyRun({store,run,taxonomy,stage,llm}){
 // One image through extraction and, when a taxonomy is given, classification. With resume (the
 // file hand-off), a record parked at either step is continued: without this, re-running the command
 // while the classifier answer is awaited would extract the same image into a second record.
-export async function extractAndClassify({store,prepared,stages,llm,taxonomy=null,resume=false}){
+export async function extractAndClassify({store,prepared,stages,llm,taxonomy=null,resume=false,detectorPrompt=null}){
   // A photo registered for evaluation only (no Detector call yet) is extracted into its own record.
   const parked=(resume?store.findPendingRun(prepared.image.sha256):null)??store.findRegisteredRun(prepared.image.sha256);
-  let run=parked&&!['pending','registered'].includes(parked.status)?parked:await extractImage({store,prepared,stages,llm,run:parked});
+  let run=parked&&!['pending','registered'].includes(parked.status)?parked:await extractImage({store,prepared,stages,llm,run:parked,detectorPrompt});
   if(run.status==='extracted'&&taxonomy)run=await classifyRun({store,run,taxonomy,stage:stages.classifier,llm});
   return run;
 }
@@ -84,14 +90,153 @@ export async function linkRunRegions({store,run,stage,llm,ocr,detect,prepare=too
   if(!['extracted','classified'].includes(run.status)||!run.clues.length)return run;
   delete run.pending;
   try{
-    const clues=run.clues.map(({textTargets,objectTargets,regions,localization,risk,...clue})=>clue);
+    const clues=run.clues.map(({textTargets,objectTargets,unreadQuotes,regions,localization,risk,...clue})=>clue);
     const tool=await prepare(store.image(run.id));
     const result=await linkRegions({bytes:tool.bytes,clues,model:stage.model,reasoningEffort:stage.reasoningEffort,llm,ocr,detect,policy,tierOf,onCall:recorder(store,run)});
+    // New boxes carry no masks: the mask summary of the old ones (paper-masks.mjs) goes with them.
+    delete run.masks;
     run.clues=result.clues;run.regions={...result.summary,stage,toolImage:{width:tool.width,height:tool.height,resized:tool.resized,maxSide:MAX_TOOL_SIDE}};
   }catch(error){
     if(isPending(error))run.pending={stage:'regionTargets',...error.handoff};
     else run.errors.push(errorEntry('regions',error));
   }
+  return store.saveRun(run);
+}
+// Follows linkRunRegions (paper-text-recheck.mjs; not a paper step): quoted text that OCR did not link
+// is looked for again where the model says it is, and gets the model's box when OCR still reads nothing.
+// A record already rechecked is left alone unless force is set; force drops the earlier recheck regions.
+export async function recheckRunText({store,run,stage,llm,ocr,force=false}){
+  if(!run.regions||(run.regions.textRecheck&&!force))return run;
+  delete run.pending;
+  try{
+    if(force)for(const clue of run.clues)if(clue.regions)clue.regions=clue.regions.filter(region=>!RECHECK_SOURCES.includes(region.source));
+    const summary=await recheckClues({bytes:store.image(run.id),clues:run.clues,model:stage.model,reasoningEffort:stage.reasoningEffort,llm,ocr,onCall:recorder(store,run)});
+    run.regions.textRecheck={...summary,transport:stage.transport};
+  }catch(error){
+    if(isPending(error))run.pending={stage:'textHints',...error.handoff};
+    else run.errors.push(errorEntry('textRecheck',error));
+  }
+  return store.saveRun(run);
+}
+// Follows the text recheck (paper-regions.mjs relinkUnreadQuotes; not a paper step, no model call): a
+// clue whose quoted strings are not in the photo is looked for by the detector as an object. A record
+// already done is left alone. New boxes carry no masks, so the mask summary is dropped with them.
+export async function relinkRunUnreadQuotes({store,run,detect,prepare=toolCopy,policy=null,tierOf=()=>null}){
+  if(!run.regions?.textRecheck||run.regions.unreadQuotes)return run;
+  try{
+    const tool=await prepare(store.image(run.id));
+    const summary=await relinkUnreadQuotes({bytes:tool.bytes,clues:run.clues,targetsAnswer:run.regions.targets?.answer,detect,policy,tierOf});
+    run.regions.unreadQuotes={createdAt:new Date().toISOString(),...summary};
+    if(summary.located)delete run.masks;
+  }catch(error){run.errors.push(errorEntry('unreadQuotes',error));}
+  return store.saveRun(run);
+}
+// Follows the text recheck (paper-point.mjs; not a paper step): a clue that took part in an inference
+// of the place and has no region gets the box the model points at. New boxes carry no masks, so the
+// mask summary is dropped when one is added. Left alone when already done, unless force.
+export async function pointRunClues({store,run,stage,llm,force=false}){
+  if(!run.regions||(run.regions.pointing&&!force))return run;
+  delete run.pending;
+  try{
+    for(const clue of run.clues)if(clue.regions?.some(region=>region.source===POINT_SOURCE)){clue.regions=clue.regions.filter(region=>region.source!==POINT_SOURCE);if(!clue.regions.length)clue.localization='unlocalized';delete run.masks;}
+    const summary=await pointClues({bytes:store.image(run.id),run,model:stage.model,reasoningEffort:stage.reasoningEffort,llm,onCall:recorder(store,run)});
+    run.regions.pointing={...summary,transport:stage.transport};
+    if(summary.pointed)delete run.masks;
+  }catch(error){
+    if(isPending(error))run.pending={stage:'cluePoint',...error.handoff};
+    else run.errors.push(errorEntry('cluePoint',error));
+  }
+  return store.saveRun(run);
+}
+// The owner's rule sheet (paper-rules.mjs; not a paper step): each clue gets the unit it narrows the
+// place down to and the risk that follows, and the record the combinations of clues the sheet admits.
+// Needs only the clue text, so it can run right after extraction. A record already judged is left
+// alone unless force is set.
+export async function judgeRunRules({store,run,stage,llm,force=false}){
+  if(!['extracted','classified'].includes(run.status)||!run.clues.length||(run.rules&&!force))return run;
+  delete run.pending;
+  try{
+    const result=await judgeClues({clues:run.clues,model:stage.model,reasoningEffort:stage.reasoningEffort,llm,onCall:recorder(store,run)});
+    run.clues=result.clues;run.rules={...result.summary,stage};
+    // An earlier failed attempt of this step is settled by this one.
+    run.errors=run.errors.filter(entry=>entry.stage!=='rules');
+  }catch(error){
+    if(isPending(error))run.pending={stage:'rules',...error.handoff};
+    else run.errors.push(errorEntry('rules',error));
+  }
+  return store.saveRun(run);
+}
+// Evidence normalization (paper-evidence.mjs; not a paper step): the clues rewritten as records of a
+// fixed form with a key that is the same in another photo of the place. Reads the clue text and the
+// region ids already linked, so run it after `regions` and again (force) when the regions change.
+export async function normalizeRunEvidence({store,run,stage,llm,force=false}){
+  if(!['extracted','classified'].includes(run.status)||!run.clues.length||(run.evidence&&!force))return run;
+  delete run.pending;
+  try{
+    const result=await normalizeClues({clues:run.clues,model:stage.model,reasoningEffort:stage.reasoningEffort,llm,onCall:recorder(store,run)});
+    run.evidence=result.evidence;run.normalization={...result.summary,stage};
+    run.errors=run.errors.filter(entry=>entry.stage!=='evidence');
+  }catch(error){
+    if(isPending(error))run.pending={stage:'evidence',...error.handoff};
+    else run.errors.push(errorEntry('evidence',error));
+  }
+  return store.saveRun(run);
+}
+// Follows normalizeRunEvidence: the record's evidence is matched against the clues its place has
+// already shown, and each gets `placeClueId` and `seenBefore` (paper-evidence.mjs assignClues). `place` is
+// the caller's name for the position the photo shares with others. No model is asked anything.
+// With `stage` and `llm` (the check): evidence without text whose clue is medium or high by the rule
+// sheet is not matched by its kind alone. A model looks at this photo next to the one that showed the
+// known clue first and says whether it is the same object; one call per earlier photo. A hand-off
+// answer still awaited parks the record (pending.stage 'placeCheck') and leaves the place untouched.
+// Without them nothing is checked: the kind decides.
+export async function sideBySide(left,right,height=1000){
+  const [a,b]=await Promise.all([left,right].map(bytes=>sharp(bytes).resize({height,fit:'inside'}).toBuffer({resolveWithObject:true})));
+  return sharp({create:{width:a.info.width+b.info.width+20,height:Math.max(a.info.height,b.info.height),channels:3,background:'#ffffff'}})
+    .composite([{input:a.data,left:0,top:0},{input:b.data,left:a.info.width+20,top:0}]).jpeg({quality:88}).toBuffer();
+}
+const RISK_ORDER=['low','medium','high'];
+// The risk of an evidence record: the highest among the clues it was written from.
+export const evidenceRisk=run=>item=>RISK_ORDER[Math.max(...item.clueIds.map(id=>RISK_ORDER.indexOf(ruleOf(run.clues.find(clue=>clue.id===id)).risk)))]??null;
+const clueWords=(run,item)=>item.clueIds.map(id=>clueText(run.clues.find(clue=>clue.id===id))).join(' / ');
+export async function assignRunClues({store,run,place:name,stage=null,llm=null,compose=sideBySide,attempts=2}){
+  if(!run.evidence)return run;
+  delete run.pending;
+  const place=store.getPlace(name)??{schemaVersion:'paper-place-v1',name,clues:[]};
+  const evidence=run.evidence.map(({clueId,placeClueId,seenBefore,...item})=>item);
+  const checking=Boolean(stage&&llm),riskOf=checking?evidenceRisk(run):null,verdicts=new Map(),checks=[];
+  if(checking){
+    const byReference=Map.groupBy(pendingChecks(place,run.id,evidence,riskOf),check=>check.refRunId);
+    const pending=[];
+    for(const [refRunId,asked] of byReference){
+      const reference=store.getRun(refRunId);
+      const items=asked.map(check=>{
+        const mine=evidence.find(item=>item.id===check.evidenceId),theirs=reference.evidence.find(item=>item.placeClueId===check.clueId);
+        return {kind:`${mine.subject} / ${mine.aspect}`,inA:clueWords(reference,theirs),inB:clueWords(run,mine)};
+      });
+      const prompt=checkPrompt(items),imageBytes=await compose(store.image(refRunId),store.image(run.id));
+      let answered=null,lastError=null;
+      for(let attempt=1;attempt<=attempts&&!answered;attempt++){
+        try{
+          const {text,raw}=await llm({model:stage.model,reasoningEffort:stage.reasoningEffort,text:prompt,imageBytes,attempt});
+          recorder(store,run)({stage:'placeCheck',attempt,at:new Date().toISOString(),...raw,rawOutputText:text});
+          answered=parseCheckAnswer(text,items.length);
+        }catch(error){
+          if(isPending(error)){pending.push(error.handoff);lastError=null;break;}
+          lastError=error;
+        }
+      }
+      if(lastError){run.errors.push(errorEntry('placeCheck',lastError));return store.saveRun(run);}
+      // No answer that could be read leaves the verdicts out: those evidence become clues of their own.
+      (answered||[]).forEach((verdict,index)=>{verdicts.set(`${asked[index].evidenceId}|${asked[index].clueId}`,verdict);checks.push({...asked[index],verdict});});
+    }
+    if(pending.length){run.pending={stage:'placeCheck',...pending[0],all:pending};return store.saveRun(run);}
+  }
+  const result=assignClues(place,run.id,evidence,{riskOf,verdicts});
+  store.savePlace(result.place);
+  run.evidence=result.evidence;run.place=name;
+  // A photo run again asks nothing (it keeps its clues): what was asked the first time stays on the record.
+  if(checking){if(checks.length||run.placeChecks?.place!==name)run.placeChecks={createdAt:new Date().toISOString(),place:name,stage,checks};}else delete run.placeChecks;
   return store.saveRun(run);
 }
 
@@ -129,6 +274,45 @@ export async function scoreRun({store,run,truth,geocoder,geocode,distance,radius
     prediction.score=score;store.saveRun(run);
   }
   return {run,blocked:null};
+}
+
+// EVALUATION ONLY (paper-guess.mjs). For a record whose address guess found the place: which Detector
+// clue each clue of the guess is, so the guess's combination can be covered. A text-only model call.
+// Left alone when the guess missed or is already matched, unless force. The boxes for the newly used
+// clues come from pointRunClues and maskRunRegions afterwards (scripts/paper.mjs guess).
+export async function matchRunGuessClues({store,run,stage,llm,force=false}){
+  if(!['extracted','classified'].includes(run.status)||!needsGuessMatch(run,{force}))return run;
+  delete run.pending;
+  try{
+    run.guessClues={...await matchGuessClues({run,model:stage.model,reasoningEffort:stage.reasoningEffort,llm,onCall:recorder(store,run)}),stage};
+    run.errors=run.errors.filter(entry=>entry.stage!=='guessMatch');
+  }catch(error){
+    if(isPending(error))run.pending={stage:'guessMatch',...error.handoff};
+    else run.errors.push(errorEntry('guessMatch',error));
+  }
+  return store.saveRun(run);
+}
+
+// EVALUATION ONLY (paper-guess.mjs testGuessSolo). After matchRunGuessClues: each clue of the hit guess
+// that is not already a point by the sheet or confirmed by a search is tried alone, to see whether it
+// leads to the place the guess found. One text-only model call, then the geocoder for each address.
+// Left alone when already done for this guess, unless force. Returns {run,blocked}: blocked is the
+// geocoder status that stopped it (missing or rejected key, quota), or null.
+export async function soloRunGuessClues({store,run,stage,llm,geocoder,geocode,distance,blocking,radiusM,force=false}){
+  if(!['extracted','classified'].includes(run.status)||!guessCombination(run)||(guessSoloResult(run)&&!force))return {run,blocked:null};
+  delete run.pending;
+  // Without an earlier result, so the targets are the ones before any clue was found alone.
+  delete run.guessSolo;
+  try{
+    const result=await testGuessSolo({run,targets:guessSoloTargets(run),model:stage.model,reasoningEffort:stage.reasoningEffort,llm,geocoder,geocode,distance,blocking,...(radiusM?{radiusM}:{}),onCall:recorder(store,run)});
+    if(result.blocked)return {run,blocked:result.blocked};
+    run.guessSolo={...result.solo,stage};
+    run.errors=run.errors.filter(entry=>entry.stage!=='guessSolo');
+  }catch(error){
+    if(isPending(error))run.pending={stage:'guessSolo',...error.handoff};
+    else run.errors.push(errorEntry('guessSolo',error));
+  }
+  return {run:store.saveRun(run),blocked:null};
 }
 
 // The texts the Detector quoted from the photo, each once, with the clues they came from and

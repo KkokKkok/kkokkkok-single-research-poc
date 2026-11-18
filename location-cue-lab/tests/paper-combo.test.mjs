@@ -94,10 +94,30 @@ test('a clue is confirmed by a search that led to the place, potential when tier
   const quoting=riskLabels({clues:[{...clue('clue-0','Commercial Signage',[{kind:'object'}]),textTargets:['bhc']},{...clue('clue-1','Commercial Signage',[{kind:'object'},{kind:'text'}]),textTargets:['PIZZAWAY']}]});
   assert.deepEqual(Object.values(quoting.clues).map(entry=>[entry.label,entry.located]),[['potential',false],['potential',true]]);
   assert.equal(quoting.clues['clue-0'].reason,'A 등급. 인용한 글자를 사진에서 찾지 못해 상자가 없음');
+  assert.deepEqual(Object.values(quoting.clues).map(entry=>entry.locatedBy),[null,'ocr']);
+  // The model's box in place of a text OCR could not read counts as located, and is told apart.
+  const standIn=riskLabels({clues:[{...clue('clue-0','Commercial Signage',[{kind:'text',source:'model_hint',verified:false}]),textTargets:['CAU']},
+    {...clue('clue-1','Commercial Signage',[{kind:'text',source:'paddleocr_recheck',verified:true}]),textTargets:['ODAH']},{...clue('clue-2','Commercial Signage',[{kind:'object'}]),textTargets:[]}]});
+  assert.deepEqual(Object.values(standIn.clues).map(entry=>[entry.located,entry.locatedBy]),[[true,'model'],[true,'ocr'],[true,'detector']]);
   // A combination that lands 300 m away is within the search radius but too far to count.
   const loose=riskLabels({clues:[run.clues[2]],placeSearches:[],comboSearches:[{kind:'pair',method:'joint_query',texts:['a','b'],clueIds:[['clue-2'],[]],withinRadius:true,distanceM:300}]});
   assert.equal(loose.clues['clue-2'].label,'potential');
   // Without any search nothing can be confirmed.
   const unsearched=riskLabels({clues:run.clues});
   assert.deepEqual([unsearched.searched,unsearched.counts.confirmed,unsearched.counts.potential],[false,0,4]);
+});
+
+test('two chain names, low alone, are still combined; two ordinary tier B texts are not',async()=>{
+  const places={'체인A':[at(37.6,127.1,'체인A 먼 점'),at(37.5003,127.0002,'체인A 가까운 점')],'체인B':[at(37.4,126.9,'체인B 먼 점'),at(37.5005,127.0004,'체인B 가까운 점')],'자막':[at(37.7,127.2,'x')],'안내':[at(37.8,127.3,'y')]};
+  const asked=[];
+  const search=async query=>{asked.push(query);return places[query]?{status:'resolved',places:places[query]}:{status:'no_result',places:[]};};
+  const texts=[{query:'자막',clueIds:['clue-2'],tier:'B'},{query:'안내',clueIds:['clue-3'],tier:'B'},{query:'체인A',clueIds:['clue-0'],tier:'B',basis:true},{query:'체인B',clueIds:['clue-1'],tier:'B',basis:true}];
+  const {searches}=await combinationSearches({texts,truth,search,distance:flat});
+  const together=searches.find(entry=>entry.texts.join('+')==='체인A+체인B');
+  assert.deepEqual([together.method,together.withinRadius],['co_location',true]);
+  assert.equal(searches.some(entry=>entry.texts.join('+')==='자막+안내'),false);
+  // With a guessed district, a basis text is searched in it like a tier A text; an ordinary tier B text is not.
+  const guess={latitude:37.52,longitude:127.02,districtKo:'마포구'};
+  await combinationSearches({texts,truth,search,guess,distance:flat});
+  assert.deepEqual([...new Set(asked.filter(query=>query.startsWith('마포구')))].sort(),['마포구 체인A','마포구 체인B']);
 });

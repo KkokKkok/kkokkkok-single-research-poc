@@ -14,8 +14,25 @@ export async function prepareImage(bytes){
   if(data.length>10*1024*1024)throw new Error('IMAGE_TOO_LARGE');
   return {bytes:data,image:{width:info.width,height:info.height,sha256:sha(data),coordinateSpace:'analysis-normalized',bboxFormat:'xyxy',mime:'image/jpeg',metadataRemoved:true}};
 }
-export function runtimeStatus(){return {model:process.env.OPENAI_MODEL||null,apiConfigured:Boolean(process.env.OPENAI_API_KEY),ocrPythonAvailable:existsSync(pythonPath('ocr')),groundingPythonAvailable:existsSync(pythonPath('grounding')),segmentation:'not_implemented',promptVersion:'research-cues-v1'};}
+export function runtimeStatus(){return {model:process.env.OPENAI_MODEL||null,apiConfigured:Boolean(process.env.OPENAI_API_KEY),ocrPythonAvailable:Boolean(workerUrl('ocr'))||existsSync(pythonPath('ocr')),groundingPythonAvailable:Boolean(workerUrl('grounding'))||existsSync(pythonPath('grounding')),segmentation:'not_implemented',promptVersion:'research-cues-v1'};}
+// OCR_URL / GROUNDING_URL point at a resident worker (scripts/worker-server.py, one container each).
+// Unset, the script is started as a child process for each call, as before.
+export const workerUrl=kind=>(process.env[`${kind.toUpperCase()}_URL`]||'').replace(/\/+$/,'')||null;
+// Same input and answer as the child process. The OCR image travels as base64 JSON, and KKOK_OCR_*
+// values the caller passed as environment travel as per-request settings.
+async function runWorker(url,kind,input,extraEnv,timeout){
+  const failed=new Error(`${kind.toUpperCase()}_FAILED`);
+  try{
+    const settings=Object.fromEntries(Object.entries(extraEnv).filter(([name])=>name.startsWith('KKOK_OCR_')));
+    const body=kind==='ocr'?JSON.stringify({image:input.toString('base64'),settings}):input;
+    const response=await fetch(`${url}/run`,{method:'POST',headers:{'Content-Type':'application/json'},body,signal:AbortSignal.timeout(timeout)});
+    if(!response.ok)throw failed;
+    const bytes=Buffer.from(await response.arrayBuffer());if(bytes.length>16*1024*1024)throw failed;
+    return JSON.parse(bytes.toString('utf8'));
+  }catch{throw failed;}
+}
 export function runPython(kind,script,input,extraEnv={},timeout=900000){
+  const url=workerUrl(kind);if(url)return runWorker(url,kind,input,extraEnv,timeout);
   const cache=cachePath(kind);mkdirSync(cache,{recursive:true});
   const env={...process.env,PYTHONDONTWRITEBYTECODE:'1',HF_HUB_DISABLE_TELEMETRY:'1',HF_HUB_DISABLE_SYMLINKS_WARNING:'1',HF_HOME:cache,...extraEnv};
   if(kind==='ocr')Object.assign(env,{USERPROFILE:cache,PADDLE_PDX_CACHE_HOME:cache,HF_HOME:resolve(cache,'huggingface'),MODELSCOPE_CACHE:resolve(cache,'modelscope'),PADDLE_PDX_DISABLE_MODEL_SOURCE_CHECK:'True'});
@@ -39,6 +56,15 @@ export const realAdapters={
   },
   async ocr(bytes){const r=ocrSchema.parse(await runPython('ocr','ocr.py',bytes));if(new Set(r.lines.map(l=>l.id)).size!==r.lines.length)throw new Error('OCR_DUPLICATE_ID');return r;},
   async detect(bytes,queries){const r=detectionSchema.parse(await runPython('grounding','detect.py',Buffer.from(JSON.stringify({image:bytes.toString('base64'),queries})),{},1800000));if(r.imageSha256!==sha(bytes))throw new Error('DETECTOR_IMAGE_MISMATCH');const seen=new Set();for(const q of r.requests){if(seen.has(q.cueId)||!queries.some(x=>x.cueId===q.cueId&&x.query===q.query))throw new Error('DETECTOR_QUERY_MISMATCH');seen.add(q.cueId);}if(seen.size!==queries.length)throw new Error('DETECTOR_QUERY_MISSING');const ids=r.requests.flatMap(q=>q.detections.map(d=>d.id));if(ids.length!==new Set(ids).size)throw new Error('DETECTOR_DUPLICATE_ID');return r;},
+  // Segment Anything, one mask per box (scripts/segment.py). Runs in the grounding environment and
+  // worker: the same torch and transformers, no further requirement. boxes: [{id,bbox}].
+  async segment(bytes,boxes,{maskSide=512}={}){
+    const r=await runPython('grounding','segment.py',Buffer.from(JSON.stringify({image:bytes.toString('base64'),boxes:boxes.map(({id,bbox})=>({id,bbox})),maskSide})),{},1800000);
+    if(r?.imageSha256!==sha(bytes))throw new Error('SEGMENTER_IMAGE_MISMATCH');
+    const ids=new Set(boxes.map(box=>box.id));
+    if(!Array.isArray(r.masks)||r.masks.length!==ids.size||new Set(r.masks.map(mask=>mask.id)).size!==ids.size||r.masks.some(mask=>!ids.has(mask.id)))throw new Error('SEGMENTER_MASK_MISMATCH');
+    return r;
+  },
   async crop(bytes,bbox,image){return sharp(bytes).extract(cropPixels(bbox,image.width,image.height)).jpeg({quality:95}).toBuffer();},
   async ocrContext(bytes,lines,image){
     const sheets=[];

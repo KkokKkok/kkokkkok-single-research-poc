@@ -15,6 +15,96 @@ cd "C:\KKokKKok\KkokKkok-Research-PoC\location-cue-lab"
 
 새 PC에서는 Node 22.13 이상을 설치하고 `npm install`, `.env.example`을 `.env`로 복사한 뒤 키·모델·Python 환경을 설정합니다. `scripts/ocr-requirements.txt`와 `scripts/grounding-requirements.txt`는 각각 별도 Python 가상환경에 설치합니다. PaddleOCR 한국어 PP-OCRv5와 Grounding DINO Tiny가 최초 실행 시 가중치를 다운로드할 수 있습니다. 기존 설치를 재사용하려면 `KKOK_LEGACY_ROOT`에 기존 PoC 경로를 명시합니다. 설정 우선순위는 이미 설정된 프로세스 환경변수, 새 `.env`, 기존 `.env.local` 순서입니다.
 
+**백엔드·안드로이드와 연결 (분석 서버)**
+
+`analysis-server.mjs`는 Spring 백엔드가 호출하는 분석 서버입니다. 예전 런타임(`KkokKkok-PoC`의 Next.js 분석 서버와 OCR 사이드카)과 같은 경로·헤더를 받으므로, 백엔드와 안드로이드는 **코드를 바꾸지 않고 설정만** 맞추면 됩니다. 아래는 두 저장소를 새로 받은 상태에서 로컬로 연결하는 절차입니다. 배포 구성은 아직 없습니다.
+
+흐름: 안드로이드 앱 → 백엔드(8080) → 분석 서버(3001) → Claude API·PaddleOCR·Grounding DINO·Segment Anything
+
+1. 분석 서버 (이 폴더)
+
+   - `npm install` (Node 22.13 이상. `@anthropic-ai/sdk`가 추가되었습니다.)
+   - Python 환경은 위 **실행**의 설명대로 준비합니다(OCR, Grounding DINO. 마스크는 Grounding 환경을 같이 씁니다).
+   - `.env`에 다음 두 줄을 추가합니다. 값은 Git에 올리지 않습니다.
+
+     ```dotenv
+     ANTHROPIC_API_KEY=발급받은_키
+     ANALYSIS_API_KEY=백엔드와_맞출_임의의_긴_문자열
+     ```
+
+   - 실행:
+
+     ```powershell
+     cd "C:\KKokKKok\KkokKkok-Research-PoC\location-cue-lab"
+     .\start-analysis.ps1          # 포트 3001. 변경: -Port 3011
+     ```
+
+   - 확인: `http://127.0.0.1:3001/api/health`가 `{"status":"ok"}`를 돌려주면 떠 있는 것입니다. 모델·키 검증은 아닙니다.
+
+   | 환경 변수 | 기본값 | 뜻 |
+   |---|---|---|
+   | `ANALYSIS_API_KEY` | 없음 (필수) | 백엔드의 `NODE_ANALYSIS_API_KEY`와 같은 값 |
+   | `ANTHROPIC_API_KEY` | 없음 (필수) | Claude API 키 |
+   | `ANALYSIS_MODEL` | `claude-fable-5-2` | 모든 모델 단계에 쓰는 Claude 모델 |
+   | `ANALYSIS_EFFORT` | `medium` | `low`~`max` |
+   | `ANALYSIS_PORT` | `3001` | |
+   | `ANALYSIS_INCLUDE_MASKS` | `true` | `false`면 마스크 단계와 응답의 마스크를 뺍니다 |
+   | `ANALYSIS_LLM` | `claude` | `openai`면 연구용 CLI의 OpenAI 경로를 씁니다 |
+   | `ANALYSIS_BIND_HOST`, `ANALYSIS_API_HOSTS` | `127.0.0.1`, 없음 | 다른 컴퓨터·컨테이너에서 호출받을 때만 설정합니다. `ANALYSIS_API_HOSTS`에 없는 Host 헤더는 403입니다 |
+
+2. 백엔드 (`kkokkkok-backend`, 코드 변경 없음)
+
+   JDK 17이 필요합니다. 실행할 때 환경 변수만 다음처럼 줍니다. 기본값인 `stub`에서 달라지는 것은 `ANALYSIS_PROVIDER`와 `NODE_ANALYSIS_*` 네 줄입니다.
+
+   ```powershell
+   $env:SPRING_PROFILES_ACTIVE = 'local'          # 로컬 전용: 앱 API 키 검사를 끕니다
+   $env:SERVER_ADDRESS = '127.0.0.1'
+   $env:ANALYSIS_PROVIDER = 'node'
+   $env:NODE_ANALYSIS_BASE_URL = 'http://127.0.0.1:3001'
+   $env:NODE_ANALYSIS_API_KEY = '분석 서버 .env의 ANALYSIS_API_KEY와 같은 값'
+   $env:NODE_ANALYSIS_EXTERNAL_IMAGE_CONSENT = 'true'   # 사진이 Claude API로 전송됩니다
+   $env:NODE_ANALYSIS_TIMEOUT_SECONDS = '120'
+   .\gradlew.bat bootRun
+   ```
+
+   - `NODE_ANALYSIS_EXTERNAL_IMAGE_CONSENT`가 `true`가 아니면 백엔드가 분석 요청을 503으로 거절합니다.
+   - 보호 편집은 기본값 `EDITING_PROVIDER=stub`(모의 편집)으로 두면 됩니다. 실제 편집은 백엔드의 OpenAI 키가 따로 필요하고 이 서버와 무관합니다.
+   - 확인: `http://127.0.0.1:8080/actuator/health`
+
+3. 안드로이드 (`kkokkkok-android`, 코드 변경 없음)
+
+   앱은 백엔드 주소만 압니다. 분석 서버의 주소나 키는 앱에 넣지 않습니다.
+
+   - 에뮬레이터: 설정을 바꿀 것이 없습니다. 기본 주소가 `http://10.0.2.2:8080`입니다.
+   - USB로 연결한 실제 기기: `local.properties`에 `kkokkkok.backend.baseUrl=http://127.0.0.1:8080`을 추가해 빌드하고, `adb reverse tcp:8080 tcp:8080`을 실행합니다(USB를 다시 꽂으면 다시 실행).
+   - 로그인은 기본으로 꺼져 있습니다. 켜려면 앱의 `kkokkkok.login.required=true`와 백엔드의 `AUTH_ENABLED=true` 및 카카오·네이버 값이 함께 필요합니다(각 저장소 README 참고).
+
+4. 이 PC의 `C:\KKokKKok\kkokkkok-local\start.ps1`을 쓸 때 (2026-11-17부터 이 분석 서버가 기본)
+
+   그 스크립트는 분석 서버(3001)와 백엔드(8098, 로그인 켜짐)를 한꺼번에 띄웁니다. 백엔드가 받는 값(`NODE_ANALYSIS_BASE_URL=http://127.0.0.1:3001` 등)은 예전 그대로이고, 3001 포트에 띄우는 프로그램만 예전 런타임에서 이 폴더의 `analysis-server.mjs`로 바꿨습니다. 사이드카(8091)는 띄우지 않습니다.
+
+   ```powershell
+   & "C:\KKokKKok\kkokkkok-local\stop.ps1"
+   & "C:\KKokKKok\kkokkkok-local\start.ps1"            # 이 분석 서버 + 백엔드
+   & "C:\KKokKKok\kkokkkok-local\start.ps1" -Legacy    # 예전 구성: 사이드카 + KkokKkok-PoC 분석 서버 + 백엔드
+   ```
+
+   - 서버 간 키는 `C:\KKokKKok\local-test\KkokKkok-PoC\.env.local`의 `ANALYSIS_API_KEY`를 두 서버에 같이 넘깁니다. Claude 키는 이 폴더의 `.env`에서 읽습니다.
+   - 사진과 분석 기록은 `C:\KKokKKok\kkokkkok-local\analysis-research`에, 로그는 `logs\analysis.out.log`에 쌓입니다. 로그 한 줄이 한 단계이고 소요 시간(초)과 오류 코드만 남습니다.
+   - 예전 구성에서 분석한 사진의 결과는 예전 분석 서버에 있으므로, 앱에서 그 이력을 열면 오류가 납니다. `-Legacy`로 띄우면 다시 보입니다.
+   - 그 스크립트는 저장소 밖에 있고 이 PC의 경로가 들어 있습니다. 참고용 사본을 `local-stack/`에 두었습니다. 다른 PC에서는 맨 위의 경로 변수(`$Research`, `$ResearchDeps`, `$Poc`, `$Backend`, `$Jdk17`)를 고쳐 쓰거나 위 1~3의 수동 절차를 따릅니다. 비밀값은 스크립트에 없고 `secrets.json`과 `.env.local`에서 읽습니다.
+   - 휴대폰 연결: `& "<SDK>\platform-tools\adb.exe" reverse tcp:8098 tcp:8098` (USB를 다시 꽂으면 다시 실행).
+
+앱에서 달라지는 점 (예전 런타임 대비):
+
+- 단서 목록에 규칙으로 판정한 단서만 나옵니다. 위험도 없이 따로 나오던 OCR 줄·탐지 객체 항목은 없습니다(`visualObservations`가 빈 배열).
+- 단서 제목은 규칙의 세부 상황, 설명은 모델이 쓴 한국어 문장, 판단 근거는 규칙 판정의 근거입니다. 위험 점수는 없습니다(`riskSummary.score`가 `null`).
+- 영역이 없는 단서(`bbox: null`)는 앱에 보이지만 보호 편집 대상으로 고르면 백엔드가 409를 돌려줍니다.
+- 응답에 새 필드가 있습니다: 단서별 `unit`·`unitLabel`·`ruleClass`·`regions`(폴리곤·마스크), 그리고 `combinations`(단서 조합 판정). 백엔드는 그대로 통과시키고, 앱은 아직 읽지 않습니다.
+- 사진 한 장에 3~5분이 걸립니다(2026-11-17, 이 PC: 189초와 268초). 앱은 5분까지 기다리고 서버는 한 장씩 처리하므로, 여러 장을 한꺼번에 분석하면 시간 초과가 납니다.
+
+2026-11-17에 확인한 범위: 백엔드를 거쳐 사진 업로드 → 분석 요청 → 결과 조회 → 모의 보호 편집까지. 같은 날 USB로 연결한 휴대폰의 앱에서 사진 두 장을 분석해 이 서버가 처리한 것을 로그로 확인했습니다(114초, 175초). 앱 결과 화면은 위험도가 주의·높음인 단서만 세므로, 단서가 전부 낮음이면 "발견한 단서 0개"로 보입니다.
+
 **논문에서 가져온 것과 추가한 것**
 
 | 출처 | 적용 | 변경 이유 |
@@ -173,6 +263,8 @@ node scripts/paper.mjs settings
 
 결과는 `private-data/paper` 아래에 저장됩니다. `runs/<id>.json`이 사진별 기록(`schemaVersion: paper-clues-v2`, 단계별 모델 설정과 모델 원응답 포함), `images/<id>.jpg`가 정규화 이미지, `taxonomy/<id>.json`이 번호가 붙은 범주 체계, `clueminer/<run>/`이 건별 입력·응답 로그와 `final_categories.json`입니다. 
 
+**2026-11-18부터 연구용 CLI(`scripts/paper.mjs`와 실험 스크립트)의 기본 모델은 Claude API입니다.** 분석 서버와 같은 설정(`ANTHROPIC_API_KEY`, `ANALYSIS_MODEL` 기본 `claude-fable-5-2`, `ANALYSIS_EFFORT` 기본 `medium`)을 씁니다. 예전 OpenAI 경로는 `PAPER_LLM=openai`일 때만 쓰이며, 아래의 `OPENAI_MODEL`·`PAPER_*_MODEL` 설명은 그 경우에 해당합니다. Claude에서는 Detector 프롬프트에서 "Think" 한 줄만 뺀 변형(`paper-detector-no-think-v1`)을 씁니다.
+
 모델은 현재 설정된 모델(`OPENAI_MODEL`)을 씁니다. 코드에 모델 이름을 기본값으로 고정하지 않으므로, 최신 모델을 쓰려면 `OPENAI_MODEL`만 바꾸면 됩니다. 단계별로 다르게 쓰려면 `PAPER_DETECTOR_MODEL`, `PAPER_CLUEMINER_MODEL`, `PAPER_CLASSIFIER_MODEL`을, 추론 강도를 명시하려면 `PAPER_<단계>_REASONING_EFFORT`를 지정합니다(기본은 저장소처럼 보내지 않음). 논문이 쓴 모델은 참고값으로만 남아 있습니다. Detector는 `gpt-4o-2024-11-20`, 분석기와 분류기는 `o4-mini-2025-04-16`입니다. 기록의 `stages.<단계>`에 실제로 쓴 모델과 논문 값, 일치 여부(`matchesPaper`)가 함께 남으므로, 최신 모델로 돌린 결과는 `matchesPaper: false`로 표시됩니다.
 
 **API 키 없이 실행 (파일 전달 방식)**
@@ -256,6 +348,7 @@ node scripts/paper.mjs preview
 - 글자마다 검색된 곳의 수(`total`), 첫 결과까지의 거리, 첫 결과가 반경 안인지(`topWithinRadius`), 보여 준 결과 중 하나라도 반경 안인지(`anyWithinRadius`)를 기록의 `placeSearches`에 남깁니다. 좌표와 주소는 저장하지 않고 업체 이름과 거리만 남깁니다.
 - 키는 지도 키와 다릅니다. 콘솔의 `Application Services > NAVER API HUB`에서 이용 신청을 하고, 지역 검색을 선택해 Application을 등록한 뒤 `[인증 정보]`의 값을 `.env`의 `NAVER_APIHUB_CLIENT_ID`, `NAVER_APIHUB_CLIENT_SECRET`에 넣습니다. 지도 Application의 키로 부르면 401 "A subscription to the API is required"가 납니다.
 - 한 번에 5곳까지만 받습니다. 같은 이름의 가게가 5곳보다 많으면 그 장소가 결과에 없을 수 있습니다.
+- 정답 좌표 없이 건수만 세는 명령은 `node scripts/paper.mjs probe --all`입니다. `probe --export [--out 파일]`은 저장된 건수를 (기록, 단서, 글자)마다 한 줄씩 `private-data/paper/probe-counts.jsonl`에 씁니다. 누적 분석용이며 좌표는 들어가지 않습니다. `capped: true`인 줄은 건수가 상한(5)에 닿은 것이라 "5곳 이상"으로 읽어야 합니다.
 - 응답의 `total`은 일치한 곳의 수가 아닙니다(결과가 없어도 5가 옵니다). 기록의 `total`은 실제로 돌려받은 곳의 수입니다. 좌표 `mapx`, `mapy`는 도 단위에 10^7을 곱한 정수로 옵니다. 콘솔의 `Application Services > Maps > Application`에서 Geocoding을 선택해 등록한 뒤 `[인증 정보]`에서 확인합니다. `ncp_iam_`으로 시작하는 계정 API 인증키는 지도 API에 쓸 수 없고 401이 납니다.
 
 - 인자는 **EXIF가 남아 있는 원본 사진**입니다. 분석 이미지의 해시로 기록을 찾으므로 `extract`에 넣었던 것과 같은 파일이어야 합니다.

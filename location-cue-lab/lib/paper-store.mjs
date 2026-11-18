@@ -4,7 +4,7 @@
 //   images/<id>.jpg       the normalized analysis image
 //   taxonomy/<id>.json    numbered category sets built by ClueMiner
 //   clueminer/<runName>/  per-step logs and the resume checkpoint of one mining run
-import { mkdirSync,writeFileSync,readFileSync,readdirSync,renameSync,existsSync } from 'node:fs';
+import { mkdirSync,writeFileSync,readFileSync,readdirSync,renameSync,existsSync,rmSync } from 'node:fs';
 import { resolve } from 'node:path';
 import { randomUUID,createHash } from 'node:crypto';
 import { PAPER_PROMPT_VERSION,PROMPT_SOURCES } from './paper-prompts.mjs';
@@ -20,9 +20,10 @@ export class PaperStore {
   }
   // stages: {detector,clueMiner,classifier} settings from paperStages(), each with matchesPaper.
   // v2 replaced the v1 `models` map of plain model names with these per-stage settings.
-  createRun(image,bytes,stages){
+  // id: given by a caller whose own key names the record (analysis-server.mjs: the Idempotency-Key).
+  createRun(image,bytes,stages,id=randomUUID()){
     const now=new Date().toISOString();
-    const run={schemaVersion:'paper-clues-v2',id:randomUUID(),createdAt:now,updatedAt:now,status:'queued',promptVersion:PAPER_PROMPT_VERSION,promptSources:PROMPT_SOURCES,stages,image,detector:null,clues:[],classification:null,modelCalls:[],errors:[]};
+    const run={schemaVersion:'paper-clues-v2',id,createdAt:now,updatedAt:now,status:'queued',promptVersion:PAPER_PROMPT_VERSION,promptSources:PROMPT_SOURCES,stages,image,detector:null,clues:[],classification:null,modelCalls:[],errors:[]};
     writeFileSync(resolve(this.directory,'images',`${run.id}.jpg`),bytes);
     return this.saveRun(run);
   }
@@ -35,6 +36,8 @@ export class PaperStore {
   getRun(id){const path=this.runPath(id);return existsSync(path)?readJson(path):null;}
   listRuns(){return readdirSync(resolve(this.directory,'runs')).filter(name=>name.endsWith('.json')).map(name=>readJson(resolve(this.directory,'runs',name))).sort((a,b)=>a.createdAt.localeCompare(b.createdAt)||a.id.localeCompare(b.id));}
   image(id){return readFileSync(resolve(this.directory,'images',`${safeName(id)}.jpg`));}
+  // The record and its photo. Deleting what is not there is not an error.
+  deleteRun(id){rmSync(this.runPath(id),{force:true});rmSync(resolve(this.directory,'images',`${safeName(id)}.jpg`),{force:true});}
   // File hand-off: where requests wait for an answer, and the record parked for a given image.
   get handoffDirectory(){return resolve(this.directory,'handoff');}
   // Parked means waiting for a hand-off answer at the Detector (status pending) or, once extracted,
@@ -53,6 +56,12 @@ export class PaperStore {
   listTaxonomies(){return readdirSync(resolve(this.directory,'taxonomy')).filter(name=>name.endsWith('.json')).sort().map(name=>readJson(resolve(this.directory,'taxonomy',name)));}
   getTaxonomy(id){const path=resolve(this.directory,'taxonomy',`${safeName(id)}.json`);return existsSync(path)?readJson(path):null;}
   latestTaxonomy(){return this.listTaxonomies().at(-1)||null;}
+
+  // The clues the photos of one place have shown so far (paper-evidence.mjs assignClues). The name is
+  // given by the caller, who knows which photos share a position; no coordinate is stored here.
+  placePath(name){const directory=resolve(this.directory,'places');mkdirSync(directory,{recursive:true});return resolve(directory,`${safeName(name)}.json`);}
+  getPlace(name){const path=this.placePath(name);return existsSync(path)?readJson(path):null;}
+  savePlace(place){place.updatedAt=new Date().toISOString();writeJson(this.placePath(place.name),place);return place;}
 
   miningDirectory(name){const directory=resolve(this.directory,'clueminer',safeName(name));mkdirSync(resolve(directory,'steps'),{recursive:true});return directory;}
   saveMiningStep(directory,name,value){writeJson(resolve(directory,'steps',`${safeName(name)}.json`),value);}

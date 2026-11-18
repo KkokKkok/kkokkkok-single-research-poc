@@ -164,7 +164,9 @@ const stripTags=text=>String(text??'').replace(/<[^>]+>/g,'').replace(/&(?:amp|l
 // The documentation says "WGS84" without a unit. Values arrive as integers of degrees x 10^7
 // ("1269783882"), so anything outside the degree range is scaled down.
 const degrees=value=>{if(value===''||value===null||value===undefined)return NaN;const number=Number(value);return Number.isFinite(number)?(Math.abs(number)>180?number/1e7:number):NaN;};
-export async function naverPlaceSearch(query,{fetchImpl=fetch,env=process.env,display=5}={}){
+// How many places one search returns at most. A count that reaches it means "this many or more".
+export const PLACE_SEARCH_LIMIT=5;
+export async function naverPlaceSearch(query,{fetchImpl=fetch,env=process.env,display=PLACE_SEARCH_LIMIT}={}){
   const id=env.NAVER_APIHUB_CLIENT_ID,secret=env.NAVER_APIHUB_CLIENT_SECRET;
   if(!id||!secret)return {status:'key_missing'};
   const url=new URL('https://naverapihub.apigw.ntruss.com/search/v1/local');url.searchParams.set('query',query);url.searchParams.set('display',String(display));
