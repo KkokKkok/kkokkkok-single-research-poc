@@ -9,8 +9,9 @@
 //   risk        the clues labelled 확인된 위험 or 잠재 위험 are painted over
 // Painted photos live in their own store (private-data/mask-experiment), apart from the real records.
 //   node scripts/mask-experiment.mjs prepare --name m1 [--photos 12] [--only "title,title"]
-//   node scripts/mask-experiment.mjs locate  --name m1 --handoff <label>
-//   node scripts/mask-experiment.mjs extract --name m1 --handoff <label>
+//   node scripts/mask-experiment.mjs locate  --name m1 [--handoff <label>]
+//   node scripts/mask-experiment.mjs extract --name m1 [--handoff <label>]
+// The model is the Claude API (lib/paper-claude.mjs researchProvider); --handoff sends the requests to a stand-in through files.
 //   node scripts/mask-experiment.mjs score   --name m1
 // No coordinate is printed or written: only distances.
 import { readFileSync,writeFileSync,existsSync,mkdirSync } from 'node:fs';
@@ -19,8 +20,9 @@ import { createHash } from 'node:crypto';
 import { dataDir,sharp } from '../lib/config.mjs';
 import { prepareImage } from '../lib/adapters.mjs';
 import { PaperStore } from '../lib/paper-store.mjs';
-import { paperStages,locatorStage } from '../lib/paper-llm.mjs';
-import { handoffLlm,handoffBrief,pendingHandoffs } from '../lib/paper-handoff.mjs';
+import { paperStages } from '../lib/paper-llm.mjs';
+import { researchProvider } from '../lib/paper-claude.mjs';
+import { handoffBrief,pendingHandoffs } from '../lib/paper-handoff.mjs';
 import { extractImage,locateRun,scoreRun,searchPlacesRun } from '../lib/paper-runner.mjs';
 import { GEOCODERS,DEFAULT_RADIUS_M,naverPlaceSearch } from '../lib/paper-score.mjs';
 import { parseGps } from '../lib/location-experiment.mjs';
@@ -30,7 +32,7 @@ import { riskLabels,hasQuotedText } from '../lib/paper-risk.mjs';
 const [command,...rest]=process.argv.slice(2);
 const flags={};
 for(let i=0;i<rest.length;i++){const arg=rest[i];if(['--name','--photos','--handoff','--only'].includes(arg))flags[arg.slice(2)]=rest[++i];else if(arg.startsWith('--'))flags[arg.slice(2)]=true;}
-const usage=()=>{console.error(readFileSync(new URL(import.meta.url),'utf8').split('\n').slice(11,15).map(line=>line.replace(/^\/\/ ?/,'')).join('\n'));process.exit(1);};
+const usage=()=>{console.error(readFileSync(new URL(import.meta.url),'utf8').split('\n').slice(11,16).map(line=>line.replace(/^\/\/ ?/,'')).join('\n'));process.exit(1);};
 if(typeof flags.name!=='string'||!/^[\w-]+$/.test(flags.name))usage();
 const store=new PaperStore(dataDir),maskStore=new PaperStore(resolve(dataDir,'mask-experiment'));
 const manifestPath=resolve(maskStore.directory,`${flags.name}.json`);
@@ -52,7 +54,7 @@ async function paint(bytes,boxes){
   return sharp(bytes).composite([{input:Buffer.from(`<svg xmlns="http://www.w3.org/2000/svg" width="${width}" height="${height}">${rects}</svg>`)}]).jpeg({quality:95}).toBuffer();
 }
 const handoff=typeof flags.handoff==='string'?flags.handoff:null;
-const llm=handoff?handoffLlm(maskStore.handoffDirectory):null;
+const provider=researchProvider(process.env,{handoff,handoffDirectory:maskStore.handoffDirectory}),llm=provider.llm;
 const listPending=()=>{const waiting=pendingHandoffs(maskStore.handoffDirectory);console.log(JSON.stringify({pending:waiting.length}));if(waiting.length){console.log(waiting.map(request=>request.id).join(' '));console.log(handoffBrief(waiting[0].directory));}return waiting.length;};
 
 if(command==='prepare'){
@@ -93,14 +95,15 @@ if(command==='prepare'){
   console.log(JSON.stringify({experiment:flags.name,candidates:candidates.length,photos:items.length,variants:items.reduce((sum,item)=>sum+item.variants.length,0),guessHit:items.filter(item=>item.guessHit).length,searchHit:items.filter(item=>item.searchHit).length}));
   for(const item of items)console.log(JSON.stringify({photo:item.title,guessHit:item.guessHit,searchHit:item.searchHit,labelled:item.labelled,unmaskable:{confirmed:item.unmaskable.confirmed.length,potential:item.unmaskable.potential.length},variants:item.variants.map(variant=>`${variant.variant}:${variant.boxes}`)}));
 }else if(command==='locate'||command==='extract'){
-  if(!handoff||!existsSync(manifestPath))usage();
+  if(!existsSync(manifestPath))usage();
   const manifest=JSON.parse(readFileSync(manifestPath,'utf8'));
-  const stage=locatorStage(process.env,{handoffModel:handoff}),stages=paperStages(process.env,{handoffModel:handoff});
+  const stage=provider.stage('locator'),stages=provider.stages;
+  if(!provider.configured(stage)){console.error(provider.hint);process.exit(1);}
   const count={};
   for(const item of manifest.items)for(const variant of item.variants){
     let run=maskStore.getRun(variant.runId);
     if(command==='locate')run=await locateRun({store:maskStore,run,stage,llm});
-    else if(run.status==='registered'||run.status==='pending')run=await extractImage({store:maskStore,prepared:{bytes:maskStore.image(run.id),image:run.image},stages,llm,run});
+    else if(run.status==='registered'||run.status==='pending')run=await extractImage({store:maskStore,prepared:{bytes:maskStore.image(run.id),image:run.image},stages,llm,run,detectorPrompt:provider.detectorPrompt});
     const state=run.pending?'pending':command==='locate'?((run.predictions||[]).length?'answered':'none'):run.status;
     count[state]=(count[state]||0)+1;
   }

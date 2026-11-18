@@ -263,6 +263,8 @@ node scripts/paper.mjs settings
 
 결과는 `private-data/paper` 아래에 저장됩니다. `runs/<id>.json`이 사진별 기록(`schemaVersion: paper-clues-v2`, 단계별 모델 설정과 모델 원응답 포함), `images/<id>.jpg`가 정규화 이미지, `taxonomy/<id>.json`이 번호가 붙은 범주 체계, `clueminer/<run>/`이 건별 입력·응답 로그와 `final_categories.json`입니다. 
 
+**2026-11-18부터 연구용 CLI(`scripts/paper.mjs`와 실험 스크립트)의 기본 모델은 Claude API입니다.** 분석 서버와 같은 설정(`ANTHROPIC_API_KEY`, `ANALYSIS_MODEL` 기본 `claude-fable-5-2`, `ANALYSIS_EFFORT` 기본 `medium`)을 씁니다. 예전 OpenAI 경로는 `PAPER_LLM=openai`일 때만 쓰이며, 아래의 `OPENAI_MODEL`·`PAPER_*_MODEL` 설명은 그 경우에 해당합니다. Claude에서는 Detector 프롬프트에서 "Think" 한 줄만 뺀 변형(`paper-detector-no-think-v1`)을 씁니다.
+
 모델은 현재 설정된 모델(`OPENAI_MODEL`)을 씁니다. 코드에 모델 이름을 기본값으로 고정하지 않으므로, 최신 모델을 쓰려면 `OPENAI_MODEL`만 바꾸면 됩니다. 단계별로 다르게 쓰려면 `PAPER_DETECTOR_MODEL`, `PAPER_CLUEMINER_MODEL`, `PAPER_CLASSIFIER_MODEL`을, 추론 강도를 명시하려면 `PAPER_<단계>_REASONING_EFFORT`를 지정합니다(기본은 저장소처럼 보내지 않음). 논문이 쓴 모델은 참고값으로만 남아 있습니다. Detector는 `gpt-4o-2024-11-20`, 분석기와 분류기는 `o4-mini-2025-04-16`입니다. 기록의 `stages.<단계>`에 실제로 쓴 모델과 논문 값, 일치 여부(`matchesPaper`)가 함께 남으므로, 최신 모델로 돌린 결과는 `matchesPaper: false`로 표시됩니다.
 
 **API 키 없이 실행 (파일 전달 방식)**

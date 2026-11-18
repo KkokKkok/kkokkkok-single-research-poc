@@ -7,7 +7,8 @@
 //   images/<recordId>.jpg   the analysis image, resized, without boxes
 import { displayRegions,CLUE_COLORS } from './paper-preview.mjs';
 import { riskLabels,hasQuotedText } from './paper-risk.mjs';
-import { ruleMarks } from './paper-rules.mjs';
+import { ruleMarks,withRaisedNote } from './paper-rules.mjs';
+import { guessVerdict,latestPrediction } from './paper-guess.mjs';
 import { createHash } from 'node:crypto';
 
 // The clues a person is asked to check: every confirmed one, and a fixed sample of the potential
@@ -28,27 +29,8 @@ export function reviewSample(entries,size){
   return chosen;
 }
 
-const metres=value=>value>=1000?`${(value/1000).toFixed(1)}km`:`${Math.round(value)}m`;
-// The address guess of one record, judged by the rule agreed on 2026-11-14: with a position, within
-// 500 m, or within 1,000 m and in the right district; without one, within 1,000 m of the folder's
-// reference point and in the right district. Returns null when the record has no guess.
-export function guessVerdict(run){
-  const prediction=(run.predictions||[]).filter(candidate=>candidate.status).at(-1);
-  if(!prediction)return null;
-  const district=prediction.districtScore?.match??null,exif=prediction.score,folder=prediction.folderScore;
-  let basis,distanceM=null,hit=false;
-  if(exif){
-    basis='exif';
-    if(exif.status==='scored'){distanceM=exif.distanceM;hit=distanceM<=500||(distanceM<=1000&&district===true);}
-  }else if(folder){
-    basis='folder';
-    if(folder.status==='scored'){distanceM=folder.distanceM;hit=distanceM<=1000&&district===true;}
-  }else basis='none';
-  const where=basis==='none'?'정답 없음':distanceM===null?'답을 좌표로 바꾸지 못함':`${basis==='exif'?'실제 위치':'폴더 기준점'}에서 ${metres(distanceM)}`;
-  return {hit,basis,distanceM:distanceM===null?null:Math.round(distanceM),district,
-    text:`${basis==='none'?'채점 안 함':hit?'맞힘':'못 맞힘'} · ${where}${district===true?' · 구 일치':district===false?' · 구 불일치':''}`,
-    addresses:prediction.addressList||[],clues:prediction.clueList||[]};
-}
+// The address guess verdict lives in paper-guess.mjs (it also decides which clues the guess used).
+export { guessVerdict };
 
 // A warning about the photo as a whole, for the case boxes cannot handle. The mask experiment (m1, m2,
 // 2026-11-15) showed that a photo with no readable text can still be placed from the scene itself — a
@@ -64,7 +46,7 @@ export function guessVerdict(run){
 //                    that text, which a search failed to verify, not from the scene
 // Text in quotes in a clue of the guess: '...' or "..." that opens after a space, so "water's" is not one.
 const QUOTED_IN_GUESS=/(^|[\s(\[])['"‘“][^'"‘’“”]{2,}['"’”](?=$|[\s,.;:)\]])/;
-export const guessQuotesText=run=>((run.predictions||[]).filter(candidate=>candidate.status).at(-1)?.clueList||[]).some(clue=>QUOTED_IN_GUESS.test(clue));
+export const guessQuotesText=run=>(latestPrediction(run)?.clueList||[]).some(clue=>QUOTED_IN_GUESS.test(clue));
 export function photoWarning(run,counts=riskLabels(run).counts){
   if(!guessVerdict(run)?.hit)return null;
   return counts.confirmed
@@ -96,7 +78,7 @@ export function viewerData(entries,{labels={},generatedAt=new Date().toISOString
         review:toReview.has(`${run.id}/${clue.id}`),rule:rules.clues[clue.id],combinations:rules.combinations.filter(combo=>combo.clueIds.includes(clue.id)).map(combo=>combo.id),confirmed:mark.label==='confirmed',evidence:internal?mark.evidence:[],
         taxonomy:clue.taxonomy?{number:clue.taxonomy.number,name:clue.taxonomy.name,ko:labels[clue.taxonomy.name]||clue.taxonomy.name,group:clue.taxonomy.group??null,groupKo:clue.taxonomy.group?(labels[clue.taxonomy.group]||clue.taxonomy.group):null}:null,
         located:mark.located,locatedBy:mark.locatedBy,quotes:hasQuotedText(clue),localization:clue.localization??null,
-        ko:korean?.[clue.id]??null,en:clue.detail,textTargets:clue.textTargets||[],objectTargets:clue.objectTargets||[],
+        ko:korean?.[clue.id]?withRaisedNote(korean[clue.id],rules.clues[clue.id]):null,en:withRaisedNote(clue.detail,rules.clues[clue.id]),textTargets:clue.textTargets||[],objectTargets:clue.objectTargets||[],
         // 'p': a box the model pointed at (pointing experiment). Always drawn, long-dashed, never counted.
         // Detector boxes of a clue that quotes text are left out altogether (2026-11-16): they are never counted,
         // the detector is no longer asked for such clues, and under "모든 후보 보기" the old ones showed up as large
@@ -115,7 +97,7 @@ export function viewerData(entries,{labels={},generatedAt=new Date().toISOString
     return {id:run.id,title,folder:folder??null,width:run.image.width,height:run.image.height,image:`images/${run.id}.jpg`,
       linked:Boolean(run.regions),boxes:clues.reduce((sum,clue)=>sum+clue.regions.filter(region=>region.shown).length,0),clues,
       warning:photoWarning(run,risk.counts),pick:pick??null,
-      risk:{...rules.counts,judged:rules.judged},combinations:rules.combinations.map(combo=>({...combo,clueNs:combo.clueIds.map(id=>numberOf.get(id))})),
+      risk:{...rules.counts,judged:rules.judged},combinations:rules.combinations.map(combo=>({...combo,clueNs:combo.clueIds.map(id=>numberOf.get(id)),supportingNs:(combo.supporting||[]).map(id=>numberOf.get(id))})),
       measured:{confirmed:risk.counts.confirmed,searched:risk.searched,combinations:combos.length,revealingCombinations:combos.filter(combo=>combo.withinRadius===true).length},
       guess:verdict&&!internal?{hit:verdict.hit,text:verdict.hit?'맞힘':'못 맞힘',addresses:[],clues:[]}:verdict};
   });
@@ -321,7 +303,7 @@ function show(photo,keepScroll=false){
     (photo.warning?'<div class="warn'+(photo.warning.kind==='scene'?' scene':'')+'" id="warning"><strong>사진 경고 · '+esc(photo.warning.title)+'</strong><br>'+esc(photo.warning.text)+'</div>':'')+
     '<div class="imgwrap"><img alt="'+esc(photo.title)+'" src="'+esc(photo.image)+'"><svg id="svg" viewBox="0 0 '+photo.width+' '+photo.height+'" preserveAspectRatio="none"></svg></div>'+
     guess+'<div class="guess'+(topRisk(photo)==='high'?' hit':'')+'"><strong>위험도</strong> · 높음 '+photo.risk.high+' · 중간 '+photo.risk.medium+' · 낮음 '+photo.risk.low+(photo.risk.judged?'':'<br>규칙에 따른 단서별 판정을 하지 않은 사진입니다. 범주 기본값으로 표시합니다.')+
-      photo.combinations.map(combo=>'<br><span class="label '+combo.risk+'" style="margin-left:0">조합 '+RISK_KO[combo.risk]+'</span> '+esc(combo.type)+' · 단서 '+combo.clueNs.join(' + ')+' → '+UNIT_KO[combo.unit]+' · '+esc(combo.reason)).join('')+
+      photo.combinations.map(combo=>'<br><span class="label '+combo.risk+'" style="margin-left:0">조합 '+RISK_KO[combo.risk]+'</span> '+esc(combo.type==='guess'?'주소 추정 적중':combo.type)+' · 단서 '+combo.clueNs.join(' + ')+' → '+UNIT_KO[combo.unit]+' · '+esc(combo.reason)+(combo.supportingNs&&combo.supportingNs.length?' 함께 든 단서 '+combo.supportingNs.join(', ')+'번은 혼자서는 위치가 나오지 않아 등급을 유지합니다.':'')).join('')+
       '<br><span class="rule">'+(photo.measured.searched?'지도 검색으로 확인된 단서 '+photo.measured.confirmed+'개. 조합 검색 '+photo.measured.combinations+'회 중 '+photo.measured.revealingCombinations+'회에서 실제 위치가 나왔습니다.':'촬영 위치가 없는 사진이라 지도 검색으로 확인하지 못했습니다.')+'</span></div>'+
     '<p class="info">'+(photo.linked?'':'이 사진은 영역 연결을 하지 않아 상자가 없습니다. ')+'기록 '+esc(photo.id)+'</p>';
   $('prev').onclick=()=>step(-1);$('next').onclick=()=>step(1);
@@ -396,11 +378,13 @@ function renderBoxes(){
       // An OCR line is drawn along its own outline; everything else as its box. The label stays at the box corner.
       const points=region.polygon?region.polygon.map(point=>(point[0]*W)+','+(point[1]*H)).join(' '):null;
       const shape=(attrs,inner)=>points?'<polygon points="'+points+'" stroke-linejoin="round"'+attrs+'>'+inner+'</polygon>':'<rect x="'+x+'" y="'+y+'" width="'+w+'" height="'+h+'"'+attrs+'>'+inner+'</rect>';
-      // The mask is painted under the box outline; the box stays, thin, to show what the detector gave.
+      // A region with a mask is shown by its mask alone (owner's decision of 2026-11-18): the box outline is
+      // not drawn. The box itself stays in place, invisible, so that hovering and clicking still work, and
+      // comes back when masks are switched off.
       const painted=options.mask&&region.mask?'<image href="'+maskImage(region.mask,c)+'" x="0" y="0" width="'+W+'" height="'+H+'" preserveAspectRatio="none" opacity="'+(strong?0.62:0.45)+'" pointer-events="none"/>':'';
       parts.push('<g opacity="'+(dim?0.12:1)+'">'+painted+
-        shape(' fill="'+(strong?c:'none')+'" fill-opacity="0.14" stroke="#fff" stroke-width="'+(strong?6:4)+'" stroke-opacity="0.85" vector-effect="non-scaling-stroke"','')+
-        shape(' class="box" data-n="'+clue.n+'" fill="transparent" stroke="'+c+'" stroke-width="'+(strong?3.5:2)+'"'+(region.standIn?' stroke-dasharray="12 5"':region.kind==='o'?' stroke-dasharray="7 4"':region.kind==='p'?' stroke-dasharray="16 6 3 6"':'')+' vector-effect="non-scaling-stroke"',title)+
+        (painted?'':shape(' fill="'+(strong?c:'none')+'" fill-opacity="0.14" stroke="#fff" stroke-width="'+(strong?6:4)+'" stroke-opacity="0.85" vector-effect="non-scaling-stroke"',''))+
+        shape(' class="box" data-n="'+clue.n+'" fill="transparent" stroke="'+(painted?'none':c)+'" stroke-width="'+(strong?3.5:2)+'"'+(region.standIn?' stroke-dasharray="12 5"':region.kind==='o'?' stroke-dasharray="7 4"':region.kind==='p'?' stroke-dasharray="16 6 3 6"':'')+' vector-effect="non-scaling-stroke"',title)+
         '<rect x="'+x+'" y="'+ly+'" width="'+lw+'" height="'+font*1.3+'" fill="'+c+'"/><text x="'+(x+font*0.25)+'" y="'+(ly+font)+'" fill="#fff" font-size="'+font+'" font-weight="bold" font-family="Arial, sans-serif">'+label+'</text></g>');
     }
   }

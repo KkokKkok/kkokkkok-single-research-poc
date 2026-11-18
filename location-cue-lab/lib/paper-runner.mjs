@@ -7,9 +7,10 @@ import { extractClues,classifyClues,clueText,mineCategories,predictLocation,entr
 import { linkRegions,quotedStrings,relinkUnreadQuotes } from './paper-regions.mjs';
 import { recheckClues,RECHECK_SOURCES } from './paper-text-recheck.mjs';
 import { scoreAddresses,scorePlaceSearch } from './paper-score.mjs';
-import { judgeClues,ruleOf } from './paper-rules.mjs';
+import { judgeClues,ruleOf,guessSoloTargets,guessCombination } from './paper-rules.mjs';
 import { pointClues,POINT_SOURCE } from './paper-point.mjs';
 import { normalizeClues,assignClues,pendingChecks,checkPrompt,parseCheckAnswer } from './paper-evidence.mjs';
+import { matchGuessClues,needsGuessMatch,testGuessSolo,guessSoloResult } from './paper-guess.mjs';
 
 // Only short codes are stored; provider error text (which can quote part of a key) never reaches a record.
 const providerCode=error=>typeof error?.code==='string'&&/^[a-z0-9_]{1,64}$/.test(error.code)?error.code:null;
@@ -65,10 +66,10 @@ export async function classifyRun({store,run,taxonomy,stage,llm}){
 // One image through extraction and, when a taxonomy is given, classification. With resume (the
 // file hand-off), a record parked at either step is continued: without this, re-running the command
 // while the classifier answer is awaited would extract the same image into a second record.
-export async function extractAndClassify({store,prepared,stages,llm,taxonomy=null,resume=false}){
+export async function extractAndClassify({store,prepared,stages,llm,taxonomy=null,resume=false,detectorPrompt=null}){
   // A photo registered for evaluation only (no Detector call yet) is extracted into its own record.
   const parked=(resume?store.findPendingRun(prepared.image.sha256):null)??store.findRegisteredRun(prepared.image.sha256);
-  let run=parked&&!['pending','registered'].includes(parked.status)?parked:await extractImage({store,prepared,stages,llm,run:parked});
+  let run=parked&&!['pending','registered'].includes(parked.status)?parked:await extractImage({store,prepared,stages,llm,run:parked,detectorPrompt});
   if(run.status==='extracted'&&taxonomy)run=await classifyRun({store,run,taxonomy,stage:stages.classifier,llm});
   return run;
 }
@@ -273,6 +274,45 @@ export async function scoreRun({store,run,truth,geocoder,geocode,distance,radius
     prediction.score=score;store.saveRun(run);
   }
   return {run,blocked:null};
+}
+
+// EVALUATION ONLY (paper-guess.mjs). For a record whose address guess found the place: which Detector
+// clue each clue of the guess is, so the guess's combination can be covered. A text-only model call.
+// Left alone when the guess missed or is already matched, unless force. The boxes for the newly used
+// clues come from pointRunClues and maskRunRegions afterwards (scripts/paper.mjs guess).
+export async function matchRunGuessClues({store,run,stage,llm,force=false}){
+  if(!['extracted','classified'].includes(run.status)||!needsGuessMatch(run,{force}))return run;
+  delete run.pending;
+  try{
+    run.guessClues={...await matchGuessClues({run,model:stage.model,reasoningEffort:stage.reasoningEffort,llm,onCall:recorder(store,run)}),stage};
+    run.errors=run.errors.filter(entry=>entry.stage!=='guessMatch');
+  }catch(error){
+    if(isPending(error))run.pending={stage:'guessMatch',...error.handoff};
+    else run.errors.push(errorEntry('guessMatch',error));
+  }
+  return store.saveRun(run);
+}
+
+// EVALUATION ONLY (paper-guess.mjs testGuessSolo). After matchRunGuessClues: each clue of the hit guess
+// that is not already a point by the sheet or confirmed by a search is tried alone, to see whether it
+// leads to the place the guess found. One text-only model call, then the geocoder for each address.
+// Left alone when already done for this guess, unless force. Returns {run,blocked}: blocked is the
+// geocoder status that stopped it (missing or rejected key, quota), or null.
+export async function soloRunGuessClues({store,run,stage,llm,geocoder,geocode,distance,blocking,radiusM,force=false}){
+  if(!['extracted','classified'].includes(run.status)||!guessCombination(run)||(guessSoloResult(run)&&!force))return {run,blocked:null};
+  delete run.pending;
+  // Without an earlier result, so the targets are the ones before any clue was found alone.
+  delete run.guessSolo;
+  try{
+    const result=await testGuessSolo({run,targets:guessSoloTargets(run),model:stage.model,reasoningEffort:stage.reasoningEffort,llm,geocoder,geocode,distance,blocking,...(radiusM?{radiusM}:{}),onCall:recorder(store,run)});
+    if(result.blocked)return {run,blocked:result.blocked};
+    run.guessSolo={...result.solo,stage};
+    run.errors=run.errors.filter(entry=>entry.stage!=='guessSolo');
+  }catch(error){
+    if(isPending(error))run.pending={stage:'guessSolo',...error.handoff};
+    else run.errors.push(errorEntry('guessSolo',error));
+  }
+  return {run:store.saveRun(run),blocked:null};
 }
 
 // The texts the Detector quoted from the photo, each once, with the clues they came from and

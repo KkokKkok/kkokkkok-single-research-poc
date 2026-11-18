@@ -17,7 +17,7 @@
 //            pipelineStages.ocr / .objectDetection: failed or unavailable marks the result partial
 // Fields neither reads yet are added under names of their own (unit, ruleClass, regions with polygon
 // and mask, combinations): both pass unknown fields through, so they can be taken up later.
-import { ruleOf,RULE_CLASSES,RULE_UNITS,RULE_VERSION } from './paper-rules.mjs';
+import { ruleFor,withRaisedNote,allCombinations,RULE_CLASSES,RULE_UNITS,RULE_VERSION } from './paper-rules.mjs';
 import { trustedRegions,hasQuotedText } from './paper-risk.mjs';
 
 export const INSPECTION_VERSION='paper-inspection-v1';
@@ -59,18 +59,21 @@ const stageStatus=(run,status,stage,done)=>done?'completed':run.errors?.some(ent
 // masks: false leaves the run-length masks out (they are most of the response's size).
 export function toInspection(run,{status=inspectionStatus(run),masks=true}={}){
   const judged=Boolean(run.rules);
+  const judge=ruleFor(run);
   const riskFactors=(run.clues||[]).map(clue=>{
-    const rule=ruleOf(clue),region=mainRegion(clue),type=factorType(clue);
+    const rule=judge(clue),region=mainRegion(clue),type=factorType(clue);
     return {
       id:clue.id,type,
       title:(judged&&rule.situation)||RULE_CLASSES[rule.class]||clue.taxonomy?.name||clue.category||type,
-      description:clue.detail,detail:null,
+      description:withRaisedNote(clue.detail,rule),detail:null,
       text:clue.textTargets?.[0]??null,
       bbox:region?.bbox??null,coordinateSpace:COORDINATE_SPACE,
       sources:[...new Set(trustedRegions(clue).map(item=>item.source))],
       assessmentSource:'model',
       // A clue not judged yet has no risk: the category default is not the sheet's reading.
-      modelRisk:rule.judged?rule.risk:null,humanRisk:null,
+      // A clue raised by a hit address guess is high either way: that was measured, not judged.
+      modelRisk:rule.judged||rule.raised?rule.risk:null,humanRisk:null,
+      ...(rule.raised?{raised:rule.raised}:{}),
       modelReason:rule.judged?rule.basis:null,
       unit:rule.judged?rule.unit:null,unitLabel:rule.judged?RULE_UNITS[rule.unit].ko:null,
       ruleClass:rule.judged?rule.class:null,category:clue.taxonomy?.name??clue.category??null,
@@ -78,7 +81,9 @@ export function toInspection(run,{status=inspectionStatus(run),masks=true}={}){
     };
   });
   const known=new Set(riskFactors.map(factor=>factor.id));
-  const combinations=(run.rules?.combinations||[]).filter(combo=>combo.clueIds.every(id=>known.has(id)))
+  // An evaluation record whose address guess found the place also carries that guess's combination
+  // (type 'guess', paper-rules.mjs guessCombination). The service never guesses, so it has none.
+  const combinations=allCombinations(run).filter(combo=>combo.clueIds.every(id=>known.has(id)))
     .map(({id,type,clueIds,unit,risk,reason})=>({id,type,clueIds,unit,unitLabel:RULE_UNITS[unit]?.ko??null,risk,reason}));
   const level=status!=='completed'&&status!=='failed'?'pending':judged?highest([...riskFactors.map(factor=>factor.modelRisk),...combinations.map(combo=>combo.risk)])??'low':'not_assessed';
   const linked=Boolean(run.regions);

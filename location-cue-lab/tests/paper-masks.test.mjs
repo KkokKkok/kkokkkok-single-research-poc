@@ -58,3 +58,21 @@ test('the viewer gets the mask of a detector box as run lengths, without the sco
   assert.deepEqual(photo.clues[0].regions[0].mask,{size:[2,4],counts:[1,2,5]});
   assert.ok(photo.clues[2].regions.every(region=>!('mask' in region)));
 });
+
+test('a low clue gets no mask unless it took part in an inference, and stale masks are taken off',async()=>{
+  const { pruneMasks }=await import('../lib/paper-masks.mjs');
+  const box=(id,bbox)=>({id,kind:'object',source:'grounding_dino',bbox,score:0.5});
+  const rule=(unit,risk)=>({class:'other',situation:'s',basis:'b',unit,risk});
+  const mask={size:[1,2],counts:[1,1],score:0.9};
+  const record={clues:[
+    {id:'clue-0',detail:'a gate',rule:rule('few','medium'),regions:[box('a',[0,0,0.5,0.5])]},
+    {id:'clue-1',detail:'a path',rule:rule('city','low'),regions:[{...box('b',[0.5,0.5,1,1]),mask}]},
+    {id:'clue-2',detail:'a tower far away',rule:rule('city','low'),regions:[box('c',[0.2,0.2,0.4,0.4])]},
+  ],rules:{combinations:[{id:'combo-0',type:'B2',clueIds:['clue-0','clue-2'],unit:'point',risk:'high',reason:'r'}]},masks:{regions:3}};
+  // The path is low and in no combination; the tower is low but half of a combination.
+  assert.deepEqual(maskableRegions(record).map(region=>region.id),['a','c']);
+  assert.equal(pruneMasks(record),1);
+  assert.equal(record.clues[1].regions[0].mask,undefined);assert.deepEqual(record.clues[1].regions[0].bbox,[0.5,0.5,1,1]);
+  assert.equal(record.masks.regions,2);assert.equal(record.masks.pruned,1);
+  assert.equal(pruneMasks(record),0);
+});

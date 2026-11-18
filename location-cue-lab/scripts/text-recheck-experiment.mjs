@@ -3,7 +3,7 @@
 // turned level, and OCR reads it again (paper-text-recheck.mjs). Where OCR still finds nothing, the
 // model's box stands in (orange in the pictures, verified:false). Records are not changed.
 //   node scripts/text-recheck-experiment.mjs prepare --name r1 [--clues 30]
-//   node scripts/text-recheck-experiment.mjs ask     --name r1 --handoff <label>
+//   node scripts/text-recheck-experiment.mjs ask     --name r1 [--handoff <label>]
 //   node scripts/text-recheck-experiment.mjs verify  --name r1
 //   node scripts/text-recheck-experiment.mjs render  --name r1 --out <folder>   (one large image per clue)
 // OCR_URL (a local scripts/worker-server.py ocr) keeps the OCR model loaded between the cut-outs.
@@ -13,7 +13,8 @@ import { createHash } from 'node:crypto';
 import { dataDir,sharp } from '../lib/config.mjs';
 import { realAdapters } from '../lib/adapters.mjs';
 import { PaperStore } from '../lib/paper-store.mjs';
-import { handoffLlm,handoffBrief,pendingHandoffs,HANDOFF_PENDING } from '../lib/paper-handoff.mjs';
+import { handoffBrief,pendingHandoffs,HANDOFF_PENDING } from '../lib/paper-handoff.mjs';
+import { researchProvider } from '../lib/paper-claude.mjs';
 import { textHintPrompt,parseHints,readAround,hintRegion } from '../lib/paper-text-recheck.mjs';
 
 const [command,...rest]=process.argv.slice(2);
@@ -38,15 +39,18 @@ if(command==='prepare'){
   writeFileSync(manifestPath,JSON.stringify({name:flags.name,createdAt:new Date().toISOString(),items},null,1));
   console.log(JSON.stringify({experiment:flags.name,photos:items.length,clues:all.length}));
 }else if(command==='ask'){
-  if(typeof flags.handoff!=='string'||!existsSync(manifestPath))usage();
-  const manifest=JSON.parse(readFileSync(manifestPath,'utf8')),llm=handoffLlm(handoffRoot);
+  // The Claude API answers unless --handoff <label> sends the requests to a stand-in through files.
+  if(!existsSync(manifestPath))usage();
+  const handoff=typeof flags.handoff==='string'?flags.handoff:null,provider=researchProvider(process.env,{handoff,handoffDirectory:handoffRoot}),askModel=provider.stage('regions').model;
+  if(!provider.configured(provider.stage('regions'))){console.error(provider.hint);process.exit(1);}
+  const manifest=JSON.parse(readFileSync(manifestPath,'utf8')),llm=provider.llm;
   let answered=0,waiting=0,failed=0;
   for(const item of manifest.items){
     const run=store.getRun(item.runId);
     item.texts=item.clues.flatMap(id=>run.clues.find(clue=>clue.id===id).textTargets.map(text=>({clueId:id,text}))).map((entry,index)=>({key:`t${index}`,...entry}));
     try{
-      const {text}=await llm({model:flags.handoff,text:textHintPrompt(item.texts),imageBytes:store.image(run.id)});
-      try{item.hints=parseHints(text,item.texts.map(entry=>entry.key));item.model=flags.handoff;answered++;}catch{item.error='unparseable_answer';failed++;}
+      const {text}=await llm({model:askModel,text:textHintPrompt(item.texts),imageBytes:store.image(run.id)});
+      try{item.hints=parseHints(text,item.texts.map(entry=>entry.key));item.model=askModel;answered++;}catch{item.error='unparseable_answer';failed++;}
     }catch(error){if(error.message!==HANDOFF_PENDING)throw error;waiting++;}
   }
   writeFileSync(manifestPath,JSON.stringify(manifest,null,1));

@@ -84,3 +84,18 @@ test('the Detector prompt of the server is the one of the paper without the Thin
   const parsed=parseDetectorAnswer(answer);
   assert.deepEqual(parsed.clues.map(clue=>[clue.category,quotedStrings(clue.detail)]),[['간판',['달빛고양이 책방']],['마스코트',[]]]);
 });
+
+test('the research CLI answers with Claude unless OpenAI or a hand-off is asked for',async()=>{
+  const { researchProvider,CLAUDE_RESEARCH_DETECTOR_PROMPT }=await import('../lib/paper-claude.mjs');
+  const claude=researchProvider({ANTHROPIC_API_KEY:'k',OPENAI_MODEL:'gpt-x'});
+  assert.equal(claude.name,'claude');
+  assert.deepEqual([claude.stages.detector.model,claude.stages.detector.transport,claude.stages.detector.matchesPaper],['claude-fable-5-2','anthropic-messages',false]);
+  for(const name of ['regions','rules','evidence','locator'])assert.deepEqual([claude.stage(name).model,claude.stage(name).transport,claude.stage(name).reasoningEffort],['claude-fable-5-2','anthropic-messages','medium']);
+  assert.equal(claude.configured(claude.stages.detector),true);assert.equal(researchProvider({}).configured({}),false);
+  assert.equal(claude.detectorPrompt,CLAUDE_RESEARCH_DETECTOR_PROMPT);assert.doesNotMatch(CLAUDE_RESEARCH_DETECTOR_PROMPT.text,/Think: put your thoughts here/);
+  assert.equal(researchProvider({ANALYSIS_MODEL:'claude-opus-5-5'}).stage('rules').model,'claude-opus-5-5');
+  const openai=researchProvider({PAPER_LLM:'openai',OPENAI_API_KEY:'k',OPENAI_MODEL:'gpt-x'});
+  assert.deepEqual([openai.name,openai.stages.detector.model,openai.stage('rules').transport,openai.detectorPrompt],['openai','gpt-x','openai-responses',null]);
+  assert.equal(researchProvider({PAPER_LLM:'openai'}).configured({model:null}),false);
+  assert.throws(()=>researchProvider({PAPER_LLM:'gemini'}),/INVALID_PAPER_LLM/);
+});

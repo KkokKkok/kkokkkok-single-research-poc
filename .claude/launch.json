@@ -20,6 +20,12 @@
       "port": 4177
     },
     {
+      "name": "viewer-guess",
+      "runtimeExecutable": "node",
+      "runtimeArgs": ["location-cue-lab/scripts/viewer-server.mjs", "--port", "4178", "--dir", "location-cue-lab/private-data/paper/viewer-guess"],
+      "port": 4178
+    },
+    {
       "name": "viewer",
       "runtimeExecutable": "node",
       "runtimeArgs": ["location-cue-lab/scripts/viewer-server.mjs", "--port", "4175", "--dir", "location-cue-lab/private-data/paper/viewer"],

@@ -11,6 +11,7 @@
 import { createHash } from 'node:crypto';
 import { clueTier } from './paper-risk-tiers.mjs';
 import { riskLabels } from './paper-risk.mjs';
+import { guessUsedClues,guessSoloResult } from './paper-guess.mjs';
 
 export const RULE_VERSION='kkokkkok-rules-2026-11-17';
 // Chapter 1. Ordered from narrow to wide.
@@ -187,12 +188,87 @@ export function ruleOf(clue){
   if(clue.rule&&clue.rule.unit in RULE_UNITS)return {...judgement(clue.rule.class,clue.rule.unit,clue.rule.situation??'',clue.rule.basis??''),judged:true};
   return {...judgement(null,FALLBACK_UNIT[clueTier(clue)??'A'],'','범주 기본값입니다. 규칙에 따른 단서별 판정을 아직 하지 않았습니다.'),judged:false};
 }
+// The combination an address guess that found the place was made from (paper-guess.mjs; evaluation
+// records only, added 2026-11-17). Not judged by the sheet but measured: the guess landed on the place,
+// so its unit is a point and its risk high. Clues whose own unit is country (a regional style, the
+// climate's plants) are left out: every photo of the country shows them, so covering them hides
+// nothing, and the sheet already treats them as the others' premise.
+// Which of the rest count (changed 2026-11-18, owner's decision): the guess lists everything it looked
+// at, and a museum's name finds the museum without the trees beside it. So each clue is asked whether
+// it gives the place away by itself, and there can be several such clues in one photo:
+//   rule    the sheet already reads it as a point (a full, uncommon name; a station; a landmark)
+//   search  a map search of its text led to the true place (paper-risk.mjs `confirmed`)
+//   alone   tried alone, it led to the place the guess found (paper-guess.mjs testGuessSolo)
+// mode 'solo'      some clue does: the combination is those clues (`clueIds`), each a risk by itself,
+//                  and the others the guess named are `supporting`: they keep their own risk.
+// mode 'combined'  every clue was tried and none does: the place came from them together, so all of
+//                  them are the combination.
+// mode 'untested'  the clues were not tried alone yet and none is a point by the sheet or a search:
+//                  all are listed, and none is raised until the test says which case this is.
+// Null when the guess missed, was not matched yet, or nothing coverable is left.
+export const GUESS_COMBINATION_ID='guess';
+const GUESS_REASON={solo:'주소 추정이 실제 위치를 맞혔고, 이 단서는 각각 혼자서도 그 위치가 나옵니다.',
+  combined:'주소 추정이 실제 위치를 맞혔고, 어느 단서도 혼자서는 위치가 나오지 않아 함께 쓰인 단서들입니다.',
+  untested:'주소 추정이 실제 위치를 맞혔고, 추정 근거로 이 단서들을 들었습니다. 단서별 단독 시험은 아직 하지 않았습니다.'};
+// The coverable clues the hit guess used: [clue]. Internal to the two functions below.
+function guessMembers(run){
+  const used=guessUsedClues(run);
+  if(!used)return null;
+  const byId=new Map(run.clues.map(clue=>[clue.id,clue])),all=used.clueIds.map(id=>byId.get(id));
+  return {members:all.filter(clue=>ruleOf(clue).unit!=='country'),excluded:all.filter(clue=>ruleOf(clue).unit==='country').map(clue=>clue.id)};
+}
+// The members still to be tried alone: not a point by the sheet, not confirmed by a search.
+export function guessSoloTargets(run){
+  const found=guessMembers(run);
+  if(!found)return [];
+  const marks=riskLabels(run).clues;
+  return found.members.filter(clue=>ruleOf(clue).risk!=='high'&&marks[clue.id].label!=='confirmed');
+}
+export function guessCombination(run){
+  const found=guessMembers(run);
+  if(!found?.members.length)return null;
+  const marks=riskLabels(run).clues,tested=guessSoloResult(run),alone=new Set((tested?.clues||[]).filter(entry=>entry.hit).map(entry=>entry.clueId));
+  const soloBy={};
+  for(const clue of found.members){
+    const by=ruleOf(clue).risk==='high'?'rule':marks[clue.id].label==='confirmed'?'search':alone.has(clue.id)?'alone':null;
+    if(by)soloBy[clue.id]=by;
+  }
+  const ids=found.members.map(clue=>clue.id),solo=ids.filter(id=>soloBy[id]);
+  // Every member that needed the test has an answer: only then is "none does it alone" known.
+  const answered=new Set((tested?.clues||[]).map(entry=>entry.clueId)),complete=Boolean(tested)&&guessSoloTargets(run).every(clue=>answered.has(clue.id));
+  const mode=solo.length?'solo':complete?'combined':'untested';
+  return {id:GUESS_COMBINATION_ID,type:'guess',source:'address_guess',mode,clueIds:mode==='solo'?solo:ids,supporting:mode==='solo'?ids.filter(id=>!soloBy[id]):[],soloBy,
+    unit:'point',risk:RULE_UNITS.point.risk,reason:GUESS_REASON[mode],excluded:found.excluded};
+}
+// The sheet's combinations and, on an evaluation record, the one the hit guess was made from.
+export function allCombinations(run){
+  const present=new Set((run.clues||[]).map(clue=>clue.id)),guess=guessCombination(run);
+  return [...(run.rules?.combinations||[]).filter(combo=>combo.clueIds.every(id=>present.has(id))),...(guess?[guess]:[])];
+}
+// What the hit guess raises to high (owner's decisions of 2026-11-17 and 2026-11-18):
+//   mode 'solo'      only the clues that give the place away by themselves. Those the sheet already
+//                    reads as a point are high as they are; the others (found by a search or when
+//                    tried alone) are raised. A supporting clue keeps its risk.
+//   mode 'combined'  every clue of the combination: none does it alone, together they did.
+//   mode 'untested'  nothing yet.
+// The unit stays the sheet's reading; `raised` says what the risk was before and why, and RAISED_NOTE
+// is added to the end of the clue's description wherever it is shown. A clue that was already high is
+// not raised and gets no note.
+export const RAISED_NOTE='(단서 추정에 이용되어 등급이 증가하였습니다)';
+export const withRaisedNote=(text,rule)=>rule?.raised&&typeof text==='string'&&!text.endsWith(RAISED_NOTE)?`${text} ${RAISED_NOTE}`:text;
+// clue => judgement for the clues of one record, with the raise applied. ruleOf(clue) is the sheet's own reading.
+export function ruleFor(run){
+  const combo=guessCombination(run),raisedIds=new Set(combo&&combo.mode!=='untested'?combo.clueIds:[]);
+  return clue=>{
+    const rule=ruleOf(clue);
+    return raisedIds.has(clue.id)&&rule.risk!=='high'?{...rule,risk:'high',raised:{from:rule.risk,by:combo.mode==='solo'?`address_guess_${combo.soloBy[clue.id]}`:'address_guess_combined'}}:rule;
+  };
+}
 // {clues:{id:judgement}, counts:{high,medium,low}, judged, combinations:[...]} for one record.
 export function ruleMarks(run){
-  const clues={},counts={high:0,medium:0,low:0};
-  for(const clue of run.clues||[]){clues[clue.id]=ruleOf(clue);counts[clues[clue.id].risk]++;}
-  const present=new Set(Object.keys(clues));
-  return {clues,counts,judged:Boolean(run.rules),combinations:(run.rules?.combinations||[]).filter(combo=>combo.clueIds.every(id=>present.has(id)))};
+  const clues={},counts={high:0,medium:0,low:0},judge=ruleFor(run);
+  for(const clue of run.clues||[]){clues[clue.id]=judge(clue);counts[clues[clue.id].risk]++;}
+  return {clues,counts,judged:Boolean(run.rules),combinations:allCombinations(run)};
 }
 // Which old linking tier a judged clue takes (paper-regions.mjs policy): a high or medium clue is
 // looked for by both tools, a low one by text matching only, a regional-style one not at all.
@@ -200,11 +276,12 @@ export const linkingTierOf=clue=>clue.rule?(clue.rule.risk!=='low'?'A':clue.rule
 // Clues that took part in an inference of the place, whatever their own risk (added 2026-11-17):
 //   a member of a combination the sheet admits (a distant tower is low alone, and half of what gives
 //   the place away together with the gate in front of it);
-//   a clue a map search of which led to the true place (records with a true position only).
+//   a clue a map search of which led to the true place (records with a true position only);
+//   a clue an address guess that found the place said it used (guessCombination; added 2026-11-17).
 // Such a clue has to be coverable, so it is looked for by both tools even when it is low: without a
 // region the front end can neither show it nor mask it.
 export function usedClueIds(run){
-  const used=new Set((run.rules?.combinations||[]).flatMap(combo=>combo.clueIds));
+  const used=new Set(allCombinations(run).flatMap(combo=>combo.clueIds));
   for(const [id,mark] of Object.entries(riskLabels(run).clues))if(mark.label==='confirmed')used.add(id);
   return used;
 }

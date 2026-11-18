@@ -7,7 +7,7 @@
 //             OCR again; if OCR now reads the quoted text there, the box is verified by a tool.
 // A person can look at the rest in the viewer (pointed boxes are drawn long-dashed).
 //   node scripts/pointing-experiment.mjs prepare --name p1 [--targets 15] [--controls 12]
-//   node scripts/pointing-experiment.mjs ask     --name p1 --handoff <label>
+//   node scripts/pointing-experiment.mjs ask     --name p1 [--handoff <label>]
 //   node scripts/pointing-experiment.mjs verify  --name p1 [--write] [--margin 0.15]   (margin: least distance cut out around the box, as a fraction of the photo)
 // --write puts the results into the records: the pointed box as a region of kind 'pointed' (never
 // counted as located, never painted over), and each OCR line read in the cut-out that matches the
@@ -18,7 +18,8 @@ import { createHash } from 'node:crypto';
 import { dataDir,sharp } from '../lib/config.mjs';
 import { realAdapters } from '../lib/adapters.mjs';
 import { PaperStore } from '../lib/paper-store.mjs';
-import { handoffLlm,handoffBrief,pendingHandoffs,HANDOFF_PENDING } from '../lib/paper-handoff.mjs';
+import { handoffBrief,pendingHandoffs,HANDOFF_PENDING } from '../lib/paper-handoff.mjs';
+import { researchProvider } from '../lib/paper-claude.mjs';
 import { riskLabels,hasQuotedText } from '../lib/paper-risk.mjs';
 import { matchText,boundsOf } from '../lib/paper-regions.mjs';
 
@@ -83,15 +84,18 @@ if(command==='prepare'){
   console.log(JSON.stringify({experiment:flags.name,photos:items.length,targets,controls}));
   for(const item of items)console.log(JSON.stringify({photo:item.title,targets:item.targets.length,controls:item.controls.length}));
 }else if(command==='ask'){
-  if(typeof flags.handoff!=='string'||!existsSync(manifestPath))usage();
-  const manifest=JSON.parse(readFileSync(manifestPath,'utf8')),llm=handoffLlm(handoffRoot);
+  // The Claude API answers unless --handoff <label> sends the requests to a stand-in through files.
+  if(!existsSync(manifestPath))usage();
+  const handoff=typeof flags.handoff==='string'?flags.handoff:null,provider=researchProvider(process.env,{handoff,handoffDirectory:handoffRoot}),askModel=provider.stage('regions').model;
+  if(!provider.configured(provider.stage('regions'))){console.error(provider.hint);process.exit(1);}
+  const manifest=JSON.parse(readFileSync(manifestPath,'utf8')),llm=provider.llm;
   let answered=0,waiting=0,failed=0;
   for(const item of manifest.items){
     const run=store.getRun(item.runId),ids=[...new Set([...item.targets,...item.controls])];
     const clues=run.clues.filter(clue=>ids.includes(clue.id));
     try{
-      const {text}=await llm({model:flags.handoff,text:pointingPrompt(clues),imageBytes:store.image(run.id)});
-      try{item.boxes=parsePointing(text,ids);item.model=flags.handoff;answered++;}catch{item.error='unparseable_answer';failed++;}
+      const {text}=await llm({model:askModel,text:pointingPrompt(clues),imageBytes:store.image(run.id)});
+      try{item.boxes=parsePointing(text,ids);item.model=askModel;answered++;}catch{item.error='unparseable_answer';failed++;}
     }catch(error){if(error.message!==HANDOFF_PENDING)throw error;waiting++;}
   }
   writeFileSync(manifestPath,JSON.stringify(manifest,null,1));

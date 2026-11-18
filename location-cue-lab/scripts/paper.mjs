@@ -15,13 +15,15 @@
 //   node scripts/paper.mjs evidence --place <name> <runId> <runId> ... [--check]   (photos of one place, in order: each evidence gets placeClueId, and seenBefore when an earlier photo showed it; --check: medium and high clues without text are compared in the two photos by a model)
 //   node scripts/paper.mjs evidence --group <runId> <runId> ...   (photos of one place: their evidence with each clue counted once)
 //   node scripts/paper.mjs preview [--out <file.html>] [--images <dir>]
-//   node scripts/paper.mjs viewer [--out <dir>] [--revealed] [--judged]   (interactive page: boxes on and off per clue; --revealed: only photos whose place came out; --judged: only photos judged by `rules`)
+//   node scripts/paper.mjs viewer [--out <dir>] [--revealed] [--judged] [--guessed]   (interactive page: boxes on and off per clue; --revealed: only photos whose place came out; --judged: only photos judged by `rules`; --guessed: only photos with the combination of a hit address guess)
 //   node scripts/paper.mjs locate (--all | <runId> ...) [--top3] [--force]     (evaluation only)
 //   node scripts/paper.mjs score (<original image> ... | --pilot <pilot dir>) [--radius 500] [--geocoder naver|google] [--force]   (evaluation only)
 //   node scripts/paper.mjs places (<original image> ... | --pilot <pilot dir>) [--radius 500] [--force] [--combine]   (evaluation only; --combine also tries texts in pairs and with the guessed district)
+//   node scripts/paper.mjs guess (--all | <runId> ...) [--force] [--match-only]   (evaluation only; after `score`: the clues a guess that found the place used become a combination, and get boxes and masks)
 //   node scripts/paper.mjs probe (--all | <runId> ...) [--force] [--export [--out file]]   (counts map-search results per quoted text; needs no true position)
 //   node scripts/paper.mjs reviews [<reviews.json>]   (counts what a person answered in the viewer, by clue label)
-// Add --handoff <stand-in-label> to extract/mine/classify to run without an API key: each model
+// The model steps call the Claude API (ANTHROPIC_API_KEY; ANALYSIS_MODEL, ANALYSIS_EFFORT). PAPER_LLM=openai
+// uses the earlier OpenAI path. Add --handoff <stand-in-label> to run without an API key: each model
 // request is written to private-data/paper/handoff/<id>/ and the command stops until a stand-in
 // has written response.txt there. Run the same command again to continue.
 import { readFileSync,writeFileSync,mkdirSync,existsSync } from 'node:fs';
@@ -29,16 +31,18 @@ import { resolve,dirname } from 'node:path';
 import { dataDir,sharp } from '../lib/config.mjs';
 import { prepareImage,realAdapters } from '../lib/adapters.mjs';
 import { PaperStore } from '../lib/paper-store.mjs';
-import { paperLlm,paperStages,regionStage,ruleStage,evidenceStage,locatorStage } from '../lib/paper-llm.mjs';
-import { handoffLlm,handoffBrief,pendingHandoffs,HANDOFF_PENDING } from '../lib/paper-handoff.mjs';
-import { extractAndClassify,classifyRun,mineTaxonomy,linkRunRegions,recheckRunText,relinkRunUnreadQuotes,pointRunClues,judgeRunRules,normalizeRunEvidence,assignRunClues,locateRun,scoreRun,searchPlacesRun } from '../lib/paper-runner.mjs';
-import { linkingTierFor } from '../lib/paper-rules.mjs';
+import { researchProvider } from '../lib/paper-claude.mjs';
+import { handoffBrief,pendingHandoffs,HANDOFF_PENDING } from '../lib/paper-handoff.mjs';
+import { extractAndClassify,classifyRun,mineTaxonomy,linkRunRegions,recheckRunText,relinkRunUnreadQuotes,pointRunClues,judgeRunRules,normalizeRunEvidence,assignRunClues,locateRun,scoreRun,searchPlacesRun,matchRunGuessClues,soloRunGuessClues } from '../lib/paper-runner.mjs';
+import { linkingTierFor,guessCombination } from '../lib/paper-rules.mjs';
+import { needsGuessMatch,guessVerdict } from '../lib/paper-guess.mjs';
+import { displayRegions } from '../lib/paper-preview.mjs';
 import { groupEvidence } from '../lib/paper-evidence.mjs';
-import { maskRunRegions } from '../lib/paper-masks.mjs';
+import { maskRunRegions,pruneMasks } from '../lib/paper-masks.mjs';
 import { searchCombinationsRun } from '../lib/paper-combo.mjs';
 import { probePlacesRun,probeLedger } from '../lib/paper-probe.mjs';
 import { reviewSummary } from '../lib/paper-risk.mjs';
-import { GEOCODERS,DEFAULT_RADIUS_M,pilotTruths,naverPlaceSearch } from '../lib/paper-score.mjs';
+import { GEOCODERS,DEFAULT_RADIUS_M,pilotTruths,naverPlaceSearch,isBlocking,geodesicDistanceM } from '../lib/paper-score.mjs';
 import { parseGps } from '../lib/location-experiment.mjs';
 import { renderOverlay,buildPreviewHtml } from '../lib/paper-preview.mjs';
 import { viewerData,VIEWER_HTML } from '../lib/paper-viewer.mjs';
@@ -58,17 +62,18 @@ const usage=()=>{console.error(readFileSync(new URL(import.meta.url),'utf8').spl
 const store=new PaperStore(dataDir);
 const handoff=typeof flags.handoff==='string'&&flags.handoff.trim()?flags.handoff.trim():null;
 if('handoff' in flags&&!handoff)usage();
-const stages=paperStages(process.env,{handoffModel:handoff});
-const llm=handoff?handoffLlm(store.handoffDirectory):paperLlm;
+// Who answers the model steps: the Claude API by default, PAPER_LLM=openai for the earlier OpenAI
+// path, --handoff for a stand-in through files (lib/paper-claude.mjs researchProvider).
+const provider=researchProvider(process.env,{handoff,handoffDirectory:store.handoffDirectory});
+const stages=provider.stages,llm=provider.llm;
 const requireModel=stage=>{
-  if(handoff)return;
-  if(!process.env.OPENAI_API_KEY||!stage.model){console.error('Configure OPENAI_API_KEY and OPENAI_MODEL (or a PAPER_*_MODEL override), or use --handoff <stand-in-label>.');process.exit(1);}
+  if(!provider.configured(stage)){console.error(provider.hint);process.exit(1);}
 };
 const showClues=run=>{for(const clue of run.clues)console.log(`  ${clue.id}  [${clue.taxonomy?`${clue.taxonomy.number}. ${clue.taxonomy.name}`:'unclassified'}]  ${clue.category}: ${clue.detail}`);};
 // Says which model a stage is about to use and whether that is the paper's setting.
 const showStage=(name,stage)=>console.log(JSON.stringify({stage:name,model:stage.model,transport:stage.transport,reasoningEffort:stage.reasoningEffort??'not sent',matchesPaper:stage.matchesPaper,paperModel:stage.paperModel}));
 const showPending=pending=>{console.log(JSON.stringify({status:'pending',stage:pending.stage??null,handoffId:pending.id,directory:pending.directory}));console.log(handoffBrief(pending.directory));};
-const MODEL_HINT='The model could not be called with this key. Set OPENAI_MODEL, or PAPER_DETECTOR_MODEL / PAPER_CLUEMINER_MODEL / PAPER_CLASSIFIER_MODEL, to a model this key can use.';
+const MODEL_HINT=provider.name==='claude'?'The model could not be called with this key. Set ANALYSIS_MODEL to a model this key can use.':'The model could not be called with this key. Set OPENAI_MODEL, or PAPER_DETECTOR_MODEL / PAPER_CLUEMINER_MODEL / PAPER_CLASSIFIER_MODEL, to a model this key can use.';
 const hintOnModelErrors=errors=>{if(errors.some(e=>e.providerCode==='model_not_found'||e.httpStatus===404))console.log(MODEL_HINT);};
 
 if(command==='settings'){
@@ -83,7 +88,7 @@ if(command==='settings'){
   for(const path of positional){
     const prepared=await prepareImage(readFileSync(resolve(path)));
     // A hand-off record that was waiting for an answer (Detector or classifier) continues in place.
-    const run=await extractAndClassify({store,prepared,stages,llm,taxonomy,resume:Boolean(handoff)});
+    const run=await extractAndClassify({store,prepared,stages,llm,taxonomy,resume:Boolean(handoff),detectorPrompt:provider.detectorPrompt});
     console.log(JSON.stringify({runId:run.id,status:run.status,clues:run.clues.length,taxonomyId:run.classification?.taxonomyId??null,errors:run.errors,record:store.runPath(run.id)}));
     showClues(run);hintOnModelErrors(run.errors);
     if(run.pending){showPending(run.pending);process.exitCode=3;}
@@ -175,7 +180,7 @@ if(command==='settings'){
   }
 }else if(command==='rules'){
   // Not a paper step: the owner's rule sheet (paper-rules.mjs). A text-only model call per record.
-  const stage=ruleStage(process.env,{handoffModel:handoff});
+  const stage=provider.stage('rules');
   requireModel(stage);
   const runs=flags.all?store.listRuns():positional.map(id=>store.getRun(id));
   if(!runs.length||runs.some(run=>!run))usage();
@@ -199,7 +204,7 @@ if(command==='settings'){
     const runs=positional.map(id=>store.getRun(id));
     if(typeof flags.place!=='string'||!runs.length||runs.some(run=>!run?.evidence))usage();
     // --check: clues that narrow the place down are matched only when a model, shown both photos, says they are the same object.
-    const checkStage=flags.check?evidenceStage(process.env,{handoffModel:handoff}):null;
+    const checkStage=flags.check?provider.stage('evidence'):null;
     if(checkStage){requireModel(checkStage);showStage('placeCheck',checkStage);}
     for(const source of runs){
       const before=source.errors.length;
@@ -215,7 +220,7 @@ if(command==='settings'){
     if(runs.length<2||runs.some(run=>!run?.evidence))usage();
     console.log(JSON.stringify(groupEvidence(runs.map(run=>({runId:run.id,evidence:run.evidence}))),null,2));
   }else{
-    const stage=evidenceStage(process.env,{handoffModel:handoff});
+    const stage=provider.stage('evidence');
     requireModel(stage);
     const runs=flags.all?store.listRuns():positional.map(id=>store.getRun(id));
     if(!runs.length||runs.some(run=>!run))usage();
@@ -233,7 +238,7 @@ if(command==='settings'){
   }
 }else if(command==='regions'){
   // Not a paper step: finds where each clue is, with PaddleOCR and Grounding DINO (see paper-regions.mjs).
-  const stage=regionStage(process.env,{handoffModel:handoff});
+  const stage=provider.stage('regions');
   requireModel(stage);
   const runs=flags.all?store.listRuns():positional.map(id=>store.getRun(id));
   if(!runs.length||runs.some(run=>!run))usage();
@@ -261,7 +266,7 @@ if(command==='settings'){
   }
 }else if(command==='recheck'){
   // For records already linked: only the text recheck, without reading the whole photo again.
-  const stage=regionStage(process.env,{handoffModel:handoff});
+  const stage=provider.stage('regions');
   requireModel(stage);
   const runs=flags.all?store.listRuns():positional.map(id=>store.getRun(id));
   if(!runs.length||runs.some(run=>!run))usage();
@@ -277,7 +282,7 @@ if(command==='settings'){
   }
 }else if(command==='locate'){
   // Evaluation only (the paper's CoT experiment): asks the model where each photo was taken.
-  const stage=locatorStage(process.env,{handoffModel:handoff});
+  const stage=provider.stage('locator');
   requireModel(stage);
   const runs=flags.all?store.listRuns():positional.map(id=>store.getRun(id));
   if(!runs.length||runs.some(run=>!run))usage();
@@ -382,6 +387,48 @@ if(command==='settings'){
     console.log('Set NAVER_APIHUB_CLIENT_ID and NAVER_APIHUB_CLIENT_SECRET (in .env). They come from a NAVER API HUB application with the local (지역) search API selected; a Maps application key does not work for this API.');
     process.exitCode=2;
   }
+}else if(command==='guess'){
+  // Evaluation only, not a paper step (paper-guess.mjs). For each record whose address guess found the
+  // place (`score` first): a text-only model call says which Detector clue each clue of the guess is.
+  // Then each of those clues is tried alone (a second text-only call and the NAVER geocoder): a clue
+  // that leads to the guessed place by itself is raised to high, the others keep their risk; when none
+  // does, the clues together are the combination (paper-rules.mjs guessCombination).
+  // The combination's clues are pointed at when no tool found them, and get masks.
+  // --match-only: only the matching and the solo test, no boxes or masks. A full search with both tools: `regions --force`.
+  const stage=provider.stage('rules'),boxStage=provider.stage('regions');
+  requireModel(stage);
+  const runs=flags.all?store.listRuns():positional.map(id=>store.getRun(id));
+  if(!runs.length||runs.some(run=>!run))usage();
+  console.log('Evaluation only: uses the address guesses already scored against the true positions. No position or address is printed.');
+  showStage('guessMatch',stage);
+  for(const source of runs){
+    if(!guessVerdict(source)?.hit)continue;
+    const before=source.errors.length,matched=needsGuessMatch(source,{force:Boolean(flags.force)});
+    let run=await matchRunGuessClues({store,run:source,stage,llm,force:Boolean(flags.force)});
+    // Hand-off: every record's request is written in one pass, so they can be answered together.
+    // Only the matching's own request: a record parked at the pointing step is continued below.
+    if(run.pending?.stage==='guessMatch'){console.log(JSON.stringify({runId:run.id,status:'pending',handoffId:run.pending.id,directory:run.pending.directory}));process.exitCode=3;continue;}
+    if(run.errors.length===before){
+      const solo=await soloRunGuessClues({store,run,stage,llm,geocoder:'naver',geocode:GEOCODERS.naver.geocode,distance:geodesicDistanceM,blocking:isBlocking,force:Boolean(flags.force)});
+      if(solo.blocked){console.log(JSON.stringify({status:'geocoder_unavailable',reason:solo.blocked}));console.log('Set NAVER_MAPS_CLIENT_ID and NAVER_MAPS_CLIENT_SECRET (in .env), and select Geocoding on the Maps application in the NAVER Cloud console.');process.exitCode=2;break;}
+      run=solo.run;
+      if(run.pending?.stage==='guessSolo'){console.log(JSON.stringify({runId:run.id,status:'pending',stage:'guessSolo',handoffId:run.pending.id,directory:run.pending.directory}));process.exitCode=3;continue;}
+    }
+    const combo=guessCombination(run);
+    if(!flags['match-only']&&combo&&run.regions&&run.errors.length===before){
+      // Clues the tiers did not search before have no region: the model points at them, then the masks follow.
+      if(combo.clueIds.some(id=>!displayRegions(run.clues.find(clue=>clue.id===id)).length))run=await pointRunClues({store,run,stage:boxStage,llm,force:true});
+      if(run.pending){console.log(JSON.stringify({runId:run.id,status:'pending',stage:run.pending.stage,handoffId:run.pending.id,directory:run.pending.directory}));process.exitCode=3;continue;}
+      if(run.errors.length===before&&(!run.masks||matched))run=await maskRunRegions({store,run,segment:realAdapters.segment,force:true});
+    }
+    // A clue the guess named that keeps a low risk gets no mask: masks made before the solo test are taken off.
+    const pruned=pruneMasks(run);
+    if(pruned)store.saveRun(run);
+    const failed=run.errors.length>before,byId=new Map(run.clues.map(clue=>[clue.id,clue]));
+    console.log(JSON.stringify({runId:run.id,status:failed?'failed':matched?'matched':'kept',masksRemoved:pruned,guessClues:run.guessClues?.matches.length??null,unmatched:run.guessClues?.matches.filter(item=>!item.clueIds.length).length??null,
+      mode:combo?.mode??null,combination:combo?.clueIds??null,soloBy:combo?.soloBy??null,supporting:combo?.supporting??null,soloTested:run.guessSolo?.clues.length??null,leftOut:combo?.excluded??null,withoutRegion:combo?combo.clueIds.filter(id=>!displayRegions(byId.get(id)).length):null,masks:run.masks?.regions??null,errors:run.errors.slice(before)}));
+    if(failed)process.exitCode=2;
+  }
 }else if(command==='probe'){
   // Not a paper step. Counts what the map search returns for each text quoted from a photo, without
   // any true position: so it also runs for photos that carry none (paper-probe.mjs). Only the texts go out.
@@ -448,6 +495,8 @@ if(command==='settings'){
   // --revealed: only the photos whose place came out, by a map search of a clue (확인된 위험) or by the
   // address guess (사진 경고). Give --out as well, or the full viewer is replaced by this selection.
   if(flags.revealed)data.photos=data.photos.filter(photo=>photo.measured.confirmed||photo.warning);
+  // --guessed: only the photos whose address guess found the place and whose guess clues were matched (`guess`). Give --out as well.
+  if(flags.guessed)data.photos=data.photos.filter(photo=>photo.combinations.some(combo=>combo.type==='guess'));
   // --judged: only the photos the rule sheet has been applied to (`rules`). Give --out as well.
   if(flags.judged)data.photos=data.photos.filter(photo=>photo.risk.judged);
   for(const photo of data.photos)writeFileSync(resolve(out,'images',`${photo.id}.jpg`),await sharp(store.image(photo.id)).resize({width:1100,height:1100,fit:'inside',withoutEnlargement:true}).jpeg({quality:84}).toBuffer());
