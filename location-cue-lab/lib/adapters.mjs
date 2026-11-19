@@ -18,19 +18,36 @@ export function runtimeStatus(){return {model:process.env.OPENAI_MODEL||null,api
 // OCR_URL / GROUNDING_URL point at a resident worker (scripts/worker-server.py, one container each).
 // Unset, the script is started as a child process for each call, as before.
 export const workerUrl=kind=>(process.env[`${kind.toUpperCase()}_URL`]||'').replace(/\/+$/,'')||null;
+// Why a tool run failed. The stored record keeps only the short code (OCR_FAILED); the reason goes to
+// the server's error log, so a failure can be told apart afterwards: a crash of the inference engine
+// (exit code), a refused input (the script's own error line), a timeout, or output that is not JSON.
+// The script's error line is its exception type and message, never what it read from the photo.
+const scriptError=tail=>{const line=tail.split(/\r?\n/).reverse().find(l=>l.startsWith('KKOK_ERROR '));return line?line.slice(11,311):null;};
+function toolFailure(kind,script,detail){
+  console.error(JSON.stringify({at:new Date().toISOString(),tool:kind,script,...detail}));
+  return Object.assign(new Error(`${kind.toUpperCase()}_FAILED`),{detail});
+}
 // Same input and answer as the child process. The OCR image travels as base64 JSON, and KKOK_OCR_*
 // values the caller passed as environment travel as per-request settings.
 async function runWorker(url,kind,input,extraEnv,timeout){
-  const failed=new Error(`${kind.toUpperCase()}_FAILED`);
+  const started=Date.now();let detail={reason:'worker_unreachable'};
   try{
     const settings=Object.fromEntries(Object.entries(extraEnv).filter(([name])=>name.startsWith('KKOK_OCR_')));
     const body=kind==='ocr'?JSON.stringify({image:input.toString('base64'),settings}):input;
     const response=await fetch(`${url}/run`,{method:'POST',headers:{'Content-Type':'application/json'},body,signal:AbortSignal.timeout(timeout)});
-    if(!response.ok)throw failed;
-    const bytes=Buffer.from(await response.arrayBuffer());if(bytes.length>16*1024*1024)throw failed;
+    if(!response.ok){detail={reason:'worker_status',httpStatus:response.status};throw new Error();}
+    detail={reason:'invalid_output'};
+    const bytes=Buffer.from(await response.arrayBuffer());if(bytes.length>16*1024*1024){detail={reason:'output_too_large'};throw new Error();}
     return JSON.parse(bytes.toString('utf8'));
-  }catch{throw failed;}
+  }catch(error){
+    if(error?.name==='TimeoutError')detail={reason:'timeout'};
+    throw toolFailure(kind,'worker',{...detail,seconds:Math.round((Date.now()-started)/100)/10});
+  }
 }
+// Tool processes that are running now, each as the function that ends it. stopTools ends them all: the
+// service calls it when the inspection being analyzed is cancelled (it analyzes one at a time).
+const running=new Set();
+export const stopTools=()=>{for(const stop of [...running])stop();};
 export function runPython(kind,script,input,extraEnv={},timeout=900000){
   const url=workerUrl(kind);if(url)return runWorker(url,kind,input,extraEnv,timeout);
   const cache=cachePath(kind);mkdirSync(cache,{recursive:true});
@@ -38,14 +55,19 @@ export function runPython(kind,script,input,extraEnv={},timeout=900000){
   if(kind==='ocr')Object.assign(env,{USERPROFILE:cache,PADDLE_PDX_CACHE_HOME:cache,HF_HOME:resolve(cache,'huggingface'),MODELSCOPE_CACHE:resolve(cache,'modelscope'),PADDLE_PDX_DISABLE_MODEL_SOURCE_CHECK:'True'});
   return new Promise((accept,reject)=>{
     const child=spawn(pythonPath(kind),['-B','-X','utf8',resolve(root,'scripts',script)],{env,windowsHide:true,stdio:['pipe','pipe','pipe']});let chunks=[],size=0,done=false;
-    const fail=()=>{if(done)return;done=true;clearTimeout(timer);child.kill();reject(new Error(`${kind.toUpperCase()}_FAILED`));};
-    const timer=setTimeout(fail,timeout);child.on('error',fail);child.stdin.on('error',fail);child.stderr.on('data',()=>{});
-    child.stdout.on('data',b=>{size+=b.length;if(size>16*1024*1024)fail();else chunks.push(b);});
-    child.on('close',code=>{if(done)return;if(code!==0)return fail();try{const out=JSON.parse(Buffer.concat(chunks).toString('utf8'));done=true;clearTimeout(timer);accept(out);}catch{fail();}});
+    const started=Date.now();let tail='';
+    const stop=()=>fail('stopped');running.add(stop);child.on('close',()=>running.delete(stop));
+    const fail=(reason,extra={})=>{if(done)return;done=true;clearTimeout(timer);child.kill();reject(toolFailure(kind,script,{reason,...extra,seconds:Math.round((Date.now()-started)/100)/10,scriptError:scriptError(tail)}));};
+    const timer=setTimeout(()=>fail('timeout'),timeout);child.on('error',()=>fail('spawn'));child.stdin.on('error',()=>fail('stdin'));
+    // Only the end is kept, and only the script's own KKOK_ERROR line is ever read from it.
+    child.stderr.on('data',b=>{tail=(tail+b.toString('utf8')).slice(-4000);});
+    child.stdout.on('data',b=>{size+=b.length;if(size>16*1024*1024)fail('output_too_large');else chunks.push(b);});
+    child.on('close',(code,signal)=>{if(done)return;if(code!==0)return fail('exit',{exitCode:code,signal});try{const out=JSON.parse(Buffer.concat(chunks).toString('utf8'));done=true;clearTimeout(timer);accept(out);}catch{fail('invalid_output');}});
     child.stdin.end(input);
   });
 }
 export const realAdapters={
+  stop:stopTools,
   async vlm({model,prompt,schema,name,content,onRaw}){
     if(!process.env.OPENAI_API_KEY||!model)throw new Error('OPENAI_NOT_CONFIGURED');
     const OpenAI=dependency('openai').default;const client=new OpenAI({apiKey:process.env.OPENAI_API_KEY,timeout:180000,maxRetries:0});
@@ -54,7 +76,12 @@ export const realAdapters={
     if(r.status!=='completed'||!r.output_text)throw new Error('VLM_INCOMPLETE');
     return schema.parse(JSON.parse(r.output_text));
   },
-  async ocr(bytes){const r=ocrSchema.parse(await runPython('ocr','ocr.py',bytes));if(new Set(r.lines.map(l=>l.id)).size!==r.lines.length)throw new Error('OCR_DUPLICATE_ID');return r;},
+  // PaddleOCR sometimes dies on a photo it reads without trouble the next time (2026-11-19: failed
+  // after 20 s in the service, 51 lines when run again), and without OCR a photo gets no regions at
+  // all. So one more try, except after a timeout, which would only double a 15-minute wait.
+  async ocr(bytes){
+    const run=()=>runPython('ocr','ocr.py',bytes);
+    const r=ocrSchema.parse(await run().catch(error=>{if(['timeout','stopped'].includes(error.detail?.reason))throw error;return run();}));if(new Set(r.lines.map(l=>l.id)).size!==r.lines.length)throw new Error('OCR_DUPLICATE_ID');return r;},
   async detect(bytes,queries){const r=detectionSchema.parse(await runPython('grounding','detect.py',Buffer.from(JSON.stringify({image:bytes.toString('base64'),queries})),{},1800000));if(r.imageSha256!==sha(bytes))throw new Error('DETECTOR_IMAGE_MISMATCH');const seen=new Set();for(const q of r.requests){if(seen.has(q.cueId)||!queries.some(x=>x.cueId===q.cueId&&x.query===q.query))throw new Error('DETECTOR_QUERY_MISMATCH');seen.add(q.cueId);}if(seen.size!==queries.length)throw new Error('DETECTOR_QUERY_MISSING');const ids=r.requests.flatMap(q=>q.detections.map(d=>d.id));if(ids.length!==new Set(ids).size)throw new Error('DETECTOR_DUPLICATE_ID');return r;},
   // Segment Anything, one mask per box (scripts/segment.py). Runs in the grounding environment and
   // worker: the same torch and transformers, no further requirement. boxes: [{id,bbox}].

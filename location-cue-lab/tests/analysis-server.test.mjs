@@ -140,3 +140,54 @@ test('a record a restart interrupted is taken up again when the server starts',a
     }finally{await second.close();}
   }finally{rmSync(directory,{recursive:true,force:true});}
 });
+
+test('the log says where each step spent its time and how long the whole analysis took',async()=>{
+  const entries=[];
+  await withApp({llm:fakeLlm(),log:entry=>entries.push(entry)},async({send,settled})=>{
+    const key=randomUUID();
+    await send(await photo(),key);
+    await settled(key);
+    for(let i=0;i<100&&!entries.some(entry=>entry.state);i++)await new Promise(done=>setTimeout(done,10));
+    const step=name=>entries.find(entry=>entry.step===name);
+    assert.deepEqual(Object.keys(step('extraction').parts),['model']);
+    assert.equal(step('extraction').parts.model.calls,1);
+    // Region linking asks the model for detector phrases, reads the text and runs the detector.
+    assert.deepEqual([step('regions').parts.model.calls,step('regions').parts.ocr.calls,step('regions').parts.detect.calls],[1,1,1]);
+    assert.equal(step('masks').parts.segment.calls,1);
+    for(const entry of entries.filter(entry=>entry.step))assert.ok(Object.values(entry.parts??{}).every(part=>part.seconds>=0));
+    const last=entries.find(entry=>entry.state);
+    assert.equal(last.state,'completed');
+    assert.ok(last.totalSeconds>=0&&last.waitedSeconds>=0);
+    // Times only: nothing of the photo or the model's answers is logged.
+    assert.deepEqual(Object.keys(last).sort(),['clues','errors','inspectionId','state','totalSeconds','waitedSeconds']);
+  });
+});
+
+test('a cancelled inspection stops: the running tool is ended, nothing more is called, and one still waiting never starts',async()=>{
+  let release,stopped=0;const started=new Promise(done=>{release=done;});
+  // OCR that never ends until the service ends it, the way a killed process rejects.
+  let end;const slow={...tools,ocr:()=>new Promise((_,reject)=>{end=()=>reject(Object.assign(new Error('OCR_FAILED'),{detail:{reason:'stopped'}}));release();}),stop:()=>{stopped++;end?.();}};
+  const llm=fakeLlm(),entries=[];
+  await withApp({llm,tools:slow,log:entry=>entries.push(entry)},async({send,settled,base})=>{
+    const cancel=id=>fetch(`${base}/api/inspections/${id}/cancel`,{method:'POST',headers:{'X-Analysis-Api-Key':KEY}});
+    const first=randomUUID(),second=randomUUID();
+    await send(await photo(),first);await send(await photo('#102030'),second);
+    await started;
+    // The one waiting its turn is taken out of the queue.
+    const waitingAnswer=await cancel(second);
+    assert.equal(waitingAnswer.status,200);
+    assert.equal((await waitingAnswer.json()).status,'failed');
+    assert.equal((await cancel(first)).status,200);
+    const done=await settled(first);
+    assert.equal(done.status,'failed');
+    assert.equal(stopped,1);
+    assert.deepEqual(llm.calls,['detector','rules','targets']);
+    for(let i=0;i<100&&entries.filter(entry=>entry.state).length<2;i++)await new Promise(done=>setTimeout(done,10));
+    // The step whose OCR was ended records that too, before the cancellation.
+    assert.deepEqual(entries.filter(entry=>entry.state).map(entry=>entry.errors),[['service:CANCELLED'],['regions:OCR_FAILED','service:CANCELLED']]);
+    // Cancelling again, or one that never existed, changes nothing.
+    assert.equal((await cancel(first)).status,200);
+    assert.equal((await cancel(randomUUID())).status,404);
+    assert.equal((await fetch(`${base}/api/inspections/${first}/cancel`,{headers:{'X-Analysis-Api-Key':KEY}})).status,405);
+  });
+});

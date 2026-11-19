@@ -42,6 +42,22 @@ test('OCR match gives a verified region; no match falls back to the model box, m
   assert.deepEqual([missed.regions[0].source,missed.regions[0].verified,missed.regions[0].bbox,missed.regions[0].match],['model_hint',false,[0.4,0.4,0.6,0.5],'unverified']);
 });
 
+test('one reading per clue: a clue is read once, at the model tilt, and takes the model box when that fails',async()=>{
+  const { sharp }=await import('../lib/config.mjs');
+  const { recheckClues }=await import('../lib/paper-text-recheck.mjs');
+  const bytes=await sharp({create:{width:400,height:300,channels:3,background:'#335577'}}).jpeg().toBuffer();
+  const clues=[{id:'clue-1',textTargets:['첫째 간판','둘째 간판'],regions:[]},{id:'clue-2',textTargets:['셋째 간판'],regions:[]}];
+  const llm=async()=>({text:JSON.stringify({t0:{box:[0.1,0.1,0.3,0.2],tilt:15},t1:{box:[0.5,0.5,0.7,0.6],tilt:0},t2:{box:[0.6,0.1,0.8,0.2],tilt:0}}),raw:{}});
+  let calls=0;
+  // Only the third text is read; the first clue's one reading goes to its first text and fails.
+  const ocr=async()=>{calls++;return {lines:calls===2?[{id:'ocr-0',text:'셋째 간판',score:0.9,polygon:[[0.4,0.4],[0.6,0.4],[0.6,0.6],[0.4,0.6]]}]:[]};};
+  const summary=await recheckClues({bytes,clues,model:'m',llm,ocr,triesPerClue:1});
+  assert.equal(calls,2);
+  assert.deepEqual([summary.clues,summary.verified,summary.standIn,summary.ocrCalls],[2,1,1,2]);
+  assert.deepEqual(clues[0].regions.map(r=>[r.source,r.verified,r.bbox,r.quoted]),[['model_hint',false,[0.1,0.1,0.3,0.2],'첫째 간판']]);
+  assert.deepEqual(clues[1].regions.map(r=>[r.source,r.verified]),[['paddleocr_recheck',true]]);
+});
+
 test('runner: the recheck parks on a hand-off, then adds OCR-verified and stand-in regions to the record',async()=>{
   const { mkdtempSync,rmSync,writeFileSync }=await import('node:fs');const { tmpdir }=await import('node:os');const { resolve }=await import('node:path');
   const { sharp }=await import('../lib/config.mjs');const { PaperStore }=await import('../lib/paper-store.mjs');

@@ -15,6 +15,11 @@ from importlib.metadata import version
 #   KKOK_OCR_DET_LIMIT_SIDE / KKOK_OCR_DET_LIMIT_TYPE
 #                                   with type "min", the image is enlarged until its shorter side is
 #                                   at least this many pixels before detection
+#   KKOK_OCR_TILES                  "all" also reads the photo in overlapping 1,024 px tiles, as until
+#                                   2026-11-19. Unset, the photo is read once, whole: a tile takes as
+#                                   long as it does with or without text in it (about 10 s on CPU, 12
+#                                   tiles for a 2,304 x 3,072 photo), and on the photo
+#                                   measured the tiles linked no clue the whole-photo pass had missed.
 # A resident worker (worker-server.py) passes the same names per request in `overrides`; those win over
 # the environment, so one running worker can serve measurements with different settings.
 def settings(overrides=None):
@@ -32,14 +37,14 @@ def settings(overrides=None):
         if value is not None: options[key] = value
     limit_type = read("KKOK_OCR_DET_LIMIT_TYPE").strip()
     if limit_type in ("min", "max"): options["text_det_limit_type"] = limit_type
-    return langs, options
+    return langs, options, read("KKOK_OCR_TILES").strip().lower() == "all"
 
 # Loaded models, kept for the life of the process. A one-shot run loads each once, as before; a resident
 # worker reuses them across requests.
 _MODELS = {}
 
 def extract(content, overrides=None):
-    langs, options = settings(overrides)
+    langs, options, tiled = settings(overrides)
     # Paddle logs can contain recognition output: discard instead of forwarding.
     with contextlib.redirect_stdout(io.StringIO()), contextlib.redirect_stderr(io.StringIO()):
         import numpy as np
@@ -58,7 +63,7 @@ def extract(content, overrides=None):
         size, stride = 1024, 819
         def starts(length):
             return sorted(set(list(range(0, max(1, length-size+1), stride)) + [max(0, length-size)]))
-        if width > size or height > size:
+        if tiled and (width > size or height > size):
             for y in starts(height):
                 for x in starts(width):
                     areas.append((f"tile-{x}-{y}", x, y, image.crop((x,y,min(width,x+size),min(height,y+size)))))
@@ -102,7 +107,7 @@ def extract(content, overrides=None):
         if len(lines)>500 or len(raw)>4000 or len(unread)>4000: raise ValueError("OCR result limit exceeded")
     return {"engine":"PaddleOCR","version":version("paddleocr"),"coordinateSpace":"analysis-normalized",
         "lines":[{"id":f"ocr-{i}",**line} for i,line in enumerate(lines)],
-        "diagnostics":{"version":"tiled-v1","settings":{"langs":langs,**options},"inputWidth":width,"inputHeight":height,"passes":pass_info,"rawReadings":raw,"unreadRegions":unread,"conflicts":conflicts}}
+        "diagnostics":{"version":"tiled-v1","settings":{"langs":langs,**options,"tiles":tiled},"inputWidth":width,"inputHeight":height,"passes":pass_info,"rawReadings":raw,"unreadRegions":unread,"conflicts":conflicts}}
 
 if __name__ == "__main__":
     try:
@@ -111,6 +116,10 @@ if __name__ == "__main__":
             raise ValueError("Too large")
         result = extract(content)
         sys.stdout.write(json.dumps(result, ensure_ascii=True, allow_nan=False))
-    except Exception:
+    except Exception as error:
         sys.stderr.write("OCR execution failed; check local runtime and model installation.\n")
+        # Read by adapters.mjs for the server's error log. An exception here comes from loading a model,
+        # decoding the image, the inference engine or a limit above; none of them carries text read
+        # from the photo (that only ever goes to stdout).
+        sys.stderr.write("KKOK_ERROR " + " ".join(f"{type(error).__name__}: {error}".split())[:300] + "\n")
         sys.exit(1)

@@ -51,12 +51,32 @@ export function modelProvider(env=process.env){
 // record interrupted by a restart continues where it stopped. run.service.state is what the
 // inspection reports: failed when there are no clues or no judgement to show; a failed region or
 // mask step leaves a completed inspection whose clues have no box (pipelineStages says so).
-export async function analyzeRun({store,id,stages,llm,tools,masks=true,onStep=()=>{}}){
+// How long the record waited for its turn and how long the analysis then took, start to finish.
+const elapsed=service=>{const at=value=>Date.parse(value??''),seconds=(from,to)=>Number.isFinite(to-from)?{value:Math.round((to-from)/100)/10}:null;
+  const waited=seconds(at(service?.receivedAt),at(service?.startedAt)),total=seconds(at(service?.startedAt),at(service?.finishedAt));
+  return {...(waited?{waitedSeconds:waited.value}:{}),...(total?{totalSeconds:total.value}:{})};};
+// cancelled: asked before every model and tool call and between steps. Once it says yes, nothing more
+// is started and the record ends as failed with service:CANCELLED; what the steps had saved is kept.
+const STOPPED=Symbol('cancelled');
+export async function analyzeRun({store,id,stages,llm,tools,masks=true,onStep=()=>{},cancelled=()=>false}){
   let run=store.getRun(id);
   if(!run)return null;
   const finish=state=>{run.service={...run.service,state,finishedAt:new Date().toISOString()};return store.saveRun(run);};
+  try{return await steps();}
+  catch(error){
+    if(error!==STOPPED&&!cancelled())throw error;
+    run=store.getRun(id)??run;run.errors.push({stage:'service',code:'CANCELLED',at:new Date().toISOString()});
+    return finish('failed');
+  }
+  async function steps(){
   run.service={...run.service,state:'processing',startedAt:run.service?.startedAt??new Date().toISOString()};store.saveRun(run);
-  const timed=async(name,step)=>{const started=Date.now();const result=await step();run=result??run;run.service={...run.service,seconds:{...run.service?.seconds,[name]:Math.round((Date.now()-started)/100)/10}};store.saveRun(run);onStep(name,run);};
+  // Where a step's time goes: the model, OCR, the detector, the segmenter. Calls made at the same time
+  // each count in full, so the parts can add up to more than the step itself.
+  let spent={};
+  const clock=(part,call)=>call&&(async(...args)=>{if(cancelled())throw STOPPED;const started=Date.now();try{return await call(...args);}finally{const now=spent[part]??={calls:0,ms:0};now.calls++;now.ms+=Date.now()-started;}});
+  const tenths=ms=>Math.round(ms/100)/10;
+  llm=clock('model',llm);tools={...tools,ocr:clock('ocr',tools.ocr),detect:clock('detect',tools.detect),segment:clock('segment',tools.segment)};
+  const timed=async(name,step)=>{if(cancelled())throw STOPPED;spent={};const started=Date.now();const result=await step();if(cancelled())throw STOPPED;run=result??run;run.service={...run.service,seconds:{...run.service?.seconds,[name]:tenths(Date.now()-started)}};store.saveRun(run);onStep(name,run,Object.fromEntries(Object.entries(spent).map(([part,now])=>[part,{calls:now.calls,seconds:tenths(now.ms)}])));};
   if(run.status==='queued')await timed('extraction',()=>extractImage({store,prepared:{bytes:store.image(id),image:run.image},stages:stages.paper,llm,run,detectorPrompt:stages.detectorPrompt??null}));
   if(run.status!=='extracted'&&run.status!=='classified')return finish('failed');
   if(!run.clues.length)return finish('completed');
@@ -65,18 +85,26 @@ export async function analyzeRun({store,id,stages,llm,tools,masks=true,onStep=()
   const before=run.errors.length,ok=()=>run.errors.length===before;
   const ruleTier=linkingTierFor(run),tierOf=clue=>ruleTier(clue)??tierForLinking(clue);
   if(!run.regions)await timed('regions',()=>linkRunRegions({store,run,stage:stages.regions,llm,ocr:tools.ocr,detect:tools.detect,policy:TIERED_POLICY,tierOf}));
-  if(run.regions&&ok())await timed('textRecheck',()=>recheckRunText({store,run,stage:stages.regions,llm,ocr:tools.ocr}));
+  // Quoted text the whole-photo OCR did not read: the model says where it is, that place is cut out,
+  // enlarged and read once per clue (a reading is about 18 s; the four turns of the full recheck took
+  // far longer for text that was then not read anyway). Not read: the clue gets the model's box, marked
+  // unverified.
+  if(run.regions&&ok())await timed('textRecheck',()=>recheckRunText({store,run,stage:stages.regions,llm,ocr:tools.ocr,triesPerClue:1}));
   // A quoted name that is written nowhere in the photo: the clue is looked for as an object after all.
   if(run.regions&&ok())await timed('unreadQuotes',()=>relinkRunUnreadQuotes({store,run,detect:tools.detect,policy:TIERED_POLICY,tierOf}));
   if(run.regions&&ok())await timed('pointing',()=>pointRunClues({store,run,stage:stages.regions,llm}));
   if(run.regions&&masks&&tools.segment)await timed('masks',()=>maskRunRegions({store,run,segment:tools.segment}));
   return finish('completed');
+  }
 }
 
 export function createAnalysisApp({directory=resolve(process.env.ANALYSIS_DATA_DIR||resolve(dataDir,'service')),apiKey=(process.env.ANALYSIS_API_KEY||'').trim(),
   provider=modelProvider(),llm=provider.llm,tools=realAdapters,stages=provider.stages,prepare=prepareImage,masks=process.env.ANALYSIS_INCLUDE_MASKS!=='false',
   requireConfiguration=true,allowedHosts=(process.env.ANALYSIS_API_HOSTS||'').split(',').map(value=>value.trim().toLowerCase()).filter(Boolean),log=()=>{}}={}){
-  const store=new PaperStore(directory),waiting=[],deleted=new Set();
+  const store=new PaperStore(directory),waiting=[],deleted=new Set(),cancelled=new Set();
+  // The record being analyzed stops: no further call is started, and a tool process that is running
+  // (OCR, detector, segmenter) is ended. A model call already sent finishes and its answer is dropped.
+  const stopRunning=id=>{cancelled.add(id);tools.stop?.();};
   let working=false,closing=false;
   const stateOf=run=>run.service?.state??'failed';
   const view=run=>toInspection(run,{status:stateOf(run),masks});
@@ -87,8 +115,8 @@ export function createAnalysisApp({directory=resolve(process.env.ANALYSIS_DATA_D
       while(!closing&&waiting.length){
         const id=waiting.shift();
         try{
-          const run=await analyzeRun({store,id,stages:stages(),llm,tools,masks,onStep:(name,now)=>log({inspectionId:id,step:name,seconds:now.service.seconds[name]})});
-          if(run)log({inspectionId:id,state:run.service.state,clues:run.clues.length,errors:run.errors.map(entry=>`${entry.stage}:${entry.code}`)});
+          const run=await analyzeRun({store,id,stages:stages(),llm,tools,masks,cancelled:()=>cancelled.has(id),onStep:(name,now,parts)=>log({inspectionId:id,step:name,seconds:now.service.seconds[name],...(Object.keys(parts).length?{parts}:{})})});
+          if(run)log({inspectionId:id,state:run.service.state,clues:run.clues.length,errors:run.errors.map(entry=>`${entry.stage}:${entry.code}`),...elapsed(run.service)});
         }catch{
           // A step threw instead of recording its error. Only the fact is kept: no provider text.
           const run=store.getRun(id);
@@ -97,6 +125,7 @@ export function createAnalysisApp({directory=resolve(process.env.ANALYSIS_DATA_D
         }
         // Deleted while it was running: the steps saved the record again.
         if(deleted.delete(id))store.deleteRun(id);
+        cancelled.delete(id);
       }
     }finally{working=false;}
   }
@@ -148,10 +177,25 @@ export function createAnalysisApp({directory=resolve(process.env.ANALYSIS_DATA_D
       if((!/^(127\.0\.0\.1|localhost|\[::1\])(:\d+)?$/.test(host)&&!allowedHosts.includes(host))||req.headers.origin)throw refuse(403,'허용된 내부 분석 서버에서만 접근할 수 있습니다.');
       const path=new URL(req.url,'http://local').pathname;
       if(req.method==='GET'&&path==='/api/health')return json(res,200,{status:'ok'});
-      const match=path.match(/^\/api\/inspections(?:\/([^/]+))?$/);
+      const match=path.match(/^\/api\/inspections(?:\/([^/]+)(\/cancel)?)?$/);
       if(!match)throw refuse(404,'찾을 수 없습니다.');
       authorize(req);
       const id=match[1]?.toLowerCase();
+      if(match[2]){
+        // The caller gave up waiting. The record stays (failed, service:CANCELLED); one that had
+        // already ended is left as it is.
+        if(req.method!=='POST')throw refuse(405,'허용되지 않는 요청입니다.');
+        if(!UUID.test(id))throw refuse(400,'분석 ID 형식이 올바르지 않습니다.');
+        const run=deleted.has(id)?null:store.getRun(id);
+        if(!run)throw refuse(404,'분석 작업을 찾을 수 없습니다.');
+        const index=waiting.indexOf(id);
+        if(index>=0){
+          waiting.splice(index,1);
+          run.service={...run.service,state:'failed',finishedAt:new Date().toISOString()};run.errors.push({stage:'service',code:'CANCELLED',at:new Date().toISOString()});
+          store.saveRun(run);log({inspectionId:id,state:'failed',errors:['service:CANCELLED']});
+        }else if(stateOf(run)==='processing')stopRunning(id);
+        return json(res,200,view(store.getRun(id)));
+      }
       if(!id){
         if(req.method!=='POST')throw refuse(405,'허용되지 않는 요청입니다.');
         return json(res,202,view(await accept(req)));
@@ -166,7 +210,7 @@ export function createAnalysisApp({directory=resolve(process.env.ANALYSIS_DATA_D
         const index=waiting.indexOf(id);
         if(index>=0)waiting.splice(index,1);
         // A record being analyzed is deleted again when its steps end (they save it as they go).
-        else if(store.getRun(id)?.service?.state==='processing')deleted.add(id);
+        else if(store.getRun(id)?.service?.state==='processing'){deleted.add(id);stopRunning(id);}
         store.deleteRun(id);
         res.writeHead(204);res.end();return;
       }
