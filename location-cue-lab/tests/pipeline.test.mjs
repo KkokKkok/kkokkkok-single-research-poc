@@ -116,9 +116,9 @@ test('failed discovery ends as failed only after OCR has stopped writing, and ke
   }finally{s.close();cleanup(dir);}
 });
 test('OCR_URL and GROUNDING_URL send the same work to a resident worker and keep the answer checks',async()=>{
-  const seen=[];let fail=false;
+  const seen=[];let fail=0;
   const worker=http.createServer(async(req,res)=>{const chunks=[];for await(const c of req)chunks.push(c);const body=JSON.parse(Buffer.concat(chunks).toString('utf8'));seen.push({url:req.url,body});
-    if(fail){res.writeHead(500).end('{"error":"OCR_FAILED"}');return;}
+    if(fail>0){fail--;res.writeHead(500).end('{"error":"OCR_FAILED"}');return;}
     const image=Buffer.from(body.image,'base64');
     const out=body.queries?{engine:'Grounding DINO',model:'m',revision:'r',imageSha256:sha(image),coordinateSpace:'analysis-normalized',requests:body.queries.map(q=>({...q,detections:[{id:`dino-${q.cueId}-0`,bbox:[.1,.1,.5,.5],score:.7,label:q.query}]}))}:structuredClone(ocr);
     res.writeHead(200,{'Content-Type':'application/json'}).end(JSON.stringify(out));});
@@ -132,6 +132,14 @@ test('OCR_URL and GROUNDING_URL send the same work to a resident worker and keep
     await runPython('ocr','ocr.py',p.bytes,{KKOK_OCR_LANGS:'korean,en',OTHER:'x'});assert.deepEqual(seen[1].body.settings,{KKOK_OCR_LANGS:'korean,en'});
     const queries=[{cueId:'cue-0',query:'arched building window'}];
     assert.equal((await realAdapters.detect(p.bytes,queries)).requests[0].detections[0].id,'dino-cue-0-0');assert.deepEqual(seen[2].body.queries,queries);
-    fail=true;await assert.rejects(realAdapters.ocr(p.bytes),/^Error: OCR_FAILED$/);
+    // A failed OCR run is tried once more; the reason is on the error, not in the stored code.
+    const errors=[],consoleError=console.error;console.error=line=>errors.push(JSON.parse(line));
+    try{
+      fail=1;let calls=seen.length;assert.equal((await realAdapters.ocr(p.bytes)).lines[0].text,'TEST');assert.equal(seen.length-calls,2);
+      fail=2;calls=seen.length;
+      await assert.rejects(realAdapters.ocr(p.bytes),error=>error.message==='OCR_FAILED'&&error.detail.reason==='worker_status'&&error.detail.httpStatus===500);
+      assert.equal(seen.length-calls,2);
+    }finally{console.error=consoleError;}
+    assert.deepEqual(errors.map(e=>[e.tool,e.reason,e.httpStatus]),[['ocr','worker_status',500],['ocr','worker_status',500],['ocr','worker_status',500]]);
   }finally{for(const [kind,value] of Object.entries(before)){const name=`${kind.toUpperCase()}_URL`;if(value===undefined)delete process.env[name];else process.env[name]=value;}await new Promise(r=>worker.close(r));}
 });

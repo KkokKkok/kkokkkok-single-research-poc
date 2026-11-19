@@ -105,12 +105,12 @@ export async function linkRunRegions({store,run,stage,llm,ocr,detect,prepare=too
 // Follows linkRunRegions (paper-text-recheck.mjs; not a paper step): quoted text that OCR did not link
 // is looked for again where the model says it is, and gets the model's box when OCR still reads nothing.
 // A record already rechecked is left alone unless force is set; force drops the earlier recheck regions.
-export async function recheckRunText({store,run,stage,llm,ocr,force=false}){
+export async function recheckRunText({store,run,stage,llm,ocr,force=false,triesPerClue=Infinity}){
   if(!run.regions||(run.regions.textRecheck&&!force))return run;
   delete run.pending;
   try{
     if(force)for(const clue of run.clues)if(clue.regions)clue.regions=clue.regions.filter(region=>!RECHECK_SOURCES.includes(region.source));
-    const summary=await recheckClues({bytes:store.image(run.id),clues:run.clues,model:stage.model,reasoningEffort:stage.reasoningEffort,llm,ocr,onCall:recorder(store,run)});
+    const summary=await recheckClues({bytes:store.image(run.id),clues:run.clues,model:stage.model,reasoningEffort:stage.reasoningEffort,llm,ocr,triesPerClue,onCall:recorder(store,run)});
     run.regions.textRecheck={...summary,transport:stage.transport};
   }catch(error){
     if(isPending(error))run.pending={stage:'textHints',...error.handoff};

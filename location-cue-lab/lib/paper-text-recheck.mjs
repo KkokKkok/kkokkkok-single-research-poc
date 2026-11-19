@@ -65,13 +65,14 @@ export function backToPhoto([px,py],{angle,turnedWidth,turnedHeight,enlargedWidt
 // strings to look for. maxSide keeps the turned cut-out under 1,024 px, where ocr.py reads it in one
 // pass instead of in tiles (one pass ~10 s on CPU, tiles five times that).
 // quoted: the string this hint was given for (the fallback region carries it).
-export async function readAround({bytes,hint,targets,quoted=null,ocr,maxSide=1000,maxScale=4}){
+// maxTries: how many of the turns are tried at most (the model's tilt comes first).
+export async function readAround({bytes,hint,targets,quoted=null,ocr,maxSide=1000,maxScale=4,maxTries=Infinity}){
   const {width,height}=await sharp(bytes).metadata();
   const area=cutOut(hint.box);
   const left=Math.round(area[0]*width),top=Math.round(area[1]*height);
   const w=Math.max(8,Math.min(width-left,Math.round((area[2]-area[0])*width))),h=Math.max(8,Math.min(height-top,Math.round((area[3]-area[1])*height)));
   const tries=[];
-  for(const angle of variantAngles(hint.tilt)){
+  for(const angle of variantAngles(hint.tilt).slice(0,maxTries)){
     const t=Math.abs(angle*Math.PI/180),turnedLong=Math.max(w*Math.cos(t)+h*Math.sin(t),w*Math.sin(t)+h*Math.cos(t));
     const scale=Math.max(1,Math.min(maxScale,maxSide/turnedLong));
     const enlarged=await sharp(bytes).extract({left,top,width:w,height:h}).resize({width:Math.round(w*scale),kernel:'lanczos3'}).normalise().png().toBuffer({resolveWithObject:true});
@@ -96,7 +97,9 @@ export function hintRegion(hint,quoted){
 // Returns the summary kept on the record: how many were looked at, read by OCR after all (verified),
 // given the model's box instead (standIn), or left without one because the model found no place.
 export const needsRecheck=clue=>(clue.textTargets||[]).length>0&&!(clue.regions||[]).some(region=>region.kind==='text');
-export async function recheckClues({bytes,clues,model,reasoningEffort=null,llm,ocr,attempts=2,onCall=()=>{}}){
+// triesPerClue: OCR readings a clue may use in all, over its quoted texts and their turns. When they
+// are used up the clue takes the model's box for a text not yet read. Unset: every text, every turn.
+export async function recheckClues({bytes,clues,model,reasoningEffort=null,llm,ocr,attempts=2,triesPerClue=Infinity,onCall=()=>{}}){
   const targets=clues.filter(needsRecheck),summary={version:RECHECK_VERSION,createdAt:new Date().toISOString(),model,clues:targets.length,verified:0,standIn:0,noHint:0,ocrCalls:0};
   if(!targets.length)return summary;
   const texts=targets.flatMap(clue=>clue.textTargets.map(text=>({clueId:clue.id,text}))).map((entry,index)=>({key:`t${index}`,...entry}));
@@ -109,11 +112,12 @@ export async function recheckClues({bytes,clues,model,reasoningEffort=null,llm,o
   }
   if(!hints)throw lastError;
   for(const clue of targets){
-    let regions=[];
+    let regions=[],left=triesPerClue;
     for(const entry of texts.filter(candidate=>candidate.clueId===clue.id)){
       const hint=hints[entry.key];if(!hint)continue;
-      const found=await readAround({bytes,hint,targets:clue.textTargets,quoted:entry.text,ocr});
-      summary.ocrCalls+=found.tries.length;
+      if(left<=0){if(!regions.length)regions=[hintRegion(hint,entry.text)];break;}
+      const found=await readAround({bytes,hint,targets:clue.textTargets,quoted:entry.text,ocr,maxTries:left});
+      summary.ocrCalls+=found.tries.length;left-=found.tries.length;
       // A line OCR read replaces a stand-in box from an earlier text of the same clue.
       if(found.verified){regions=found.regions;break;}
       if(!regions.length)regions=found.regions;
